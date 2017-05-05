@@ -1577,11 +1577,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         break;
                     }
                     case "台幣": {
-                        country="TWD";
+                        text="TWD";
                         break;
                     }
                     case "鮭魚": {
-                        country="Salmon";
+                        text="Salmon";
                         break;
                     }
                     default:
@@ -1609,8 +1609,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = strResult.replaceAll("</a></td>", ":moneybag:");
                     strResult = strResult.replaceAll("<[^>]*>", "");
                     strResult = strResult.replaceAll("[\\s]{1,}", "");
-                    strResult = strResult.replaceAll("現鈔賣出", "\n:money_with_wings:現鈔賣出去");
-                    strResult = strResult.replaceAll("現鈔買入", ":dollar:現鈔買入去");
+                    strResult = strResult.replaceAll("現鈔賣出", "\n:money_with_wings:要賣現鈔去");
+                    strResult = strResult.replaceAll("現鈔買入", ":dollar:要買現鈔去");
 
                     this.replyText(replyToken, EmojiUtils.emojify(strResult));
                 }
