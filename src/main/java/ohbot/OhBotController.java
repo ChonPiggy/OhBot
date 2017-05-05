@@ -553,8 +553,8 @@ public class OhBotController {
                 strResult = strResult.replaceAll("</a></td>", " ");
                 strResult = strResult.replaceAll("<[^>]*>", "");
                 strResult = strResult.replaceAll("[\\s]{1,}", "");
-                strResult = strResult.replaceAll("現鈔賣出", "\n現鈔賣出");
-                strResult = strResult.replaceAll("現鈔買入", ":dollar:現鈔買入");
+                strResult = strResult.replaceAll("現鈔賣出", "\n現鈔賣出去");
+                strResult = strResult.replaceAll("現鈔買入", ":dollar:現鈔買入去");
                 System.out.println(EmojiUtils.emojify(strResult));
             }
         } catch (IOException e) {
