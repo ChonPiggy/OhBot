@@ -553,8 +553,8 @@ public class OhBotController {
                 strResult = strResult.replaceAll("</a></td>", " ");
                 strResult = strResult.replaceAll("<[^>]*>", "");
                 strResult = strResult.replaceAll("[\\s]{1,}", "");
-                strResult = strResult.replaceAll("現鈔賣出", "\n現鈔賣出去");
-                strResult = strResult.replaceAll("現鈔買入", ":dollar:現鈔買入去");
+                strResult = strResult.replaceAll("現鈔賣出", "\n現鈔賣出");
+                strResult = strResult.replaceAll("現鈔買入", ":dollar:現鈔買入");
                 System.out.println(EmojiUtils.emojify(strResult));
             }
         } catch (IOException e) {
@@ -1576,6 +1576,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         country="VND";
                         break;
                     }
+                    case "台幣": {
+                        country="TWD";
+                        break;
+                    }
+                    case "鮭魚": {
+                        country="Salmon";
+                        break;
+                    }
                     default:
                         text="";
 
@@ -1583,6 +1591,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 if(text.equals("")){
                     strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾";
                     this.replyText(replyToken, strResult);
+                }
+                else if text.equals("TWD"){
+                    this.replyText(replyToken, "現鈔賣出去巷口便利商店");
+                }else{
+                else if text.equals("Salmon"){
+                    this.replyText(replyToken, "現鈔買入去爭鮮林森北店");
                 }else{
                     CloseableHttpClient httpClient = HttpClients.createDefault();
                     String url="http://m.findrate.tw/"+country+"/";
@@ -1597,8 +1611,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = strResult.replaceAll("</a></td>", ":moneybag:");
                     strResult = strResult.replaceAll("<[^>]*>", "");
                     strResult = strResult.replaceAll("[\\s]{1,}", "");
-                    strResult = strResult.replaceAll("現鈔賣出", "\n:money_with_wings:現鈔賣出");
-                    strResult = strResult.replaceAll("現鈔買入", ":dollar:現鈔買入");
+                    strResult = strResult.replaceAll("現鈔賣出", "\n:money_with_wings:現鈔賣出去");
+                    strResult = strResult.replaceAll("現鈔買入", ":dollar:現鈔買入去");
 
                     this.replyText(replyToken, EmojiUtils.emojify(strResult));
                 }
