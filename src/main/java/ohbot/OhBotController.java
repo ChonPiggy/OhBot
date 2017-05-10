@@ -1576,6 +1576,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         country="VND";
                         break;
                     }
+                    case "澳幣": {
+                        country="AUD";
+                        break;
+                    }
                     case "台幣": {
                         text="TWD";
                         break;
