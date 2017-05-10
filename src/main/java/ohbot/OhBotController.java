@@ -1616,7 +1616,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = strResult.replaceAll("現鈔賣出", "\n:money_with_wings:要賣現鈔去");
                     strResult = strResult.replaceAll("現鈔買入", ":dollar:要買現鈔去");
 
-                    this.replyText(replyToken, EmojiUtils.emojify("" + text + "匯率:\n"strResult));
+                    this.replyText(replyToken, EmojiUtils.emojify("" + text + "買賣推薦:\n" + strResult));
                 }
             }
         } catch (IOException e) {
