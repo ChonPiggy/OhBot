@@ -1723,14 +1723,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 Pattern pattern = Pattern.compile("[\\d]{1,}\\.[\\d]{1,}");
                 Matcher matcher = pattern.matcher(tempParseNumber);
                 while(matcher.find()){
-                    rateNumber = matcher.group();
+                    tempParseNumber = matcher.group();
                 }
                 
                 try {
                     rateNumber = Float.parseFloat(tempParseNumber);
                 }
                 catch(java.lang.NumberFormatException e2) {
-                    
                     return;
                 }
 
