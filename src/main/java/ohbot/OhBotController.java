@@ -1638,64 +1638,53 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace("換算台幣", "").replace("?", "").replace("？", "").trim();
         log.info(text);
         try {
+            String strResult = text;    
+            String country ="";
+
             if (text.length() >= 3) {
 
-            String strResult = text;
-            
-            String country ="";
-            if (text.endsWith("美金")) {
-                country="USD";
-                text = text.replace("美金","").trim();
-            }
-            else if (text.endsWith("日圓") || text.endsWith("日幣") ) {
-                country="JPY";
-                text = text.replace("日圓","").replace("日幣", "").trim();
-            }
-            else if (text.endsWith("人民幣")) {
-                country="CNY";
-                text = text.replace("人民幣","").trim();
-            }
-            else if (text.endsWith("歐元")) {
-                country="EUR";
-                text = text.replace("歐元","").trim();
-            }
-            else if (text.endsWith("港幣")) {
-                country="HKD";
-                text = text.replace("港幣","").trim();
-            }
-            else if (text.endsWith("英鎊")) {
-                country="GBP";
-                text = text.replace("英鎊","").trim();
-            }
-            else if (text.endsWith("韓元")) {
-                country="KRW";
-                text = text.replace("韓元","").trim();
-            }
-            else if (text.endsWith("越南盾")) {
-                country="VND";
-                text = text.replace("越南盾","").trim();
-            }
-            else if (text.endsWith("泰銖")) {
-                country="THB";
-                text = text.replace("泰銖","").trim();
-            }
-            else {
-                strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖";
-                return;
-            }
+                if (text.endsWith("美金")) {
+                    country="USD";
+                    text = text.replace("美金","").trim();
+                }
+                else if (text.endsWith("日圓") || text.endsWith("日幣") ) {
+                    country="JPY";
+                    text = text.replace("日圓","").replace("日幣", "").trim();
+                }
+                else if (text.endsWith("人民幣")) {
+                    country="CNY";
+                    text = text.replace("人民幣","").trim();
+                }
+                else if (text.endsWith("歐元")) {
+                    country="EUR";
+                    text = text.replace("歐元","").trim();
+                }
+                else if (text.endsWith("港幣")) {
+                    country="HKD";
+                    text = text.replace("港幣","").trim();
+                }
+                else if (text.endsWith("英鎊")) {
+                    country="GBP";
+                    text = text.replace("英鎊","").trim();
+                }
+                else if (text.endsWith("韓元")) {
+                    country="KRW";
+                    text = text.replace("韓元","").trim();
+                }
+                else if (text.endsWith("越南盾")) {
+                    country="VND";
+                    text = text.replace("越南盾","").trim();
+                }
+                else if (text.endsWith("泰銖")) {
+                    country="THB";
+                    text = text.replace("泰銖","").trim();
+                }
+                else {
+                    text = "";
+                }
 
+            }
             
-            int inputNumber = -1;
-            try {
-                inputNumber = Integer.parseInt(text);
-            }
-            catch(java.lang.NumberFormatException e1) {
-                e.printStackTrace();
-                return;
-            }
-            if (inputNumber <= 0) {
-                return;
-            }
             
             
         
@@ -1703,7 +1692,21 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if(text.equals("")){
                 strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖";
                 this.replyText(replyToken, strResult);
+                reutrn;
             }else{
+
+                int inputNumber = -1;
+                try {
+                    inputNumber = Integer.parseInt(text);
+                }
+                catch(java.lang.NumberFormatException e1) {
+                    e.printStackTrace();
+                    return;
+                }
+                if (inputNumber <= 0) {
+                    return;
+                }
+
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="http://m.findrate.tw/"+country+"/";
                 log.info(url);
