@@ -1718,12 +1718,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
                 tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("<td>現鈔買入</td>"), tempParseNumber.length());
                 tempParseNumber = tempParseNumber.substring(0, tempParseNumber.indexOf("</tr>"));
-                tempParseNumber = tempParseNumber.substring(0, tempParseNumber.indexOf("</td>"));
-                tempParseNumber = tempParseNumber.substring(tempParseNumber.length() - 6, tempParseNumber.length());
                 
-                int rateNumber = -1;
+                float rateNumber = 0f;
+                Pattern pattern = Pattern.compile("[\d]{1,}\.[\d]{1,}");
+                Matcher matcher = pattern.matcher(tempParseNumber);
+                while(matcher.find()){
+                    rateNumber = matcher.group();
+                }
+                
                 try {
-                    rateNumber = Integer.parseInt(tempParseNumber);
+                    rateNumber = Float.parseFloat(tempParseNumber);
                 }
                 catch(java.lang.NumberFormatException e2) {
                     
