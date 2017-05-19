@@ -1720,7 +1720,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempParseNumber = tempParseNumber.substring(0, tempParseNumber.indexOf("</tr>"));
                 
                 float rateNumber = 0f;
-                Pattern pattern = Pattern.compile("[\d]{1,}\.[\d]{1,}");
+                Pattern pattern = Pattern.compile("[\\d]{1,}\.[\\d]{1,}");
                 Matcher matcher = pattern.matcher(tempParseNumber);
                 while(matcher.find()){
                     rateNumber = matcher.group();
