@@ -1700,7 +1700,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     inputNumber = Integer.parseInt(text);
                 }
                 catch(java.lang.NumberFormatException e1) {
-                    e.printStackTrace();
+                    
                     return;
                 }
                 if (inputNumber <= 0) {
@@ -1726,7 +1726,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     rateNumber = Integer.parseInt(tempParseNumber);
                 }
                 catch(java.lang.NumberFormatException e2) {
-                    e.printStackTrace();
+                    
                     return;
                 }
 
