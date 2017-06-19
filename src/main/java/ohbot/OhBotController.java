@@ -1588,6 +1588,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         country="THB";
                         break;
                     }
+                    case "印尼盾": {
+                        country="IDR";
+                        break;
+                    }
                     case "台幣": {
                         text="TWD";
                         break;
@@ -1601,7 +1605,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 }
                 if(text.equals("")){
-                    strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖";
+                    strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖 印尼盾";
                     this.replyText(replyToken, strResult);
                 } else if (text.equals("TWD")){
                     this.replyText(replyToken, "現鈔賣出去巷口便利商店");
@@ -1679,6 +1683,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     country="THB";
                     text = text.replace("泰銖","").trim();
                 }
+                else if (text.endsWith("印尼盾")) {
+                    country="IDR";
+                    text = text.replace("印尼盾","").trim();
+                }
                 else {
                     text = "";
                 }
@@ -1690,7 +1698,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
             
             if(text.equals("")){
-                strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖";
+                strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖 印尼盾";
                 this.replyText(replyToken, strResult);
                 return;
             }else{
