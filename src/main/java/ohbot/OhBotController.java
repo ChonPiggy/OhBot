@@ -1159,7 +1159,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     if(url.endsWith("type=1")){
                         this.replyText(replyToken, "最棒的星座 " + text + "座 " + strResult);
                     }else{
-                        this.replyText(replyToken, text + "座 " + strResult);
+                        this.replyText(replyToken, "最廢的星座之一 " + text + "座 " + strResult);
                     }
 
                 }
