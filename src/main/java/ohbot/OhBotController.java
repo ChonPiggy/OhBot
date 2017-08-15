@@ -1157,7 +1157,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = strResult.replace("財運：", "◎財運：");
                     strResult = strResult.replace("工作：", "◎工作：");
                     if(url.endsWith("type=1")){
-                        this.replyText(replyToken, "愛惜生命 遠離" + text + "座 " + strResult);
+                        this.replyText(replyToken, "最棒的星座 " + text + "座 " + strResult);
                     }else{
                         this.replyText(replyToken, text + "座 " + strResult);
                     }
