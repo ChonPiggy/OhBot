@@ -1646,7 +1646,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void exchange1(String text, String replyToken) throws IOException {
         text = text.replace("換算台幣", "").replace("?", "").replace("？", "").trim();
         try {
-            String strResult = "印尼盾";    
+            String strResult = "";    
             String country ="IDR";
 
             int inputNumber = -1;
@@ -1695,7 +1695,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 else {
                     return;
                 }
-
+        }catch (IOException e2) {
+            return e2;
+        }
 
 
     }
