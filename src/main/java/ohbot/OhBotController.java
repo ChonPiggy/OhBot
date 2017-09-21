@@ -631,6 +631,9 @@ public class OhBotController {
         if (text.endsWith("#?") || text.endsWith("＃？")) {
             help(text, replyToken);
         }
+        if (text.endsWith("?") || text.endsWith("？")) {
+            exchange1(text, replyToken);
+        }
     }
 
     @EventMapping
@@ -1640,7 +1643,62 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    private void exchange1(String text, String replyToken) throws IOException {
+        text = text.replace("換算台幣", "").replace("?", "").replace("？", "").trim();
+        try {
+            String strResult = "印尼盾";    
+            String country ="IDR";
 
+            int inputNumber = -1;
+                try {
+                    inputNumber = Integer.parseInt(text);
+                }
+                catch(java.lang.NumberFormatException e1) {
+                    
+                    return;
+                }
+                if (inputNumber <= 0) {
+                    return;
+                }
+
+                CloseableHttpClient httpClient = HttpClients.createDefault();
+                String url="http://m.findrate.tw/"+country+"/";
+                log.info(url);
+                HttpGet httpget = new HttpGet(url);
+                CloseableHttpResponse response = httpClient.execute(httpget);
+                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                HttpEntity httpEntity = response.getEntity();
+                String tempParseNumber = "";
+                tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
+                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("<td>現鈔買入</td>"), tempParseNumber.length());
+                tempParseNumber = tempParseNumber.substring(0, tempParseNumber.indexOf("</tr>"));
+                
+                float rateNumber = 0f;
+                Pattern pattern = Pattern.compile("[\\d]{1,}\\.[\\d]{1,}");
+                Matcher matcher = pattern.matcher(tempParseNumber);
+                while(matcher.find()){
+                    tempParseNumber = matcher.group();
+                }
+                
+                try {
+                    rateNumber = Float.parseFloat(tempParseNumber);
+                }
+                catch(java.lang.NumberFormatException e2) {
+                    return;
+                }
+
+                if (rateNumber > 0) {
+                    int numResult = (int) ((float)inputNumber * rateNumber);
+                    strResult += "換算台幣大概 $" + numResult;
+                    this.replyText(replyToken, strResult);
+                }
+                else {
+                    return;
+                }
+
+
+
+    }
 
     private void exchange(String text, String replyToken) throws IOException {
         text = text.replace("換算台幣", "").replace("?", "").replace("？", "").trim();
