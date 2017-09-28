@@ -1661,7 +1661,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             daySentence = EntityUtils.toString(httpEntity, "utf-8");
             daySentence = daySentence.substring(daySentence.indexOf("<p>"), daySentence.length());
-            daySentence = daySentence.substring(0, tempParseNumber.indexOf("</p>"));
+            daySentence = daySentence.substring(0, daySentence.indexOf("</p>"));
             
 
             this.replyText(replyToken, daySentence);
