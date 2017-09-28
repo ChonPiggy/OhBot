@@ -634,6 +634,9 @@ public class OhBotController {
         if (text.endsWith("?") || text.endsWith("？")) {
             exchange1(text, replyToken);
         }
+        if (text.equals("每日一句?") || text.equals("每日一句？")) {
+            dailySentence(text, replyToken);
+        }
     }
 
     @EventMapping
@@ -1640,6 +1643,31 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         } catch (IOException e) {
             throw e;
+        }
+    }
+
+    private void dailySentence(String text, String replyToken) throws IOException {
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="http://www.appledaily.com.tw/index/dailyquote/";
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String daySentence = "";
+            String daySentenceWhoSaid = "";
+
+            daySentence = EntityUtils.toString(httpEntity, "utf-8");
+            daySentence = daySentence.substring(daySentence.indexOf("<p>"), daySentence.length());
+            daySentence = daySentence.substring(0, tempParseNumber.indexOf("</p>"));
+            
+
+            this.replyText(replyToken, daySentence);
+            
+        }catch (IOException e2) {
+            throw e2;
         }
     }
 
