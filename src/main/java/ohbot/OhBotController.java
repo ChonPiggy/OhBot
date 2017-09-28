@@ -1660,12 +1660,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String daySentenceWhoSaid = "";
 
             daySentence = EntityUtils.toString(httpEntity, "utf-8");
-            daySentence = daySentence.substring(daySentence.indexOf("<p>"), daySentence.length());
+            daySentence = daySentence.substring(daySentence.indexOf("<p>")+3, daySentence.length());
             daySentence = daySentence.substring(0, daySentence.indexOf("</p>"));
             
 
             this.replyText(replyToken, daySentence);
-            
+
         }catch (IOException e2) {
             throw e2;
         }
