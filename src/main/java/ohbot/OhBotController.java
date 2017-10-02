@@ -1671,7 +1671,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String dumpSource = "";
             dumpSource = EntityUtils.toString(httpEntity, "utf-8");
-            dumpSource = dumpSource.substring(dumpSource.indexOf("image_src\" href=\""), dumpSource.length());
+            dumpSource = dumpSource.substring(dumpSource.indexOf("image_src\" href=\"")+16, dumpSource.length());
             dumpSource = dumpSource.substring(0, dumpSource.indexOf("\" />"));
             
             this.replyText(replyToken, dumpSource);
