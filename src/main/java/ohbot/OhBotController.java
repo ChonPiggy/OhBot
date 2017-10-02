@@ -1658,7 +1658,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String strDate = sdFormat.format(date);
         String beautyLink = "https://ab.unayung.cc/links/" + strDate;
 
-        this.replyText(replyToken, beautyLink);
+        //this.replyText(replyToken, beautyLink);
 
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
