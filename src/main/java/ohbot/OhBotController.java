@@ -677,7 +677,7 @@ public class OhBotController {
         if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken must not be empty");
         }        
-        this.reply(replyToken, new ImageMessage(original, preview));
+        this.reply(replyToken, new ImageMessage(original));
     }
 
     private void reply(@NonNull String replyToken, @NonNull Message message) {
@@ -1750,8 +1750,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void exchange1(String text, String replyToken) throws IOException {
         text = text.replace("換算台幣", "").replace("?", "").replace("？", "").trim();
         try {
-            String strResult = text + "印尼盾";    
-            String country ="IDR";
+            String strResult = text + "日圓";    
+            String country ="JPY";
 
             int inputNumber = -1;
                 try {
