@@ -677,7 +677,7 @@ public class OhBotController {
         if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken must not be empty");
         }        
-        this.reply(replyToken, new ImageMessage(message, original, preview));
+        this.reply(replyToken, new ImageMessage(original, preview));
     }
 
     private void reply(@NonNull String replyToken, @NonNull Message message) {
