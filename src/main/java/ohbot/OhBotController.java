@@ -14,6 +14,7 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
@@ -642,6 +643,9 @@ public class OhBotController {
         if (text.equals("今日我最美?") || text.equals("今日我最美？")) {
             dailyBeauty(text, replyToken);
         }
+        if (text.equals("今日我最美是誰?") || text.equals("今日我最美是誰？")) {
+            dailyBeautyName(text, replyToken);
+        }
     }
 
     @EventMapping
@@ -667,6 +671,13 @@ public class OhBotController {
             message = message.substring(0, 1000 - 2) + "……";
         }
         this.reply(replyToken, new TextMessage(message));
+    }
+
+    private void replyImage(@NonNull String replyToken, @NonNull String original, @NonNull String preview) {
+        if (replyToken.isEmpty()) {
+            throw new IllegalArgumentException("replyToken must not be empty");
+        }        
+        this.reply(replyToken, new ImageMessage(message, original, preview));
     }
 
     private void reply(@NonNull String replyToken, @NonNull Message message) {
@@ -1673,6 +1684,36 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             dumpSource = EntityUtils.toString(httpEntity, "utf-8");
             dumpSource = dumpSource.substring(dumpSource.indexOf("image_src\" href=\"")+16, dumpSource.length());
             dumpSource = dumpSource.substring(0, dumpSource.indexOf("\" />"));
+            
+            //this.replyText(replyToken, dumpSource);
+
+            this.replyImage(replyToken, dumpSource, dumpSource);
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+
+    private void dailyBeautyName(String text, String replyToken) throws IOException {
+
+        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String strDate = sdFormat.format(date);
+        String beautyLink = "https://ab.unayung.cc/links/" + strDate;
+
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url= beautyLink;
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String dumpSource = "";
+            dumpSource = EntityUtils.toString(httpEntity, "utf-8");
+            dumpSource = dumpSource.substring(dumpSource.indexOf("og:description\" content=\"")+25, dumpSource.length());
+            dumpSource = dumpSource.substring(0, dumpSource.indexOf("\"/>"));
             
             this.replyText(replyToken, dumpSource);
 
