@@ -637,6 +637,9 @@ public class OhBotController {
         if (text.equals("每日一句?") || text.equals("每日一句？")) {
             dailySentence(text, replyToken);
         }
+        if (text.equals("今日我最美?") || text.equals("今日我最美？")) {
+            dailyBeauty(text, replyToken);
+        }
     }
 
     @EventMapping
@@ -1643,6 +1646,36 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         } catch (IOException e) {
             throw e;
+        }
+    }
+
+    private void dailyBeauty(String text, String replyToken) throws IOException {
+
+        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String strDate = sdFormat.format(date);
+        String beautyLink = "https://ab.unayung.cc/links/" + strDate;
+
+        this.replyText(replyToken, beautyLink);
+
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url= beautyLink;
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String dumpSource = "";
+            dumpSource = EntityUtils.toString(httpEntity, "utf-8");
+            dumpSource = dumpSource.substring(dumpSource.indexOf("image_src\" href=\""), dumpSource.length());
+            dumpSource = dumpSource.substring(0, dumpSource.indexOf("\" />"));
+            
+            this.replyText(replyToken, dumpSource);
+
+        }catch (IOException e2) {
+            throw e2;
         }
     }
 
