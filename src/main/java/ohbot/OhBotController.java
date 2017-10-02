@@ -677,7 +677,7 @@ public class OhBotController {
         if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken must not be empty");
         }        
-        this.reply(replyToken, new ImageMessage(original));
+        this.reply(replyToken, new ImageMessage(original, preview));
     }
 
     private void reply(@NonNull String replyToken, @NonNull Message message) {
@@ -1685,9 +1685,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             dumpSource = dumpSource.substring(dumpSource.indexOf("image_src\" href=\"")+16, dumpSource.length());
             dumpSource = dumpSource.substring(0, dumpSource.indexOf("\" />"));
             dumpSource = dumpSource.replace("http", "https");
-            //this.replyText(replyToken, dumpSource);
+            this.replyText(replyToken, dumpSource);
 
-            this.replyImage(replyToken, dumpSource, dumpSource);
+            //this.replyImage(replyToken, dumpSource, dumpSource);
 
         }catch (IOException e2) {
             throw e2;
