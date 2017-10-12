@@ -1783,22 +1783,19 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 this.replyText(replyToken, "沒想法...");   
             }
 
-        }catch (IOException e2) {
+        }catch (IndexOutOfBoundsException e2) {
             throw e2;
         }
     }
 
     private void updateEatWhat(String text, String replyToken) throws IOException {
         text = text.replace("PgCommand新增吃什麼:", "");
-        try {          
-            
-            mEatWhatArray.add(text);
-            
-            this.replyText(replyToken, "成功新增去吃「" + text + "」");
+                             
+        mEatWhatArray.add(text);
+        
+        this.replyText(replyToken, "成功新增去吃「" + text + "」");
 
-        }catch (IOException e2) {
-            throw e2;
-        }
+        
     }
 
     private void deleteEatWhat(String text, String replyToken) throws IOException {
@@ -1809,33 +1806,27 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             this.replyText(replyToken, "成功刪除去吃「" + text + "」");
 
-        }catch (IOException e2) {
+        }catch (IndexOutOfBoundsException e2) {
             throw e2;
         }
     }
 
     private void cleanEatWhat(String text, String replyToken) throws IOException {
+                    
+        mEatWhatArray.clear();
         
-        try {          
-            
-            mEatWhatArray.clear();
-            
-            this.replyText(replyToken, "成功清除去吃什麼");
+        this.replyText(replyToken, "成功清除去吃什麼");
 
-        }catch (IOException e2) {
-            throw e2;
-        }
+        
     }
 
     private void dumpEatWhat(String text, String replyToken) throws IOException {
         
-        try {
+        
             
-            this.replyText(replyToken, "去吃什麼: " + mEatWhatArray.toString());
+        this.replyText(replyToken, "去吃什麼: " + mEatWhatArray.toString());
 
-        }catch (IOException e2) {
-            throw e2;
-        }
+        
     }
 
     
