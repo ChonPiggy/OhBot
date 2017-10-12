@@ -60,6 +60,9 @@ import java.util.zip.GZIPInputStream;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 /**
  * Created by lambertyang on 2017/1/13.
  */
@@ -67,6 +70,9 @@ import java.text.SimpleDateFormat;
 @Slf4j
 @RestController
 public class OhBotController {
+
+    private ArrayList<String> mEatWhatArray = new ArrayList<String>();
+
     @Autowired
     private LineMessagingService lineMessagingService;
 
@@ -645,6 +651,21 @@ public class OhBotController {
         }
         if (text.equals("今日我最美是誰?") || text.equals("今日我最美是誰？")) {
             dailyBeautyName(text, replyToken);
+        }
+        if (text.equals("吃什麼?") || text.equals("吃什麼？")) {
+            eatWhat(text, replyToken);
+        }
+        if (text.startsWith("PgCommand新增吃什麼:")) {
+            updateEatWhat(text, replyToken);
+        }
+        if (text.startsWith("PgCommand刪除吃什麼:")) {
+            deleteEatWhat(text, replyToken);
+        }
+        if (text.startsWith("PgCommand清空吃什麼")) {
+            cleanEatWhat(text, replyToken);
+        }
+        if (text.equals("PgCommand列出吃什麼")) {
+            dumpEatWhat(text, replyToken);
         }
     }
 
@@ -1746,6 +1767,78 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             throw e2;
         }
     }
+
+    private void eatWhat(String text, String replyToken) throws IOException {
+        
+        try {
+            if (mEatWhatArray.size() > 0) {
+                Random randomGenerator = new Random();
+
+                int index = randomGenerator.nextInt(mEatWhatArray.size());
+                String item = mEatWhatArray.get(index);
+                
+                this.replyText(replyToken, "去吃" + item);
+            }
+            else {
+                this.replyText(replyToken, "沒想法...");   
+            }
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+
+    private void updateEatWhat(String text, String replyToken) throws IOException {
+        text = text.replace("PgCommand新增吃什麼:", "");
+        try {          
+            
+            mEatWhatArray.add(text);
+            
+            this.replyText(replyToken, "成功新增去吃「" + text + "」");
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+
+    private void deleteEatWhat(String text, String replyToken) throws IOException {
+        text = text.replace("PgCommand刪除吃什麼:", "");
+        try {          
+            
+            mEatWhatArray.remove(mEatWhatArray.indexOf(text));
+            
+            this.replyText(replyToken, "成功刪除去吃「" + text + "」");
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+
+    private void cleanEatWhat(String text, String replyToken) throws IOException {
+        
+        try {          
+            
+            mEatWhatArray.clear();
+            
+            this.replyText(replyToken, "成功清除去吃什麼");
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+
+    private void dumpEatWhat(String text, String replyToken) throws IOException {
+        
+        try {
+            
+            this.replyText(replyToken, "去吃什麼: " + mEatWhatArray.toString());
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+
+    
 
     private void exchange1(String text, String replyToken) throws IOException {
         text = text.replace("換算台幣", "").replace("?", "").replace("？", "").trim();
