@@ -1742,6 +1742,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             dumpSource = dumpSource.replaceAll("          ", "");
             dumpSource = dumpSource.replaceAll("</h4>", "");
             dumpSource = dumpSource.replaceAll("<br>", "\n");
+
+            if (dumpSource.indexOf("\" target=\"") > 0) {
+                dumpSource = dumpSource.replaceAll("<a href=\"", "");
+                dumpSource = dumpSource.substring(0, dumpSource.indexOf("\" target=\""));
+            }
             
             this.replyText(replyToken, dumpSource);
 
