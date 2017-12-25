@@ -1823,7 +1823,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace("PgCommand刪除吃什麼:", "");
         try {
             if (mEatWhatArray.indexOf(text) >= 0) {
-                mEatWhatArray.remove();
+                mEatWhatArray.remove(mEatWhatArray.indexOf(text));
                 this.replyText(replyToken, "成功刪除去吃「" + text + "」");
             }
             else {
