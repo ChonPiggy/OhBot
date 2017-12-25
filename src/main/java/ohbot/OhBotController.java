@@ -626,12 +626,12 @@ public class OhBotController {
             rate(text, replyToken);
         }
 
-        if (text.endsWith("換算台幣?") || text.endsWith("換算台幣？")) {
-            exchange(text, replyToken);
-        }
-
         if (text.startsWith("比特幣換算") && (text.endsWith("？") || text.endsWith("?"))) {
             exchangeBitcon(text, replyToken);
+        }
+
+        if (text.endsWith("換算台幣?") || text.endsWith("換算台幣？")) {
+            exchange(text, replyToken);
         }
 
         if (text.startsWith("呆股?") || text.startsWith("呆股？")) {
