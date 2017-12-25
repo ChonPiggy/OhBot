@@ -630,6 +630,10 @@ public class OhBotController {
             exchange(text, replyToken);
         }
 
+        if (text.startsWith("比特幣換算") && (text.endsWith("？") || text.endsWith("?"))) {
+            exchangeBitcon(text, replyToken);
+        }
+
         if (text.startsWith("呆股?") || text.startsWith("呆股？")) {
             tse(text, replyToken);
         }
@@ -641,7 +645,7 @@ public class OhBotController {
             help(text, replyToken);
         }
         if (text.endsWith("?") || text.endsWith("？")) {
-            exchange1(text, replyToken);
+            exchangeDefault(text, replyToken);
         }
         if (text.equals("每日一句?") || text.equals("每日一句？")) {
             dailySentence(text, replyToken);
@@ -1868,7 +1872,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     
 
-    private void exchange1(String text, String replyToken) throws IOException {
+    private void exchangeDefault(String text, String replyToken) throws IOException {
         text = text.replace("換算台幣", "").replace("?", "").replace("？", "").trim();
         try {
             String strResult = text + "日圓";    
@@ -1925,6 +1929,110 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
 
 
+    }
+
+    private void exchangeBitcon(String text, String replyToken) throws IOException {
+        text = text.replace("比特幣換算", "").replace("?", "").replace("？", "").trim();
+        log.info(text);
+        try {
+            String strResult = text;    
+            String country ="";
+
+            if (text.length() >= 3) {
+
+                if (text.endsWith("人民幣")) {
+                    country="CNY";
+                    text = text.replace("人民幣","").trim();
+                }
+                else if (text.endsWith("盧比")) {
+                    country="INR";
+                    text = text.replace("盧比","").trim();
+                }
+                else if (text.endsWith("日圓") || text.endsWith("日元") || text.endsWith("日幣")) {
+                    country="JPY";
+                    text = text.replace("日圓","").replace("日元","").replace("日幣","").trim();
+                }
+                else if (text.endsWith("台幣") || text.endsWith("新台幣")) {
+                    country="JPY";
+                    text = text.replace("台幣","").replace("新台幣","").trim();
+                }
+                else if (text.endsWith("歐元")) {
+                    country="EUR";
+                    text = text.replace("歐元","").trim();
+                }
+                else if (text.endsWith("美金") || text.endsWith("美元")) {
+                    country="USD";
+                    text = text.replace("美金","").replace("美元","").trim();
+                }
+                else if (text.endsWith("英鎊")) {
+                    country="GBP";
+                    text = text.replace("英鎊","").trim();
+                }
+                else {
+                    text = "";
+                }
+
+            }
+
+            if(text.equals("")){
+                strResult = "義大利?維大力? \n請輸入 這些幣別：\n人民幣 盧比 日圓 台幣\n歐元 美金 英鎊";
+                this.replyText(replyToken, strResult);
+                return;
+            }
+            else{
+                int inputNumber = -1;
+                try {
+                    inputNumber = Integer.parseInt(text);
+                }
+                catch(java.lang.NumberFormatException e1) {
+                    
+                    return;
+                }
+                if (inputNumber <= 0) {
+                    return;
+                }
+
+                CloseableHttpClient httpClient = HttpClients.createDefault();
+                String url="https://zt.coinmill.com/BTC_" + country + ".html?BTC=1";
+
+                log.info(url);
+                HttpGet httpget = new HttpGet(url);
+                CloseableHttpResponse response = httpClient.execute(httpget);
+                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                HttpEntity httpEntity = response.getEntity();
+                String tempParseNumber = "";
+                tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
+                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("<div id=\"currencyBox1\">"), tempParseNumber.length());
+                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("currencyField\">"), tempParseNumber.length());
+                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("value=\">")+7, tempParseNumber.indexOf("\">\n<a"));
+                
+                float rateNumber = 0f;
+                // Pattern pattern = Pattern.compile("[\\d]{1,}\\.[\\d]{1,}");
+                // Matcher matcher = pattern.matcher(tempParseNumber);
+                // while(matcher.find()){
+                //     tempParseNumber = matcher.group();
+                // }
+                
+                try {
+                    rateNumber = Float.parseFloat(tempParseNumber);
+                }
+                catch(java.lang.NumberFormatException e2) {
+                    return;
+                }
+
+                if (rateNumber > 0) {
+                    int numResult = (int) ((float)inputNumber * rateNumber);
+                    strResult += "1比特幣換算台幣大概 $" + numResult;
+                    this.replyText(replyToken, strResult);
+                }
+                else {
+                    return;
+                }
+                            }
+            
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
     private void exchange(String text, String replyToken) throws IOException {
