@@ -1993,9 +1993,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String tempParseNumber = "";
                 tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
                 tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("<div id=\"currencyBox1\">"), tempParseNumber.length());
-                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("currencyField\">"), tempParseNumber.length());
-                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("value=\">")+7, tempParseNumber.indexOf("\">\n<a"));
+                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("value=\"")+7, tempParseNumber.indexOf("\">\n<a"));
                 
+                log.info(tempParseNumber);
+
                 float rateNumber = 0f;
                 // Pattern pattern = Pattern.compile("[\\d]{1,}\\.[\\d]{1,}");
                 // Matcher matcher = pattern.matcher(tempParseNumber);
