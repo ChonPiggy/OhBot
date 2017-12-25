@@ -1738,6 +1738,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //dumpSource = dumpSource.substring(0, dumpSource.indexOf("\"/>"));
             dumpSource = dumpSource.substring(0, dumpSource.indexOf("本專欄歡迎"));
 
+            dumpSource = dumpSource.substring(dumpSource.indexOf("<h4>")+4, dumpSource.length());
+            dumpSource = dumpSource.replaceAll("          ", "");
             dumpSource = dumpSource.replaceAll("</h4>", "\n");
             dumpSource = dumpSource.replaceAll("<br>", "\n");
             
