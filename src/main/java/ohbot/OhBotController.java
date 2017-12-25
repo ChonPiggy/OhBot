@@ -1974,6 +1974,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             }
 
+            log.info("Piggy Check " + text);
             if(text.equals("")){
                 strResult = "義大利?維大力? \n請輸入 這些幣別：\n人民幣 盧比 日圓 台幣\n歐元 美金 英鎊";
                 this.replyText(replyToken, strResult);
@@ -2031,7 +2032,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             
         } catch (IOException e) {
-            this.replyText(replyToken, e.toString());
+            log.info(e.toString());
             throw e;
         }
     }
@@ -2100,7 +2101,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
             
             if(text.equals("")){
-                strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖 印尼盾";
+                strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖 印尼盾 法郎";
                 this.replyText(replyToken, strResult);
                 return;
             }else{
