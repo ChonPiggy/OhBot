@@ -1740,7 +1740,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             dumpSource = dumpSource.substring(dumpSource.indexOf("<h4>")+4, dumpSource.length());
             dumpSource = dumpSource.replaceAll("          ", "");
-            dumpSource = dumpSource.replaceAll("</h4>", "\n");
+            dumpSource = dumpSource.replaceAll("</h4>", "");
             dumpSource = dumpSource.replaceAll("<br>", "\n");
             
             this.replyText(replyToken, dumpSource);
