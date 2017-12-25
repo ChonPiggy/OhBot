@@ -2028,9 +2028,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 else {
                     return;
                 }
-                            }
+            }
             
         } catch (IOException e) {
+            this.replyText(replyToken, e.toString());
             throw e;
         }
     }
