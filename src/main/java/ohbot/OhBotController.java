@@ -1953,7 +1953,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     text = text.replace("日圓","").replace("日元","").replace("日幣","").trim();
                 }
                 else if (text.endsWith("台幣") || text.endsWith("新台幣")) {
-                    country="JPY";
+                    country="TWD";
                     text = text.replace("台幣","").replace("新台幣","").trim();
                 }
                 else if (text.endsWith("歐元")) {
@@ -1974,7 +1974,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             }
 
-            if(text.equals("")){
+            log.info("country: " + country);
+            if(country.equals("")){
                 strResult = "義大利?維大力? \n請輸入 這些幣別：\n人民幣 盧比 日圓 台幣\n歐元 美金 英鎊";
                 this.replyText(replyToken, strResult);
                 return;
