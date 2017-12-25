@@ -1974,24 +1974,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             }
 
-            log.info("Piggy Check " + text);
             if(text.equals("")){
                 strResult = "義大利?維大力? \n請輸入 這些幣別：\n人民幣 盧比 日圓 台幣\n歐元 美金 英鎊";
                 this.replyText(replyToken, strResult);
                 return;
             }
-            else{
-                int inputNumber = -1;
-                try {
-                    inputNumber = Integer.parseInt(text);
-                }
-                catch(java.lang.NumberFormatException e1) {
-                    
-                    return;
-                }
-                if (inputNumber <= 0) {
-                    return;
-                }
+            else{                
 
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="https://zt.coinmill.com/BTC_" + country + ".html?BTC=1";
