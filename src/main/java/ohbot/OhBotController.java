@@ -661,7 +661,7 @@ public class OhBotController {
         if (text.startsWith("PgCommand刪除吃什麼:")) {
             deleteEatWhat(text, replyToken);
         }
-        if (text.startsWith("PgCommand清空吃什麼")) {
+        if (text.equals("PgCommand清空吃什麼")) {
             cleanEatWhat(text, replyToken);
         }
         if (text.equals("PgCommand列出吃什麼")) {
@@ -1734,7 +1734,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String dumpSource = "";
             dumpSource = EntityUtils.toString(httpEntity, "utf-8");
             dumpSource = dumpSource.substring(dumpSource.indexOf("og:description\" content=\"")+25, dumpSource.length());
-            dumpSource = dumpSource.substring(0, dumpSource.indexOf("\"/>"));
+            //dumpSource = dumpSource.substring(0, dumpSource.indexOf("\"/>"));
+            dumpSource = dumpSource.substring(0, dumpSource.indexOf("本專欄歡迎"));
             
             this.replyText(replyToken, dumpSource);
 
@@ -1790,23 +1791,50 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void updateEatWhat(String text, String replyToken) throws IOException {
         text = text.replace("PgCommand新增吃什麼:", "");
-                             
-        mEatWhatArray.add(text);
-        
-        this.replyText(replyToken, "成功新增去吃「" + text + "」");
 
+        if (mEatWhatArray.indexOf(text) >= 0) {
+
+            if (text.startsWith("[") && text.endsWith("]")) {
+
+                ArrayList<String> mTempArray = new ArrayList<String>();
+
+                for(){
+
+                }
+                return;
+            }
+
+
+
+            if (text.length() > 0) {
+                mEatWhatArray.add(text);    
+                this.replyText(replyToken, "成功新增去吃「" + text + "」");    
+            }
+            else {
+                this.replyText(replyToken, "輸入值為空值");       
+            }
+            
+        }
+        else {
+            this.replyText(replyToken, "「" + text + "」已存在列表");   
+        }
         
     }
 
     private void deleteEatWhat(String text, String replyToken) throws IOException {
         text = text.replace("PgCommand刪除吃什麼:", "");
-        try {          
+        try {
+            if (mEatWhatArray.indexOf(text) >= 0) {
+                mEatWhatArray.remove();
+                this.replyText(replyToken, "成功刪除去吃「" + text + "」");
+            }
+            else {
+                this.replyText(replyToken, "「" + text + "」不存在");
+            }
             
-            mEatWhatArray.remove(mEatWhatArray.indexOf(text));
-            
-            this.replyText(replyToken, "成功刪除去吃「" + text + "」");
 
         }catch (IndexOutOfBoundsException e2) {
+            this.replyText(replyToken, "「" + text + "」不存在");
             throw e2;
         }
     }
