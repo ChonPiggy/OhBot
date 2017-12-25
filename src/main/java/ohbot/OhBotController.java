@@ -1733,9 +1733,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String dumpSource = "";
             dumpSource = EntityUtils.toString(httpEntity, "utf-8");
-            dumpSource = dumpSource.substring(dumpSource.indexOf("og:description\" content=\"")+25, dumpSource.length());
+            //dumpSource = dumpSource.substring(dumpSource.indexOf("og:description\" content=\"")+25, dumpSource.length());
+            dumpSource = dumpSource.substring(dumpSource.indexOf("white-box detail\">"), dumpSource.length());
             //dumpSource = dumpSource.substring(0, dumpSource.indexOf("\"/>"));
             dumpSource = dumpSource.substring(0, dumpSource.indexOf("本專欄歡迎"));
+
+            dumpSource = dumpSource.replaceAll("</h4>", "\n");
+            dumpSource = dumpSource.replaceAll("<br>", "\n");
             
             this.replyText(replyToken, dumpSource);
 
