@@ -2013,7 +2013,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 if (rateNumber > 0) {
                     int numResult = (int) (rateNumber);
-                    strResult += "1比特幣換算台幣大概 $" + numResult;
+                    strResult = "1比特幣換算" + strResult + "大概 $" + numResult;
                     this.replyText(replyToken, strResult);
                 }
                 else {
