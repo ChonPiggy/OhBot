@@ -1938,7 +1938,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String strResult = text;    
             String country ="";
 
-            if (text.length() >= 3) {
+            if (text.length() >= 2) {
 
                 if (text.endsWith("人民幣")) {
                     country="CNY";
