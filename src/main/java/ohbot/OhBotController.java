@@ -1740,7 +1740,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //dumpSource = dumpSource.substring(dumpSource.indexOf("og:description\" content=\"")+25, dumpSource.length());
             dumpSource = dumpSource.substring(dumpSource.indexOf("white-box detail\">"), dumpSource.length());
             //dumpSource = dumpSource.substring(0, dumpSource.indexOf("\"/>"));
-            dumpSource = dumpSource.substring(0, dumpSource.indexOf("本專欄歡迎"));
+            //dumpSource = dumpSource.substring(0, dumpSource.indexOf("本專欄歡迎"));
+
+            if (dumpSource.indexOf("本專欄歡迎") > 0) {
+                dumpSource = dumpSource.substring(0, dumpSource.indexOf("本專欄歡迎"));
+            }
+            else {
+                dumpSource = dumpSource.substring(0, dumpSource.indexOf("<p>資料來源"));
+            }
+                
 
             dumpSource = dumpSource.substring(dumpSource.indexOf("<h4>")+4, dumpSource.length());
             dumpSource = dumpSource.replaceAll("          ", "");
