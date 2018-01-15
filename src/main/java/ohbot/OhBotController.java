@@ -2319,7 +2319,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
 
 
-        }catch (IOException e2) {
+        }catch (Exception e2) {
             throw e2;
         }
     }
