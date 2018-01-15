@@ -2287,9 +2287,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int mMaxPageInt = 0;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
-            log.info("Piggy Check string1: " + maxPage);
             maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, maxPage.length());
-            log.info("Piggy Check string2: " + maxPage);
             maxPage = maxPage.substring(0, maxPage.indexOf("]<"));
             
             log.info("Piggy Check max page string: " + maxPage);
@@ -2342,8 +2340,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     @Override
     public  void run() {
-        System.out.println( "==========第"+page+"頁============" );
-        List <String> list = new ArrayList<String> ();
+        System.out.println( "==========第"+page+"頁==========" );
+        List<String> list = new ArrayList<String> ();
         html = html.substring(html.indexOf("commentlist" ));
         String[] images = html.split("li>" );
         for (String image : images) {
@@ -2361,10 +2359,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
         for (String imageUrl : list){
-             if (imageUrl.indexOf("sina")>0 ){
-                 // TODO: Save to string list
+             // if (imageUrl.indexOf("sina")>0 ){
+             //     // TODO: Save to string list
                 log.info("Piggy Check imageUrl: " + imageUrl);
-            }
+            // }
         }
     }
 }
