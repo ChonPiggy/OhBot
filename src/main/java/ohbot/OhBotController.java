@@ -28,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 import ohbot.aqiObj.AqiResult;
 import ohbot.aqiObj.Datum;
 import ohbot.stockObj.*;
+import ohbot.utils.Utils;
+
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
@@ -41,6 +43,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -2271,10 +2277,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
 
             String maxPage = "";
+            int mMaxPageInt = 0;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
-            maxPage = daySentence.substring(daySentence.indexOf("current-comment-page\">[")+23, daySentence.length());
-            maxPage = daySentence.substring(0, daySentence.indexOf("]</span>"));
+            maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, daySentence.length());
+            maxPage = maxPage.substring(0, maxPage.indexOf("]</span>"));
             
             log.info("Piggy Check max page string: " + maxPage);
 
@@ -2292,7 +2299,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
             CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
             log.info("1秒後開始抓取煎蛋妹子圖...");
-            for ( int i = page; i > 0; i--) {
+            for ( int i = mMaxPageInt; i > 0; i--) {
                 // 創建一個GET請求 
                 HttpGet httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
                 httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
