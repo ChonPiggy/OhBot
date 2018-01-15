@@ -2271,8 +2271,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="http://jandan.net/ooxx";
             log.info(url);
-            HttpGet httpget = new HttpGet(url);
-            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpGet httpGet = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpGet);
             log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
@@ -2280,7 +2280,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int mMaxPageInt = 0;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
-            maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, maxPage.length());
+            maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, daySentence.length());
             maxPage = maxPage.substring(0, maxPage.indexOf("]</span>"));
             
             log.info("Piggy Check max page string: " + maxPage);
@@ -2308,7 +2308,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     // 不敢爬太快 
                     Thread. sleep(1000);
                     // 發送請求，並執行 
-                    response = httpClient.execute(httpGet);
+                    CloseableHttpResponse response = httpClient.execute(httpGet);
                     InputStream in = response.getEntity().getContent();
                     String html = Utils.convertStreamToString(in);
                      // 網頁內容解析
