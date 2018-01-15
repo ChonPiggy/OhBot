@@ -2279,7 +2279,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int mMaxPageInt = 0;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
+            log.info("Piggy Check string1: " + maxPage);
             maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, maxPage.length());
+            log.info("Piggy Check string2: " + maxPage);
             maxPage = maxPage.substring(0, maxPage.indexOf("]<"));
             
             log.info("Piggy Check max page string: " + maxPage);
