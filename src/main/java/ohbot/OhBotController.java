@@ -659,6 +659,9 @@ public class OhBotController {
         if (text.equals("吃什麼?") || text.equals("吃什麼？")) {
             eatWhat(text, replyToken);
         }
+        if (text.equals("抽")) {
+            randomGirl(text, replyToken);
+        }
         if (text.startsWith("PgCommand新增吃什麼:")) {
             updateEatWhat(text, replyToken);
         }
@@ -1792,6 +1795,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    private void randomGirl(String text, String replyToken) throws IOException {
+        int mMaxPageInt = 0;
+
+        startFetchJanDanGirlImages();
+        
+    }
+
     private void eatWhat(String text, String replyToken) throws IOException {
         
         try {
@@ -2249,4 +2259,97 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         TemplateMessage templateMessage = new TemplateMessage("The function Only on mobile device ! ", carouselTemplate);
         this.reply(replyToken, templateMessage);
     }
+
+    private void startFetchJanDanGirlImages() {
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="http://jandan.net/ooxx";
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String maxPage = "";
+
+            maxPage = EntityUtils.toString(httpEntity, "utf-8");
+            maxPage = daySentence.substring(daySentence.indexOf("current-comment-page\">[")+23, daySentence.length());
+            maxPage = daySentence.substring(0, daySentence.indexOf("]</span>"));
+            
+            log.info("Piggy Check max page string: " + maxPage);
+
+            try {
+                mMaxPageInt = Integer.parseInt(maxPage);
+            }
+            catch(java.lang.NumberFormatException e1) {
+                log.info("NumberFormatException " + e1);
+                return;
+            }
+
+            log.info("Piggy Check max page int: " + mMaxPageInt);
+
+
+            RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
+            CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
+            log.info("1秒後開始抓取煎蛋妹子圖...");
+            for ( int i = page; i > 0; i--) {
+                // 創建一個GET請求 
+                HttpGet httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
+                httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
+                httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+                try {
+                    // 不敢爬太快 
+                    Thread. sleep(1000);
+                    // 發送請求，並執行 
+                    CloseableHttpResponse response = httpClient.execute(httpGet);
+                    InputStream in = response.getEntity().getContent();
+                    String html = Utils.convertStreamToString(in);
+                     // 網頁內容解析
+                    new Thread( new JianDanHtmlParser(html, i)).start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+
+    public class JianDanHtmlParser implements Runnable {
+        private String html;
+        private int page;
+        public JianDanHtmlParser(String html, int page) {
+        this.html = html;
+        this.page = page;
+    }
+    @Override
+    public  void run() {
+        System.out.println( "==========第"+page+"頁============" );
+        List <String> list = new ArrayList<String> ();
+        html = html.substring(html.indexOf("commentlist" ));
+        String[] images = html.split("li>" );
+        for (String image : images) {
+            String[] ss = image.split("br" );
+            for (String s : ss) {
+                if (s.indexOf("<img src=") > 0 ) {
+                    try {
+                        int i = s.indexOf("< img src=\"") + "<img src=\"" .length();
+                        list.add(s.substring(i, s.indexOf( "\"", i + 1 )));
+                    } catch (Exception e) {
+                        System.out.println(s);
+                    }
+
+                }
+            }
+        }
+        for (String imageUrl : list){
+             if (imageUrl.indexOf("sina")>0 ){
+                 // TODO: Save to string list
+                log.info("Piggy Check imageUrl: " + imageUrl);
+            }
+        }
+    }
+}
 }
