@@ -2280,7 +2280,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int mMaxPageInt = 0;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
-            maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, daySentence.length());
+            maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, maxPage.length());
             maxPage = maxPage.substring(0, maxPage.indexOf("]</span>"));
             
             log.info("Piggy Check max page string: " + maxPage);
@@ -2301,14 +2301,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info("1秒後開始抓取煎蛋妹子圖...");
             for ( int i = mMaxPageInt; i > 0; i--) {
                 // 創建一個GET請求 
-                HttpGet httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
+                httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
                 httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
                 try {
                     // 不敢爬太快 
                     Thread. sleep(1000);
                     // 發送請求，並執行 
-                    CloseableHttpResponse response = httpClient.execute(httpGet);
+                    response = httpClient.execute(httpGet);
                     InputStream in = response.getEntity().getContent();
                     String html = Utils.convertStreamToString(in);
                      // 網頁內容解析
