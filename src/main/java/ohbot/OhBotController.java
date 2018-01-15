@@ -2297,7 +2297,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
             RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
-            CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
+            httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
             log.info("1秒後開始抓取煎蛋妹子圖...");
             for ( int i = mMaxPageInt; i > 0; i--) {
                 // 創建一個GET請求 
@@ -2308,7 +2308,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     // 不敢爬太快 
                     Thread. sleep(1000);
                     // 發送請求，並執行 
-                    CloseableHttpResponse response = httpClient.execute(httpGet);
+                    response = httpClient.execute(httpGet);
                     InputStream in = response.getEntity().getContent();
                     String html = Utils.convertStreamToString(in);
                      // 網頁內容解析
