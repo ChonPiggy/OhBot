@@ -2318,7 +2318,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     response = httpClient.execute(httpGet);
                     InputStream in = response.getEntity().getContent();
                     String html = Utils.convertStreamToString(in);
-                    log.info("Piggy Check html: " + html);
                      // 網頁內容解析
                     new Thread( new JianDanHtmlParser(html, i)).start();
                 } catch (Exception e1) {
@@ -2344,28 +2343,19 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         System.out.println( "==========第"+page+"頁==========" );
         List<String> list = new ArrayList<String> ();
         html = html.substring(html.indexOf("commentlist" ));
-        String[] images = html.split("li>" );
-        for (String image : images) {
-            String[] ss = image.split("br" );
-            for (String s : ss) {
-                log.info("Piggy Check temp fetch string: " + s);
-                if (s.indexOf("<img src=") > 0 ) {
-                    try {
-                        int i = s.indexOf("< img src=\"") + "<img src=\"" .length();
-                        list.add(s.substring(i, s.indexOf( "\"", i + 1 )));
-                    } catch (Exception e) {
-                        System.out.println(s);
-                    }
+        
+        Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
+        Matcher matcher = pattern.matcher(strResult);
+        while(matcher.find()){
+            log.info("Piggy Check matcher.group(): " + matcher.group());
+        }
 
-                }
-            }
-        }
-        for (String imageUrl : list){
-             // if (imageUrl.indexOf("sina")>0 ){
-             //     // TODO: Save to string list
-                log.info("Piggy Check imageUrl: " + imageUrl);
-            // }
-        }
+        // for (String imageUrl : list){
+        //      // if (imageUrl.indexOf("sina")>0 ){
+        //      //     // TODO: Save to string list
+        //         log.info("Piggy Check imageUrl: " + imageUrl);
+        //     // }
+        // }
     }
 }
 }
