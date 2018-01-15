@@ -1802,7 +1802,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void randomGirl(String text, String replyToken) throws IOException {
-        int mMaxPageInt = 0;
 
         startFetchJanDanGirlImages();
         
@@ -2281,7 +2280,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
             maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, maxPage.length());
-            maxPage = maxPage.substring(0, maxPage.indexOf("]</span>"));
+            maxPage = maxPage.substring(0, maxPage.indexOf("]<"));
             
             log.info("Piggy Check max page string: " + maxPage);
 
