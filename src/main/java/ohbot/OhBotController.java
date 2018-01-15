@@ -2318,6 +2318,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     response = httpClient.execute(httpGet);
                     InputStream in = response.getEntity().getContent();
                     String html = Utils.convertStreamToString(in);
+                    log.info("Piggy Check html: " + html);
                      // 網頁內容解析
                     new Thread( new JianDanHtmlParser(html, i)).start();
                 } catch (Exception e1) {
@@ -2347,6 +2348,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         for (String image : images) {
             String[] ss = image.split("br" );
             for (String s : ss) {
+                log.info("Piggy Check temp fetch string: " + s);
                 if (s.indexOf("<img src=") > 0 ) {
                     try {
                         int i = s.indexOf("< img src=\"") + "<img src=\"" .length();
