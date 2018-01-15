@@ -2345,7 +2345,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         html = html.substring(html.indexOf("commentlist" ));
         
         Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
-        Matcher matcher = pattern.matcher(strResult);
+        Matcher matcher = pattern.matcher(html);
         while(matcher.find()){
             log.info("Piggy Check matcher.group(): " + matcher.group());
         }
