@@ -83,6 +83,7 @@ import java.security.NoSuchAlgorithmException;
 public class OhBotController {
 
     private ArrayList<String> mEatWhatArray = new ArrayList<String>();
+    private List<String> mJanDanGirlList = new ArrayList<String> ();
 
     @Autowired
     private LineMessagingService lineMessagingService;
@@ -604,6 +605,11 @@ public class OhBotController {
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
         String text = content.getText();
         log.info(text);
+
+        if (mJanDanGirlList.size() == 0) {
+            startFetchJanDanGirlImages();
+        }
+
         if (text.endsWith("天氣?") || text.endsWith("天氣？")) {
             weatherResult(text, replyToken);
         }
@@ -1808,7 +1814,22 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void randomGirl(String text, String replyToken) throws IOException {
 
-        startFetchJanDanGirlImages();
+        try {
+            if (mJanDanGirlList.size() > 0) {
+                Random randomGenerator = new Random();
+
+                int index = randomGenerator.nextInt(mJanDanGirlList.size());
+                String item = mJanDanGirlList.get(index);
+                item = item.replace("http", "https");
+                this.replyImage(replyToken, item, item);
+            }
+            else {
+                this.replyText(replyToken, "妹子死光了..");
+            }
+
+        }catch (IndexOutOfBoundsException e2) {
+            throw e2;
+        }
         
     }
 
@@ -2380,21 +2401,18 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     @Override
     public  void run() {
         System.out.println( "==========第"+page+"頁==========" );
-        List<String> list = new ArrayList<String> ();
+        
         html = html.substring(html.indexOf("commentlist" ));
         
         Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
         Matcher matcher = pattern.matcher(html);
         while(matcher.find()){
             String result = matcher.group();
-            log.info("Piggy Check matcher.group(): " + result);
-
             result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
             result = result.substring(0, result.indexOf("</span>"));
-
-            log.info("Piggy Check result: " + result);
-
-            log.info("Piggy Check img_link: " + decrypt(result,jsPath));
+            String result_final = decrypt(result,jsPath);
+            log.info("Piggy Check img_link: " + result_final);
+            mJanDanGirlList.add(result_final);
         }
 
         // for (String imageUrl : list){
