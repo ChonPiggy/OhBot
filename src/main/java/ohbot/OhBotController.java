@@ -1824,7 +1824,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 this.replyImage(replyToken, item, item);
             }
             else {
-                this.replyText(replyToken, "妹子死光了..");
+                this.replyText(replyToken, "妹子還在睡覺喔..");
             }
 
         }catch (IndexOutOfBoundsException e2) {
@@ -2411,7 +2411,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
             result = result.substring(0, result.indexOf("</span>"));
             String result_final = decrypt(result,jsPath);
-            log.info("Piggy Check img_link: " + result_final);
+            //log.info("Piggy Check img_link: " + result_final);
             mJanDanGirlList.add(result_final);
         }
 
@@ -2484,7 +2484,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (!l.startsWith("http:")) {
             l = "http:" + l;
         }
-        log.info("l: " + l);
         return l;
     }
     
