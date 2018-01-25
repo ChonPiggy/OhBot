@@ -2329,7 +2329,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             log.info("Piggy Check js_response: " + js_response);
 
-            Pattern pattern = Pattern.compile("f\.remove\(\);var c=.+?\(e,"(.+?)"\)");
+            Pattern pattern = Pattern.compile("f\.remove\(\);var c=.+?\(e,\"(.+?)\"\)");
             Matcher matcher = pattern.matcher(js_response);
             while(matcher.find()){
                 log.info("Piggy Check js_response matcher.group(): " + matcher.group());
