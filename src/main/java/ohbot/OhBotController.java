@@ -2416,7 +2416,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         Base64.Decoder decoder = Base64.getDecoder();
 
-        byte[] temp_m = decoder.decode(n).getBytes();
+        byte[] temp_m = decoder.decode(n);
 
         char[] m = new char[temp_m.length];
         for (int i=0;i<temp_m.length;i++) {
