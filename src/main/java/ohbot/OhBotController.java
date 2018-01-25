@@ -2325,7 +2325,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             httpEntity = response.getEntity();
 
-            String response js_response = EntityUtils.toString(httpEntity, "utf-8");
+            String js_response = EntityUtils.toString(httpEntity, "utf-8");
 
             // RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
             // httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
