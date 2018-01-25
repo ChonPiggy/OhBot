@@ -2356,7 +2356,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     InputStream in = response.getEntity().getContent();
                     String html = Utils.convertStreamToString(in);
                      // 網頁內容解析
-                    new Thread( new JianDanHtmlParser(html, i, jsPath)).start();
+                    new Thread( new JianDanHtmlParser(html, i, js_x)).start();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
