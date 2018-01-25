@@ -2343,7 +2343,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
             httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
             log.info("1秒後開始抓取煎蛋妹子圖...");
-            for ( int i = mMaxPageInt; i > 0; i--) {
+            for ( int i = maxPageInt; i > 0; i--) {
                 // 創建一個GET請求 
                 httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
                 httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
@@ -2387,7 +2387,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         Matcher matcher = pattern.matcher(html);
         while(matcher.find()){
             log.info("Piggy Check matcher.group(): " + matcher.group());
-            log.info("Piggy Check img_link: " + decrypt(matcher.group(),js));
+            log.info("Piggy Check img_link: " + decrypt(matcher.group(),jsPath));
         }
 
         // for (String imageUrl : list){
@@ -2416,7 +2416,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         Base64.Decoder decoder = Base64.getDecoder();
 
-        byte[] temp_m = decoder.decode(n, "UTF-8").getBytes();
+        byte[] temp_m = decoder.decode(n.getBytes(), "UTF-8").getBytes();
 
         char[] m = new char[temp_m.length];
         for (int i=0;i<temp_m.length;i++) {
@@ -2507,7 +2507,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return barr;
     }
     
-    public static String byte2Hex(byte b) {
+    public String byte2Hex(byte b) {
         String[] h={"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"};
         int i=b;
         if (i < 0) {i += 256;}
