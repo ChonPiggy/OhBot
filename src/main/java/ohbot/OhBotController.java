@@ -2329,6 +2329,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             log.info("Piggy Check js_response: " + js_response);
 
+            Pattern pattern = Pattern.compile("f\.remove\(\);var c=.+?\(e,"(.+?)"\)");
+            Matcher matcher = pattern.matcher(js_response);
+            while(matcher.find()){
+                log.info("Piggy Check js_response matcher.group(): " + matcher.group());
+            }
+
             // RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
             // httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
             // log.info("1秒後開始抓取煎蛋妹子圖...");
