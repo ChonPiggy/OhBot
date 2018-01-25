@@ -2327,13 +2327,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String js_response = EntityUtils.toString(httpEntity, "utf-8");
 
-            log.info("Piggy Check js_response: " + js_response);
+            //log.info("Piggy Check js_response: " + js_response);
 
-            Pattern pattern = Pattern.compile("f.remove();var c=.+?(e,\"(.+?)\")");
-            Matcher matcher = pattern.matcher(js_response);
-            while(matcher.find()){
-                log.info("Piggy Check js_response matcher.group(): " + matcher.group());
-            }
+            String js_x = js_response.substring(js_response.indexOf("f.remove();var c=")+17, js_response.length());
+            js_x = js_x.substring(js_x.indexOf("(e,\"")+4, js_x.length());
+            js_x = js_x.substring(0, js_x.indexOf("\");"));
+
+            log.info("Piggy Check js_x: " + js_x);
 
             // RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
             // httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
