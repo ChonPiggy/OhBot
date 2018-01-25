@@ -71,6 +71,9 @@ import java.util.Random;
 
 import java.util.Base64;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * Created by lambertyang on 2017/1/13.
  */
@@ -2456,7 +2459,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (!l.startsWith("http:")) {
             l = "http:" + l;
         }
-        NfLog.d(TAG, "l: " + l);
+        log.info(TAG, "l: " + l);
         return l;
     }
     
@@ -2493,7 +2496,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             String md5String = "";
             StringBuffer sb=new StringBuffer();  //將 byte 陣列轉成 16 進制
-            for (int i=0; i < barr.length; i++) {sb.append(byte2Hex(barr[i]));}
+            for (int i=0; i < barr.length; i++) {
+                sb.append(byte2Hex(barr[i]));
+            }
             String hex=sb.toString();
             md5String=hex.toUpperCase(); //一律轉成大寫
         } catch (NoSuchAlgorithmException e) {
