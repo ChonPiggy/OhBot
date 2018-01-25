@@ -2389,7 +2389,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result = matcher.group();
             log.info("Piggy Check matcher.group(): " + result);
 
-            result = result.substring(result.indexOf("class=\"img-hash\">")+16, result.length());
+            result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
             result = result.substring(0, result.indexOf("</span>"));
 
             log.info("Piggy Check result: " + result);
