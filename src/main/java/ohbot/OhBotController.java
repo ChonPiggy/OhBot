@@ -2386,8 +2386,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
         Matcher matcher = pattern.matcher(html);
         while(matcher.find()){
-            log.info("Piggy Check matcher.group(): " + matcher.group());
-            log.info("Piggy Check img_link: " + decrypt(matcher.group(),jsPath));
+            String result = matcher.group();
+            log.info("Piggy Check matcher.group(): " + result);
+
+            result = result.substring(result.indexOf("class=\"img-hash\">")+15, result.length());
+            result = result.substring(0, result.indexOf("</span> "));
+
+            log.info("Piggy Check result: " + result);
+
+            log.info("Piggy Check img_link: " + decrypt(result,jsPath));
         }
 
         // for (String imageUrl : list){
