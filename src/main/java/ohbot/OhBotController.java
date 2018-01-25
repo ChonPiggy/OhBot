@@ -2459,7 +2459,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (!l.startsWith("http:")) {
             l = "http:" + l;
         }
-        log.info(TAG, "l: " + l);
+        log.info("l: " + l);
         return l;
     }
     
