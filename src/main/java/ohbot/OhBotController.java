@@ -2387,13 +2387,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         Matcher matcher = pattern.matcher(html);
         while(matcher.find()){
             String result = matcher.group();
-            log.info("Piggy Check matcher.group(): " + result);
-
-            result = result.substring(result.indexOf("class=\"img-hash\">")+15, result.length());
+            result = result.substring(result.indexOf("class=\"img-hash\">")+16, result.length());
             result = result.substring(0, result.indexOf("</span>"));
-
-            log.info("Piggy Check result: " + result);
-
             log.info("Piggy Check img_link: " + decrypt(result,jsPath));
         }
 
