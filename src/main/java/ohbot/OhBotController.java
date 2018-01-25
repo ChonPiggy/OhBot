@@ -2327,6 +2327,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String js_response = EntityUtils.toString(httpEntity, "utf-8");
 
+            log.info("Piggy Check js_response: " + js_response);
+
             // RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
             // httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
             // log.info("1秒後開始抓取煎蛋妹子圖...");
