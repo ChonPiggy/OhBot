@@ -69,6 +69,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
+import java.util.Base64;
+
 /**
  * Created by lambertyang on 2017/1/13.
  */
@@ -2335,27 +2337,27 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             log.info("Piggy Check js_x: " + js_x);
 
-            // RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
-            // httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
-            // log.info("1秒後開始抓取煎蛋妹子圖...");
-            // for ( int i = mMaxPageInt; i > 0; i--) {
-            //     // 創建一個GET請求 
-            //     httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
-            //     httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
-            //     httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
-            //     try {
-            //         // 不敢爬太快 
-            //         Thread. sleep(1000);
-            //         // 發送請求，並執行 
-            //         response = httpClient.execute(httpGet);
-            //         InputStream in = response.getEntity().getContent();
-            //         String html = Utils.convertStreamToString(in);
-            //          // 網頁內容解析
-            //         new Thread( new JianDanHtmlParser(html, i, jsPath)).start();
-            //     } catch (Exception e1) {
-            //         e1.printStackTrace();
-            //     }
-            // }
+            RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
+            httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
+            log.info("1秒後開始抓取煎蛋妹子圖...");
+            for ( int i = mMaxPageInt; i > 0; i--) {
+                // 創建一個GET請求 
+                httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
+                httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
+                httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+                try {
+                    // 不敢爬太快 
+                    Thread. sleep(1000);
+                    // 發送請求，並執行 
+                    response = httpClient.execute(httpGet);
+                    InputStream in = response.getEntity().getContent();
+                    String html = Utils.convertStreamToString(in);
+                     // 網頁內容解析
+                    new Thread( new JianDanHtmlParser(html, i, jsPath)).start();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
 
 
         }catch (Exception e2) {
@@ -2382,6 +2384,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         Matcher matcher = pattern.matcher(html);
         while(matcher.find()){
             log.info("Piggy Check matcher.group(): " + matcher.group());
+            log.info("Piggy Check img_link: " + decrypt(matcher.group(),js));
         }
 
         // for (String imageUrl : list){
@@ -2390,6 +2393,120 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         //         log.info("Piggy Check imageUrl: " + imageUrl);
         //     // }
         // }
+    }
+
+        private String decrypt(String n, String x) {
+        int g = 4;
+        x = toHexString(md5(getUtf8String(x)));
+        String w = toHexString(md5(getUtf8String(x.substring(0, 16))));
+        String u = toHexString(md5(getUtf8String(x.substring(16,32))));
+                
+        String t = n.substring(0, g);
+        String r = w + toHexString(md5(getUtf8String(w+t)));
+        
+        n = n.substring(4, n.length());     
+        while(n.length() % 4 != 0) {
+            n += "=";
+        }
+        
+        //byte[] temp_m = Base64.decode(n, Base64.DEFAULT);
+
+        Base64.Decoder decoder = Base64.getDecoder();
+
+        byte[] temp_m = decoder.decode(n, "UTF-8").getBytes();
+
+        char[] m = new char[temp_m.length];
+        for (int i=0;i<temp_m.length;i++) {
+            m[i] = (char)(temp_m[i] & 0xFF);
+        }
+        
+        char[] h = new char[256];
+        char[] q = new char[256];
+        for (int i=0;i<h.length;i++) {
+            h[i] = (char)i;
+        }
+        
+        byte r_ord[] = r.getBytes();
+        for (int i=0;i<q.length;i++) {
+            q[i] = (char) r_ord[i%64];
+        }
+        
+        int o = 0;
+        for (int i=0;i<q.length;i++) {
+            o = (o + h[i] + q[i]) & 0xFF;
+            char temp = h[o];
+            h[o] = h[i];
+            h[i] = temp;
+        }
+        
+        String l = "";
+        int v = 0;
+        o = 0;
+        
+        for (int i=0;i<m.length;i++) {
+            v = (v + 1) & 0xFF;
+            o = (o + h[v]) & 0xFF;
+            
+            char temp = h[o];
+            h[o] = h[v];
+            h[v] = temp;
+            l += (char) ((char)(m[i] & 0xFF) ^ h[(h[v]+h[o])& 0xFF]);
+        }
+        l = l.substring(26);
+        if (!l.startsWith("http:")) {
+            l = "http:" + l;
+        }
+        NfLog.d(TAG, "l: " + l);
+        return l;
+    }
+    
+    public String toHexString(byte[] bytes) {
+        StringBuilder hexString = new StringBuilder();
+
+        for (int i = 0; i < bytes.length; i++) {
+            String hex = Integer.toHexString(0xFF & bytes[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+
+        return hexString.toString();
+    }
+    
+    private String getUtf8String(String input) {
+        byte ptext[] = input.getBytes();
+        try {
+            return new String(ptext, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        
+        return "";
+    }
+    
+    private byte[] md5(String input) {
+        byte[] barr = {};
+        try {
+            MessageDigest md=MessageDigest.getInstance("MD5");
+            barr=md.digest(input.getBytes());   
+            
+            String md5String = "";
+            StringBuffer sb=new StringBuffer();  //將 byte 陣列轉成 16 進制
+            for (int i=0; i < barr.length; i++) {sb.append(byte2Hex(barr[i]));}
+            String hex=sb.toString();
+            md5String=hex.toUpperCase(); //一律轉成大寫
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return barr;
+    }
+    
+    public static String byte2Hex(byte b) {
+        String[] h={"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"};
+        int i=b;
+        if (i < 0) {i += 256;}
+        return h[i/16] + h[i%16];
     }
 }
 }
