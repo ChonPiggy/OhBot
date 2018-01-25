@@ -2284,7 +2284,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
 
             String maxPage = "";
-            int mMaxPageInt = 0;
+            int maxPageInt = 0;
 
             String jsPath = "";
 
@@ -2297,20 +2297,35 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             jsPath = jsPath.substring(jsPath.indexOf("<script src=\"//cdn.jandan.net/static/min/")+13, jsPath.length());
             jsPath = jsPath.substring(0, jsPath.indexOf("\"></script>"));
 
+            jsPath = "http:" + jsPath;
             
             log.info("Piggy Check max page string: " + maxPage);
             log.info("Piggy Check js path: " + jsPath);
 
             try {
-                mMaxPageInt = Integer.parseInt(maxPage);
+                maxPageInt = Integer.parseInt(maxPage);
             }
             catch(java.lang.NumberFormatException e1) {
                 log.info("NumberFormatException " + e1);
                 return;
             }
 
-            log.info("Piggy Check max page int: " + mMaxPageInt);
-            
+            log.info("Piggy Check max page int: " + maxPageInt);
+
+            httpGet = new HttpGet(jsPath);
+            httpGet.addHeader( "User-Agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" );
+            httpGet.addHeader( "Accept","*/*" );
+            httpGet.addHeader( "Accept-Encoding","gzip, deflate" );
+            httpGet.addHeader( "Accept-Language","en-US,en;q=0.8" );
+            httpGet.addHeader( "Host","cdn.jandan.net" );
+            httpGet.addHeader( "Referer","http://jandan.net" );
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+
+            response = httpClient.execute(httpGet);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            httpEntity = response.getEntity();
+
+            String response js_response = EntityUtils.toString(httpEntity, "utf-8");
 
             // RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
             // httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
