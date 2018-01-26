@@ -2576,7 +2576,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int maxPageInt = 100;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
-
+            maxPage = maxPage.substring(maxPage.indexOf("</span> <a href=\"/search/\"" + target), maxPage.length());
 
             log.info("Piggy Check before: " + maxPage);
             maxPage = maxPage.substring(maxPage.indexOf("</span> <a href=\"/search/\"" + target)+25+target.length()+7, maxPage.length());
@@ -2600,7 +2600,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             log.info("Piggy Check random_num: " + random_num);
 
-            httpGet = new HttpGet("https://www.pexels.com/search/food/?page=" + random_num);
+            httpGet = new HttpGet("https://www.pexels.com/search/"+target+"/?page=" + random_num);
             httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
@@ -2639,10 +2639,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 log.info("Piggy Check Pexel " + target + " png img_link: " + result);
                 tempList.add(result);
             }
-
-            random_num = randomGenerator.nextInt(maxPageInt);
-
-            log.info("Piggy Check random_url: " + tempList.get(random_num));
+            if (tempList.size() > 0) {
+                random_num = randomGenerator.nextInt(tempList.size());
+                log.info("Piggy Check random_url: " + tempList.get(random_num));
+                return tempList.get(random_num);
+            }
+            
+            
 
 
 
