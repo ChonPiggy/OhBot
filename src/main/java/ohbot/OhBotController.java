@@ -1860,7 +1860,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 int index = randomGenerator.nextInt(mJanDanGirlList.size());
                 String item = mJanDanGirlList.get(index);
                 item = item.replace("http", "https");
-                this.replyImage(replyToken, item, item);
+                // this.replyImage(replyToken, item, item);
+                this.replyText(replyToken, item);
             }
             else {
                 this.replyText(replyToken, "妹子還在睡覺喔..");
