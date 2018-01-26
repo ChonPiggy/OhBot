@@ -694,13 +694,13 @@ public class OhBotController {
         if (text.equals("PgCommand煎蛋數量")) {
             randomGirlCount(text, replyToken);
         }
-        if (text.equals("PgCommand煎蛋解碼:")) {
+        if (text.startsWith("PgCommand煎蛋解碼:")) {
             randomGirlDecode(text, replyToken);
         }
-        if (text.equals("PgCommand煎蛋解碼圖:")) {
+        if (text.startsWith("PgCommand煎蛋解碼圖:")) {
             randomGirlDecodeImage(text, replyToken);
         }
-        if (text.equals("PgCommand圖片:")) {
+        if (text.startsWith("PgCommand圖片:")) {
             replyInputImage(text, replyToken);
         }
     }
