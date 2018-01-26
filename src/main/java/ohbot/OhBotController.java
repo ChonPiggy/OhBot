@@ -696,7 +696,7 @@ public class OhBotController {
         }
 
         if (text.startsWith("抽") && text.length() > 1) {
-            pexelTarget(text, replyToken);
+            pexelsTarget(text, replyToken);
         }
         else if (text.equals("抽")) {
             randomGirl(text, replyToken);
@@ -1868,8 +1868,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
     }
 
-    private void pexelTarget(String text, String replyToken) throws IOException {
+    private void pexelsTarget(String text, String replyToken) throws IOException {
         text = text.replace("抽", "");
+        text = text.replace(" ", "");
         // try {
         //     if (mPexelFoodList.size() > 0) {
         //         Random randomGenerator = new Random();
@@ -2594,8 +2595,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             while(matcher.find()){
                 maxPage = matcher.group();
                 log.info("Piggy Check matcher: " + maxPage);
-                maxPage = maxPage.substring(13, maxPage.length());
-                maxPage = maxPage.substring(0, maxPage.length()-3);
+                maxPage = maxPage.substring(5, maxPage.length());
+                maxPage = maxPage.substring(0, maxPage.indexOf("\">"));
             }
 
             
