@@ -2581,7 +2581,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
 
             String maxPage = "";
-            int maxPageInt = 100;
+            int maxPageInt = -1;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
             // maxPage = maxPage.substring(maxPage.indexOf("</span> <a href=\"/search/\"" + target), maxPage.length());
@@ -2615,7 +2615,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             log.info("Piggy Check random_num: " + random_num);
 
-            httpGet = new HttpGet("https://www.pexels.com/search/"+target+"/?page=" + random_num);
+            if (maxPageInt > 0) {
+                httpGet = new HttpGet("https://www.pexels.com/search/"+target+"/?page=" + random_num);
+            }
+            else {
+                httpGet = new HttpGet("https://www.pexels.com/search/"+target);
+            }
             httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
