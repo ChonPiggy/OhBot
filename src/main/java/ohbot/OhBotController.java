@@ -1901,7 +1901,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         //     throw e2;
         // }
 
-        String url = getRandomPexelImageUrl(text);
+        String url = getRandomPexelsImageUrl(text);
         if (url.equals("")) {
             return;
         }
@@ -2571,17 +2571,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private String getRandomPexelImageUrl(String target) {
+    private String getRandomPexelsImageUrl(String target) {
         try {
 
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mUserAgentList.size());
-            //CloseableHttpClient httpClient = HttpClients.createDefault();
-            DefaultHttpClient httpclient = httpClientTrustingAllSSLCerts();
+
+            CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://www.pexels.com/search/" + target;
             log.info("getRandomPexelsImageUrl:" + url);
-
-            
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
@@ -2638,9 +2636,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             List<String> tempList = new ArrayList<String> ();
 
-            Pattern patternJpg = Pattern.compile("<img srcset=\".*?jpg?h=");
-            Pattern patternJpeg = Pattern.compile("<img srcset=\".*?jpeg?h=");
-            Pattern patternPng = Pattern.compile("<img srcset=\".*?png?h=");
+            Pattern patternJpg = Pattern.compile("<img srcset=\".*?.jpg?h=");
+            Pattern patternJpeg = Pattern.compile("<img srcset=\".*?.jpeg?h=");
+            Pattern patternPng = Pattern.compile("<img srcset=\".*?.png?h=");
             Matcher matcherJpg = patternJpg.matcher(html);
             Matcher matcherJpeg = patternJpeg.matcher(html);
             Matcher matcherPng = patternPng.matcher(html);
@@ -2889,47 +2887,47 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
 
+    public class HttpClientTrustingAllCertsTest {
 
-public class HttpClientTrustingAllCertsTest {
+        @Test
+        public void shouldAcceptUnsafeCerts() throws Exception {
+            DefaultHttpClient httpclient = httpClientTrustingAllSSLCerts();
+            HttpGet httpGet = new HttpGet("https://host_with_self_signed_cert");
+            HttpResponse response = httpclient.execute( httpGet );
+            assertEquals("HTTP/1.1 200 OK", response.getStatusLine().toString());
+        }
 
-    @Test
-    public void shouldAcceptUnsafeCerts() throws Exception {
-        DefaultHttpClient httpclient = httpClientTrustingAllSSLCerts();
-        HttpGet httpGet = new HttpGet("https://host_with_self_signed_cert");
-        HttpResponse response = httpclient.execute( httpGet );
-        assertEquals("HTTP/1.1 200 OK", response.getStatusLine().toString());
-    }
+        private DefaultHttpClient httpClientTrustingAllSSLCerts() throws NoSuchAlgorithmException, KeyManagementException {
+            DefaultHttpClient httpclient = new DefaultHttpClient();
 
-    private DefaultHttpClient httpClientTrustingAllSSLCerts() throws NoSuchAlgorithmException, KeyManagementException {
-        DefaultHttpClient httpclient = new DefaultHttpClient();
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, getTrustingManager(), new java.security.SecureRandom());
 
-        SSLContext sc = SSLContext.getInstance("SSL");
-        sc.init(null, getTrustingManager(), new java.security.SecureRandom());
+            SSLSocketFactory socketFactory = new SSLSocketFactory(sc);
+            Scheme sch = new Scheme("https", 443, socketFactory);
+            httpclient.getConnectionManager().getSchemeRegistry().register(sch);
+            return httpclient;
+        }
 
-        SSLSocketFactory socketFactory = new SSLSocketFactory(sc);
-        Scheme sch = new Scheme("https", 443, socketFactory);
-        httpclient.getConnectionManager().getSchemeRegistry().register(sch);
-        return httpclient;
-    }
+        private TrustManager[] getTrustingManager() {
+            TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+                @Override
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
 
-    private TrustManager[] getTrustingManager() {
-        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-            @Override
-            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
+                @Override
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                    // Do nothing
+                }
 
-            @Override
-            public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                // Do nothing
-            }
+                @Override
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                    // Do nothing
+                }
 
-            @Override
-            public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                // Do nothing
-            }
-
-        } };
-        return trustAllCerts;
+            } };
+            return trustAllCerts;
+        }
     }
 }
