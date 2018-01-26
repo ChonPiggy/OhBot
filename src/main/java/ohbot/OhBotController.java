@@ -100,6 +100,7 @@ public class OhBotController {
         "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1468.0 Safari/537.36",
         "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0; TheWorld)",
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36"));
+    private boolean mIsStartJandanParsing = false;
 
     @Autowired
     private LineMessagingService lineMessagingService;
@@ -622,7 +623,8 @@ public class OhBotController {
         String text = content.getText();
         log.info(text);
 
-        if (mJanDanGirlList.size() == 0) {
+        if (mJanDanGirlList.size() == 0 && !mIsStartJandanParsing) {
+            mIsStartJandanParsing = true;
             startFetchJanDanGirlImages();
         }
 
