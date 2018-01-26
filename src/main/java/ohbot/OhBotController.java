@@ -700,6 +700,9 @@ public class OhBotController {
         if (text.equals("PgCommand煎蛋解碼圖:")) {
             randomGirlDecodeImage(text, replyToken);
         }
+        if (text.equals("PgCommand圖片:")) {
+            replyInputImage(text, replyToken);
+        }
     }
 
     @EventMapping
@@ -1864,6 +1867,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyImage(replyToken, item, item);
     }
 
+    private void replyInputImage(String text, String replyToken) throws IOException {
+        text = text.replace("PgCommand圖片:", "");
+        
+        String item = text;
+        if (text.indexOf("https") < 0) {
+            item = item.replace("http", "https");
+        }        
+        this.replyImage(replyToken, item, item);
+    }
+
     private void eatWhat(String text, String replyToken) throws IOException {
         
         try {
@@ -2485,40 +2498,44 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     public class JianDanHtmlParser implements Runnable {
+
         private String html;
         private String jsPath;
         private int page;
+
         public JianDanHtmlParser(String html, int page, String js) {
-        this.html = html;
-        this.page = page;
-        this.jsPath = js;
-    }
-    @Override
-    public  void run() {
-        System.out.println( "==========第"+page+"頁==========" );
-        
-        html = html.substring(html.indexOf("commentlist" ));
-        
-        Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
-        Matcher matcher = pattern.matcher(html);
-        while(matcher.find()){
-            String result = matcher.group();
-            result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
-            result = result.substring(0, result.indexOf("</span>"));
-            String result_final = decrypt(result,jsPath);
-            //log.info("Piggy Check img_link: " + result_final);
-            mJanDanGirlList.add(result_final);
+            this.html = html;
+            this.page = page;
+            this.jsPath = js;
         }
 
-        // for (String imageUrl : list){
-        //      // if (imageUrl.indexOf("sina")>0 ){
-        //      //     // TODO: Save to string list
-        //         log.info("Piggy Check imageUrl: " + imageUrl);
-        //     // }
-        // }
+        @Override
+        public  void run() {
+            System.out.println( "==========第"+page+"頁==========" );
+            
+            html = html.substring(html.indexOf("commentlist" ));
+            
+            Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
+            Matcher matcher = pattern.matcher(html);
+            while(matcher.find()){
+                String result = matcher.group();
+                result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
+                result = result.substring(0, result.indexOf("</span>"));
+                String result_final = decrypt(result,jsPath);
+                //log.info("Piggy Check img_link: " + result_final);
+                mJanDanGirlList.add(result_final);
+            }
+
+            // for (String imageUrl : list){
+            //      // if (imageUrl.indexOf("sina")>0 ){
+            //      //     // TODO: Save to string list
+            //         log.info("Piggy Check imageUrl: " + imageUrl);
+            //     // }
+            // }
+        }    
     }
 
-        private String decrypt(String n, String x) {
+    private String decrypt(String n, String x) {
         int g = 4;
         x = toHexString(md5(getUtf8String(x)));
         String w = toHexString(md5(getUtf8String(x.substring(0, 16))));
@@ -2632,5 +2649,4 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (i < 0) {i += 256;}
         return h[i/16] + h[i%16];
     }
-}
 }
