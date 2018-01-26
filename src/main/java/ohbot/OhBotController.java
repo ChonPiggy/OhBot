@@ -1870,7 +1870,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void pexelsTarget(String text, String replyToken) throws IOException {
         text = text.replace("抽", "");
-        text = text.replace(" ", "");
+        text = text.replace(" ", "%20");
         // try {
         //     if (mPexelFoodList.size() > 0) {
         //         Random randomGenerator = new Random();
