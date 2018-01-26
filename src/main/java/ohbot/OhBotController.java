@@ -84,6 +84,11 @@ public class OhBotController {
 
     private ArrayList<String> mEatWhatArray = new ArrayList<String>();
     private List<String> mJanDanGirlList = new ArrayList<String> ();
+    private List<String> mPexelFoodList = new ArrayList<String> ();
+    private List<String> mPexelBoyList = new ArrayList<String> ();
+    private List<String> mPexelGirlList = new ArrayList<String> ();
+    private List<String> mPexelManList = new ArrayList<String> ();
+    private List<String> mPexelWomenList = new ArrayList<String> ();
 
     @Autowired
     private LineMessagingService lineMessagingService;
@@ -676,9 +681,14 @@ public class OhBotController {
         if (text.equals("吃什麼?") || text.equals("吃什麼？")) {
             eatWhat(text, replyToken);
         }
-        if (text.equals("抽")) {
+
+        if (text.startsWith("抽") && text.length() > 1) {
+            pexelTarget(text, replyToken);
+        }
+        else if (text.equals("抽")) {
             randomGirl(text, replyToken);
         }
+        
         if (text.startsWith("PgCommand新增吃什麼:")) {
             updateEatWhat(text, replyToken);
         }
@@ -1845,6 +1855,39 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
     }
 
+    private void pexelTarget(String text, String replyToken) throws IOException {
+        text = text.replace("抽", "");
+        // try {
+        //     if (mPexelFoodList.size() > 0) {
+        //         Random randomGenerator = new Random();
+
+        //         int index = randomGenerator.nextInt(mPexelFoodList.size());
+        //         String item = mPexelFoodList.get(index);
+        //         this.replyImage(replyToken, item, item);
+        //     }
+        //     else {
+        //         this.replyText(replyToken, "餐廳準備中..");
+        //     }
+
+        // }catch (IndexOutOfBoundsException e2) {
+        //     throw e2;
+        // }
+
+        String url = getRandomPexelsImageUrl(text);
+
+        if (url.indexOf("http:") >= 0) {
+            url = url.replace("http", "https");
+        }
+        this.replyImage(replyToken, url, url);
+        
+    }
+
+    private void pexelFoodCount(String text, String replyToken) throws IOException {
+
+        this.replyText(replyToken, "" + mPexelFoodList.size());
+        
+    }
+
     private void randomGirlCount(String text, String replyToken) throws IOException {
 
         this.replyText(replyToken, "" + mJanDanGirlList.size());
@@ -2497,6 +2540,146 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    private String getRandomPexelsImageUrl(String target) {
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="https://www.pexels.com/search/" + target;
+            log.info("getRandomPexelsImageUrl:" + url);
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String maxPage = "";
+            int maxPageInt = 0;
+
+            maxPage = EntityUtils.toString(httpEntity, "utf-8");
+
+            maxPage = maxPage.substring(maxPage.indexOf("</span> <a href=\"/search/\"" + target)+25+target.length()+7, maxPage.length());
+            maxPage = maxPage.substring(0, maxPage.indexOf("\">"));
+
+            
+            
+            log.info("Piggy Check maxPage: " + maxPage);
+
+            try {
+                maxPageInt = Integer.parseInt(maxPage);
+            }
+            catch(java.lang.NumberFormatException e1) {
+                log.info("NumberFormatException " + e1);
+                return;
+            }
+            log.info("Piggy Check maxPageInt: " + maxPageInt);
+
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(maxPageInt);
+
+            log.info("Piggy Check random_num: " + random_num);
+
+            httpGet = new HttpGet("https://www.pexels.com/search/food/?page=" + random_num);
+            httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+
+            response = httpClient.execute(httpGet);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            httpEntity = response.getEntity();
+
+            String html = EntityUtils.toString(httpEntity, "utf-8");
+
+            List<String> tempList = new ArrayList<String> ();
+
+            Pattern patternJpg = Pattern.compile("<img srcset=\".*?.jpg?h=");
+            Pattern patternJpeg = Pattern.compile("<img srcset=\".*?.jpeg?h=");
+            Pattern patternPng = Pattern.compile("<img srcset=\".*?.png?h=");
+            Matcher matcherJpg = pattern.matcher(html);
+            Matcher matcherJpeg = pattern.matcher(html);
+            Matcher matcherPng = pattern.matcher(html);
+            while(matcherJpg.find()){
+                String result = matcher.group();
+                result = result.substring(13, result.length());
+                result = result.substring(0, result.length()-3);
+                log.info("Piggy Check Pexel " + target + " jpg img_link: " + result);
+                tempList.add(result);
+            }
+            while(matcherJpeg.find()){
+                String result = matcher.group();
+                result = result.substring(13, result.length());
+                result = result.substring(0, result.length()-3);
+                log.info("Piggy Check Pexel " + target + " jpeg img_link: " + result);
+                tempList.add(result);
+            }
+            while(matcherPng.find()){
+                String result = matcher.group();
+                result = result.substring(13, result.length());
+                result = result.substring(0, result.length()-3);
+                log.info("Piggy Check Pexel " + target + " png img_link: " + result);
+                tempList.add(result);
+            }
+
+            random_num = randomGenerator.nextInt(maxPageInt);
+
+            log.info("Piggy Check random_url: " + tempList.get(random_num));
+
+
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public class PexelHtmlParser implements Runnable {
+
+        private String html;
+        private String jsPath;
+        private int page;
+
+        public PexelHtmlParser(String html, int page, String target) {
+            this.html = html;
+            this.page = page;
+            this.jsPath = js;
+        }
+
+        @Override
+        public  void run() {
+            System.out.println("Downliading Pexel target: " + target " Page: " + page);
+            
+            html = html.substring(html.indexOf("commentlist" ));
+            
+            Pattern patternJpg = Pattern.compile("<img srcset=\".*?.jpg?");
+            Pattern patternJpeg = Pattern.compile("<img srcset=\".*?.jpeg?");
+            Matcher matcherJpg = pattern.matcher(html);
+            Matcher matcherJpeg = pattern.matcher(html);
+            while(matcherJpg.find()){
+                String result = matcher.group();
+                result = result.substring(13, result.length());
+                String result_final = decrypt(result,jsPath);
+                log.info("Piggy Check Pexel " + target + " img_link: " + result_final);
+            }
+            while(matcherJpeg.find()){
+                String result = matcher.group();
+                result = result.substring(13, result.length());
+                String result_final = decrypt(result,jsPath);
+                log.info("Piggy Check Pexel " + target + " img_link: " + result_final);
+            }
+        }
+
+        private insertImage(String target, String img_url) {
+            if (target.equals("food")) {
+                    mPexelFoodList.add(result_final);
+            }
+            else if (target.equals("girl")) {
+                    mPexelFoodList.add(result_final);
+            }
+            else if (target.equals("boy")) {
+                    mPexelFoodList.add(result_final);
+            }
+        }
+    }
+
     public class JianDanHtmlParser implements Runnable {
 
         private String html;
@@ -2511,7 +2694,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         @Override
         public  void run() {
-            System.out.println( "==========第"+page+"頁==========" );
+            System.out.println("Downliading Jandan Page: " + page);
             
             html = html.substring(html.indexOf("commentlist" ));
             
