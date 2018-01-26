@@ -2558,9 +2558,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
 
             Random randomGenerator = new Random();
-            int random_num = randomGenerator.nextInt(maxPageInt);
-
-
+            int random_num = randomGenerator.nextInt(mUserAgentList.size());
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://www.pexels.com/search/" + target;
