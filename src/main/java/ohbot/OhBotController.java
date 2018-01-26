@@ -2557,11 +2557,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
 
             String maxPage = "";
-            int maxPageInt = 0;
+            int maxPageInt = 1;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
 
+
+            log.info("Piggy Check before: " + maxPage);
             maxPage = maxPage.substring(maxPage.indexOf("</span> <a href=\"/search/\"" + target)+25+target.length()+7, maxPage.length());
+            
+            log.info("Piggy Check after: " + maxPage);
             maxPage = maxPage.substring(0, maxPage.indexOf("\">"));
 
             
@@ -2573,7 +2577,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             catch(java.lang.NumberFormatException e1) {
                 log.info("NumberFormatException " + e1);
-                return "";
             }
             log.info("Piggy Check maxPageInt: " + maxPageInt);
 
