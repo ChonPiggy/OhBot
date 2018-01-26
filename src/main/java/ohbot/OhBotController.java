@@ -1874,6 +1874,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         // }
 
         String url = getRandomPexelsImageUrl(text);
+        if (url.equals("")) {
+            return;
+        }
 
         if (url.indexOf("http:") >= 0) {
             url = url.replace("http", "https");
@@ -2570,7 +2573,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             catch(java.lang.NumberFormatException e1) {
                 log.info("NumberFormatException " + e1);
-                return;
+                return "";
             }
             log.info("Piggy Check maxPageInt: " + maxPageInt);
 
