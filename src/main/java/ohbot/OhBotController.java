@@ -2638,9 +2638,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             List<String> tempList = new ArrayList<String> ();
 
-            Pattern patternJpg = Pattern.compile("<img srcset=\".*?.jpg?h=");
-            Pattern patternJpeg = Pattern.compile("<img srcset=\".*?.jpeg?h=");
-            Pattern patternPng = Pattern.compile("<img srcset=\".*?.png?h=");
+            Pattern patternJpg = Pattern.compile("<img srcset=\".*?jpg?h=");
+            Pattern patternJpeg = Pattern.compile("<img srcset=\".*?jpeg?h=");
+            Pattern patternPng = Pattern.compile("<img srcset=\".*?png?h=");
             Matcher matcherJpg = patternJpg.matcher(html);
             Matcher matcherJpeg = patternJpeg.matcher(html);
             Matcher matcherPng = patternPng.matcher(html);
