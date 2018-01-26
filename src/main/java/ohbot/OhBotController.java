@@ -2583,11 +2583,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int maxPageInt = 100;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
-            maxPage = maxPage.substring(maxPage.indexOf("</span> <a href=\"/search/\"" + target), maxPage.length());
+            // maxPage = maxPage.substring(maxPage.indexOf("</span> <a href=\"/search/\"" + target), maxPage.length());
 
-            maxPage = maxPage.substring(maxPage.indexOf("</span> <a href=\"/search/\"" + target)+25+target.length()+7, maxPage.length());
+            // maxPage = maxPage.substring(maxPage.indexOf("</span> <a href=\"/search/\"" + target)+25+target.length()+7, maxPage.length());
             
-            maxPage = maxPage.substring(0, maxPage.indexOf("\">"));
+            // maxPage = maxPage.substring(0, maxPage.indexOf("\">"));
 
             Pattern pattern = Pattern.compile("page=[\\d]{1,}\">([\\d]{1,})<\\/a> <a class=\"next_page\"");
             Matcher matcher = pattern.matcher(maxPage);
