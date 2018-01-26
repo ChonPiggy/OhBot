@@ -2594,25 +2594,25 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             Pattern patternJpg = Pattern.compile("<img srcset=\".*?.jpg?h=");
             Pattern patternJpeg = Pattern.compile("<img srcset=\".*?.jpeg?h=");
             Pattern patternPng = Pattern.compile("<img srcset=\".*?.png?h=");
-            Matcher matcherJpg = pattern.matcher(html);
-            Matcher matcherJpeg = pattern.matcher(html);
-            Matcher matcherPng = pattern.matcher(html);
+            Matcher matcherJpg = patternJpg.matcher(html);
+            Matcher matcherJpeg = patternJpeg.matcher(html);
+            Matcher matcherPng = patternPng.matcher(html);
             while(matcherJpg.find()){
-                String result = matcher.group();
+                String result = matcherJpg.group();
                 result = result.substring(13, result.length());
                 result = result.substring(0, result.length()-3);
                 log.info("Piggy Check Pexel " + target + " jpg img_link: " + result);
                 tempList.add(result);
             }
             while(matcherJpeg.find()){
-                String result = matcher.group();
+                String result = matcherJpeg.group();
                 result = result.substring(13, result.length());
                 result = result.substring(0, result.length()-3);
                 log.info("Piggy Check Pexel " + target + " jpeg img_link: " + result);
                 tempList.add(result);
             }
             while(matcherPng.find()){
-                String result = matcher.group();
+                String result = matcherPng.group();
                 result = result.substring(13, result.length());
                 result = result.substring(0, result.length()-3);
                 log.info("Piggy Check Pexel " + target + " png img_link: " + result);
@@ -2634,13 +2634,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     public class PexelHtmlParser implements Runnable {
 
         private String html;
-        private String jsPath;
+        private String target;
         private int page;
 
-        public PexelHtmlParser(String html, int page, String target) {
+        public PexelHtmlParser(String html, int page, String tr) {
             this.html = html;
             this.page = page;
-            this.jsPath = js;
+            this.target = tr;
         }
 
         @Override
@@ -2651,31 +2651,29 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             Pattern patternJpg = Pattern.compile("<img srcset=\".*?.jpg?");
             Pattern patternJpeg = Pattern.compile("<img srcset=\".*?.jpeg?");
-            Matcher matcherJpg = pattern.matcher(html);
-            Matcher matcherJpeg = pattern.matcher(html);
+            Matcher matcherJpg = patternJpg.matcher(html);
+            Matcher matcherJpeg = patternJpeg.matcher(html);
             while(matcherJpg.find()){
-                String result = matcher.group();
+                String result = matcherJpg.group();
                 result = result.substring(13, result.length());
-                String result_final = decrypt(result,jsPath);
-                log.info("Piggy Check Pexel " + target + " img_link: " + result_final);
+                log.info("Piggy Check Pexel " + target + " img_link: " + result);
             }
             while(matcherJpeg.find()){
-                String result = matcher.group();
+                String result = matcherJpeg.group();
                 result = result.substring(13, result.length());
-                String result_final = decrypt(result,jsPath);
-                log.info("Piggy Check Pexel " + target + " img_link: " + result_final);
+                log.info("Piggy Check Pexel " + target + " img_link: " + result);
             }
         }
 
         private void insertImage(String target, String img_url) {
             if (target.equals("food")) {
-                    mPexelFoodList.add(result_final);
+                    mPexelFoodList.add(img_url);
             }
             else if (target.equals("girl")) {
-                    mPexelFoodList.add(result_final);
+                    mPexelFoodList.add(img_url);
             }
             else if (target.equals("boy")) {
-                    mPexelFoodList.add(result_final);
+                    mPexelFoodList.add(img_url);
             }
         }
     }
