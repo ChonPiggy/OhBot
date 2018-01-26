@@ -74,6 +74,23 @@ import java.util.Base64;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import static org.junit.Assert.assertEquals;
+
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.junit.Test;
+
 /**
  * Created by lambertyang on 2017/1/13.
  */
@@ -1884,7 +1901,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         //     throw e2;
         // }
 
-        String url = getRandomPexelsImageUrl(text);
+        String url = getRandomPexelImageUrl(text);
         if (url.equals("")) {
             return;
         }
@@ -2554,15 +2571,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private String getRandomPexelsImageUrl(String target) {
+    private String getRandomPexelImageUrl(String target) {
         try {
 
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mUserAgentList.size());
-
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+            //CloseableHttpClient httpClient = HttpClients.createDefault();
+            DefaultHttpClient httpclient = httpClientTrustingAllSSLCerts();
             String url="https://www.pexels.com/search/" + target;
             log.info("getRandomPexelsImageUrl:" + url);
+
+            
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
@@ -2867,5 +2886,50 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int i=b;
         if (i < 0) {i += 256;}
         return h[i/16] + h[i%16];
+    }
+
+
+
+public class HttpClientTrustingAllCertsTest {
+
+    @Test
+    public void shouldAcceptUnsafeCerts() throws Exception {
+        DefaultHttpClient httpclient = httpClientTrustingAllSSLCerts();
+        HttpGet httpGet = new HttpGet("https://host_with_self_signed_cert");
+        HttpResponse response = httpclient.execute( httpGet );
+        assertEquals("HTTP/1.1 200 OK", response.getStatusLine().toString());
+    }
+
+    private DefaultHttpClient httpClientTrustingAllSSLCerts() throws NoSuchAlgorithmException, KeyManagementException {
+        DefaultHttpClient httpclient = new DefaultHttpClient();
+
+        SSLContext sc = SSLContext.getInstance("SSL");
+        sc.init(null, getTrustingManager(), new java.security.SecureRandom());
+
+        SSLSocketFactory socketFactory = new SSLSocketFactory(sc);
+        Scheme sch = new Scheme("https", 443, socketFactory);
+        httpclient.getConnectionManager().getSchemeRegistry().register(sch);
+        return httpclient;
+    }
+
+    private TrustManager[] getTrustingManager() {
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            @Override
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                // Do nothing
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                // Do nothing
+            }
+
+        } };
+        return trustAllCerts;
     }
 }
