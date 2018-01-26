@@ -691,6 +691,15 @@ public class OhBotController {
         if (text.equals("PgCommand列出吃什麼")) {
             dumpEatWhat(text, replyToken);
         }
+        if (text.equals("PgCommand煎蛋數量")) {
+            randomGirlCount(text, replyToken);
+        }
+        if (text.equals("PgCommand煎蛋解碼:")) {
+            randomGirlDecode(text, replyToken);
+        }
+        if (text.equals("PgCommand煎蛋解碼圖:")) {
+            randomGirlDecodeImage(text, replyToken);
+        }
     }
 
     @EventMapping
@@ -1833,6 +1842,28 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
     }
 
+    private void randomGirlCount(String text, String replyToken) throws IOException {
+
+        this.replyText(replyToken, "" + mJanDanGirlList.size());
+        
+    }
+
+    private void randomGirlDecode(String text, String replyToken) throws IOException {
+        text = text.replace("PgCommand煎蛋解碼:", "");
+        
+        String item = decodeJandanImageUrl(text);
+        item = item.replace("http", "https");
+        this.replyText(replyToken, item);
+    }
+
+    private void randomGirlDecodeImage(String text, String replyToken) throws IOException {
+        text = text.replace("PgCommand煎蛋解碼圖:", "");
+        
+        String item = decodeJandanImageUrl(text);
+        item = item.replace("http", "https");
+        this.replyImage(replyToken, item, item);
+    }
+
     private void eatWhat(String text, String replyToken) throws IOException {
         
         try {
@@ -2289,6 +2320,70 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         );
         TemplateMessage templateMessage = new TemplateMessage("The function Only on mobile device ! ", carouselTemplate);
         this.reply(replyToken, templateMessage);
+    }
+
+    private String decodeJandanImageUrl(String input) {
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="http://jandan.net/ooxx";
+            log.info(url);
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            try {
+                // 不敢爬太快 
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String maxPage = "";
+            int maxPageInt = 0;
+
+            String jsPath = "";
+
+            jsPath = EntityUtils.toString(httpEntity, "utf-8");
+
+            jsPath = jsPath.substring(jsPath.indexOf("<script src=\"//cdn.jandan.net/static/min/")+13, jsPath.length());
+            jsPath = jsPath.substring(0, jsPath.indexOf("\"></script>"));
+
+            jsPath = "http:" + jsPath;
+            
+            log.info("Piggy Check js path: " + jsPath);
+
+            httpGet = new HttpGet(jsPath);
+            httpGet.addHeader( "User-Agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" );
+            httpGet.addHeader( "Accept","*/*" );
+            httpGet.addHeader( "Accept-Encoding","gzip, deflate" );
+            httpGet.addHeader( "Accept-Language","en-US,en;q=0.8" );
+            httpGet.addHeader( "Host","cdn.jandan.net" );
+            httpGet.addHeader( "Referer","http://jandan.net" );
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+
+            response = httpClient.execute(httpGet);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            httpEntity = response.getEntity();
+
+            String js_response = EntityUtils.toString(httpEntity, "utf-8");
+
+            //log.info("Piggy Check js_response: " + js_response);
+
+            String js_x = js_response.substring(js_response.indexOf("f.remove();var c=")+17, js_response.length());
+            js_x = js_x.substring(js_x.indexOf("(e,\"")+4, js_x.length());
+            js_x = js_x.substring(0, js_x.indexOf("\");"));
+
+            log.info("Piggy Check js_x: " + js_x);
+
+            return decrypt(input, js_x);
+
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     private void startFetchJanDanGirlImages() {
