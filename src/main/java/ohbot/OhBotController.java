@@ -89,7 +89,7 @@ public class OhBotController {
     private List<String> mPexelGirlList = new ArrayList<String> ();
     private List<String> mPexelManList = new ArrayList<String> ();
     private List<String> mPexelWomenList = new ArrayList<String> ();
-    private List<String> mUserAgentList = new ArraysList<String> (
+    private List<String> mUserAgentList = new ArrayList<String> (
         "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20130406 Firefox/23.0",
         "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0",
         "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/533+ (KHTML, like Gecko) Element Browser 5.0",
