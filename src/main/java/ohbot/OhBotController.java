@@ -2645,7 +2645,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         @Override
         public  void run() {
-            System.out.println("Downliading Pexel target: " + target " Page: " + page);
+            System.out.println("Downliading Pexel target: " + target + " Page: " + page);
             
             html = html.substring(html.indexOf("commentlist" ));
             
@@ -2667,7 +2667,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        private insertImage(String target, String img_url) {
+        private void insertImage(String target, String img_url) {
             if (target.equals("food")) {
                     mPexelFoodList.add(result_final);
             }
