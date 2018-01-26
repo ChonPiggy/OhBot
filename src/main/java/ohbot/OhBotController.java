@@ -101,6 +101,7 @@ public class OhBotController {
         "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0; TheWorld)",
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36"));
     private boolean mIsStartJandanParsing = false;
+    private boolean mIsStartJandanStarted = false;
 
     @Autowired
     private LineMessagingService lineMessagingService;
@@ -623,8 +624,8 @@ public class OhBotController {
         String text = content.getText();
         log.info(text);
 
-        if (mJanDanGirlList.size() == 0 && !mIsStartJandanParsing) {
-            mIsStartJandanParsing = true;
+        if (mJanDanGirlList.size() == 0 && !mIsStartJandanStarted) {
+            mIsStartJandanStarted = true;
             startFetchJanDanGirlImages();
         }
 
@@ -725,6 +726,9 @@ public class OhBotController {
         }
         if (text.startsWith("PgCommand圖片:")) {
             replyInputImage(text, replyToken);
+        }
+        if (text.equals("PgCommand開始煎蛋")) {
+            startFetchJanDanGirlImages();
         }
     }
 
@@ -2460,6 +2464,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void startFetchJanDanGirlImages() {
+        if (mIsStartJandanParsing) {
+            log.info("Piggy Check isStartJandanParsing");
+            return;
+        }
+        else {
+            mIsStartJandanParsing = true;
+        }
+        mJanDanGirlList.clear();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="http://jandan.net/ooxx";
@@ -2501,6 +2513,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             catch(java.lang.NumberFormatException e1) {
                 log.info("NumberFormatException " + e1);
+                mIsStartJandanParsing = false;
                 return;
             }
 
@@ -2555,6 +2568,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (Exception e2) {
             e2.printStackTrace();
         }
+        mIsStartJandanParsing = false;
     }
 
     private String getRandomPexelsImageUrl(String target) {
