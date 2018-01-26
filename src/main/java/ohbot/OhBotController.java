@@ -2611,9 +2611,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             log.info("Piggy Check maxPageInt: " + maxPageInt);
 
-            random_num = randomGenerator.nextInt(maxPageInt);
-
-            log.info("Piggy Check random_num: " + random_num);
+            if (maxPageInt > 0) {
+                random_num = randomGenerator.nextInt(maxPageInt);   
+                log.info("Piggy Check random_num: " + random_num);
+            }
 
             if (maxPageInt > 0) {
                 httpGet = new HttpGet("https://www.pexels.com/search/"+target+"/?page=" + random_num);
@@ -2640,7 +2641,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result = matcher.group();
                 result = result.substring(13, result.length());
                 result = result.substring(0, result.length()-3);
-                log.info("Piggy Check Pexel " + target + " jpg img_link: " + result);
+                //log.info("Piggy Check Pexel " + target + " jpg img_link: " + result);
                 tempList.add(result);
             }
 
