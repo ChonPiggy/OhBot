@@ -74,23 +74,6 @@ import java.util.Base64;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import static org.junit.Assert.assertEquals;
-
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.junit.Test;
-
 /**
  * Created by lambertyang on 2017/1/13.
  */
@@ -2636,33 +2619,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             List<String> tempList = new ArrayList<String> ();
 
-            Pattern patternJpg = Pattern.compile("<img srcset=\".*?.jpg?h=");
-            Pattern patternJpeg = Pattern.compile("<img srcset=\".*?.jpeg?h=");
-            Pattern patternPng = Pattern.compile("<img srcset=\".*?.png?h=");
-            Matcher matcherJpg = patternJpg.matcher(html);
-            Matcher matcherJpeg = patternJpeg.matcher(html);
-            Matcher matcherPng = patternPng.matcher(html);
-            while(matcherJpg.find()){
-                String result = matcherJpg.group();
+            Pattern pattern = Pattern.compile("<img srcset=\".*?h=");
+            Matcher matcher = pattern.matcher(html);
+            while(matcher.find()){
+                String result = matcher.group();
                 result = result.substring(13, result.length());
                 result = result.substring(0, result.length()-3);
                 log.info("Piggy Check Pexel " + target + " jpg img_link: " + result);
                 tempList.add(result);
             }
-            while(matcherJpeg.find()){
-                String result = matcherJpeg.group();
-                result = result.substring(13, result.length());
-                result = result.substring(0, result.length()-3);
-                log.info("Piggy Check Pexel " + target + " jpeg img_link: " + result);
-                tempList.add(result);
-            }
-            while(matcherPng.find()){
-                String result = matcherPng.group();
-                result = result.substring(13, result.length());
-                result = result.substring(0, result.length()-3);
-                log.info("Piggy Check Pexel " + target + " png img_link: " + result);
-                tempList.add(result);
-            }
+            
             if (tempList.size() > 0) {
                 random_num = randomGenerator.nextInt(tempList.size());
                 log.info("Piggy Check random_url: " + tempList.get(random_num));
@@ -2884,50 +2850,5 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int i=b;
         if (i < 0) {i += 256;}
         return h[i/16] + h[i%16];
-    }
-
-
-    public class HttpClientTrustingAllCertsTest {
-
-        @Test
-        public void shouldAcceptUnsafeCerts() throws Exception {
-            DefaultHttpClient httpclient = httpClientTrustingAllSSLCerts();
-            HttpGet httpGet = new HttpGet("https://host_with_self_signed_cert");
-            HttpResponse response = httpclient.execute( httpGet );
-            assertEquals("HTTP/1.1 200 OK", response.getStatusLine().toString());
-        }
-
-        private DefaultHttpClient httpClientTrustingAllSSLCerts() throws NoSuchAlgorithmException, KeyManagementException {
-            DefaultHttpClient httpclient = new DefaultHttpClient();
-
-            SSLContext sc = SSLContext.getInstance("SSL");
-            sc.init(null, getTrustingManager(), new java.security.SecureRandom());
-
-            SSLSocketFactory socketFactory = new SSLSocketFactory(sc);
-            Scheme sch = new Scheme("https", 443, socketFactory);
-            httpclient.getConnectionManager().getSchemeRegistry().register(sch);
-            return httpclient;
-        }
-
-        private TrustManager[] getTrustingManager() {
-            TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-                @Override
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
-
-                @Override
-                public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                    // Do nothing
-                }
-
-                @Override
-                public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                    // Do nothing
-                }
-
-            } };
-            return trustAllCerts;
-        }
     }
 }
