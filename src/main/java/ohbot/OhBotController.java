@@ -2612,7 +2612,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             response = httpClient.execute(httpGet);
             log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             httpEntity = response.getEntity();
-
+            log.info("Piggy Check before html");
             String html = EntityUtils.toString(httpEntity, "utf-8");
 
             log.info("Piggy Check html: " + html);
@@ -2628,7 +2628,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 log.info("Piggy Check Pexel " + target + " jpg img_link: " + result);
                 tempList.add(result);
             }
-            
+
             if (tempList.size() > 0) {
                 random_num = randomGenerator.nextInt(tempList.size());
                 log.info("Piggy Check random_url: " + tempList.get(random_num));
