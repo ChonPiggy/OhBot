@@ -2573,7 +2573,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
 
             String maxPage = "";
-            int maxPageInt = 1;
+            int maxPageInt = 100;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
 
