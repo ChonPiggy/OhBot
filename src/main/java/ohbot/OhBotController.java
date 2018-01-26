@@ -2523,7 +2523,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 result = result.substring(0, result.indexOf("</span>"));
                 String result_final = decrypt(result,jsPath);
                 //log.info("Piggy Check img_link: " + result_final);
-                mJanDanGirlList.add(result_final);
+                if (!result_final.endsWith(".gif")) {
+                    // Filter out gif
+                    mJanDanGirlList.add(result_final);
+                }
+                    
             }
 
             // for (String imageUrl : list){
