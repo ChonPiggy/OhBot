@@ -2590,7 +2590,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             maxPage = maxPage.substring(0, maxPage.indexOf("\">"));
 
             Pattern pattern = Pattern.compile("page=[\\d]{1,}\">([\\d]{1,})<\\/a> <a class=\"next_page\"");
-            Matcher matcher = pattern.matcher(html);
+            Matcher matcher = pattern.matcher(maxPage);
             while(matcher.find()){
                 maxPage = matcher.group();
                 log.info("Piggy Check matcher: " + maxPage);
