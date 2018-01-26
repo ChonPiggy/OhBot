@@ -2589,6 +2589,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             maxPage = maxPage.substring(0, maxPage.indexOf("\">"));
 
+            Pattern pattern = Pattern.compile("page=[\d]{1,}\">([\d]{1,})<\\/a> <a class=\"next_page\"");
+            Matcher matcher = pattern.matcher(html);
+            while(matcher.find()){
+                maxPage = matcher.group();
+                log.info("Piggy Check matcher: " + maxPage);
+                maxPage = maxPage.substring(13, maxPage.length());
+                maxPage = maxPage.substring(0, maxPage.length()-3);
+            }
+
             
             
             log.info("Piggy Check maxPage: " + maxPage);
@@ -2619,8 +2628,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             List<String> tempList = new ArrayList<String> ();
 
-            Pattern pattern = Pattern.compile("<img srcset=\".*?h=");
-            Matcher matcher = pattern.matcher(html);
+            pattern = Pattern.compile("<img srcset=\".*?h=");
+            matcher = pattern.matcher(html);
             while(matcher.find()){
                 String result = matcher.group();
                 result = result.substring(13, result.length());
