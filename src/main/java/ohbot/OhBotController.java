@@ -2752,6 +2752,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     // Filter out gif
                     mJanDanGirlList.add(result_final);
                 }
+                else if (!result_final.endsWith(".jpg")||!result_final.endsWith(".png")||!result_final.endsWith(".jpeg")){
+                    log.info("Parse error? result_final: " + result_final);
+                }
                     
             }
 
@@ -2761,6 +2764,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //         log.info("Piggy Check imageUrl: " + imageUrl);
             //     // }
             // }
+                }
         }    
     }
 
