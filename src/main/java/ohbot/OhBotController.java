@@ -2764,7 +2764,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //         log.info("Piggy Check imageUrl: " + imageUrl);
             //     // }
             // }
-                }
+                
         }    
     }
 
