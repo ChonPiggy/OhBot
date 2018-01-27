@@ -2531,7 +2531,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private String getJanDanJsPath(String target) {
-        getJanDanJsPath(target, 0);
+        return getJanDanJsPath(target, 0);
     }
     // target(max or js)
     private String getJanDanJsPath(String target, int page) {
