@@ -2538,7 +2538,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //log.info("Piggy Check js_response: " + js_response);
 
             String js_x = js_response.substring(js_response.indexOf("f.remove();var c=")+17, js_response.length());
+            log.info("Piggy Check js_x1: " + js_x);
             js_x = js_x.substring(js_x.indexOf("(e,\"")+4, js_x.length());
+            log.info("Piggy Check js_x2: " + js_x);
             js_x = js_x.substring(0, js_x.indexOf("\");"));
 
             log.info("Piggy Check js_x: " + js_x);
