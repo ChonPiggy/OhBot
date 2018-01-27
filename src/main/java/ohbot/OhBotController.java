@@ -2474,28 +2474,78 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
         mJanDanGirlList.clear();
         try {
+            
+            String maxPage = getJanDanJsPath("max");
+
+            try {
+                maxPageInt = Integer.parseInt(maxPage);
+            }
+            catch(java.lang.NumberFormatException e1) {
+                log.info("NumberFormatException " + e1);
+                mIsStartJandanParsing = false;
+                return;
+            }
+
+            log.info("Piggy Check max page int: " + maxPageInt);
+
+
+            RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
+            httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
+            log.info("1秒後開始抓取煎蛋妹子圖...");
+            for ( int i = maxPageInt; i > 0; i--) {
+                // 創建一個GET請求 
+
+
+                httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
+                httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
+                httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+
+
+                try {
+                    // 不敢爬太快 
+                    Thread. sleep(1000);
+                    // 發送請求，並執行 
+                    response = httpClient.execute(httpGet);
+                    InputStream in = response.getEntity().getContent();
+                    String html = Utils.convertStreamToString(in);
+                     // 網頁內容解析
+                    new Thread( new JianDanHtmlParser(html, i, getJanDanJsPath("js", i))).start();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+
+        }catch (Exception e2) {
+            e2.printStackTrace();
+        }
+        mIsStartJandanParsing = false;
+    }
+
+    private String getJanDanJsPath(String target) {
+        getJanDanJsPath(target, 0);
+    }
+    // target(max or js)
+    private String getJanDanJsPath(String target, int page) {
+
+        try {
+            String url="http://jandan.net/ooxx/";
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            String url="http://jandan.net/ooxx";
+            if (target.equals("js")) {
+                url += ("page-"+page);
+            }
+            
             log.info(url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
-            try {
-                // 不敢爬太快 
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
             CloseableHttpResponse response = httpClient.execute(httpGet);
             log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
-            String maxPage = "";
-            int maxPageInt = 0;
-
             String jsPath = "";
-
-            maxPage = EntityUtils.toString(httpEntity, "utf-8");
+            String maxPage = EntityUtils.toString(httpEntity, "utf-8");
             jsPath = maxPage;
 
             maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, maxPage.length());
@@ -2509,13 +2559,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info("Piggy Check max page string: " + maxPage);
             log.info("Piggy Check js path: " + jsPath);
 
-            try {
-                maxPageInt = Integer.parseInt(maxPage);
-            }
-            catch(java.lang.NumberFormatException e1) {
-                log.info("NumberFormatException " + e1);
-                mIsStartJandanParsing = false;
-                return;
+            // try {
+            //     maxPageInt = Integer.parseInt(maxPage);
+            // }
+            // catch(java.lang.NumberFormatException e1) {
+            //     log.info("NumberFormatException " + e1);
+            //     mIsStartJandanParsing = false;
+            //     return;
+            // }
+
+            if (target.equals("max")) {
+                return maxPage;
             }
 
             log.info("Piggy Check max page int: " + maxPageInt);
@@ -2544,36 +2598,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             js_x = js_x.substring(0, js_x.indexOf("\");"));
 
             log.info("Piggy Check js_x: " + js_x);
-
-            RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
-            httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
-            log.info("1秒後開始抓取煎蛋妹子圖...");
-            for ( int i = maxPageInt; i > 0; i--) {
-                // 創建一個GET請求 
-
-
-                httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
-                httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
-                httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
-                try {
-                    // 不敢爬太快 
-                    Thread. sleep(1000);
-                    // 發送請求，並執行 
-                    response = httpClient.execute(httpGet);
-                    InputStream in = response.getEntity().getContent();
-                    String html = Utils.convertStreamToString(in);
-                     // 網頁內容解析
-                    new Thread( new JianDanHtmlParser(html, i, js_x)).start();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            }
-
-
-        }catch (Exception e2) {
-            e2.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        mIsStartJandanParsing = false;
+        return js_x;
     }
 
     private String getRandomPexelsImageUrl(String target) {
@@ -2736,36 +2764,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         @Override
         public  void run() {
             System.out.println("Downliading Jandan Page: " + page);
-
-            String jsPath = html;
-
-            jsPath = jsPath.substring(jsPath.indexOf("<script src=\"//cdn.jandan.net/static/min/")+13, jsPath.length());
-            jsPath = jsPath.substring(0, jsPath.indexOf("\"></script>"));
-
-            httpGet = new HttpGet(jsPath);
-            httpGet.addHeader( "User-Agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" );
-            httpGet.addHeader( "Accept","*/*" );
-            httpGet.addHeader( "Accept-Encoding","gzip, deflate" );
-            httpGet.addHeader( "Accept-Language","en-US,en;q=0.8" );
-            httpGet.addHeader( "Host","cdn.jandan.net" );
-            httpGet.addHeader( "Referer","http://jandan.net" );
-            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
-
-            response = httpClient.execute(httpGet);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-            httpEntity = response.getEntity();
-
-            String js_response = EntityUtils.toString(httpEntity, "utf-8");
-
-            String js_x = js_response.substring(js_response.indexOf("f.remove();var c=")+17, js_response.length());
-            log.info("Piggy Check js_x1: " + js_x);
-            js_x = js_x.substring(js_x.indexOf("(e,\"")+4, js_x.length());
-            log.info("Piggy Check js_x2: " + js_x);
-            js_x = js_x.substring(0, js_x.indexOf("\");"));
-
-            log.info("Piggy Check js_x: " + js_x);
-
-            jsPath = js_x;
             
             html = html.substring(html.indexOf("commentlist" ));
             
