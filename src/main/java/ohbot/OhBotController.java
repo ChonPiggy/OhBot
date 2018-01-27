@@ -2510,7 +2510,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     InputStream in = response.getEntity().getContent();
                     String html = Utils.convertStreamToString(in);
                      // 網頁內容解析
-                    new Thread( new JianDanHtmlParser(html, i, getJanDanJsPath("js", i))).start();
+                    String js = getJanDanJsPath("js", i);
+                    if (!js.equals("")) {
+                        new Thread( new JianDanHtmlParser(html, i, js)).start();    
+                    }
+                    else {
+                        log.info("js parse fail!");
+                    }
+                    
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -2597,10 +2604,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             js_x = js_x.substring(0, js_x.indexOf("\");"));
 
             log.info("Piggy Check js_x: " + js_x);
+
+            return js_x;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return js_x;
+        return "";
     }
 
     private String getRandomPexelsImageUrl(String target) {
