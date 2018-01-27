@@ -2476,6 +2476,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             
             String maxPage = getJanDanJsPath("max");
+            int maxPageInt = 0;
 
             try {
                 maxPageInt = Integer.parseInt(maxPage);
@@ -2490,13 +2491,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
             RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
-            httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
+            CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
             log.info("1秒後開始抓取煎蛋妹子圖...");
             for ( int i = maxPageInt; i > 0; i--) {
                 // 創建一個GET請求 
 
 
-                httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
+                HttpGet httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
                 httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
@@ -2505,7 +2506,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     // 不敢爬太快 
                     Thread. sleep(1000);
                     // 發送請求，並執行 
-                    response = httpClient.execute(httpGet);
+                    CloseableHttpResponse response = httpClient.execute(httpGet);
                     InputStream in = response.getEntity().getContent();
                     String html = Utils.convertStreamToString(in);
                      // 網頁內容解析
@@ -2571,8 +2572,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (target.equals("max")) {
                 return maxPage;
             }
-
-            log.info("Piggy Check max page int: " + maxPageInt);
 
             httpGet = new HttpGet(jsPath);
             httpGet.addHeader( "User-Agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" );
