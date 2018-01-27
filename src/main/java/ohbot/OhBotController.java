@@ -2550,6 +2550,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info("1秒後開始抓取煎蛋妹子圖...");
             for ( int i = maxPageInt; i > 0; i--) {
                 // 創建一個GET請求 
+
+
                 httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
                 httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
@@ -2734,6 +2736,36 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         @Override
         public  void run() {
             System.out.println("Downliading Jandan Page: " + page);
+
+            String jsPath = html;
+
+            jsPath = jsPath.substring(jsPath.indexOf("<script src=\"//cdn.jandan.net/static/min/")+13, jsPath.length());
+            jsPath = jsPath.substring(0, jsPath.indexOf("\"></script>"));
+
+            httpGet = new HttpGet(jsPath);
+            httpGet.addHeader( "User-Agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" );
+            httpGet.addHeader( "Accept","*/*" );
+            httpGet.addHeader( "Accept-Encoding","gzip, deflate" );
+            httpGet.addHeader( "Accept-Language","en-US,en;q=0.8" );
+            httpGet.addHeader( "Host","cdn.jandan.net" );
+            httpGet.addHeader( "Referer","http://jandan.net" );
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+
+            response = httpClient.execute(httpGet);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            httpEntity = response.getEntity();
+
+            String js_response = EntityUtils.toString(httpEntity, "utf-8");
+
+            String js_x = js_response.substring(js_response.indexOf("f.remove();var c=")+17, js_response.length());
+            log.info("Piggy Check js_x1: " + js_x);
+            js_x = js_x.substring(js_x.indexOf("(e,\"")+4, js_x.length());
+            log.info("Piggy Check js_x2: " + js_x);
+            js_x = js_x.substring(0, js_x.indexOf("\");"));
+
+            log.info("Piggy Check js_x: " + js_x);
+
+            jsPath = js_x;
             
             html = html.substring(html.indexOf("commentlist" ));
             
