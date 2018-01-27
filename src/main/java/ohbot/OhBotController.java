@@ -1852,15 +1852,20 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void randomGirl(String text, String replyToken) throws IOException {
-
+        log.info("Piggy Check randomGirl: " + text);
         try {
+            log.info("Piggy Check 1");
             if (mJanDanGirlList.size() > 0) {
+                log.info("Piggy Check 2");
                 Random randomGenerator = new Random();
-
+                log.info("Piggy Check 3");
                 int index = randomGenerator.nextInt(mJanDanGirlList.size());
+                log.info("Piggy Check 4");
                 String item = mJanDanGirlList.get(index);
                 item = item.replace("http", "https");
+                log.info("Piggy Check 5");
                 this.replyImage(replyToken, item, item);
+                log.info("Piggy Check 5");
                 // this.replyText(replyToken, item);
             }
             else {
@@ -1870,7 +1875,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (IndexOutOfBoundsException e2) {
             throw e2;
         }
-        
+        log.info("Piggy Check 6");
     }
 
     private void pexelsTarget(String text, String replyToken) throws IOException {
@@ -2609,14 +2614,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             Matcher matcher = pattern.matcher(maxPage);
             while(matcher.find()){
                 maxPage = matcher.group();
-                log.info("Piggy Check matcher: " + maxPage);
+                //log.info("Piggy Check matcher: " + maxPage);
                 maxPage = maxPage.substring(5, maxPage.length());
                 maxPage = maxPage.substring(0, maxPage.indexOf("\">"));
             }
-
-            
-            
-            log.info("Piggy Check maxPage: " + maxPage);
 
             try {
                 maxPageInt = Integer.parseInt(maxPage);
@@ -2627,8 +2628,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info("Piggy Check maxPageInt: " + maxPageInt);
 
             if (maxPageInt > 0) {
-                random_num = randomGenerator.nextInt(maxPageInt);   
-                log.info("Piggy Check random_num: " + random_num);
+                random_num = randomGenerator.nextInt(maxPageInt);
             }
 
             if (maxPageInt > 0) {
@@ -2643,10 +2643,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             response = httpClient.execute(httpGet);
             log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             httpEntity = response.getEntity();
-            log.info("Piggy Check before html");
             String html = EntityUtils.toString(httpEntity, "utf-8");
-
-            log.info("Piggy Check html: " + html);
 
             List<String> tempList = new ArrayList<String> ();
 
@@ -2662,7 +2659,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             if (tempList.size() > 0) {
                 random_num = randomGenerator.nextInt(tempList.size());
-                log.info("Piggy Check random_url: " + tempList.get(random_num));
                 return tempList.get(random_num);
             }
             else {
