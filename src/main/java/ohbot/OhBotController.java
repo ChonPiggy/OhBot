@@ -1854,18 +1854,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void randomGirl(String text, String replyToken) throws IOException {
         log.info("Piggy Check randomGirl: " + text);
         try {
-            log.info("Piggy Check 1");
             if (mJanDanGirlList.size() > 0) {
-                log.info("Piggy Check 2");
                 Random randomGenerator = new Random();
-                log.info("Piggy Check 3");
                 int index = randomGenerator.nextInt(mJanDanGirlList.size());
-                log.info("Piggy Check 4");
                 String item = mJanDanGirlList.get(index);
                 item = item.replace("http", "https");
-                log.info("Piggy Check 5");
+                log.info("Piggy Check item: " + item);
                 this.replyImage(replyToken, item, item);
-                log.info("Piggy Check 5");
                 // this.replyText(replyToken, item);
             }
             else {
@@ -2747,7 +2742,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
                 result = result.substring(0, result.indexOf("</span>"));
                 String result_final = decrypt(result,jsPath);
-                //log.info("Piggy Check img_link: " + result_final);
+                log.info("Piggy Check img_link: " + result_final);
                 if (!result_final.endsWith(".gif")) {
                     // Filter out gif
                     mJanDanGirlList.add(result_final);
