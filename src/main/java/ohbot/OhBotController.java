@@ -2025,7 +2025,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             index = randomGenerator.nextInt(mRandamLocationAddressList.size());
             String address = mRandamLocationAddressList.get(index);
 
-            this.replyLocation(title, address, getRandomLatitude(), getRandomLongitude());
+            this.replyLocation(replyToken, title, address, getRandomLatitude(), getRandomLongitude());
         }
     }
 
@@ -2039,6 +2039,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int random = randomGenerator.nextInt(10);
             decimal += random;
         }
+        log.info("getRandomLatitude: pre_result" + decimal);
         double result = Double.parseDouble(decimal);
         log.info("getRandomLatitude: " + result);
         return result;
@@ -2054,6 +2055,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int random = randomGenerator.nextInt(10);
             decimal += random;
         }
+        log.info("getRandomLongitude: pre_result" + decimal);
         double result = Double.parseDouble(decimal);
         log.info("getRandomLatitude: " + result);
         return result;
