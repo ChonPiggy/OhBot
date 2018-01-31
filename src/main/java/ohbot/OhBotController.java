@@ -2014,7 +2014,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     // Where is my frog
 
     private void whereIsMyFrog(String text, String replyToken) throws IOException {
-        text = text.substring(text.indexOf("蛙")), text.length());
+        text = text.substring(text.indexOf("蛙"), text.length());
         if (text.contains("哪")) {
             Random randomGenerator = new Random();
             int index = randomGenerator.nextInt(mRandamLocationTitleList.size());
@@ -2033,7 +2033,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int positive = randomGenerator.nextInt(2);
         int integer = randomGenerator.nextInt(90);
         String decimal = "" + positive != 1 ? "-" : "" + integer;
-        while (int i=0; i<14; i++) {
+        for (int i=0; i<14; i++) {
             int random = randomGenerator.nextInt(10);
             decimal += random;
         }
@@ -2048,7 +2048,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int positive = randomGenerator.nextInt(2);
         int integer = randomGenerator.nextInt(180);
         String decimal = "" + positive != 1 ? "-" : "" + integer;
-        while (int i=0; i<14; i++) {
+        for (int i=0; i<14; i++) {
             int random = randomGenerator.nextInt(10);
             decimal += random;
         }
