@@ -1930,12 +1930,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void randomGirlCount(String text, String replyToken) throws IOException {
 
-        int percentage = 0;
+        int correct_percentage = 0;
+        int fail_percentage = 0;
         if (mJanDanParseCount > 0 && mJanDanGirlList.size() > 0) {
-            percentage = (mJanDanGirlList.size() * 100) / mJanDanParseCount;
+            correct_percentage = (mJanDanGirlList.size() * 100) / mJanDanParseCount;
         }
 
-        this.replyText(replyToken, "煎蛋正確數量: (" + mJanDanGirlList.size() + "/" + mJanDanParseCount + ") " + percentage + "%");
+        if (mJanDanParseCount > 0 && mJanDanGirlList.size() > 0) {
+            fail_percentage = ((mJanDanParseCount - mJanDanGirlList.size()) * 100) / mJanDanParseCount;
+        }
+
+        this.replyText(replyToken, "正確數量: (" + mJanDanGirlList.size() + "/" + mJanDanParseCount + ") " + correct_percentage + "%\n錯誤數量: (" + (mJanDanParseCount-mJanDanGirlList.size()) + "/" + mJanDanParseCount + ") " + fail_percentage + "%");
         
     }
 
