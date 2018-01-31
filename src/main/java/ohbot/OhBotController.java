@@ -1941,7 +1941,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             fail_percentage = ((mJanDanParseCount - (mJanDanGirlList.size() + mJanDanGifCount)) * 100) / mJanDanParseCount;
         }
 
-        this.replyText(replyToken, "Correct: (" + (mJanDanGirlList.size() + mJanDanGifCount) + "/" + mJanDanParseCount + ") " + correct_percentage + "%\nIncorrect: (" + (mJanDanParseCount-mJanDanGirlList.size()) + "/" + mJanDanParseCount + ") " + fail_percentage + "%\nImage Count: " + mJanDanGirlList.size() + "\nGif Count: " + mJanDanGifCount);
+        this.replyText(replyToken, "Correct: (" + (mJanDanGirlList.size() + mJanDanGifCount) + "/" + mJanDanParseCount + ") " + correct_percentage + "%\nIncorrect: (" + (mJanDanParseCount-(mJanDanGirlList.size()+mJanDanGifCount)) + "/" + mJanDanParseCount + ") " + fail_percentage + "%\nImage Count: " + mJanDanGirlList.size() + "\nGif Count: " + mJanDanGifCount);
         
     }
 
