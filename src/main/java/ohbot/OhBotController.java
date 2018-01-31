@@ -2577,7 +2577,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             else if (target.equals("js")) {
                 jsPath = EntityUtils.toString(httpEntity, "utf-8");
-                jsPath = jsPath.substring(jsPath.indexOf("<script src=\"//cdn.jandan.net/static/min/")+13, jsPath.length());
+                while (jsPath.contains("<script src=\"//cdn.jandan.net/static/min/")) {
+                    jsPath = jsPath.substring(jsPath.indexOf("<script src=\"//cdn.jandan.net/static/min/")+13, jsPath.length());
+                }
                 jsPath = jsPath.substring(0, jsPath.indexOf("\"></script>"));
                 jsPath = "http:" + jsPath;
                 log.info("Piggy Check js path: " + jsPath);
