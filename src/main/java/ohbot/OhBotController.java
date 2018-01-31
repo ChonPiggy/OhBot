@@ -104,6 +104,8 @@ public class OhBotController {
     private boolean mIsStartJandanStarted = false;
 
     private int mJanDanParseCount = 0;
+    private int mJanDanMaxPage = 0;
+    private int mJanDanProgressingPage = 0;
 
     @Autowired
     private LineMessagingService lineMessagingService;
@@ -716,6 +718,9 @@ public class OhBotController {
         }
         if (text.equals("PgCommand列出吃什麼")) {
             dumpEatWhat(text, replyToken);
+        }
+        if (text.equals("PgCommand煎蛋進度")) {
+            randomGirlProgressing(text, replyToken);
         }
         if (text.equals("PgCommand煎蛋數量")) {
             randomGirlCount(text, replyToken);
@@ -1913,6 +1918,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
     }
 
+    private void randomGirlProgressing(String text, String replyToken) throws IOException {
+        if (mJanDanProgressingPage == 0) {
+            this.replyText(replyToken, "煎蛋分析完成. 總頁數: " + mJanDanMaxPage);
+        }
+        else {
+            this.replyText(replyToken, "煎蛋分析中... 總頁數: " + mJanDanMaxPage + " 當前處理第" + mJanDanProgressingPage + "頁");
+        }
+    }    
+
     private void randomGirlCount(String text, String replyToken) throws IOException {
 
         int percentage = 0;
@@ -2485,10 +2499,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             
             String maxPage = getJanDanJsPath("max");
-            int maxPageInt = 0;
+            mJanDanMaxPage = 0;
 
             try {
-                maxPageInt = Integer.parseInt(maxPage);
+                mJanDanMaxPage = Integer.parseInt(maxPage);
             }
             catch(java.lang.NumberFormatException e1) {
                 log.info("NumberFormatException " + e1);
@@ -2496,16 +2510,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 return;
             }
 
-            log.info("Piggy Check max page int: " + maxPageInt);
+            log.info("Piggy Check max page int: " + mJanDanMaxPage);
 
 
             log.info("1秒後開始抓取煎蛋妹子圖...");
-            for ( int i = maxPageInt; i > 0; i--) {
+            for ( int i = mJanDanMaxPage; i > 0; i--) {
+                mJanDanProgressingPage = i;
                 try {
                     // 不敢爬太快 
                     Thread. sleep(2000);
                      // 網頁內容解析
-                    new Thread( new JanDanHtmlParser(html, i, js)).start();
+                    new Thread( new JanDanHtmlParser(i)).start();
                     
                 } catch (Exception e1) {
                     e1.printStackTrace();
