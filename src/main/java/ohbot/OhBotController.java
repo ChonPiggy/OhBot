@@ -103,6 +103,8 @@ public class OhBotController {
     private boolean mIsStartJandanParsing = false;
     private boolean mIsStartJandanStarted = false;
 
+    private int mJanDanParseCount = 0;
+
     @Autowired
     private LineMessagingService lineMessagingService;
 
@@ -1769,6 +1771,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             dumpSource = dumpSource.substring(dumpSource.indexOf("image_src\" href=\"")+17, dumpSource.length());
             dumpSource = dumpSource.substring(0, dumpSource.indexOf("\" />"));
             dumpSource = dumpSource.replace("http", "https");
+            dumpSource = dumpSource.replace("ab.unayung.cc", "unayung.cc");
             //this.replyText(replyToken, dumpSource);
 
             this.replyImage(replyToken, dumpSource, dumpSource);
@@ -1912,7 +1915,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void randomGirlCount(String text, String replyToken) throws IOException {
 
-        this.replyText(replyToken, "" + mJanDanGirlList.size());
+        this.replyText(replyToken, "本地煎蛋圖庫數量: " + mJanDanGirlList.size());
+        
+    }
+
+    private void randomGirlParseCount(String text, String replyToken) throws IOException {
+
+        this.replyText(replyToken, "遠端煎蛋圖庫數量: " + mJanDanParseCount);
         
     }
 
@@ -2473,6 +2482,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mIsStartJandanParsing = true;
         }
         mJanDanGirlList.clear();
+        mJanDanParseCount = 0;
         try {
             
             String maxPage = getJanDanJsPath("max");
@@ -2782,14 +2792,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
                 result = result.substring(0, result.indexOf("</span>"));
                 String result_final = decrypt(result,jsPath);
+                mJanDanParseCount++;
                 // log.info("Piggy Check img_link: " + result_final);
-                if (!result_final.endsWith(".gif")) {
+                if (!result_final.endsWith(".jpg")||!result_final.endsWith(".png")||!result_final.endsWith(".jpeg")){
+                    log.info("Parse error? result_final: " + result_final);
+                }
+                else if (!result_final.endsWith(".gif")) {
                     // Filter out gif
                     mJanDanGirlList.add(result_final);
                 }
-                else if (!result_final.endsWith(".jpg")||!result_final.endsWith(".png")||!result_final.endsWith(".jpeg")){
-                    log.info("Parse error? result_final: " + result_final);
-                }
+                
                     
             }
 
