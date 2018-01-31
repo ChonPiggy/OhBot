@@ -106,6 +106,7 @@ public class OhBotController {
     private int mJanDanParseCount = 0;
     private int mJanDanMaxPage = 0;
     private int mJanDanProgressingPage = 0;
+    private String mLastWorkableJsX = "";
 
     @Autowired
     private LineMessagingService lineMessagingService;
@@ -2557,59 +2558,58 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
 
             String jsPath = "";
-            String maxPage = EntityUtils.toString(httpEntity, "utf-8");
-            jsPath = maxPage;
+            String maxPage = "";
 
-            maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, maxPage.length());
-            maxPage = maxPage.substring(0, maxPage.indexOf("]<"));
 
-            jsPath = jsPath.substring(jsPath.indexOf("<script src=\"//cdn.jandan.net/static/min/")+13, jsPath.length());
-            jsPath = jsPath.substring(0, jsPath.indexOf("\"></script>"));
-
-            jsPath = "http:" + jsPath;
             
-            log.info("Piggy Check max page string: " + maxPage);
-            log.info("Piggy Check js path: " + jsPath);
-
-            // try {
-            //     maxPageInt = Integer.parseInt(maxPage);
-            // }
-            // catch(java.lang.NumberFormatException e1) {
-            //     log.info("NumberFormatException " + e1);
-            //     mIsStartJandanParsing = false;
-            //     return;
-            // }
 
             if (target.equals("max")) {
+                maxPage = EntityUtils.toString(httpEntity, "utf-8");
+                maxPage = maxPage.substring(maxPage.indexOf("current-comment-page\">[")+23, maxPage.length());
+                maxPage = maxPage.substring(0, maxPage.indexOf("]<"));
+                // try {
+                //     maxPageInt = Integer.parseInt(maxPage);
+                // }
+                // catch(java.lang.NumberFormatException e1) {
+                //     log.info("NumberFormatException " + e1);
+                //     mIsStartJandanParsing = false;
+                //     return;
+                // }
+                log.info("Piggy Check max page string: " + maxPage);
                 return maxPage;
             }
+            else if (target.equals("js")) {
+                jsPath = EntityUtils.toString(httpEntity, "utf-8");
+                jsPath = jsPath.substring(jsPath.indexOf("<script src=\"//cdn.jandan.net/static/min/")+13, jsPath.length());
+                jsPath = jsPath.substring(0, jsPath.indexOf("\"></script>"));
+                jsPath = "http:" + jsPath;
+                log.info("Piggy Check js path: " + jsPath);
+                httpGet = new HttpGet(jsPath);
+                httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
+                httpGet.addHeader( "Accept","*/*" );
+                httpGet.addHeader( "Accept-Encoding","gzip, deflate" );
+                httpGet.addHeader( "Accept-Language","en-US,en;q=0.8" );
+                httpGet.addHeader( "Host","cdn.jandan.net" );
+                httpGet.addHeader( "Referer","http://jandan.net" );
+                httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
-            httpGet = new HttpGet(jsPath);
-            httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
-            httpGet.addHeader( "Accept","*/*" );
-            httpGet.addHeader( "Accept-Encoding","gzip, deflate" );
-            httpGet.addHeader( "Accept-Language","en-US,en;q=0.8" );
-            httpGet.addHeader( "Host","cdn.jandan.net" );
-            httpGet.addHeader( "Referer","http://jandan.net" );
-            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+                response = httpClient.execute(httpGet);
+                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                httpEntity = response.getEntity();
 
-            response = httpClient.execute(httpGet);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-            httpEntity = response.getEntity();
+                String js_response = EntityUtils.toString(httpEntity, "utf-8");
 
-            String js_response = EntityUtils.toString(httpEntity, "utf-8");
+                //log.info("Piggy Check js_response: " + js_response);
 
-            //log.info("Piggy Check js_response: " + js_response);
+                String js_x = js_response.substring(js_response.indexOf("f.remove();var c=")+17, js_response.length());
+                //log.info("Piggy Check js_x1: " + js_x);
+                js_x = js_x.substring(js_x.indexOf("(e,\"")+4, js_x.length());
+                //log.info("Piggy Check js_x2: " + js_x);
+                js_x = js_x.substring(0, js_x.indexOf("\");"));
 
-            String js_x = js_response.substring(js_response.indexOf("f.remove();var c=")+17, js_response.length());
-            //log.info("Piggy Check js_x1: " + js_x);
-            js_x = js_x.substring(js_x.indexOf("(e,\"")+4, js_x.length());
-            //log.info("Piggy Check js_x2: " + js_x);
-            js_x = js_x.substring(0, js_x.indexOf("\");"));
-
-            log.info("Piggy Check js_x: " + js_x);
-
-            return js_x;
+                log.info("Piggy Check js_x: " + js_x);
+                return js_x;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2790,6 +2790,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String js_x = getJanDanJsPath("js", page);
                 if (js_x.equals("")){
                     log.info("js_x parse fail!");
+                    if (!mLastWorkableJsX.equals("")) {
+                        log.info("Try backup js_x: " + mLastWorkableJsX);
+                        js_x = mLastWorkableJsX;
+                    }
                     return;
                 }
                 
@@ -2805,12 +2809,19 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     mJanDanParseCount++;
                     // log.info("Piggy Check img_link: " + result_final);
                     result_final.replaceAll(" ", "");
-                    if (!result_final.endsWith(".jpg")&&!result_final.endsWith(".png")&&!result_final.endsWith(".jpeg")){
+                    if (!result_final.endsWith(".jpg")&&!result_final.endsWith(".png")&&!result_final.endsWith(".jpeg")&&!result_final.endsWith(".gif")){
                         log.info("Parse error? result_final: " + result_final);
+                        if (!mLastWorkableJsX.equals("")&&!js_x.equals(mLastWorkableJsX)) {
+                            log.info("Try backup js_x: " + mLastWorkableJsX);
+                            js_x = mLastWorkableJsX;
+                        }
                     }
-                    else if (!result_final.endsWith(".gif")) {
-                        // Filter out gif
-                        mJanDanGirlList.add(result_final);
+                    else {
+                        mLastWorkableJsX = js_x;
+                        if (!result_final.endsWith(".gif")) {
+                            // Filter out gif
+                            mJanDanGirlList.add(result_final);
+                        }
                     }
                     
                         
