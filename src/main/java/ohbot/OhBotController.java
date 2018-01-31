@@ -15,6 +15,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.ImageMessage;
+import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
@@ -100,6 +101,8 @@ public class OhBotController {
         "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1468.0 Safari/537.36",
         "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0; TheWorld)",
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36"));
+    private List<String> mRandamLocationTitleList = new ArrayList<String> (Arrays.asList("正在吃飯", "正在洗澡", "死了", "正在散步", "正在合照", "正在做羞羞的事", "正在慢跑", "正在睡覺"));
+    private List<String> mRandamLocationAddressList = new ArrayList<String> (Arrays.asList("某個路邊", "某個下水溝", "某顆樹上", "某人家裡", "某個機場跑道上", "某個商店街", "某間公司", ));
     private boolean mIsStartJandanParsing = false;
     private boolean mIsStartJandanStarted = false;
 
@@ -739,6 +742,36 @@ public class OhBotController {
         if (text.equals("PgCommand開始煎蛋")) {
             startFetchJanDanGirlImages();
         }
+
+        if (text.startsWith("PgCommand新增隨機地點:")) {
+            updateRandomAddress(text, replyToken);
+        }
+        if (text.startsWith("PgCommand刪除隨機地點:")) {
+            deleteRandomAddress(text, replyToken);
+        }
+        if (text.equals("PgCommand清空隨機地點")) {
+            cleanRandomAddress(text, replyToken);
+        }
+        if (text.equals("PgCommand列出隨機地點")) {
+            dumpRandomAddress(text, replyToken);
+        }
+
+        if (text.startsWith("PgCommand新增隨機動作:")) {
+            updateRandomTitle(text, replyToken);
+        }
+        if (text.startsWith("PgCommand刪除隨機動作:")) {
+            deleteRandomTitle(text, replyToken);
+        }
+        if (text.equals("PgCommand清空隨機動作")) {
+            cleanRandomTitle(text, replyToken);
+        }
+        if (text.equals("PgCommand列出隨機動作")) {
+            dumpRandomTitle(text, replyToken);
+        }
+
+        if (text.contains("蛙")) {
+            whereIsMyFrog(text, replyToken);
+        }
     }
 
     @EventMapping
@@ -769,8 +802,15 @@ public class OhBotController {
     private void replyImage(@NonNull String replyToken, @NonNull String original, @NonNull String preview) {
         if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken must not be empty");
-        }        
+        }
         this.reply(replyToken, new ImageMessage(original, preview));
+    }
+
+    private void replyLocation(@NonNull String replyToken, @NonNull String title, @NonNull String address, double latitude, double longitude) {
+        if (replyToken.isEmpty()) {
+            throw new IllegalArgumentException("replyToken must not be empty");
+        }        
+        this.reply(replyToken, new LocationMessage(title, address, latitude, longitude));
     }
 
     private void reply(@NonNull String replyToken, @NonNull Message message) {
@@ -1970,6 +2010,182 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }        
         this.replyImage(replyToken, item, item);
     }
+
+    // Where is my frog
+
+    private void whereIsMyFrog(String text, String replyToken) throws IOException {
+        text = text.substring(text.indexOf("蛙")), text.length());
+        if (text.contains("哪")) {
+            Random randomGenerator = new Random();
+            int index = randomGenerator.nextInt(mRandamLocationTitleList.size());
+            String title = mRandamLocationTitleList.get(index);
+
+            index = randomGenerator.nextInt(mRandamLocationAddressList.size());
+            String address = mRandamLocationAddressList.get(index);
+
+            this.replyLocation(title, address, getRandomLatitude(), getRandomLongitude());
+        }
+    }
+
+    private double getRandomLatitude() {
+        // -90 ~ +90
+        Random randomGenerator = new Random();
+        int positive = randomGenerator.nextInt(2);
+        int integer = randomGenerator.nextInt(90);
+        String decimal = "" + positive != 1 ? "-" : "" + integer;
+        while (int i=0; i<14; i++) {
+            int random = randomGenerator.nextInt(10);
+            decimal += random;
+        }
+        double result = Double.parseDouble(decimal);
+        log.info("getRandomLatitude: " + result);
+        return result;
+    }
+
+    private double getRandomLongitude() {
+        // -180 ~ +180
+        Random randomGenerator = new Random();
+        int positive = randomGenerator.nextInt(2);
+        int integer = randomGenerator.nextInt(180);
+        String decimal = "" + positive != 1 ? "-" : "" + integer;
+        while (int i=0; i<14; i++) {
+            int random = randomGenerator.nextInt(10);
+            decimal += random;
+        }
+        double result = Double.parseDouble(decimal);
+        log.info("getRandomLatitude: " + result);
+        return result;
+    }
+
+    // Random location address
+
+    private void updateRandomAddress(String text, String replyToken) throws IOException {
+        text = text.replace("PgCommand新增隨機地點:", "");
+
+        if (mRandamLocationAddressList.indexOf(text) < 0) {
+
+            if (text.startsWith("[") && text.endsWith("]")) {
+
+                ArrayList<String> mTempArray = new ArrayList<String>();
+
+                // TODO
+                return;
+            }
+
+
+
+            if (text.length() > 0) {
+                mRandamLocationAddressList.add(text);    
+                this.replyText(replyToken, "成功新增隨機地點「" + text + "」");    
+            }
+            else {
+                this.replyText(replyToken, "輸入值為空值");       
+            }
+            
+        }
+        else {
+            this.replyText(replyToken, "「" + text + "」已存在列表");   
+        }
+        
+    }
+
+    private void deleteRandomAddress(String text, String replyToken) throws IOException {
+        text = text.replace("PgCommand刪除隨機地點:", "");
+        try {
+            if (mRandamLocationAddressList.indexOf(text) >= 0) {
+                mRandamLocationAddressList.remove(mRandamLocationAddressList.indexOf(text));
+                this.replyText(replyToken, "成功刪除隨機地點「" + text + "」");
+            }
+            else {
+                this.replyText(replyToken, "「" + text + "」不存在");
+            }
+            
+
+        }catch (IndexOutOfBoundsException e2) {
+            this.replyText(replyToken, "「" + text + "」不存在");
+            throw e2;
+        }
+    }
+
+    private void cleanRandomAddress(String text, String replyToken) throws IOException {
+                    
+        mRandamLocationAddressList.clear();
+        
+        this.replyText(replyToken, "成功清除隨機地點");
+    }
+
+    private void dumpRandomAddress(String text, String replyToken) throws IOException {
+        
+        this.replyText(replyToken, "隨機地點: " + mRandamLocationAddressList.toString());
+    }
+
+    // Random location title
+
+    private void updateRandomTitle(String text, String replyToken) throws IOException {
+        text = text.replace("PgCommand新增隨機動作:", "");
+
+        if (mRandamLocationTitleList.indexOf(text) <= 0) {
+
+            if (text.startsWith("[") && text.endsWith("]")) {
+
+                ArrayList<String> mTempArray = new ArrayList<String>();
+
+                // TODO
+                return;
+            }
+
+
+
+            if (text.length() > 0) {
+                mRandamLocationTitleList.add(text);    
+                this.replyText(replyToken, "成功新增隨機動作「" + text + "」");    
+            }
+            else {
+                this.replyText(replyToken, "輸入值為空值");       
+            }
+            
+        }
+        else {
+            this.replyText(replyToken, "「" + text + "」已存在列表");   
+        }
+        
+    }
+
+    private void deleteRandomTitle(String text, String replyToken) throws IOException {
+        text = text.replace("PgCommand刪除隨機動作:", "");
+        try {
+            if (mRandamLocationTitleList.indexOf(text) >= 0) {
+                mRandamLocationTitleList.remove(mRandamLocationTitleList.indexOf(text));
+                this.replyText(replyToken, "成功刪除隨機動作「" + text + "」");
+            }
+            else {
+                this.replyText(replyToken, "「" + text + "」不存在");
+            }
+            
+
+        }catch (IndexOutOfBoundsException e2) {
+            this.replyText(replyToken, "「" + text + "」不存在");
+            throw e2;
+        }
+    }
+
+    private void cleanRandomTitle(String text, String replyToken) throws IOException {
+                    
+        mRandamLocationTitleList.clear();
+        
+        this.replyText(replyToken, "成功清除隨機動作");
+    }
+
+    private void dumpRandomTitle(String text, String replyToken) throws IOException {
+        
+        
+            
+        this.replyText(replyToken, "隨機動作: " + mRandamLocationTitleList.toString());
+
+        
+    }
+
+    // Eat what
 
     private void eatWhat(String text, String replyToken) throws IOException {
         
