@@ -2794,7 +2794,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 InputStream in = response.getEntity().getContent();
                 String html = Utils.convertStreamToString(in);
                 
-                //html = html.substring(html.indexOf("\"commentlist"));
+                html = html.substring(html.indexOf("list-style-type"));
                 
                 Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
                 Matcher matcher = pattern.matcher(html);
