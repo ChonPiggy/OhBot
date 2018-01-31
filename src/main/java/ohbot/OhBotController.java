@@ -2773,54 +2773,51 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         @Override
         public  void run() {
-            System.out.println("Downliading Jandan Page: " + page);
+            try {
+                System.out.println("Downliading Jandan Page: " + page);
 
-            RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
-            CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
+                RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
+                CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
 
-            // 發送請求，並執行 
-            HttpGet httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + page);
-            httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
-            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            InputStream in = response.getEntity().getContent();
-            String html = Utils.convertStreamToString(in);
+                // 發送請求，並執行 
+                HttpGet httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + page);
+                httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
+                httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+                CloseableHttpResponse response = httpClient.execute(httpGet);
+                InputStream in = response.getEntity().getContent();
+                String html = Utils.convertStreamToString(in);
 
-            String js_x = getJanDanJsPath("js", page);
-            if (js_x.equals("")){
-                log.info("js_x parse fail!");
-                return;
-            }
-            
-            html = html.substring(html.indexOf("commentlist"));
-            
-            Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
-            Matcher matcher = pattern.matcher(html);
-            while(matcher.find()){
-                String result = matcher.group();
-                result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
-                result = result.substring(0, result.indexOf("</span>"));
-                String result_final = decrypt(result,js_x);
-                mJanDanParseCount++;
-                // log.info("Piggy Check img_link: " + result_final);
-                result_final.replaceAll(" ", "");
-                if (!result_final.endsWith(".jpg")&&!result_final.endsWith(".png")&&!result_final.endsWith(".jpeg")){
-                    log.info("Parse error? result_final: " + result_final);
-                }
-                else if (!result_final.endsWith(".gif")) {
-                    // Filter out gif
-                    mJanDanGirlList.add(result_final);
+                String js_x = getJanDanJsPath("js", page);
+                if (js_x.equals("")){
+                    log.info("js_x parse fail!");
+                    return;
                 }
                 
+                html = html.substring(html.indexOf("commentlist"));
+                
+                Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
+                Matcher matcher = pattern.matcher(html);
+                while(matcher.find()){
+                    String result = matcher.group();
+                    result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
+                    result = result.substring(0, result.indexOf("</span>"));
+                    String result_final = decrypt(result,js_x);
+                    mJanDanParseCount++;
+                    // log.info("Piggy Check img_link: " + result_final);
+                    result_final.replaceAll(" ", "");
+                    if (!result_final.endsWith(".jpg")&&!result_final.endsWith(".png")&&!result_final.endsWith(".jpeg")){
+                        log.info("Parse error? result_final: " + result_final);
+                    }
+                    else if (!result_final.endsWith(".gif")) {
+                        // Filter out gif
+                        mJanDanGirlList.add(result_final);
+                    }
                     
+                        
+                }
+            }catch (Exception e2) {
+                e2.printStackTrace();
             }
-
-            // for (String imageUrl : list){
-            //      // if (imageUrl.indexOf("sina")>0 ){
-            //      //     // TODO: Save to string list
-            //         log.info("Piggy Check imageUrl: " + imageUrl);
-            //     // }
-            // }
                 
         }    
     }
