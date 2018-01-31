@@ -2786,9 +2786,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             InputStream in = response.getEntity().getContent();
             String html = Utils.convertStreamToString(in);
 
-            String js = getJanDanJsPath("js", page);
-            if (js.equals("")){
-                log.info("js parse fail!");
+            String js_x = getJanDanJsPath("js", page);
+            if (js_x.equals("")){
+                log.info("js_x parse fail!");
                 return;
             }
             
@@ -2800,7 +2800,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result = matcher.group();
                 result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
                 result = result.substring(0, result.indexOf("</span>"));
-                String result_final = decrypt(result,jsPath);
+                String result_final = decrypt(result,js_x);
                 mJanDanParseCount++;
                 // log.info("Piggy Check img_link: " + result_final);
                 result_final.replaceAll(" ", "");
