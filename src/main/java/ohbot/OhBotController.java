@@ -1792,7 +1792,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String strDate = sdFormat.format(date);
-        String beautyLink = "https://ab.unayung.cc/links/" + strDate;
+        String beautyLink = "https://unayung.cc/links/" + strDate;
 
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -2794,7 +2794,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         log.info("Try backup js_x: " + mLastWorkableJsX);
                         js_x = mLastWorkableJsX;
                     }
-                    return;
+                    else {
+                        return;
+                    }
                 }
                 
                 html = html.substring(html.indexOf("commentlist"));
