@@ -2815,7 +2815,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                             // Workaround, try last workable js_x and decrypt again.
                             log.info("Try backup js_x: " + mLastWorkableJsX);
                             js_x = mLastWorkableJsX;
-                            String result_final = decrypt(result,js_x);
+                            result_final = decrypt(result,js_x);
                             if (!result_final.endsWith(".jpg")&&!result_final.endsWith(".png")&&!result_final.endsWith(".jpeg")&&!result_final.endsWith(".gif")){
                                 log.info("Still Parse error? result_final: " + result_final);
                             }
