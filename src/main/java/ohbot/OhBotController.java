@@ -1867,7 +1867,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 // this.replyText(replyToken, item);
             }
             else {
-                this.replyText(replyToken, "妹子還在睡覺喔..");
+                this.replyText(replyToken, "妹子還在跟PG睡覺喔..");
             }
 
         }catch (IndexOutOfBoundsException e2) {
@@ -1915,13 +1915,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void randomGirlCount(String text, String replyToken) throws IOException {
 
-        this.replyText(replyToken, "本地煎蛋圖庫數量: " + mJanDanGirlList.size());
-        
-    }
+        int percentage = 0;
+        if (mJanDanParseCount > 0 && mJanDanGirlList.size() > 0) {
+            int percentage = (mJanDanGirlList.size() * 100) / mJanDanParseCount;
+        }
 
-    private void randomGirlParseCount(String text, String replyToken) throws IOException {
-
-        this.replyText(replyToken, "遠端煎蛋圖庫數量: " + mJanDanParseCount);
+        this.replyText(replyToken, "煎蛋正確數量: (" + mJanDanGirlList.size() + "/" mJanDanParseCount + ") " + percentage + "%");
         
     }
 
@@ -2439,7 +2438,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             jsPath = "http:" + jsPath;
             
-            log.info("Piggy Check js path: " + jsPath);
+            //log.info("Piggy Check js path: " + jsPath);
 
             httpGet = new HttpGet(jsPath);
             httpGet.addHeader( "User-Agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" );
@@ -2451,7 +2450,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
             response = httpClient.execute(httpGet);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             httpEntity = response.getEntity();
 
             String js_response = EntityUtils.toString(httpEntity, "utf-8");
@@ -2500,33 +2499,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info("Piggy Check max page int: " + maxPageInt);
 
 
-            RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
-            CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
             log.info("1秒後開始抓取煎蛋妹子圖...");
             for ( int i = maxPageInt; i > 0; i--) {
-                // 創建一個GET請求 
-
-
-                HttpGet httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + i);
-                httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
-                httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
-
-
                 try {
                     // 不敢爬太快 
-                    Thread. sleep(1000);
-                    // 發送請求，並執行 
-                    CloseableHttpResponse response = httpClient.execute(httpGet);
-                    InputStream in = response.getEntity().getContent();
-                    String html = Utils.convertStreamToString(in);
+                    Thread. sleep(2000);
                      // 網頁內容解析
-                    String js = getJanDanJsPath("js", i);
-                    if (!js.equals("")) {
-                        new Thread( new JianDanHtmlParser(html, i, js)).start();    
-                    }
-                    else {
-                        log.info("js parse fail!");
-                    }
+                    new Thread( new JanDanHtmlParser(html, i, js)).start();
                     
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -2591,7 +2570,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
 
             httpGet = new HttpGet(jsPath);
-            httpGet.addHeader( "User-Agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" );
+            httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
             httpGet.addHeader( "Accept","*/*" );
             httpGet.addHeader( "Accept-Encoding","gzip, deflate" );
             httpGet.addHeader( "Accept-Language","en-US,en;q=0.8" );
@@ -2608,9 +2587,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //log.info("Piggy Check js_response: " + js_response);
 
             String js_x = js_response.substring(js_response.indexOf("f.remove();var c=")+17, js_response.length());
-            log.info("Piggy Check js_x1: " + js_x);
+            //log.info("Piggy Check js_x1: " + js_x);
             js_x = js_x.substring(js_x.indexOf("(e,\"")+4, js_x.length());
-            log.info("Piggy Check js_x2: " + js_x);
+            //log.info("Piggy Check js_x2: " + js_x);
             js_x = js_x.substring(0, js_x.indexOf("\");"));
 
             log.info("Piggy Check js_x: " + js_x);
@@ -2767,23 +2746,38 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    public class JianDanHtmlParser implements Runnable {
+    public class JanDanHtmlParser implements Runnable {
 
         private String html;
-        private String jsPath;
+        private String js;
         private int page;
 
-        public JianDanHtmlParser(String html, int page, String js) {
-            this.html = html;
+        public JanDanHtmlParser(int page) {
             this.page = page;
-            this.jsPath = js;
         }
 
         @Override
         public  void run() {
             System.out.println("Downliading Jandan Page: " + page);
+
+            RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD). setConnectionRequestTimeout(6000).setConnectTimeout(6000 ).build();
+            CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(globalConfig).build();
+
+            // 發送請求，並執行 
+            HttpGet httpGet = new HttpGet( "http://jandan.net/ooxx/page-" + page);
+            httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            InputStream in = response.getEntity().getContent();
+            String html = Utils.convertStreamToString(in);
+
+            String js = getJanDanJsPath("js", page);
+            if (js.equals("")){
+                log.info("js parse fail!");
+                return;
+            }
             
-            html = html.substring(html.indexOf("commentlist" ));
+            html = html.substring(html.indexOf("commentlist"));
             
             Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
             Matcher matcher = pattern.matcher(html);
@@ -2794,7 +2788,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result_final = decrypt(result,jsPath);
                 mJanDanParseCount++;
                 // log.info("Piggy Check img_link: " + result_final);
-                if (!result_final.endsWith(".jpg")||!result_final.endsWith(".png")||!result_final.endsWith(".jpeg")){
+                result_final.replaceAll(" ", "");
+                if (!result_final.endsWith(".jpg")&&!result_final.endsWith(".png")&&!result_final.endsWith(".jpeg")){
                     log.info("Parse error? result_final: " + result_final);
                 }
                 else if (!result_final.endsWith(".gif")) {
