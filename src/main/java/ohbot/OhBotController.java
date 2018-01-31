@@ -2035,7 +2035,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int positive = randomGenerator.nextInt(2);
         int integer = randomGenerator.nextInt(90);
         String decimal = "" + (positive != 1 ? "-" : "") + integer;
-        for (int i=0; i<14; i++) {
+        for (int i=0; i<6; i++) {
             int random = randomGenerator.nextInt(10);
             decimal += random;
         }
@@ -2051,7 +2051,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int positive = randomGenerator.nextInt(2);
         int integer = randomGenerator.nextInt(180);
         String decimal = "" + (positive != 1 ? "-" : "") + integer;
-        for (int i=0; i<14; i++) {
+        for (int i=0; i<6; i++) {
             int random = randomGenerator.nextInt(10);
             decimal += random;
         }
