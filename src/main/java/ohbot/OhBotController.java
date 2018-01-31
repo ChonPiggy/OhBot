@@ -2030,34 +2030,34 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private double getRandomLatitude() {
-        // -90 ~ +90
+        // -40 ~ +75
         Random randomGenerator = new Random();
         int positive = randomGenerator.nextInt(2);
-        int integer = randomGenerator.nextInt(90);
+        int range = positive != 1 ? 40 : 75;
+        int integer = randomGenerator.nextInt(range);
         String decimal = "" + (positive != 1 ? "-" : "") + integer + ".";
         for (int i=0; i<14; i++) {
             int random = randomGenerator.nextInt(10);
             decimal += random;
         }
-        log.info("getRandomLatitude: pre_result" + decimal);
         double result = Double.parseDouble(decimal);
         log.info("getRandomLatitude: " + result);
         return result;
     }
 
     private double getRandomLongitude() {
-        // -180 ~ +180
+        // -180 ~ +180 without -120 ~ -180, 145 ~ 180
         Random randomGenerator = new Random();
         int positive = randomGenerator.nextInt(2);
-        int integer = randomGenerator.nextInt(180);
+        int range = positive != 1 ? 125 : 145;
+        int integer = randomGenerator.nextInt(range);
         String decimal = "" + (positive != 1 ? "-" : "") + integer + ".";
         for (int i=0; i<14; i++) {
             int random = randomGenerator.nextInt(10);
             decimal += random;
         }
-        log.info("getRandomLongitude: pre_result" + decimal);
         double result = Double.parseDouble(decimal);
-        log.info("getRandomLatitude: " + result);
+        log.info("getRandomLongitude: " + result);
         return result;
     }
 
