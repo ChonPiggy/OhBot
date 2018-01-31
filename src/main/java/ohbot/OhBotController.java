@@ -104,6 +104,7 @@ public class OhBotController {
     private boolean mIsStartJandanStarted = false;
 
     private int mJanDanParseCount = 0;
+    private int mJanDanGifCount = 0;
     private int mJanDanMaxPage = 0;
     private int mJanDanProgressingPage = 0;
     private String mLastWorkableJsX = "";
@@ -1933,14 +1934,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int correct_percentage = 0;
         int fail_percentage = 0;
         if (mJanDanParseCount > 0 && mJanDanGirlList.size() > 0) {
-            correct_percentage = (mJanDanGirlList.size() * 100) / mJanDanParseCount;
+            correct_percentage = ((mJanDanGifCount+mJanDanGirlList.size()) * 100) / mJanDanParseCount;
         }
 
         if (mJanDanParseCount > 0 && mJanDanGirlList.size() > 0) {
-            fail_percentage = ((mJanDanParseCount - mJanDanGirlList.size()) * 100) / mJanDanParseCount;
+            fail_percentage = ((mJanDanParseCount - (mJanDanGirlList.size() + mJanDanGifCount)) * 100) / mJanDanParseCount;
         }
 
-        this.replyText(replyToken, "正確數量: (" + mJanDanGirlList.size() + "/" + mJanDanParseCount + ") " + correct_percentage + "%\n錯誤數量: (" + (mJanDanParseCount-mJanDanGirlList.size()) + "/" + mJanDanParseCount + ") " + fail_percentage + "%");
+        this.replyText(replyToken, "Correct: (" + (mJanDanGirlList.size() + mJanDanGifCount) + "/" + mJanDanParseCount + ") " + correct_percentage + "%\nIncorrect: (" + (mJanDanParseCount-mJanDanGirlList.size()) + "/" + mJanDanParseCount + ") " + fail_percentage + "%\nImage Count: " + mJanDanGirlList.size() + "\nGif Count: " + mJanDanGifCount);
         
     }
 
@@ -2502,10 +2503,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
         mJanDanGirlList.clear();
         mJanDanParseCount = 0;
+        mJanDanGifCount = 0;
+        mJanDanMaxPage = 0;
         try {
             
             String maxPage = getJanDanJsPath("max");
-            mJanDanMaxPage = 0;
+            
 
             try {
                 mJanDanMaxPage = Integer.parseInt(maxPage);
@@ -2835,6 +2838,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                                     // Filter out gif
                                     mJanDanGirlList.add(result_final);
                                 }
+                                else {
+                                    mJanDanGifCount++;
+                                }
                             }
                         }
                     }
@@ -2843,6 +2849,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         if (!result_final.endsWith(".gif")) {
                             // Filter out gif
                             mJanDanGirlList.add(result_final);
+                        }
+                        else {
+                            mJanDanGifCount++;
                         }
                     }
                     
