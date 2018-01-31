@@ -1920,7 +1920,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void randomGirlProgressing(String text, String replyToken) throws IOException {
-        if (mJanDanProgressingPage == 0) {
+        if (mJanDanProgressingPage == 1) {
             this.replyText(replyToken, "煎蛋分析完成. 總頁數: " + mJanDanMaxPage);
         }
         else {
