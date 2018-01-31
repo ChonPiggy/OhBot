@@ -101,8 +101,10 @@ public class OhBotController {
         "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1468.0 Safari/537.36",
         "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0; TheWorld)",
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36"));
-    private List<String> mRandamLocationTitleList = new ArrayList<String> (Arrays.asList("正在吃飯", "正在洗澡", "死了", "正在散步", "正在合照", "正在做羞羞的事", "正在慢跑", "正在睡覺"));
-    private List<String> mRandamLocationAddressList = new ArrayList<String> (Arrays.asList("某個路邊", "某個下水溝", "某顆樹上", "某人家裡", "某個機場跑道上", "某個商店街", "某間公司"));
+    private Array mDefaultRandamLocationTitleList = Arrays.asList("正在吃飯", "正在洗澡", "死了", "正在散步", "正在合照", "正在做羞羞的事", "正在慢跑", "正在睡覺");
+    private Array mDefaultRandamLocationAddressList = Arrays.asList("某個路邊", "某個下水溝", "某顆樹上", "某人家裡", "某個機場跑道上", "某個商店街", "某間公司");
+    private List<String> mRandamLocationTitleList = new ArrayList<String> (mDefaultRandamLocationTitleList);
+    private List<String> mRandamLocationAddressList = new ArrayList<String> (mDefaultRandamLocationAddressList);
     private boolean mIsStartJandanParsing = false;
     private boolean mIsStartJandanStarted = false;
 
@@ -2110,7 +2112,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void cleanRandomAddress(String text, String replyToken) throws IOException {
                     
         mRandamLocationAddressList.clear();
-        
+        mRandamLocationAddressList = new ArrayList<String> (mDefaultRandamLocationAddressList);
+
         this.replyText(replyToken, "成功清除隨機地點");
     }
 
@@ -2172,7 +2175,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void cleanRandomTitle(String text, String replyToken) throws IOException {
                     
         mRandamLocationTitleList.clear();
-        
+        mRandamLocationTitleList = new ArrayList<String> (mDefaultRandamLocationTitleList);
         this.replyText(replyToken, "成功清除隨機動作");
     }
 
