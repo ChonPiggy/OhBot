@@ -2519,7 +2519,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 mJanDanProgressingPage = i;
                 try {
                     // 不敢爬太快 
-                    Thread. sleep(2000);
+                    Thread. sleep(1000);
                      // 網頁內容解析
                     new Thread( new JanDanHtmlParser(i)).start();
                     
@@ -2559,9 +2559,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String jsPath = "";
             String maxPage = "";
-
-
-            
 
             if (target.equals("max")) {
                 maxPage = EntityUtils.toString(httpEntity, "utf-8");
@@ -2786,27 +2783,31 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 CloseableHttpResponse response = httpClient.execute(httpGet);
                 InputStream in = response.getEntity().getContent();
                 String html = Utils.convertStreamToString(in);
-
-                String js_x = getJanDanJsPath("js", page);
-                if (js_x.equals("")){
-                    log.info("js_x parse fail!");
-                    if (!mLastWorkableJsX.equals("")) {
-                        log.info("Try backup js_x: " + mLastWorkableJsX);
-                        js_x = mLastWorkableJsX;
-                    }
-                    else {
-                        return;
-                    }
-                }
                 
                 html = html.substring(html.indexOf("commentlist"));
                 
                 Pattern pattern = Pattern.compile("class=\"img-hash\">.*?</span>");
                 Matcher matcher = pattern.matcher(html);
+
+                String js_x = "";
+                    
+                if (!mLastWorkableJsX.equals("")) {
+                    js_x = mLastWorkableJsX;
+                }
+                else {
+                    js_x = getJanDanJsPath("js", page);
+                }
+
+                if (js_x.equals("")){
+                    log.info("Backup jandan js_x is null and parse js_x failed. Drop this page.");
+                    return;
+                }
+
                 while(matcher.find()){
                     String result = matcher.group();
                     result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
                     result = result.substring(0, result.indexOf("</span>"));
+
                     String result_final = decrypt(result,js_x);
                     mJanDanParseCount++;
                     // log.info("Piggy Check img_link: " + result_final);
@@ -2820,6 +2821,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                             result_final = decrypt(result,js_x);
                             if (!result_final.endsWith(".jpg")&&!result_final.endsWith(".png")&&!result_final.endsWith(".jpeg")&&!result_final.endsWith(".gif")){
                                 log.info("Still Parse error? result_final: " + result_final);
+                                mLastWorkableJsX = "";
                             }
                             else {
                                 if (!result_final.endsWith(".gif")) {
