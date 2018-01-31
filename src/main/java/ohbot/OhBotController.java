@@ -1920,7 +1920,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int percentage = (mJanDanGirlList.size() * 100) / mJanDanParseCount;
         }
 
-        this.replyText(replyToken, "煎蛋正確數量: (" + mJanDanGirlList.size() + "/" mJanDanParseCount + ") " + percentage + "%");
+        this.replyText(replyToken, "煎蛋正確數量: (" + mJanDanGirlList.size() + "/" + mJanDanParseCount + ") " + percentage + "%");
         
     }
 
