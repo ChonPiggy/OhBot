@@ -2129,7 +2129,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void updateRandomTitle(String text, String replyToken) throws IOException {
         text = text.replace("PgCommand新增隨機動作:", "");
 
-        if (mRandamLocationTitleList.indexOf(text) <= 0) {
+        if (mRandamLocationTitleList.indexOf(text) < 0) {
 
             if (text.startsWith("[") && text.endsWith("]")) {
 
@@ -2215,7 +2215,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void updateEatWhat(String text, String replyToken) throws IOException {
         text = text.replace("PgCommand新增吃什麼:", "");
 
-        if (mEatWhatArray.indexOf(text) >= 0) {
+        if (mEatWhatArray.indexOf(text) < 0) {
 
             if (text.startsWith("[") && text.endsWith("]")) {
 
