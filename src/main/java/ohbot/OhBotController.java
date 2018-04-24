@@ -1753,6 +1753,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         country="CHF";
                         break;
                     }
+                    case "披索": {
+                        country="PHP";
+                        break;
+                    }
                     case "台幣": {
                         text="TWD";
                         break;
@@ -1766,7 +1770,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 }
                 if(text.equals("")){
-                    strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖 印尼盾 法郎";
+                    strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖 印尼盾 法郎 披索";
                     this.replyText(replyToken, strResult);
                 } else if (text.equals("TWD")){
                     this.replyText(replyToken, "現鈔賣出去巷口便利商店");
@@ -2281,9 +2285,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     
 
     private void exchangeDefault(String text, String replyToken) throws IOException {
-        text = text.replace("換算台幣", "").replace("?", "").replace("？", "").trim();
+        text = text.replace("?", "").replace("？", "").trim();
         try {
-            String strResult = text + "日圓";    
+            String strResult = text + "日圓";
             String country ="JPY";
 
             int inputNumber = -1;
@@ -2488,6 +2492,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     country="CHF";
                     text = text.replace("法郎","").trim();
                 }
+                else if (text.endsWith("披索")) {
+                    country="PHP";
+                    text = text.replace("披索","").trim();
+                }
                 else {
                     text = "";
                 }
@@ -2499,7 +2507,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
             
             if(text.equals("")){
-                strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖 印尼盾 法郎";
+                strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖 印尼盾 法郎 披索";
                 this.replyText(replyToken, strResult);
                 return;
             }else{
