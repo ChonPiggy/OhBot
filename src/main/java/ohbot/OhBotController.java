@@ -2812,7 +2812,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
             
             String xml = EntityUtils.toString(httpEntity, "utf-8");
+            log.info("Piggy Check next page string1: " + xml);
             xml = xml.substring(xml.indexOf("Older Comments\" href=\"//jandan.net/ooxx/page-")+45, xml.length());
+            log.info("Piggy Check next page string2: " + xml);
             xml = xml.substring(0, xml.indexOf("#comments\""));
 
 
