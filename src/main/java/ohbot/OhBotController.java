@@ -685,10 +685,10 @@ public class OhBotController {
             tse(text, replyToken);
         }
 
-        if (text.endsWith("@?") || text.endsWith("@？")) {
+        if (text.equals("@?") || text.equals("@？")) {
             help2(text, replyToken);
         }
-        if (text.endsWith("#?") || text.endsWith("＃？")) {
+        if (text.equals("#?") || text.equals("＃？")) {
             help(text, replyToken);
         }
         if (text.endsWith("?") || text.endsWith("？")) {
@@ -2786,7 +2786,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private String getJanDanJsPath(String target) {
-        return getJanDanJsPath(target, 0);
+        return getJanDanJsPath(target, "0");
     }
 
     private String getJanDanNextPage(String current) {
