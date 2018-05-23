@@ -1972,10 +1972,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void randomGirlProgressing(String text, String replyToken) throws IOException {
         if (mJanDanProgressingPage == 1) {
-            this.replyText(replyToken, "煎蛋分析完成. 總頁數: " + mJanDanMaxPage);
+            this.replyText(replyToken, "煎蛋分析完成. 總頁數: Unknown";
         }
         else {
-            this.replyText(replyToken, "煎蛋分析中... 總頁數: " + mJanDanMaxPage + " 當前處理第" + mJanDanProgressingPage + "頁");
+            this.replyText(replyToken, "煎蛋分析中... 總頁數: Unknown 當前處理第" + mJanDanProgressingPage + "頁");
         }
     }    
 
@@ -2742,35 +2742,39 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         mJanDanParseCount = 0;
         mJanDanGifCount = 0;
         mJanDanMaxPage = 0;
+        mJanDanProgressingPage = 0;
+        String nextPage = getJanDanNextPage("");
         try {
             
-            String maxPage = getJanDanJsPath("max");
+            // String maxPage = getJanDanJsPath("max");
             
 
-            try {
-                mJanDanMaxPage = Integer.parseInt(maxPage);
-            }
-            catch(java.lang.NumberFormatException e1) {
-                log.info("NumberFormatException " + e1);
-                mIsStartJandanParsing = false;
-                return;
-            }
+            // try {
+            //     mJanDanMaxPage = Integer.parseInt(maxPage);
+            // }
+            // catch(java.lang.NumberFormatException e1) {
+            //     log.info("NumberFormatException " + e1);
+            //     mIsStartJandanParsing = false;
+            //     return;
+            // }
 
-            log.info("Piggy Check max page int: " + mJanDanMaxPage);
+            //log.info("Piggy Check max page int: " + mJanDanMaxPage);
 
 
             log.info("1秒後開始抓取煎蛋妹子圖...");
-            for ( int i = mJanDanMaxPage; i > 0; i--) {
-                mJanDanProgressingPage = i;
+            while(true) {
+                mJanDanProgressingPage++;
                 try {
                     // 不敢爬太快 
                     Thread. sleep(1000);
                      // 網頁內容解析
-                    new Thread( new JanDanHtmlParser(i)).start();
+                    new Thread( new JanDanHtmlParser(nextPage)).start();
                     
                 } catch (Exception e1) {
                     e1.printStackTrace();
+                    break;
                 }
+                nextPage = getJanDanNextPage(nextPage);
             }
 
 
@@ -2778,11 +2782,50 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             e2.printStackTrace();
         }
         mIsStartJandanParsing = false;
+        log.info("抓取煎蛋妹子圖 Finished.");
     }
 
     private String getJanDanJsPath(String target) {
         return getJanDanJsPath(target, 0);
     }
+
+    private String getJanDanNextPage(String current) {
+
+        try {
+            String url="";
+            if (current.length == 0) {
+                url="http://jandan.net/ooxx/";
+            }
+            else {
+                url="http://jandan.net/ooxx/page-"+current;
+            }
+            
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            
+            log.info(url);
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+            
+            String xml = EntityUtils.toString(httpEntity, "utf-8");
+            xml = xml.substring(xml.indexOf("Older Comments\" href=\"//jandan.net/ooxx/page-")+45, xml.length());
+            xml = xml.substring(0, xml.indexOf("#comments\""));
+
+
+            log.info("Piggy Check next page string: " + xml);
+            return xml;
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        log.info("Piggy Check parse next page string fail.");
+        return "";
+    }
+
     // target(max or js)
     private String getJanDanJsPath(String target, int page) {
 
