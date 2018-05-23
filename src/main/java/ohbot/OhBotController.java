@@ -3052,9 +3052,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         private String html;
         private String js;
-        private int page;
+        private String page;
 
-        public JanDanHtmlParser(int page) {
+        public JanDanHtmlParser(String page) {
             this.page = page;
         }
 
