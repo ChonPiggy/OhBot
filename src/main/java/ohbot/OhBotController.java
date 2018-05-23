@@ -2827,7 +2827,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     // target(max or js)
-    private String getJanDanJsPath(String target, int page) {
+    private String getJanDanJsPath(String target, String page) {
 
         try {
             String url="http://jandan.net/ooxx/";
