@@ -1830,9 +1830,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             dumpSource = dumpSource.replace("http", "https");
             //dumpSource = dumpSource.replace("ab.unayung.cc", "unayung.cc");
             log.info("Piggy Check dailyBeauty image: " + dumpSource);
-            //this.replyText(replyToken, dumpSource);
+            this.replyText(replyToken, dumpSource);
 
-            this.replyImage(replyToken, dumpSource, dumpSource);
+            //this.replyImage(replyToken, dumpSource, dumpSource);
 
         }catch (IOException e2) {
             throw e2;
