@@ -1827,12 +1827,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             dumpSource = EntityUtils.toString(httpEntity, "utf-8");
             dumpSource = dumpSource.substring(dumpSource.indexOf("image_src\" href=\"")+17, dumpSource.length());
             dumpSource = dumpSource.substring(0, dumpSource.indexOf("\" />"));
-            dumpSource = dumpSource.replace("http", "https");
-            //dumpSource = dumpSource.replace("ab.unayung.cc", "unayung.cc");
+            if (dumpSource.startsWith("http:")) {
+                dumpSource = dumpSource.replace("http:", "https:");
+            }
+            if (dumpSource.contains("ab.unayung.cc")) {
+                dumpSource = dumpSource.replace("ab.unayung.cc", "unayung.cc");
+            }
+                        
             log.info("Piggy Check dailyBeauty image: " + dumpSource);
-            this.replyText(replyToken, dumpSource);
+            //this.replyText(replyToken, dumpSource);
 
-            //this.replyImage(replyToken, dumpSource, dumpSource);
+            this.replyImage(replyToken, dumpSource, dumpSource);
 
         }catch (IOException e2) {
             throw e2;
