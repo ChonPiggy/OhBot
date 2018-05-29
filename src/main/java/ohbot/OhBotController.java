@@ -636,8 +636,8 @@ public class OhBotController {
         log.info(text);
 
         if (mJanDanGirlList.size() == 0 && !mIsStartJandanStarted) {
-            mIsStartJandanStarted = true;
-            startFetchJanDanGirlImages();
+            //mIsStartJandanStarted = true;
+            //startFetchJanDanGirlImages();
         }
 
         if (text.endsWith("天氣?") || text.endsWith("天氣？")) {
@@ -1828,7 +1828,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             dumpSource = dumpSource.substring(dumpSource.indexOf("image_src\" href=\"")+17, dumpSource.length());
             dumpSource = dumpSource.substring(0, dumpSource.indexOf("\" />"));
             dumpSource = dumpSource.replace("http", "https");
-            dumpSource = dumpSource.replace("ab.unayung.cc", "unayung.cc");
+            //dumpSource = dumpSource.replace("ab.unayung.cc", "unayung.cc");
+            log.info("Piggy Check dailyBeauty image: " + dumpSource);
             //this.replyText(replyToken, dumpSource);
 
             this.replyImage(replyToken, dumpSource, dumpSource);
@@ -2721,7 +2722,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             log.info("Piggy Check js_x: " + js_x);
 
-            return decrypt(input, js_x);
+            return decryptJanDanImagePath(input, js_x);
 
 
         }catch (Exception e) {
@@ -2812,9 +2813,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
             
             String xml = EntityUtils.toString(httpEntity, "utf-8");
-            log.info("Piggy Check next page string1: " + xml);
             xml = xml.substring(xml.indexOf("Older Comments\" href=\"//jandan.net/ooxx/page-")+45, xml.length());
-            log.info("Piggy Check next page string2: " + xml);
             xml = xml.substring(0, xml.indexOf("#comments\""));
 
 
@@ -3100,7 +3099,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.substring(result.indexOf("class=\"img-hash\">")+17, result.length());
                     result = result.substring(0, result.indexOf("</span>"));
 
-                    String result_final = decrypt(result,js_x);
+                    String result_final = decryptJanDanImagePath(result,js_x);
                     mJanDanParseCount++;
                     // log.info("Piggy Check img_link: " + result_final);
                     result_final.replaceAll(" ", "");
@@ -3110,7 +3109,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                             // Workaround, try last workable js_x and decrypt again.
                             log.info("Try backup js_x: " + mLastWorkableJsX);
                             js_x = mLastWorkableJsX;
-                            result_final = decrypt(result,js_x);
+                            result_final = decryptJanDanImagePath(result,js_x);
                             if (!result_final.endsWith(".jpg")&&!result_final.endsWith(".png")&&!result_final.endsWith(".jpeg")&&!result_final.endsWith(".gif")){
                                 log.info("Still Parse error? result_final: " + result_final);
                                 mLastWorkableJsX = "";
@@ -3146,7 +3145,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }    
     }
 
-    private String decrypt(String n, String x) {
+    private String decryptJanDanImagePath(String n, String x) {
         int g = 4;
         x = toHexString(md5(getUtf8String(x)));
         String w = toHexString(md5(getUtf8String(x.substring(0, 16))));
