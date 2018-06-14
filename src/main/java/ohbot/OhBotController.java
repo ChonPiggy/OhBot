@@ -774,6 +774,9 @@ public class OhBotController {
         if (text.contains("蛙")) {
             whereIsMyFrog(text, replyToken);
         }
+        if (text.equals("eg")||text.equals("EG")||text.equals("egef")||text.equals("EGEF")||text.equals("女流氓")||text.equals("蕭婆")) {
+            keywordImage("EG",replyToken);
+        }
     }
 
     @EventMapping
@@ -2290,6 +2293,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyText(replyToken, "去吃什麼: " + mEatWhatArray.toString());
 
         
+    }
+
+    private void keywordImage(String text, String replyToken) throws IOException {
+
+        if (text.equals("EG")) {
+            String source = "https://i.imgur.com/6qN9GI1.jpg";
+            this.replyImage(replyToken, source, source);
+        }
     }
 
     
