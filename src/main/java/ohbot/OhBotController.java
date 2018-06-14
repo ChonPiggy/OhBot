@@ -774,7 +774,7 @@ public class OhBotController {
         if (text.contains("蛙")) {
             whereIsMyFrog(text, replyToken);
         }
-        if (text.equals("eg")||text.equals("EG")||text.equals("egef")||text.equals("EGEF")||text.equals("女流氓")||text.equals("蕭婆")) {
+        if (text.equalsIgnoreCase("eg")||text.equalsIgnoreCase("egef")||text.equals("女流氓")||text.equals("蕭婆")) {
             keywordImage("EG",replyToken);
         }
     }
