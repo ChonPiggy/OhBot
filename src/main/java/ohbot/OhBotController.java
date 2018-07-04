@@ -1066,6 +1066,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         log.info(text);
 
         HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V7/forecast/world/world_aa.htm");
+        CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = httpClient.execute(httpget);
         HttpEntity httpEntity = response.getEntity();
         String strResult = EntityUtils.toString(httpEntity, "utf-8");
@@ -1076,7 +1077,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return false;
         }
         else {
-            strResult.substring(("<td class=\"laf\">" + text),"</tr>");
+            strResult.substring(strResult.indexOf("<td class=\"laf\">" + text),strResult.indexOf("</tr>"));
         }
 
         String reportTime = strResult.substring(strResult.indexOf("發布時間:"),strResult.indexOf("<br"));
