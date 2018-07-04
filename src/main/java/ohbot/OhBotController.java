@@ -1077,7 +1077,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return false;
         }
         else {
-            strResult.substring(strResult.indexOf("<td class=\"laf\">" + text),strResult.indexOf("</tr>"));
+            String temp = "<td class=\"laf\">" + text;
+            strResult = strResult.substring(strResult.indexOf(temp), strResult.length());
+            strResult = strResult.substring(0,strResult.indexOf("</tr>"));
         }
 
         String reportTime = strResult.substring(strResult.indexOf("發布時間:"),strResult.indexOf("<br"));
