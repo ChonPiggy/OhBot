@@ -1094,7 +1094,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String locationName = text;
         String locationNameEnglish = strResult.substring(strResult.indexOf("name=\"")+6, strResult.indexOf("\" id="));
 
-        strResult = strResult.substring(strResult.indexOf("earea"), strResult.length());
+        strResult = strResult.substring(strResult.indexOf("earea")+14, strResult.length());
 
         String weather = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
 
