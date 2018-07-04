@@ -1077,13 +1077,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return false;
         }
         else {
+
+            String reportTime = strResult.substring(strResult.indexOf("發布時間:"),strResult.indexOf("<br"));
+            String availableTime =  strResult.substring(strResult.indexOf("有效時間:"),strResult.indexOf("</p>"));
+
             String temp = "<td class=\"laf\">" + text;
             strResult = strResult.substring(strResult.indexOf(temp), strResult.length());
             strResult = strResult.substring(0,strResult.indexOf("</tr>"));
         }
 
-        String reportTime = strResult.substring(strResult.indexOf("發布時間:"),strResult.indexOf("<br"));
-        String availableTime =  strResult.substring(strResult.indexOf("有效時間:"),strResult.indexOf("</p>"));
+        
 
         String locationName = text;
         String locationNameEnglish = strResult.substring(strResult.indexOf("name=\"")+6, strResult.indexOf("\" id="));
