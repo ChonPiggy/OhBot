@@ -898,7 +898,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private boolean weatherResult(String text, String replyToken) throws IOException {
         text = text.replace("天氣", "").replace("?", "").replace("？", "").replace("臺", "台").trim();
-        log.info(text);
+        log.info("weatherResult:" + text);
         boolean isHaveResult = true;
         try {
             if (text.length() <= 3) {
@@ -1047,6 +1047,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     }
                     default: {
                         strResult = "義大利?維大力? \nSorry 我不知道" + text + "是哪裡...";
+                        log.info("weatherResult default: " + text);
                         return false;
                     }
                 }
@@ -1076,6 +1077,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         if (!strResult.contains(text)) {
             strResult = "義大利?維大力? \nSorry 我不知道" + text + "是哪裡...";
+            log.info("worldWeatherResult default: " + text);
             this.replyText(replyToken, strResult);
             return false;
         }
