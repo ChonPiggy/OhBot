@@ -898,7 +898,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private boolean weatherResult(String text, String replyToken) throws IOException {
         text = text.replace("天氣", "").replace("?", "").replace("？", "").replace("臺", "台").trim();
-        log.info("weatherResult:" + text);
+        log.info("weatherResult: " + text);
         boolean isHaveResult = true;
         try {
             if (text.length() <= 3) {
@@ -1055,6 +1055,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 strResult = strResult.replaceAll("<[^<>]*?>", "");
                 this.replyText(replyToken, strResult);
 
+            } else {
+                log.info("weatherResult length: " + text.length());
+                return false;
             }
         } catch (IOException e) {
             throw e;
