@@ -1071,6 +1071,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         HttpEntity httpEntity = response.getEntity();
         String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
+        String reportTime = "";
+        String availableTime = "";
+
         if (!strResult.contains(text)) {
             strResult = "義大利?維大力? \nSorry 我不知道" + text + "是哪裡...";
             this.replyText(replyToken, strResult);
@@ -1078,8 +1081,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
         else {
 
-            String reportTime = strResult.substring(strResult.indexOf("發布時間:"),strResult.indexOf("<br"));
-            String availableTime =  strResult.substring(strResult.indexOf("有效時間:"),strResult.indexOf("</p>"));
+            reportTime = strResult.substring(strResult.indexOf("發布時間:"),strResult.indexOf("<br"));
+            availableTime =  strResult.substring(strResult.indexOf("有效時間:"),strResult.indexOf("</p>"));
 
             String temp = "<td class=\"laf\">" + text;
             strResult = strResult.substring(strResult.indexOf(temp), strResult.length());
