@@ -1068,7 +1068,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V7/forecast/world/world_aa.htm");
         CloseableHttpResponse response = httpClient.execute(httpget);
         HttpEntity httpEntity = response.getEntity();
-        strResult = EntityUtils.toString(httpEntity, "utf-8");
+        String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
         if (!strResult.contains(text)) {
             strResult = "義大利?維大力? \nSorry 我不知道" + text + "是哪裡...";
