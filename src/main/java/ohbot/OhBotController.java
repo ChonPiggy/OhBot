@@ -641,7 +641,10 @@ public class OhBotController {
         }
 
         if (text.endsWith("天氣?") || text.endsWith("天氣？")) {
-            weatherResult(text, replyToken);
+            boolean result = weatherResult(text, replyToken);
+            if (!result) {
+                worldWeatherResult(text, replyToken);
+            }
         }
 
         if (text.endsWith("氣象?") || text.endsWith("氣象？")) {
@@ -893,9 +896,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void weatherResult(String text, String replyToken) throws IOException {
+    private boolean weatherResult(String text, String replyToken) throws IOException {
         text = text.replace("天氣", "").replace("?", "").replace("？", "").replace("臺", "台").trim();
         log.info(text);
+        boolean isHaveResult = true;
         try {
             if (text.length() <= 3) {
                 CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -1041,16 +1045,74 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
-                    default:
+                    default: {
                         strResult = "義大利?維大力? \nSorry 我不知道" + text + "是哪裡...";
+                        return false;
+                    }
                 }
                 strResult = strResult.replace("<BR><BR>", "\n");
                 strResult = strResult.replaceAll("<[^<>]*?>", "");
                 this.replyText(replyToken, strResult);
+
             }
         } catch (IOException e) {
             throw e;
         }
+        return isHaveResult;
+    }
+
+    private boolean worldWeatherResult(String text, String replyToken) throws IOException {
+        text = text.replace("天氣", "").replace("?", "").replace("？", "").replace("臺", "台").trim();
+        log.info(text);
+
+        HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V7/forecast/world/world_aa.htm");
+        CloseableHttpResponse response = httpClient.execute(httpget);
+        HttpEntity httpEntity = response.getEntity();
+        strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+        if (!strResult.contains(text)) {
+            strResult = "義大利?維大力? \nSorry 我不知道" + text + "是哪裡...";
+            this.replyText(replyToken, strResult);
+            return false;
+        }
+        else {
+            strResult.substring(("<td class=\"laf\">" + text),"</tr>");
+        }
+
+        String reportTime = strResult.substring(strResult.indexOf("發布時間:"),strResult.indexOf("<br"));
+        String availableTime =  strResult.substring(strResult.indexOf("有效時間:"),strResult.indexOf("</p>"));
+
+        String locationName = text;
+        String locationNameEnglish = strResult.substring(strResult.indexOf("name=\"")+6, strResult.indexOf("\" id="));
+
+        strResult = strResult.substring(strResult.indexOf("earea"), strResult.length());
+
+        String weather = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
+
+        strResult = strResult.substring(strResult.indexOf("</td>")+4, strResult.length());
+
+        String temperature = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
+
+        strResult = strResult.substring(strResult.indexOf("</td>")+4, strResult.length());
+
+        String temperatureMonthLow = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
+
+        strResult = strResult.substring(strResult.indexOf("</td>")+4, strResult.length());
+
+        String temperatureMonthHigh = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
+
+        strResult = locationName + "(" + locationNameEnglish + ")" + 
+                    "\n天氣: " + weather + 
+                    "\n溫度(℃):" + temperature + 
+                    "\n\n月平均溫度(℃) " + 
+                    "\n最高: " + temperatureMonthHigh + 
+                    "\n最低: " + temperatureMonthLow + 
+                    "\n" + reportTime + 
+                    "\n" + availableTime;
+
+        this.replyText(replyToken, strResult);
+        return true;
+
     }
 
     private void weatherResult2(String text, String replyToken) throws IOException {
