@@ -1117,10 +1117,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         strResult = locationName + "(" + locationNameEnglish + ")" + 
                     "\n天氣: " + weather + 
-                    "\n溫度: " + temperature + "℃"
+                    "\n溫度: " + temperature + "℃" +
                     "\n\n月平均溫度" + 
-                    "\n最高: " + temperatureMonthHigh + "℃"
-                    "\n最低: " + temperatureMonthLow + "℃"
+                    "\n最高: " + temperatureMonthHigh + "℃" +
+                    "\n最低: " + temperatureMonthLow + "℃" +
                     "\n" + reportTime + 
                     "\n" + availableTime;
 
