@@ -2451,7 +2451,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return;
         }
 
-        String strResult = "成功設定預設匯率貨幣代號: " + mExchangedDefaultCountry + "中文幣名: " + mExchangedDefaultText;
+        String strResult = "成功設定預設匯率\n貨幣代號: " + mExchangedDefaultCountry + "\n中文幣名: " + mExchangedDefaultText + "\n歌頌 PG 讚美 PG";
         this.replyText(replyToken, strResult);
     }
 
