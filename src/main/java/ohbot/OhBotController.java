@@ -114,6 +114,10 @@ public class OhBotController {
     private int mJanDanProgressingPage = 0;
     private String mLastWorkableJsX = "";
 
+    private String mExchangedDefaultText = "新幣";
+    private String mExchangedDefaultCountry = "SGD";
+    
+
     @Autowired
     private LineMessagingService lineMessagingService;
 
@@ -772,6 +776,9 @@ public class OhBotController {
         }
         if (text.equals("PgCommand列出隨機動作")) {
             dumpRandomTitle(text, replyToken);
+        }
+        if (text.startsWith("PgCommand設定預設匯率:")) {
+            setDefaultExchanged(text,replyToken);
         }
 
         if (text.contains("蛙")) {
@@ -2379,13 +2386,80 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    
+    private void setDefaultExchanged(String text, String replyToken) {
+        text = text.replace("PgCommand設定預設匯率:", "");
+
+        if (text.equals("USD")) {
+            mExchangedDefaultText="美金";
+            mExchangedDefaultCountry="USD";
+        }
+        else if (text.equals("JPY")) {
+            mExchangedDefaultText="日圓";
+            mExchangedDefaultCountry="JPY";
+        }
+        else if (text.equals("CNY")) {
+            mExchangedDefaultText="人民幣";
+            mExchangedDefaultCountry="CNY";
+        }
+        else if (text.equals("EUR")) {
+            mExchangedDefaultText="歐元";
+            mExchangedDefaultCountry="EUR";
+        }
+        else if (text.equals("HKD")) {
+            mExchangedDefaultText="港幣";
+            mExchangedDefaultCountry="HKD";
+        }
+        else if (text.equals("GBP")) {
+            mExchangedDefaultText="英鎊";
+            mExchangedDefaultCountry="GBP";
+        }
+        else if (text.equals("KRW")) {
+            mExchangedDefaultText="韓元";
+            mExchangedDefaultCountry="KRW";
+        }
+        else if (text.equals("VND")) {
+            mExchangedDefaultText="越南盾";
+            mExchangedDefaultCountry="VND";
+        }
+        else if (text.equals("AUD")) {
+            mExchangedDefaultText="澳幣";
+            mExchangedDefaultCountry="AUD";
+        }
+        else if (text.equals("THB")) {
+            mExchangedDefaultText="泰銖";
+            mExchangedDefaultCountry="THB";
+        }
+        else if (text.equals("IDR")) {
+            mExchangedDefaultText="印尼盾";
+            mExchangedDefaultCountry="IDR";
+        }
+        else if (text.equals("CHF")) {
+            mExchangedDefaultText="法郎";
+            mExchangedDefaultCountry="CHF";
+        }
+        else if (text.equals("PHP")) {
+            mExchangedDefaultText="披索";
+            mExchangedDefaultCountry="PHP";
+        }
+        else if (text.equals("SGD")) {
+            mExchangedDefaultText="新幣";
+            mExchangedDefaultCountry="SGD";
+        }
+        else {
+            String strResult = "設定失敗! 不可識別的貨幣代號: " + text;
+            this.replyText(replyToken, strResult);
+            return;
+        }
+        
+        String strResult = "成功設定預設匯率貨幣代號: " + mExchangedDefaultCountry; + "中文幣名: " + mExchangedDefaultText;
+        this.replyText(replyToken, strResult);
+    }
 
     private void exchangeDefault(String text, String replyToken) throws IOException {
         text = text.replace("?", "").replace("？", "").trim();
         try {
-            String strResult = text + "新幣";
-            String country ="SGD";
+            String strResult = text + mExchangedDefaultText;
+            String country = mExchangedDefaultCountry;
 
             int inputNumber = -1;
                 try {
