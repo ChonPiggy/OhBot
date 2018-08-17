@@ -2384,8 +2384,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void exchangeDefault(String text, String replyToken) throws IOException {
         text = text.replace("?", "").replace("？", "").trim();
         try {
-            String strResult = text + "日圓";
-            String country ="JPY";
+            String strResult = text + "新幣";
+            String country ="SGD";
 
             int inputNumber = -1;
                 try {
