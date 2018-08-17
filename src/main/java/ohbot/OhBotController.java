@@ -2450,8 +2450,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, strResult);
             return;
         }
-        
-        String strResult = "成功設定預設匯率貨幣代號: " + mExchangedDefaultCountry; + "中文幣名: " + mExchangedDefaultText;
+
+        String strResult = "成功設定預設匯率貨幣代號: " + mExchangedDefaultCountry + "中文幣名: " + mExchangedDefaultText;
         this.replyText(replyToken, strResult);
     }
 
