@@ -114,8 +114,8 @@ public class OhBotController {
     private int mJanDanProgressingPage = 0;
     private String mLastWorkableJsX = "";
 
-    private String mExchangedDefaultText = "新幣";
-    private String mExchangedDefaultCountry = "SGD";
+    private String mExchangedDefaultText = "日圓";
+    private String mExchangedDefaultCountry = "JPY";
     
 
     @Autowired
