@@ -2413,9 +2413,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             private List<String> mKofatCosplayImgurLinkList = Arrays.asList("https://i.imgur.com/gxkWn4A.jpg", "https://i.imgur.com/gb0Lq9n.jpg", "https://i.imgur.com/M9PK8Yv.jpg", "https://i.imgur.com/M9PK8Yv.jpg", "https://i.imgur.com/ModcBfG.jpg", "https://i.imgur.com/ILdOVVU.jpg", "https://i.imgur.com/9vNvyNU.jpg", "https://i.imgur.com/vCUHxNG.jpg", "https://i.imgur.com/6FnBh36.jpg", "https://i.imgur.com/LRByCFW.jpg", "https://i.imgur.com/AU6WcdZ.jpg", "https://i.imgur.com/kqMVlRL.jpg", "https://i.imgur.com/khIEZAV.jpg", "https://i.imgur.com/QxkjpS1.jpg", "https://i.imgur.com/S3zo1WG.jpg", "https://i.imgur.com/CHby1As.jpg");
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mKofatCosplayImgurLinkList.size());
-            source = mKofatCosplayImgurLinkList.get(random_num));
+            source = mKofatCosplayImgurLinkList.get(random_num);
         }
-        if (text.equals("TragicWorld") {
+        if (text.equals("TragicWorld")) {
             source = "https://i.imgur.com/1Ap4Qka.jpg";
         }
         this.replyImage(replyToken, source, source);
