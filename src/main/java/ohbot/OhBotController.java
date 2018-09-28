@@ -784,9 +784,19 @@ public class OhBotController {
         if (text.contains("蛙")) {
             whereIsMyFrog(text, replyToken);
         }
-        if (text.equalsIgnoreCase("eg")||text.equalsIgnoreCase("egef")||text.equals("女流氓")||text.equals("蕭婆")) {
+        if (text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")) {
             keywordImage("EG",replyToken);
         }
+        if (text.equals("悲慘世界")) {
+            keywordImage("TragicWorld",replyToken);
+        }
+        if (text.equals("部囧")) {
+            keywordImage("kofat",replyToken);
+        }
+        if (text.contains("姨姨")||text.contains("委員")||text.contains("翠姨")) {
+            keywordImage("Chuiyi",replyToken);
+        }
+
     }
 
     @EventMapping
@@ -2380,10 +2390,35 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void keywordImage(String text, String replyToken) throws IOException {
 
+        String source = "";
         if (text.equals("EG")) {
-            String source = "https://i.imgur.com/6qN9GI1.jpg";
-            this.replyImage(replyToken, source, source);
+            source = "https://i.imgur.com/6qN9GI1.jpg";
         }
+        if (text.equals("Chuiyi")) {
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(3);
+            switch (random_num) {
+                case 0:
+                    source = "https://i.imgur.com/4bEHYOm.jpg";
+                    break;
+                case 1:
+                    source = "https://i.imgur.com/ifkhGyu.jpg";
+                    break;
+                case 2:
+                    source = "https://i.imgur.com/BsavJHK.jpg";
+                    break;
+            }
+        }
+        if (text.equals("kofat")) {
+            private List<String> mKofatCosplayImgurLinkList = Arrays.asList("https://i.imgur.com/gxkWn4A.jpg", "https://i.imgur.com/gb0Lq9n.jpg", "https://i.imgur.com/M9PK8Yv.jpg", "https://i.imgur.com/M9PK8Yv.jpg", "https://i.imgur.com/ModcBfG.jpg", "https://i.imgur.com/ILdOVVU.jpg", "https://i.imgur.com/9vNvyNU.jpg", "https://i.imgur.com/vCUHxNG.jpg", "https://i.imgur.com/6FnBh36.jpg", "https://i.imgur.com/LRByCFW.jpg", "https://i.imgur.com/AU6WcdZ.jpg", "https://i.imgur.com/kqMVlRL.jpg", "https://i.imgur.com/khIEZAV.jpg", "https://i.imgur.com/QxkjpS1.jpg", "https://i.imgur.com/S3zo1WG.jpg", "https://i.imgur.com/CHby1As.jpg");
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(mKofatCosplayImgurLinkList.size());
+            source = mKofatCosplayImgurLinkList.get(random_num));
+        }
+        if (text.equals("TragicWorld") {
+            source = "https://i.imgur.com/1Ap4Qka.jpg";
+        }
+        this.replyImage(replyToken, source, source);
     }
 
     private void setDefaultExchanged(String text, String replyToken) {
