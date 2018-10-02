@@ -784,7 +784,7 @@ public class OhBotController {
         if (text.contains("蛙")) {
             whereIsMyFrog(text, replyToken);
         }
-        if (text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")) {
+        if (text.contains("eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")) {
             keywordImage("EG",replyToken);
         }
         if (text.equals("悲慘世界")) {
@@ -795,6 +795,9 @@ public class OhBotController {
         }
         if (text.contains("姨姨")||text.contains("委員")||text.contains("翠姨")) {
             keywordImage("Chuiyi",replyToken);
+        }
+        if (text.contains("抽鬼牌")) {
+            keywordImage("PickGhostCard",replyToken);
         }
 
     }
@@ -2417,6 +2420,18 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
         if (text.equals("TragicWorld")) {
             source = "https://i.imgur.com/1Ap4Qka.jpg";
+        }
+        if (text.equals("PickGhostCard")) {
+            List<String> mEgDevilImgurLinkList = Arrays.asList("https://i.imgur.com/qHbEBjN.jpg", "https://i.imgur.com/NFbnbSs.jpg", "https://i.imgur.com/68KRiAj.jpg", "https://i.imgur.com/dHEEBcU.jpg", "https://i.imgur.com/OMqBsOl.jpg", "https://i.imgur.com/JBuBhqr.jpg", "https://i.imgur.com/O5o7tD3.jpg", "https://i.imgur.com/PYZ4v9V.jpg", "https://i.imgur.com/GRD3yXF.jpg");
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(mEgDevilImgurLinkList.size());
+            int random_result = randomGenerator.nextInt(50);
+            if (random_result == 25) {
+                source = "https://i.imgur.com/kQrWoal.jpg";
+            }
+            else {
+                source = mEgDevilImgurLinkList.get(random_num);
+            }
         }
         this.replyImage(replyToken, source, source);
     }
