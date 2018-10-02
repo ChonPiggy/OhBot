@@ -784,7 +784,7 @@ public class OhBotController {
         if (text.contains("蛙")) {
             whereIsMyFrog(text, replyToken);
         }
-        if (text.contains("eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")) {
+        if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")) {
             keywordImage("EG",replyToken);
         }
         if (text.equals("悲慘世界")) {
@@ -798,6 +798,9 @@ public class OhBotController {
         }
         if (text.contains("抽鬼牌")) {
             keywordImage("PickGhostCard",replyToken);
+        }
+        if (text.contains("凱西"||text.contains("牙醫")) {
+            keywordImage("FattyCathy",replyToken);
         }
 
     }
@@ -2425,12 +2428,24 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             List<String> mEgDevilImgurLinkList = Arrays.asList("https://i.imgur.com/qHbEBjN.jpg", "https://i.imgur.com/NFbnbSs.jpg", "https://i.imgur.com/68KRiAj.jpg", "https://i.imgur.com/dHEEBcU.jpg", "https://i.imgur.com/OMqBsOl.jpg", "https://i.imgur.com/JBuBhqr.jpg", "https://i.imgur.com/O5o7tD3.jpg", "https://i.imgur.com/PYZ4v9V.jpg", "https://i.imgur.com/GRD3yXF.jpg");
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mEgDevilImgurLinkList.size());
-            int random_result = randomGenerator.nextInt(50);
-            if (random_result == 25) {
+            int random_result = randomGenerator.nextInt(30);
+            if (random_result == 15) {
                 source = "https://i.imgur.com/kQrWoal.jpg";
             }
             else {
                 source = mEgDevilImgurLinkList.get(random_num);
+            }
+        }
+        if (text.equals("FattyCathy")) {
+            List<String> mCathyImgurLinkList = Arrays.asList("https://i.imgur.com/HDMVB7b.jpg", "https://i.imgur.com/FBf3jBj.jpg", "https://i.imgur.com/zOsCpM9.jpg", "https://i.imgur.com/rvpbeBu.jpg", "https://i.imgur.com/Zdutf4L.jpg", "https://i.imgur.com/ADVhL9m.jpg", "https://i.imgur.com/ehWNONr.jpg", "https://i.imgur.com/coHvFWI.jpg", "https://i.imgur.com/Cjyk751.jpg");
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(mCathyImgurLinkList.size());
+            int random_result = randomGenerator.nextInt(30);
+            if (random_result == 15) {
+                source = "https://i.imgur.com/Ow6MgCO.jpg";
+            }
+            else {
+                source = mCathyImgurLinkList.get(random_num);
             }
         }
         this.replyImage(replyToken, source, source);
