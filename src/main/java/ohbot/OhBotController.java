@@ -2431,7 +2431,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
         if (text.equals("FattyCathy")) {
-            List<String> mCathyImgurLinkList = Arrays.asList("https://i.imgur.com/HDMVB7b.jpg", "https://i.imgur.com/FBf3jBj.jpg", "https://i.imgur.com/zOsCpM9.jpg", "https://i.imgur.com/rvpbeBu.jpg", "https://i.imgur.com/Zdutf4L.jpg", "https://i.imgur.com/ADVhL9m.jpg", "https://i.imgur.com/ehWNONr.jpg", "https://i.imgur.com/coHvFWI.jpg", "https://i.imgur.com/Cjyk751.jpg");
+            List<String> mCathyImgurLinkList = Arrays.asList("https://i.imgur.com/Z5ANVH8.jpg", "https://i.imgur.com/h7w7Tf5.jpg", "https://i.imgur.com/SnVoayh.jpg", "https://i.imgur.com/HDMVB7b.jpg", "https://i.imgur.com/FBf3jBj.jpg", "https://i.imgur.com/zOsCpM9.jpg", "https://i.imgur.com/rvpbeBu.jpg", "https://i.imgur.com/Zdutf4L.jpg", "https://i.imgur.com/ADVhL9m.jpg", "https://i.imgur.com/ehWNONr.jpg", "https://i.imgur.com/coHvFWI.jpg", "https://i.imgur.com/Cjyk751.jpg");
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mCathyImgurLinkList.size());
             int random_result = randomGenerator.nextInt(30);
