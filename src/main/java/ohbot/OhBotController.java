@@ -799,7 +799,7 @@ public class OhBotController {
         if (text.contains("抽鬼牌")) {
             keywordImage("PickGhostCard",replyToken);
         }
-        if (text.contains("凱西"||text.contains("牙醫")) {
+        if (text.contains("凱西")||text.contains("牙醫")) {
             keywordImage("FattyCathy",replyToken);
         }
 
