@@ -796,9 +796,6 @@ public class OhBotController {
         if (text.contains("姨姨")||text.contains("委員")||text.contains("翠姨")) {
             keywordImage("Chuiyi",replyToken);
         }
-        if (text.contains("抽鬼牌")) {
-            keywordImage("PickGhostCard",replyToken);
-        }
         if (text.contains("凱西")||text.contains("牙醫")) {
             keywordImage("FattyCathy",replyToken);
         }
@@ -2397,9 +2394,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void keywordImage(String text, String replyToken) throws IOException {
 
         String source = "";
-        if (text.equals("EG")) {
-            source = "https://i.imgur.com/6qN9GI1.jpg";
-        }
         if (text.equals("Chuiyi")) {
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(3);
@@ -2424,8 +2418,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (text.equals("TragicWorld")) {
             source = "https://i.imgur.com/1Ap4Qka.jpg";
         }
-        if (text.equals("PickGhostCard")) {
-            List<String> mEgDevilImgurLinkList = Arrays.asList("https://i.imgur.com/qHbEBjN.jpg", "https://i.imgur.com/NFbnbSs.jpg", "https://i.imgur.com/68KRiAj.jpg", "https://i.imgur.com/dHEEBcU.jpg", "https://i.imgur.com/OMqBsOl.jpg", "https://i.imgur.com/JBuBhqr.jpg", "https://i.imgur.com/O5o7tD3.jpg", "https://i.imgur.com/PYZ4v9V.jpg", "https://i.imgur.com/GRD3yXF.jpg");
+        if (text.equals("EG")) {
+            List<String> mEgDevilImgurLinkList = Arrays.asList("https://i.imgur.com/6qN9GI1.jpg", "https://i.imgur.com/qHbEBjN.jpg", "https://i.imgur.com/NFbnbSs.jpg", "https://i.imgur.com/68KRiAj.jpg", "https://i.imgur.com/dHEEBcU.jpg", "https://i.imgur.com/OMqBsOl.jpg", "https://i.imgur.com/JBuBhqr.jpg", "https://i.imgur.com/O5o7tD3.jpg", "https://i.imgur.com/PYZ4v9V.jpg", "https://i.imgur.com/GRD3yXF.jpg");
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mEgDevilImgurLinkList.size());
             int random_result = randomGenerator.nextInt(30);
