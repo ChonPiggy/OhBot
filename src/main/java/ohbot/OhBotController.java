@@ -790,12 +790,26 @@ public class OhBotController {
         if (text.contains("蛙")) {
             whereIsMyFrog(text, replyToken);
         }
+
+        if (text.equals("悲慘世界")) {
+            keywordImage("TragicWorld",replyToken);
+        }    
+
+        // keyword image control
+        if (text.endsWith("閉嘴")||text.endsWith("閉嘴！")||text.endsWith("閉嘴!")) {
+            keywordImageControlDisable(text,replyToken);
+            return;
+        }
+
+        if (text.endsWith("啞巴？")||text.endsWith("啞巴?")) {
+            keywordImageControlEnable(text,replyToken);
+            return;
+        }
+        
         if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")||text.contains("EG")) {
             keywordImage("EG",replyToken);
         }
-        if (text.equals("悲慘世界")) {
-            keywordImage("TragicWorld",replyToken);
-        }
+        
         if (text.equals("部囧")) {
             keywordImage("kofat",replyToken);
         }
@@ -804,14 +818,6 @@ public class OhBotController {
         }
         if (text.contains("凱西")||text.contains("牙醫")) {
             keywordImage("FattyCathy",replyToken);
-        }
-
-        if (text.endsWith("閉嘴")||text.endsWith("閉嘴！")||text.endsWith("閉嘴!")) {
-            keywordImageControlDisable(text,replyToken);
-        }
-
-        if (text.endsWith("啞巴？")||text.endsWith("啞巴?")) {
-            keywordImageControlEnable(text,replyToken);
         }
 
     }
@@ -2397,32 +2403,48 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void keywordImageControlDisable(String text, String replyToken) throws IOException {
+        boolean isDoSomething = false;
         if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")||text.contains("EG")) {
             isEgKeywordEnable = false;
+            isDoSomething = true;
         }
         if (text.equals("部囧")) {
             isKofatKeywordEnable = false;
+            isDoSomething = true;
         }
         if (text.contains("姨姨")||text.contains("委員")||text.contains("翠姨")) {
             isChuiyiKeywordEnable = false;
+            isDoSomething = true;
         }
         if (text.contains("凱西")||text.contains("牙醫")) {
             isCathyKeywordEnable = false;
+            isDoSomething = true;
+        }
+        if (isDoSomething) {
+            this.replyText(replyToken, "喔..");
         }
     }
 
     private void keywordImageControlEnable(String text, String replyToken) throws IOException {
+        boolean isDoSomething = false;
         if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")||text.contains("EG")) {
             isEgKeywordEnable = true;
+            isDoSomething = true;
         }
         if (text.equals("部囧")) {
             isKofatKeywordEnable = true;
+            isDoSomething = true;
         }
         if (text.contains("姨姨")||text.contains("委員")||text.contains("翠姨")) {
             isChuiyiKeywordEnable = true;
+            isDoSomething = true;
         }
         if (text.contains("凱西")||text.contains("牙醫")) {
             isCathyKeywordEnable = true;
+            isDoSomething = true;
+        }
+        if (isDoSomething) {
+            this.replyText(replyToken, "靠..");
         }
     }
 
