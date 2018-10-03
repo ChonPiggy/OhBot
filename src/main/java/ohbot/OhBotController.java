@@ -807,17 +807,25 @@ public class OhBotController {
         }
         
         if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")||text.contains("EG")) {
-            keywordImage("EG",replyToken);
+            if (isEgKeywordEnable) {
+                keywordImage("EG",replyToken);
+            }
         }
         
         if (text.equals("部囧")) {
-            keywordImage("kofat",replyToken);
+            if (isKofatKeywordEnable) {
+                keywordImage("kofat",replyToken);
+            }
         }
         if (text.contains("姨姨")||text.contains("委員")||text.contains("翠姨")) {
-            keywordImage("Chuiyi",replyToken);
+            if (isChuiyiKeywordEnable) {
+                keywordImage("Chuiyi",replyToken);
+            }
         }
         if (text.contains("凱西")||text.contains("牙醫")) {
-            keywordImage("FattyCathy",replyToken);
+            if (isCathyKeywordEnable) {
+                keywordImage("FattyCathy",replyToken);
+            }
         }
 
     }
@@ -2444,7 +2452,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             isDoSomething = true;
         }
         if (isDoSomething) {
-            this.replyText(replyToken, "靠..");
+            this.replyText(replyToken, "靠");
         }
     }
 
