@@ -116,6 +116,12 @@ public class OhBotController {
 
     private String mExchangedDefaultText = "日圓";
     private String mExchangedDefaultCountry = "JPY";
+
+
+    private boolean isKofatKeywordEnable = true;
+    private boolean isEgKeywordEnable = true;
+    private boolean isCathyKeywordEnable = true;
+    private boolean isChuiyiKeywordEnable = true;
     
 
     @Autowired
@@ -784,7 +790,7 @@ public class OhBotController {
         if (text.contains("蛙")) {
             whereIsMyFrog(text, replyToken);
         }
-        if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")) {
+        if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")||text.contains("EG")) {
             keywordImage("EG",replyToken);
         }
         if (text.equals("悲慘世界")) {
@@ -798,6 +804,14 @@ public class OhBotController {
         }
         if (text.contains("凱西")||text.contains("牙醫")) {
             keywordImage("FattyCathy",replyToken);
+        }
+
+        if (text.endsWith("閉嘴")||text.endsWith("閉嘴！")||text.endsWith("閉嘴!")) {
+            keywordImageControlDisable(text,replyToken);
+        }
+
+        if (text.endsWith("啞巴？")||text.endsWith("啞巴?")) {
+            keywordImageControlEnable(text,replyToken);
         }
 
     }
@@ -2374,21 +2388,42 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void cleanEatWhat(String text, String replyToken) throws IOException {
-                    
         mEatWhatArray.clear();
-        
-        this.replyText(replyToken, "成功清除去吃什麼");
-
-        
+        this.replyText(replyToken, "成功清除去吃什麼");        
     }
 
     private void dumpEatWhat(String text, String replyToken) throws IOException {
-        
-        
-            
         this.replyText(replyToken, "去吃什麼: " + mEatWhatArray.toString());
+    }
 
-        
+    private void keywordImageControlDisable(String text, String replyToken) throws IOException {
+        if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")||text.contains("EG")) {
+            isEgKeywordEnable = false;
+        }
+        if (text.equals("部囧")) {
+            isKofatKeywordEnable = false;
+        }
+        if (text.contains("姨姨")||text.contains("委員")||text.contains("翠姨")) {
+            isChuiyiKeywordEnable = false;
+        }
+        if (text.contains("凱西")||text.contains("牙醫")) {
+            isCathyKeywordEnable = false;
+        }
+    }
+
+    private void keywordImageControlEnable(String text, String replyToken) throws IOException {
+        if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")||text.contains("EG")) {
+            isEgKeywordEnable = true;
+        }
+        if (text.equals("部囧")) {
+            isKofatKeywordEnable = true;
+        }
+        if (text.contains("姨姨")||text.contains("委員")||text.contains("翠姨")) {
+            isChuiyiKeywordEnable = true;
+        }
+        if (text.contains("凱西")||text.contains("牙醫")) {
+            isCathyKeywordEnable = true;
+        }
     }
 
     private void keywordImage(String text, String replyToken) throws IOException {
