@@ -1727,6 +1727,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (text.length() <= 3) {
                 String strResult = "";
                 String areakey ="";
+                String sitekey ="";
                 switch (text) {
                     case "北部": {
                         areakey="north";
@@ -1760,13 +1761,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         areakey="island";
                         break;
                     }
-                    default:
-                        text="";
+                    default: {
+                        sitekey=text;
+                    }
 
                 }
                 if(text.equals("")){
+                    // Deprecate
                     strResult = "義大利?維大力? \n請輸入 這些地區：\n北部 竹苗 中部 \n雲嘉南 高屏 花東 \n宜蘭 外島";
                     this.replyText(replyToken, strResult);
+
                 }else{
                     CloseableHttpClient httpClient = HttpClients.createDefault();
                     String url="http://taqm.epa.gov.tw/taqm/aqs.ashx?lang=tw&act=aqi-epa";
@@ -1788,35 +1792,74 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     Gson gson = new GsonBuilder().create();
                     AqiResult aqiResult = gson.fromJson(pageContent, AqiResult.class);
                     List<Datum> areaData = new ArrayList<>();
-                    for(Datum datums:aqiResult.getData()){
-                        if(datums.getAreakey().equals(areakey)){
-                            areaData.add(datums);
+                    if (!areakey.equals("")) {
+                        for(Datum datums:aqiResult.getData()){
+                            if(datums.getAreakey().equals(areakey)){
+                                areaData.add(datums);
+                            }
                         }
+                        for (Datum datums : areaData) {
+                            String aqiStyle = datums.getAQI();
+                            if (Objects.equals(aqiStyle, "")) {
+                                aqiStyle = "999";
+                            }
+                            log.info(datums.getSitename()+" "+datums.getAQI());
+                            if (Integer.parseInt(aqiStyle) <= 50) {
+                                aqiStyle = ":blush: " +"良好";
+                            } else if (Integer.parseInt(aqiStyle) >= 51 && Integer.parseInt(aqiStyle) <= 100) {
+                                aqiStyle = ":no_mouth: " +"普通";
+                            } else if (Integer.parseInt(aqiStyle) >= 101 && Integer.parseInt(aqiStyle) <= 150) {
+                                aqiStyle = ":triumph: " +"對敏感族群不健康";
+                            } else if (Integer.parseInt(aqiStyle) >= 151 && Integer.parseInt(aqiStyle) <= 200) {
+                                aqiStyle = ":mask: " +"對所有族群不健康";
+                            } else if (Integer.parseInt(aqiStyle) >= 201 && Integer.parseInt(aqiStyle) <= 300) {
+                                aqiStyle = ":scream: " +"非常不健康";
+                            } else if (Integer.parseInt(aqiStyle) >= 301 && Integer.parseInt(aqiStyle) <= 500) {
+                                aqiStyle = ":imp: " +"危害";
+                            } else if (Integer.parseInt(aqiStyle) >= 500) {
+                                aqiStyle = "監測站資料異常";
+                            }
+                            strResult = strResult + datums.getSitename() + " AQI : " + datums.getAQI() + aqiStyle+"\n";
+                        }    
                     }
-                    for (Datum datums : areaData) {
-                        String aqiStyle = datums.getAQI();
-                        if (Objects.equals(aqiStyle, "")) {
-                            aqiStyle = "999";
+                    else {
+                        for(Datum datums:aqiResult.getData()){
+                            if(datums.getSitename().equals(sitekey)){
+                                areaData.add(datums);
+                            }
                         }
-                        log.info(datums.getSitename()+" "+datums.getAQI());
-                        if (Integer.parseInt(aqiStyle) <= 50) {
-                            aqiStyle = ":blush: " +"良好";
-                        } else if (Integer.parseInt(aqiStyle) >= 51 && Integer.parseInt(aqiStyle) <= 100) {
-                            aqiStyle = ":no_mouth: " +"普通";
-                        } else if (Integer.parseInt(aqiStyle) >= 101 && Integer.parseInt(aqiStyle) <= 150) {
-                            aqiStyle = ":triumph: " +"對敏感族群不健康";
-                        } else if (Integer.parseInt(aqiStyle) >= 151 && Integer.parseInt(aqiStyle) <= 200) {
-                            aqiStyle = ":mask: " +"對所有族群不健康";
-                        } else if (Integer.parseInt(aqiStyle) >= 201 && Integer.parseInt(aqiStyle) <= 300) {
-                            aqiStyle = ":scream: " +"非常不健康";
-                        } else if (Integer.parseInt(aqiStyle) >= 301 && Integer.parseInt(aqiStyle) <= 500) {
-                            aqiStyle = ":imp: " +"危害";
-                        } else if (Integer.parseInt(aqiStyle) >= 500) {
-                            aqiStyle = "監測站資料異常";
-                        }
-                        strResult = strResult + datums.getSitename() + " AQI : " + datums.getAQI() + aqiStyle+"\n";
+                        for (Datum datums : areaData) {
+                            String aqiStyle = datums.getAQI();
+                            if (Objects.equals(aqiStyle, "")) {
+                                aqiStyle = "999";
+                            }
+                            log.info(datums.getSitename()+" "+datums.getAQI());
+                            if (Integer.parseInt(aqiStyle) <= 50) {
+                                aqiStyle = ":blush: " +"良好";
+                            } else if (Integer.parseInt(aqiStyle) >= 51 && Integer.parseInt(aqiStyle) <= 100) {
+                                aqiStyle = ":no_mouth: " +"普通";
+                            } else if (Integer.parseInt(aqiStyle) >= 101 && Integer.parseInt(aqiStyle) <= 150) {
+                                aqiStyle = ":triumph: " +"對敏感族群不健康";
+                            } else if (Integer.parseInt(aqiStyle) >= 151 && Integer.parseInt(aqiStyle) <= 200) {
+                                aqiStyle = ":mask: " +"對所有族群不健康";
+                            } else if (Integer.parseInt(aqiStyle) >= 201 && Integer.parseInt(aqiStyle) <= 300) {
+                                aqiStyle = ":scream: " +"非常不健康";
+                            } else if (Integer.parseInt(aqiStyle) >= 301 && Integer.parseInt(aqiStyle) <= 500) {
+                                aqiStyle = ":imp: " +"危害";
+                            } else if (Integer.parseInt(aqiStyle) >= 500) {
+                                aqiStyle = "監測站資料異常";
+                            }
+                            strResult = strResult + datums.getSitename() + " AQI : " + datums.getAQI() + aqiStyle+"\n";
+                        }    
                     }
-                    this.replyText(replyToken, EmojiUtils.emojify(strResult));
+                    
+                    if (!strResult.equals("")) {
+                        this.replyText(replyToken, EmojiUtils.emojify(strResult));
+                    }
+                    else {
+                        strResult = "義大利?維大力? \n請輸入 這些地區：\n北部 竹苗 中部 \n雲嘉南 高屏 花東 \n宜蘭 外島";
+                        this.replyText(replyToken, strResult);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -2416,7 +2459,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             isEgKeywordEnable = false;
             isDoSomething = true;
         }
-        if (text.equals("部囧")) {
+        if (text.contains("部囧")) {
             isKofatKeywordEnable = false;
             isDoSomething = true;
         }
@@ -2439,7 +2482,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             isEgKeywordEnable = true;
             isDoSomething = true;
         }
-        if (text.equals("部囧")) {
+        if (text.contains("部囧")) {
             isKofatKeywordEnable = true;
             isDoSomething = true;
         }
