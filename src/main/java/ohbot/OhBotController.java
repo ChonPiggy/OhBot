@@ -121,7 +121,7 @@ public class OhBotController {
     private boolean isKofatKeywordEnable = false;
     private boolean isEgKeywordEnable = false;
     private boolean isCathyKeywordEnable = false;
-    private boolean isChuiyiKeywordEnable = false;
+    private boolean isChuiyiKeywordEnable = true;
     
 
     @Autowired
@@ -1544,13 +1544,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     log.info("DailyHoroscope: " + dailyAddress);
 
                     // Then get daily sentense
-                    CloseableHttpClient httpClient = HttpClients.createDefault();
+                    httpClient = HttpClients.createDefault();
                     url = dailyAddress;
 
-                    HttpGet httpget = new HttpGet(url);
-                    CloseableHttpResponse response = httpClient.execute(httpget);
+                    httpget = new HttpGet(url);
+                    response = httpClient.execute(httpget);
                     log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-                    HttpEntity httpEntity = response.getEntity();
+                    httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "big5");
                     strResult = strResult.substring(strResult.indexOf(target)+8, strResult.length());
                     strResult = strResult.substring(0, strResult.indexOf("</p>"));
