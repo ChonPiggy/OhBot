@@ -1555,7 +1555,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = strResult.substring(strResult.indexOf(target)+8, strResult.length());
                     strResult = strResult.substring(0, strResult.indexOf("</p>"));
                     
-                    this.replyText(replyToken, "唐綺陽占星幫 " + target + "座\n" + strResult);
+                    this.replyText(replyToken, "唐綺陽占星幫 每日運勢 " + target + "座\n" + strResult);
 
                 }
             }
