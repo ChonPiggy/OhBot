@@ -1557,7 +1557,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
 
-                    if(url.endsWith("type=1")){
+                    if(target.equals("牡羊")){
                         this.replyText(replyToken, "最棒的星座 " + text + "座 " + strResult);
                     }else{
                         this.replyText(replyToken, "最廢的星座之一 " + text + "座 " + strResult);
