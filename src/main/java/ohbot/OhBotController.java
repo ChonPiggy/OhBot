@@ -1554,14 +1554,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = EntityUtils.toString(httpEntity, "big5");
                     strResult = strResult.substring(strResult.indexOf(target)+8, strResult.length());
                     strResult = strResult.substring(0, strResult.indexOf("</p>"));
-
-
-
-                    if(target.equals("牡羊")){
-                        this.replyText(replyToken, "最棒的星座 " + text + "座 " + strResult);
-                    }else{
-                        this.replyText(replyToken, "最廢的星座之一 " + text + "座 " + strResult);
-                    }
+                    
+                    this.replyText(replyToken, "唐綺陽占星幫 " + target + "座\n" + strResult);
 
                 }
             }
