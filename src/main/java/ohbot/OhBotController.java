@@ -118,10 +118,10 @@ public class OhBotController {
     private String mExchangedDefaultCountry = "JPY";
 
 
-    private boolean isKofatKeywordEnable = true;
-    private boolean isEgKeywordEnable = true;
-    private boolean isCathyKeywordEnable = true;
-    private boolean isChuiyiKeywordEnable = true;
+    private boolean isKofatKeywordEnable = false;
+    private boolean isEgKeywordEnable = false;
+    private boolean isCathyKeywordEnable = false;
+    private boolean isChuiyiKeywordEnable = false;
     
 
     @Autowired
@@ -663,6 +663,9 @@ public class OhBotController {
 
         if (text.endsWith("座?") || text.endsWith("座？")) {
             star(text, replyToken);
+        }
+        if (text.endsWith("座運勢?") || text.endsWith("座運勢？")) {
+            dailyHoroscope(text, replyToken);
         }
         if (text.endsWith("油價?") || text.endsWith("油價？")) {
             taiwanoil(text, replyToken);
@@ -1440,6 +1443,120 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = strResult.replace("愛情：", "◎愛情：");
                     strResult = strResult.replace("財運：", "◎財運：");
                     strResult = strResult.replace("工作：", "◎工作：");
+                    if(url.endsWith("type=1")){
+                        this.replyText(replyToken, "最棒的星座 " + text + "座 " + strResult);
+                    }else{
+                        this.replyText(replyToken, "最廢的星座之一 " + text + "座 " + strResult);
+                    }
+
+                }
+            }
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    private void dailyHoroscope(String text, String replyToken) throws IOException {
+        text = text.replace("座運勢", "").replace("?", "").replace("？", "").trim();
+        log.info(text);
+        String target = "";
+        try {
+            if (text.length() == 2) {
+                String strResult;
+                String url ="";
+                switch (text) {
+                    case "牡羊": {
+                        target="白羊";
+                        break;
+                    }
+                    case "白羊": {
+                        target="白羊";
+                        break;
+                    }
+                    case "金牛": {
+                        target=text;
+                        break;
+                    }
+                    case "雙子": {
+                        target=text;
+                        break;
+                    }
+                    case "巨蟹": {
+                        target=text;
+                        break;
+                    }
+                    case "獅子": {
+                        target=text;
+                        break;
+                    }
+                    case "處女": {
+                        target=text;
+                        break;
+                    }
+                    case "天秤": {
+                        target=text;
+                        break;
+                    }
+                    case "天蠍": {
+                        target=text;
+                        break;
+                    }
+                    case "射手": {
+                        target=text;
+                        break;
+                    }
+                    case "魔羯": {
+                        target=text;
+                        break;
+                    }
+                    case "水瓶": {
+                        target=text;
+                        break;
+                    }
+                    case "雙魚": {
+                        target=text;
+                        break;
+                    }
+                    default:
+                        text="";
+
+                }
+                if(text.equals("")){
+                    strResult = "義大利?維大力? \n09487 沒有" + text + "這個星座...";
+                    this.replyText(replyToken, strResult);
+                }else{
+
+                    // Get daily website address first.
+                    CloseableHttpClient httpClient = HttpClients.createDefault();
+                    url = "http://www.astroinfo.com.tw/";
+                    log.info(url);
+                    HttpGet httpget = new HttpGet(url);
+                    CloseableHttpResponse response = httpClient.execute(httpget);
+                    log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    HttpEntity httpEntity = response.getEntity();
+                    strResult = EntityUtils.toString(httpEntity, "big5");
+                    strResult = strResult.substring(strResult.indexOf("每日運勢"), strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("<a href=\"/")+10, strResult.length());
+                    strResult = strResult.substring(0, strResult.indexOf("\"><img typeof=\""));
+
+                    String dailyAddress = "http://www.astroinfo.com.tw/" + strResult;
+
+                    log.info("DailyHoroscope: " + dailyAddress);
+
+                    // Then get daily sentense
+                    CloseableHttpClient httpClient = HttpClients.createDefault();
+                    url = dailyAddress;
+
+                    HttpGet httpget = new HttpGet(url);
+                    CloseableHttpResponse response = httpClient.execute(httpget);
+                    log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    HttpEntity httpEntity = response.getEntity();
+                    strResult = EntityUtils.toString(httpEntity, "big5");
+                    strResult = strResult.substring(strResult.indexOf(target)+8, strResult.length());
+                    strResult = strResult.substring(0, strResult.indexOf("</p>"));
+
+
+
                     if(url.endsWith("type=1")){
                         this.replyText(replyToken, "最棒的星座 " + text + "座 " + strResult);
                     }else{
