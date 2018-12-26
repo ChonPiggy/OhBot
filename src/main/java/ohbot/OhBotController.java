@@ -121,7 +121,7 @@ public class OhBotController {
     private boolean isKofatKeywordEnable = false;
     private boolean isEgKeywordEnable = false;
     private boolean isCathyKeywordEnable = false;
-    private boolean isChuiyiKeywordEnable = true;
+    private boolean isChuiyiKeywordEnable = false;
     
 
     @Autowired
