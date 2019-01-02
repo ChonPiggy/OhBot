@@ -1552,7 +1552,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "big5");
-                    strResult = strResult.substring(strResult.indexOf(target)+8, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf(target)+36, strResult.length());
                     strResult = strResult.substring(0, strResult.indexOf("</p>"));
                     
                     this.replyText(replyToken, "唐綺陽占星幫 每日運勢 " + target + "座\n" + strResult);
