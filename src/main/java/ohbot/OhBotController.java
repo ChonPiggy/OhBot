@@ -2205,7 +2205,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void amazonJpSearch(String text, String replyToken) throws IOException {
 
-        text = text.replace("amazonJp:", "").trim();
+        text = text.replace("AmazonJp:", "").trim();
 
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
