@@ -19,7 +19,7 @@ import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 //import com.linecorp.bot.model.message.template.CarouselColumn;
-//import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.message.template.CarouselTemplate;
 //import com.linecorp.bot.model.message.template.ImageCarouselColumn;
 //import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
