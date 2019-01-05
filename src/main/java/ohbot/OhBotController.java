@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.linecorp.bot.client.LineMessagingService;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.Event;
@@ -19,6 +20,7 @@ import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.message.template.ImageCarouselColumn;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
@@ -867,6 +869,17 @@ public class OhBotController {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
         this.reply(replyToken, new ImageMessage(original, preview));
+    }
+
+    private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
+        new ImageCarouselColumn(imageUrl, new URIAction(label, url));
+    }
+
+    private void replyImageCarouselTemplate(@NonNull String replyToken, @NonNull List<ImageCarouselColumn> columns) {
+        if (replyToken.isEmpty()) {
+            throw new IllegalArgumentException("replyToken must not be empty");
+        }
+        this.reply(replyToken, new ImageCarouselTemplate(columns));
     }
 
     private void replyLocation(@NonNull String replyToken, @NonNull String title, @NonNull String address, double latitude, double longitude) {
@@ -2216,19 +2229,30 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
-            String searchResultUrl = "";
+            String context = "";
 
-            searchResultUrl = EntityUtils.toString(httpEntity, "utf-8");
-            log.info(searchResultUrl);
-            searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("data-asin=\""), searchResultUrl.length());
-            searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("href=\"https:")+6, searchResultUrl.length());
-            searchResultUrl = searchResultUrl.substring(0, searchResultUrl.indexOf("\"><img"));
-            
+            context = EntityUtils.toString(httpEntity, "utf-8");
 
-            this.replyText(replyToken, searchResultUrl);
+            int maxCount = 0; // Max: 5
+            List<ImageCarouselColumn> columnsList = new ArrayList<>();
+            while (maxCount<5 && context.indexOf("data-asin=\"")) {
+                context = context.substring(context.indexOf("data-asin=\""), context.length());
+                context = context.substring(context.indexOf("href=\"https:")+6, context.length());
+                String searchResultUrl = context.substring(0, context.indexOf("\"><img"));
+                String imgUrl = context.substring(context.indexOf("<img src=\"")+10, context.indexOf("\" srcset="));
+                log.info("Piggy Check searchResultUrl: " + searchResultUrl);
+                log.info("Piggy Check imgUrl: " + imgUrl);
+                columnsList.add(getImageCarouselColumn(imgUrl, "PG Cute!", searchResultUrl));
+            }
+            if (maxCount>0) {
+                this.replyImageCarouselTemplate(replyToken, columnsList);    
+            }
+            else {
+                this.replyText(replyToken, "搜索失敗");
+            }            
 
         }catch (IOException e2) {
-            this.replyText(replyToken, "搜索失敗");
+            this.replyText(replyToken, "搜索大失敗");
             throw e2;
         }
     }
