@@ -33,6 +33,8 @@ import ohbot.aqiObj.Datum;
 import ohbot.stockObj.*;
 import ohbot.utils.Utils;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
@@ -193,7 +195,7 @@ public class OhBotController {
         TextMessage textMessage = new TextMessage(message);
         PushMessage pushMessage = new PushMessage(gid,textMessage);
 
-        Response<BotApiResponse> apiResponse = null;
+        CompletableFuture<BotApiResponse> apiResponse = null;
         try {
             apiResponse = lineMessagingClient.pushMessage(pushMessage);
             return String.format("Sent messages: %s %s", apiResponse.message(), apiResponse.code());
@@ -895,7 +897,7 @@ public class OhBotController {
 
     private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
         try {
-            Response<BotApiResponse> apiResponse = lineMessagingClient
+            CompletableFuture<BotApiResponse> apiResponse = lineMessagingClient
                     .replyMessage(new ReplyMessage(replyToken, messages));
             log.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
         } catch (IOException e) {
@@ -904,7 +906,7 @@ public class OhBotController {
     }
 
     private UserProfileResponse getUserProfile(@NonNull String userId) throws IOException {
-        Response<UserProfileResponse> response = lineMessagingClient
+        CompletableFuture<BotApiResponse> response = lineMessagingClient
                 .getProfile(userId);
         return response.body();
     }
