@@ -883,7 +883,7 @@ public class OhBotController {
         if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
-        this.reply(replyToken, new ImageCarouselTemplate(columns));
+        this.reply(replyToken, new TemplateMessage("PG soooo cute!", new ImageCarouselTemplate(columns)));
     }
 
     private void replyLocation(@NonNull String replyToken, @NonNull String title, @NonNull String address, double latitude, double longitude) {
