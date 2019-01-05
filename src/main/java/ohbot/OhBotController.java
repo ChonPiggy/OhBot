@@ -195,7 +195,7 @@ public class OhBotController {
 
         Response<BotApiResponse> apiResponse = null;
         try {
-            apiResponse = lineMessagingClient.pushMessage(pushMessage).execute();
+            apiResponse = lineMessagingClient.pushMessage(pushMessage);
             return String.format("Sent messages: %s %s", apiResponse.message(), apiResponse.code());
         } catch (IOException e) {
             e.printStackTrace();
@@ -896,8 +896,7 @@ public class OhBotController {
     private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
         try {
             Response<BotApiResponse> apiResponse = lineMessagingClient
-                    .replyMessage(new ReplyMessage(replyToken, messages))
-                    .execute();
+                    .replyMessage(new ReplyMessage(replyToken, messages));
             log.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -906,8 +905,7 @@ public class OhBotController {
 
     private UserProfileResponse getUserProfile(@NonNull String userId) throws IOException {
         Response<UserProfileResponse> response = lineMessagingClient
-                .getProfile(userId)
-                .execute();
+                .getProfile(userId);
         return response.body();
     }
 
