@@ -730,7 +730,7 @@ public class OhBotController {
             randomGirl(text, replyToken);
         }
 
-        if (text.startsWith("AmazonJp:"))) {
+        if (text.startsWith("AmazonJp:")) {
             amazonJpSearch(text, replyToken);
         }
         
