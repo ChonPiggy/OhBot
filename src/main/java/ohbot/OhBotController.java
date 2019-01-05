@@ -21,6 +21,7 @@ import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ImageCarouselColumn;
+import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
@@ -198,7 +199,8 @@ public class OhBotController {
         CompletableFuture<BotApiResponse> apiResponse = null;
         try {
             apiResponse = lineMessagingClient.pushMessage(pushMessage);
-            return String.format("Sent messages: %s %s", apiResponse.message(), apiResponse.code());
+            //return String.format("Sent messages: %s %s", apiResponse.message(), apiResponse.code());
+            return "";
         } catch (IOException e) {
             e.printStackTrace();
             return String.format("Error in sending messages : %s", e.toString());
@@ -899,14 +901,14 @@ public class OhBotController {
         try {
             CompletableFuture<BotApiResponse> apiResponse = lineMessagingClient
                     .replyMessage(new ReplyMessage(replyToken, messages));
-            log.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
+            //log.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
     private UserProfileResponse getUserProfile(@NonNull String userId) throws IOException {
-        CompletableFuture<BotApiResponse> response = lineMessagingClient
+        CompletableFuture<UserProfileResponse> response = lineMessagingClient
                 .getProfile(userId);
         return response.body();
     }
@@ -2235,7 +2237,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             int maxCount = 0; // Max: 5
             List<ImageCarouselColumn> columnsList = new ArrayList<>();
-            while (maxCount<5 && context.indexOf("data-asin=\"")) {
+            while (maxCount<5 && context.indexOf("data-asin=\"")> 0) {
                 context = context.substring(context.indexOf("data-asin=\""), context.length());
                 context = context.substring(context.indexOf("href=\"https:")+6, context.length());
                 String searchResultUrl = context.substring(0, context.indexOf("\"><img"));
