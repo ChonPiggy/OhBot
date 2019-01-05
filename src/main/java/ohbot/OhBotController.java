@@ -910,7 +910,8 @@ public class OhBotController {
     private UserProfileResponse getUserProfile(@NonNull String userId) throws IOException {
         CompletableFuture<UserProfileResponse> response = lineMessagingClient
                 .getProfile(userId);
-        return response.body();
+        //return response.body();//TODO
+        return null;
     }
 
 /*
