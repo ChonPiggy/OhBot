@@ -2,7 +2,7 @@ package ohbot;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.linecorp.bot.client.lineMessagingClient;
+import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.URIAction;
