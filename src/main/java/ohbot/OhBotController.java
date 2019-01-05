@@ -197,14 +197,11 @@ public class OhBotController {
         PushMessage pushMessage = new PushMessage(gid,textMessage);
 
         CompletableFuture<BotApiResponse> apiResponse = null;
-        try {
-            apiResponse = lineMessagingClient.pushMessage(pushMessage);
-            //return String.format("Sent messages: %s %s", apiResponse.message(), apiResponse.code());
-            return "";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return String.format("Error in sending messages : %s", e.toString());
-        }
+        
+        apiResponse = lineMessagingClient.pushMessage(pushMessage);
+        //return String.format("Sent messages: %s %s", apiResponse.message(), apiResponse.code());
+        return "";
+        
     }
 
     @RequestMapping("/stock")
@@ -876,7 +873,7 @@ public class OhBotController {
     }
 
     private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
-        new ImageCarouselColumn(imageUrl, new URIAction(label, url));
+        return new ImageCarouselColumn(imageUrl, new URIAction(label, url));
     }
 
     private void replyImageCarouselTemplate(@NonNull String replyToken, @NonNull List<ImageCarouselColumn> columns) {
@@ -898,13 +895,11 @@ public class OhBotController {
     }
 
     private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
-        try {
-            CompletableFuture<BotApiResponse> apiResponse = lineMessagingClient
-                    .replyMessage(new ReplyMessage(replyToken, messages));
-            //log.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        
+        CompletableFuture<BotApiResponse> apiResponse = lineMessagingClient
+                .replyMessage(new ReplyMessage(replyToken, messages));
+        //log.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
+        
     }
 
     private UserProfileResponse getUserProfile(@NonNull String userId) throws IOException {
