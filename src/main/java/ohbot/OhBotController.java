@@ -2219,7 +2219,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String searchResultUrl = "";
 
             searchResultUrl = EntityUtils.toString(httpEntity, "utf-8");
-            searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("最畅销商品"), searchResultUrl.length());
+            searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("ペストセラー"), searchResultUrl.length());
             searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("href=\"https:")+6, searchResultUrl.length());
             searchResultUrl = searchResultUrl.substring(0, searchResultUrl.indexOf("\"><img"));
             
