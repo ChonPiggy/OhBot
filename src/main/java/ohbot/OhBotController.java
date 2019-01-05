@@ -2,7 +2,7 @@ package ohbot;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.linecorp.bot.client.LineMessagingService;
+import com.linecorp.bot.client.lineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.URIAction;
@@ -127,7 +127,7 @@ public class OhBotController {
     
 
     @Autowired
-    private LineMessagingService lineMessagingService;
+    private LineMessagingClient lineMessagingClient;
 
     @RequestMapping("/")
     public String index() {
@@ -195,7 +195,7 @@ public class OhBotController {
 
         Response<BotApiResponse> apiResponse = null;
         try {
-            apiResponse = lineMessagingService.pushMessage(pushMessage).execute();
+            apiResponse = lineMessagingClient.pushMessage(pushMessage).execute();
             return String.format("Sent messages: %s %s", apiResponse.message(), apiResponse.code());
         } catch (IOException e) {
             e.printStackTrace();
@@ -895,7 +895,7 @@ public class OhBotController {
 
     private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
         try {
-            Response<BotApiResponse> apiResponse = lineMessagingService
+            Response<BotApiResponse> apiResponse = lineMessagingClient
                     .replyMessage(new ReplyMessage(replyToken, messages))
                     .execute();
             log.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
@@ -905,7 +905,7 @@ public class OhBotController {
     }
 
     private UserProfileResponse getUserProfile(@NonNull String userId) throws IOException {
-        Response<UserProfileResponse> response = lineMessagingService
+        Response<UserProfileResponse> response = lineMessagingClient
                 .getProfile(userId)
                 .execute();
         return response.body();
