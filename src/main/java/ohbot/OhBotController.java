@@ -18,10 +18,10 @@ import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
-import com.linecorp.bot.model.message.template.CarouselColumn;
-import com.linecorp.bot.model.message.template.CarouselTemplate;
+//import com.linecorp.bot.model.message.template.CarouselColumn;
+//import com.linecorp.bot.model.message.template.CarouselTemplate;
 //import com.linecorp.bot.model.message.template.ImageCarouselColumn;
-import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
+//import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
@@ -2241,13 +2241,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 log.info("Piggy Check searchResultUrl: " + searchResultUrl);
                 log.info("Piggy Check imgUrl: " + imgUrl);
                 columnsList.add(getImageCarouselColumn(imgUrl, "PG Cute!", searchResultUrl));
-            }*/
+            }
             if (maxCount>0) {
                 this.replyImageCarouselTemplate(replyToken, columnsList);    
             }
             else {
                 this.replyText(replyToken, "搜索失敗");
-            }            
+            }*/            
 
         }catch (IOException e2) {
             this.replyText(replyToken, "搜索大失敗");
