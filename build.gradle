@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.linecorp.bot:line-bot-spring-boot:1.5.0'
+    compile 'com.linecorp.bot:line-bot-spring-boot:2.3.0'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-logging'
