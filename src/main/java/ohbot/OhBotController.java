@@ -2219,6 +2219,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String searchResultUrl = "";
 
             searchResultUrl = EntityUtils.toString(httpEntity, "utf-8");
+            log.info(searchResultUrl);
             searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("ペストセラー"), searchResultUrl.length());
             searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("href=\"https:")+6, searchResultUrl.length());
             searchResultUrl = searchResultUrl.substring(0, searchResultUrl.indexOf("\"><img"));
@@ -2227,6 +2228,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, searchResultUrl);
 
         }catch (IOException e2) {
+            this.replyText(replyToken, "搜索失敗");
             throw e2;
         }
     }
