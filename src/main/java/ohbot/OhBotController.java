@@ -20,7 +20,7 @@ import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
-import com.linecorp.bot.model.message.template.ImageCarouselColumn;
+//import com.linecorp.bot.model.message.template.ImageCarouselColumn;
 import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
@@ -872,7 +872,7 @@ public class OhBotController {
         this.reply(replyToken, new ImageMessage(original, preview));
     }
 
-    private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
+    /*private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
         return new ImageCarouselColumn(imageUrl, new URIAction(label, url));
     }
 
@@ -881,7 +881,7 @@ public class OhBotController {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
         this.reply(replyToken, new TemplateMessage("PG soooo cute!", new ImageCarouselTemplate(columns)));
-    }
+    }*/
 
     private void replyLocation(@NonNull String replyToken, @NonNull String title, @NonNull String address, double latitude, double longitude) {
         if (replyToken.isEmpty()) {
@@ -2232,7 +2232,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             context = EntityUtils.toString(httpEntity, "utf-8");
 
             int maxCount = 0; // Max: 5
-            List<ImageCarouselColumn> columnsList = new ArrayList<>();
+            /*List<ImageCarouselColumn> columnsList = new ArrayList<>();
             while (maxCount<5 && context.indexOf("data-asin=\"")> 0) {
                 context = context.substring(context.indexOf("data-asin=\""), context.length());
                 context = context.substring(context.indexOf("href=\"https:")+6, context.length());
@@ -2241,7 +2241,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 log.info("Piggy Check searchResultUrl: " + searchResultUrl);
                 log.info("Piggy Check imgUrl: " + imgUrl);
                 columnsList.add(getImageCarouselColumn(imgUrl, "PG Cute!", searchResultUrl));
-            }
+            }*/
             if (maxCount>0) {
                 this.replyImageCarouselTemplate(replyToken, columnsList);    
             }
