@@ -729,6 +729,10 @@ public class OhBotController {
         else if (text.equals("抽")) {
             randomGirl(text, replyToken);
         }
+
+        if (text.startsWith("AmazonJp:"))) {
+            amazonJpSearch(text, replyToken);
+        }
         
         if (text.startsWith("PgCommand新增吃什麼:")) {
             updateEatWhat(text, replyToken);
@@ -2198,6 +2202,35 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+
+    private void amazonJpSearch(String text, String replyToken) throws IOException {
+
+        text = text.replace("amazonJp:", "").trim();
+
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="https://www.amazon.co.jp/s/ref=nb_sb_noss_2?__mk_zh_CN=亚马逊网站&url=search-alias%3Daps&field-keywords="+text;
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String searchResultUrl = "";
+
+            searchResultUrl = EntityUtils.toString(httpEntity, "utf-8");
+            searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("最畅销商品"), searchResultUrl.length());
+            searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("href=\"https:")+6, searchResultUrl.length());
+            searchResultUrl = searchResultUrl.substring(0, searchResultUrl.indexOf("\"><img"));
+            
+
+            this.replyText(replyToken, searchResultUrl);
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+
     private void randomGirl(String text, String replyToken) throws IOException {
         log.info("Piggy Check randomGirl: " + text);
         try {
@@ -2485,6 +2518,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
     }
 
+
+
     // Eat what
 
     private void eatWhat(String text, String replyToken) throws IOException {
@@ -2629,7 +2664,22 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
         if (text.equals("kofat")) {
-            List<String> mKofatCosplayImgurLinkList = Arrays.asList("https://i.imgur.com/gxkWn4A.jpg", "https://i.imgur.com/gb0Lq9n.jpg", "https://i.imgur.com/M9PK8Yv.jpg", "https://i.imgur.com/M9PK8Yv.jpg", "https://i.imgur.com/ModcBfG.jpg", "https://i.imgur.com/ILdOVVU.jpg", "https://i.imgur.com/9vNvyNU.jpg", "https://i.imgur.com/vCUHxNG.jpg", "https://i.imgur.com/6FnBh36.jpg", "https://i.imgur.com/LRByCFW.jpg", "https://i.imgur.com/AU6WcdZ.jpg", "https://i.imgur.com/kqMVlRL.jpg", "https://i.imgur.com/khIEZAV.jpg", "https://i.imgur.com/QxkjpS1.jpg", "https://i.imgur.com/S3zo1WG.jpg", "https://i.imgur.com/CHby1As.jpg");
+            List<String> mKofatCosplayImgurLinkList = Arrays.asList("https://i.imgur.com/gxkWn4A.jpg", 
+                "https://i.imgur.com/gb0Lq9n.jpg", 
+                "https://i.imgur.com/M9PK8Yv.jpg", 
+                "https://i.imgur.com/M9PK8Yv.jpg", 
+                "https://i.imgur.com/ModcBfG.jpg", 
+                "https://i.imgur.com/ILdOVVU.jpg", 
+                "https://i.imgur.com/9vNvyNU.jpg", 
+                "https://i.imgur.com/vCUHxNG.jpg", 
+                "https://i.imgur.com/6FnBh36.jpg", 
+                "https://i.imgur.com/LRByCFW.jpg", 
+                "https://i.imgur.com/AU6WcdZ.jpg", 
+                "https://i.imgur.com/kqMVlRL.jpg", 
+                "https://i.imgur.com/khIEZAV.jpg", 
+                "https://i.imgur.com/QxkjpS1.jpg", 
+                "https://i.imgur.com/S3zo1WG.jpg", 
+                "https://i.imgur.com/CHby1As.jpg");
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mKofatCosplayImgurLinkList.size());
             source = mKofatCosplayImgurLinkList.get(random_num);
