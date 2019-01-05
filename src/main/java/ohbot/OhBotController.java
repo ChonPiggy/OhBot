@@ -2209,7 +2209,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            String url="https://www.amazon.co.jp/s/ref=nb_sb_noss_2?__mk_zh_CN=亚马逊网站&url=search-alias%3Daps&field-keywords="+text;
+            String url="https://www.amazon.co.jp/s/ref=nb_sb_noss?__mk_ja_JP=カタカナ&url=search-alias%3Daps&field-keywords="+text;
             log.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
@@ -2220,7 +2220,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             searchResultUrl = EntityUtils.toString(httpEntity, "utf-8");
             log.info(searchResultUrl);
-            searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("ペストセラー"), searchResultUrl.length());
+            searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("data-asin=\""), searchResultUrl.length());
             searchResultUrl = searchResultUrl.substring(searchResultUrl.indexOf("href=\"https:")+6, searchResultUrl.length());
             searchResultUrl = searchResultUrl.substring(0, searchResultUrl.indexOf("\"><img"));
             
