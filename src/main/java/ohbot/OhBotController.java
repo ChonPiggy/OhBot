@@ -127,6 +127,11 @@ public class OhBotController {
     private boolean isEgKeywordEnable = false;
     private boolean isCathyKeywordEnable = false;
     private boolean isChuiyiKeywordEnable = false;
+
+    private boolean isBullyModeEnable = false;
+    private int mBullyModeCount = 10;
+    private String mBullyModeTarget = "";
+    private String NO_CONSCIENCE_IMAGE = "https://i.imgur.com/8v9oZ2P.jpg";
     
 
     @Autowired
@@ -836,6 +841,18 @@ public class OhBotController {
             if (isCathyKeywordEnable) {
                 keywordImage("FattyCathy",replyToken);
             }
+        }
+
+        if (text.startsWith("霸凌模式:")) {
+            initBullyMode(text, replyToken);
+        }
+
+        if (text.startsWith("霸凌不好")) {
+            interruptBullyMode(replyToken);
+        }
+
+        if (text.length() > 0) {
+            bullyModeTrigger(replyToken);
         }
 
     }
@@ -2667,6 +2684,28 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (isDoSomething) {
             this.replyText(replyToken, "靠");
         }
+    }
+
+    private void bullyModeTrigger(String replyToken) throws IOException {
+
+        if (mBullyModeCount > 0) {
+            String source = mBullyModeCount == 1 ? NO_CONSCIENCE_IMAGE : mBullyModeTarget;
+            mBullyModeCount--;
+            this.replyImage(replyToken, source, source);    
+        }
+
+    }
+
+    private void initBullyMode(String text, String replyToken) throws IOException {
+        text = text.replace("霸凌模式:", "");
+        mBullyModeCount = 10;
+        mBullyModeTarget = text;
+    }
+
+    private void interruptBullyMode(String replyToken) throws IOException {
+        String source = NO_CONSCIENCE_IMAGE;
+        mBullyModeCount = 0;
+        this.replyImage(replyToken, source, source);   
     }
 
     private void keywordImage(String text, String replyToken) throws IOException {
