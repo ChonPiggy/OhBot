@@ -132,7 +132,7 @@ public class OhBotController {
     private int mBullyModeCount = 10;
     private String mBullyModeTarget = "";
     private String NO_CONSCIENCE_IMAGE = "https://i.imgur.com/8v9oZ2P.jpg";
-    private String OK_FINE_IMAGE = "https://i.imgur.com/CNM3c0Y.jpg"
+    private String OK_FINE_IMAGE = "https://i.imgur.com/CNM3c0Y.jpg";
     
 
     @Autowired
@@ -846,7 +846,8 @@ public class OhBotController {
 
         if (text.contains("ok") && text.contains("好")||
             text.contains("OK") && text.contains("好")||
-            text.contains("Ok") && text.contains("好")) {
+            text.contains("Ok") && text.contains("好")||
+            text.contains("幹妳娘")||text.contains("幹您娘")||text.contains("幹你娘")) {
             replyOkFine(replyToken);
         }
 
