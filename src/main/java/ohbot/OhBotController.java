@@ -133,6 +133,8 @@ public class OhBotController {
     private String mBullyModeTarget = "";
     private String NO_CONSCIENCE_IMAGE = "https://i.imgur.com/8v9oZ2P.jpg";
     private String OK_FINE_IMAGE = "https://i.imgur.com/CNM3c0Y.jpg";
+    private String GIVE_SALMON_NO_SWORDFISH_IMAGE = "https://i.imgur.com/ySGhh61.jpg";
+
     
 
     @Autowired
@@ -849,7 +851,11 @@ public class OhBotController {
             text.contains("Ok") && text.contains("好")||
             text.contains("ＯＫ") && text.contains("好")||
             text.contains("幹妳娘")||text.contains("幹您娘")||text.contains("幹你娘")) {
-            replyOkFine(replyToken);
+            replyOkFineImage(replyToken);
+        }
+
+        if (text.contains("鮭魚") || text.contains("旗魚")) {
+            replyGiveSalmonNoSwordFishImage(replyToken);
         }
 
         if (text.startsWith("霸凌模式:")) {
@@ -2705,8 +2711,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     }
 
-    private void replyOkFine(String replyToken) throws IOException {
+    private void replyOkFineImage(String replyToken) throws IOException {
         String source = OK_FINE_IMAGE;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyGiveSalmonNoSwordFishImage(String replyToken) throws IOException {
+        String source = GIVE_SALMON_NO_SWORDFISH_IMAGE;
         this.replyImage(replyToken, source, source);
     }
 
