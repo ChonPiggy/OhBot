@@ -3611,7 +3611,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         Matcher matcherJp = patternJp.matcher(result_image_image);
                         while(matcherJp.find()){
                             String result = matcherJp.group();
-                            resultImageList.add(result);
+                            if (!result.endsWith(".gif")) {
+                                resultImageList.add(result);    
+                            }
+                            
                             //log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
                         }
                     }
