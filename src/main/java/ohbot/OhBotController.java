@@ -3527,7 +3527,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result_url = "";
             int tryCount = 10;
             while (tryCount > 0){
-                int random_num = randomGenerator.nextInt(maxPageInt);
+                int random_num = randomGenerator.nextInt(maxPageInt-1500)+1500;
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
                 httpGet = new HttpGet("https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html");
@@ -3554,44 +3554,52 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
                 else {
                     result_url = result_url.substring(result_url.indexOf("爆"), result_url.length());
-                    log.info("Piggy Check result_url: " + result_url);
                     result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
-                    log.info("Piggy Check result_url: " + result_url);
                     result_url = "https://www.ptt.cc" + result_url + ".html";
-                    break;
+
+                    log.info("Piggy Check result_url: " + result_url);
+
+                    random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
+
+                    httpGet = new HttpGet(result_url);
+                    httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
+                    httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+                    httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+                    httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+                    httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+                    httpGet.setHeader("Cache-Control", "max-age=0");
+                    httpGet.setHeader("Connection", "keep-alive");
+
+
+                    response = httpClient.execute(httpGet);
+                    //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    httpEntity = response.getEntity();
+
+                    String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
+
+                    result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
+
+                    Pattern patternJp = Pattern.compile("https://i.imgur.com/*.jp*");
+                    Matcher matcherJp = patternJp.matcher(result_image_image);
+                    while(matcherJp.find()){
+                        String result = matcherJp.group();
+                        log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                    }
+                    if (matcherJp.groupCount() > 0) {
+                        break;
+                    }
+                    else {
+                        tryCount--;
+                        continue;
+                    }
                 }
             }
-            log.info("Piggy Check result_url: " + result_url);
+            
             if (result_url.equals("")) {
                 return "";
             }
 
-            random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
-
-            httpGet = new HttpGet(result_url);
-            httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
-            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
-            httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-            httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
-            httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
-            httpGet.setHeader("Cache-Control", "max-age=0");
-            httpGet.setHeader("Connection", "keep-alive");
-
-
-            response = httpClient.execute(httpGet);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-            httpEntity = response.getEntity();
-
-            String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
-
-            result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
-
-            Pattern patternJp = Pattern.compile("https://i.imgur.com/*.jp*");
-            Matcher matcherJp = patternJp.matcher(result_image_image);
-            while(matcherJp.find()){
-                String result = matcherJp.group();
-                log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
-            }
+            
         }catch (Exception e) {
             e.printStackTrace();
         }
