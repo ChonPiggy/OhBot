@@ -3546,7 +3546,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 result_url = EntityUtils.toString(httpEntity, "utf-8");
 
-                if (!(result_url.indexOf("爆")<0)) {
+                if (result_url.indexOf("爆")<0) {
                     log.info("Piggy Check can't find BURST in page: " + random_num);
                     result_url = "";
                     tryCount--;
