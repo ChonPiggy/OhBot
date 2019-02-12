@@ -738,7 +738,8 @@ public class OhBotController {
             pexelsTarget(text, replyToken);
         }
         else if (text.equals("抽")) {
-            randomGirl(text, replyToken);
+            getRandomPttBeautyImageUrl();
+            //randomGirl(text, replyToken);
         }
 
         if (text.startsWith("AmazonJp:")) {
@@ -3583,8 +3584,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result = matcherJp.group();
             log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
         }
-        
-
 
     }
 
