@@ -3526,9 +3526,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String result_url = "";
         int tryCount = 10;
         while (tryCount > 0){
-            Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(maxPageInt);
-            int random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
+            random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
             httpGet = new HttpGet("https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html");
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
@@ -3564,8 +3563,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return "";
         }
 
-        Random randomGenerator = new Random();
-        int random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
+        random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
         httpGet = new HttpGet(result_url);
         httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
