@@ -3515,9 +3515,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
             maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+50, maxPage.length());
-            log.info("Piggy Check maxPage: " + maxPage);
             maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.indexOf(".html"));
-            log.info("Piggy Check maxPage: " + maxPage);
+            
             try {
                 maxPageInt = Integer.parseInt(maxPage);
             }catch(java.lang.NumberFormatException e1) {
@@ -3554,8 +3553,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     continue;
                 }
                 else {
-                    result_url = 
                     result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
+                    log.info("Piggy Check result_url: " + result_url);
                     result_url = "https://www.ptt.cc" + result_url + ".html";
                     break;
                 }
