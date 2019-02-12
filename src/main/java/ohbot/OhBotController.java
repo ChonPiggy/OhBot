@@ -129,7 +129,7 @@ public class OhBotController {
     private boolean isChuiyiKeywordEnable = false;
 
     private boolean isBullyModeEnable = false;
-    private int mBullyModeCount = 10;
+    private int mBullyModeCount = 0;
     private String mBullyModeTarget = "";
     private String NO_CONSCIENCE_IMAGE = "https://i.imgur.com/8v9oZ2P.jpg";
     private String OK_FINE_IMAGE = "https://i.imgur.com/CNM3c0Y.jpg";
@@ -269,13 +269,13 @@ public class OhBotController {
                 httpget.setHeader("User-Agent",
                                   "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 url = "http://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=" + companyType + "_" + stock +
                       ".tw&_=" + Instant.now().toEpochMilli();
                 log.info(url);
                 httpget = new HttpGet(url);
                 response = httpClient.execute(httpget);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = "";
 
@@ -375,7 +375,7 @@ public class OhBotController {
                 httpget.setHeader("User-Agent",
                                   "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
                 CloseableHttpResponse response = defaultHttpClient.execute(httpget);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = "";
 
@@ -395,7 +395,7 @@ public class OhBotController {
                 httpget.setHeader("User-Agent",
                                   "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36");
                 response = defaultHttpClient.execute(httpget);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 httpEntity = response.getEntity();
                 Header[] ss = response.getAllHeaders();
                 for(Header header:ss){
@@ -491,7 +491,7 @@ public class OhBotController {
             httpget.setHeader("User-Agent",
                               "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
             CloseableHttpResponse response = httpClient.execute(httpget);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             Gson gson = new GsonBuilder().create();
             strResult = EntityUtils.toString(response.getEntity(), "utf-8");
             TseStock tseStock = gson.fromJson(strResult, TseStock.class);
@@ -511,7 +511,7 @@ public class OhBotController {
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = EntityUtils.toString(httpEntity, "big5");
                 strResult = strResult.substring(strResult.indexOf("<div id=\"date\">"), strResult.length());
@@ -536,7 +536,7 @@ public class OhBotController {
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = EntityUtils.toString(httpEntity, "utf-8");
                 strResult = strResult.substring(strResult.indexOf("<table"), strResult.length());
@@ -616,7 +616,7 @@ public class OhBotController {
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = EntityUtils.toString(httpEntity, "utf-8");
                 strResult = strResult.substring(strResult.indexOf("<td>現鈔買入</td>"), strResult.length());
@@ -1379,7 +1379,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             strResult = EntityUtils.toString(httpEntity, "utf-8");
             strResult = strResult.substring(strResult.indexOf("<td valign=top align=center>"), strResult.length());
@@ -1473,7 +1473,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     log.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
-                    log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "big5");
                     strResult = strResult.substring(strResult.indexOf("<div id=\"date\">"), strResult.length());
@@ -1579,7 +1579,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     log.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
-                    log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "big5");
                     strResult = strResult.substring(strResult.indexOf("每日運勢"), strResult.length());
@@ -1596,7 +1596,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                     httpget = new HttpGet(url);
                     response = httpClient.execute(httpget);
-                    log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "big5");
                     strResult = strResult.substring(strResult.indexOf(target)+36, strResult.length());
@@ -1666,13 +1666,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpget.setHeader("User-Agent",
                               "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
             CloseableHttpResponse response = httpClient.execute(httpget);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             url = "http://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=" + companyType + "_" + text + ".tw&_=" +
                   Instant.now().toEpochMilli();
             log.info(url);
             httpget = new HttpGet(url);
             response = httpClient.execute(httpget);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             strResult = "";
 
@@ -1774,7 +1774,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpget.setHeader("User-Agent",
                               "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
             CloseableHttpResponse response = defaultHttpClient.execute(httpget);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             String strResult = "";
             Gson gson = new GsonBuilder().create();
@@ -1795,7 +1795,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 //            httpget.setHeader("User-Agent",
 //                              "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36");
 //            response = defaultHttpClient.execute(httpget);
-//            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+//            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
 //            httpEntity = response.getEntity();
 //            InputStream inputStream = httpEntity.getContent();
 //            Header[] headers = response.getAllHeaders();
@@ -2114,7 +2114,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     log.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
-                    log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     strResult = strResult.substring(strResult.indexOf("<td>現鈔買入</td>"), strResult.length());
@@ -2148,7 +2148,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String dumpSource = "";
@@ -2185,7 +2185,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String dumpSource = "";
@@ -2227,7 +2227,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String daySentence = "";
@@ -2256,7 +2256,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String context = "";
@@ -2894,7 +2894,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 String tempParseNumber = "";
                 tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
@@ -2987,7 +2987,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 String tempParseNumber = "";
                 tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
@@ -3120,7 +3120,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 String tempParseNumber = "";
                 tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
@@ -3175,7 +3175,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpget.setHeader("User-Agent",
                               "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
             CloseableHttpResponse response = httpClient.execute(httpget);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             Gson gson = new GsonBuilder().create();
             String content = EntityUtils.toString(response.getEntity(), "utf-8");
             TseStock tseStock = gson.fromJson(content, TseStock.class);
@@ -3264,7 +3264,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 e.printStackTrace();
             }
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String maxPage = "";
@@ -3291,7 +3291,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
             response = httpClient.execute(httpGet);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            ////log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             httpEntity = response.getEntity();
 
             String js_response = EntityUtils.toString(httpEntity, "utf-8");
@@ -3391,7 +3391,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             
             String xml = EntityUtils.toString(httpEntity, "utf-8");
@@ -3425,7 +3425,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String jsPath = "";
@@ -3464,7 +3464,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
                 response = httpClient.execute(httpGet);
-                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 httpEntity = response.getEntity();
 
                 String js_response = EntityUtils.toString(httpEntity, "utf-8");
@@ -3484,6 +3484,108 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             e.printStackTrace();
         }
         return "";
+    }
+
+    private String getRandomPttBeautyImageUrl() {
+
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String url="https://www.ptt.cc/bbs/Beauty/index.html";
+        
+        HttpGet httpGet = new HttpGet(url);
+        httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
+        httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+        httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+        httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+        httpGet.setHeader("Cache-Control", "max-age=0");
+        httpGet.setHeader("Connection", "keep-alive");
+
+
+        CloseableHttpResponse response = httpClient.execute(httpGet);
+        //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+        HttpEntity httpEntity = response.getEntity();
+
+        String maxPage = "";
+        int maxPageInt = -1;
+
+        maxPage = EntityUtils.toString(httpEntity, "utf-8");
+        maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.length());
+        maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.indexOf(".html"));
+        try {
+                maxPageInt = Integer.parseInt(maxPage);
+            }
+            catch(java.lang.NumberFormatException e1) {
+                log.info("NumberFormatException " + e1);
+            }
+            log.info("Piggy Check maxPageInt: " + maxPageInt);
+        
+        String result_url = "";
+        int tryCount = 10;
+        while (tryCount > 0){
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(maxPageInt);
+
+            httpGet = new HttpGet("https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html");
+            httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+            httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+            httpGet.setHeader("Cache-Control", "max-age=0");
+            httpGet.setHeader("Connection", "keep-alive");
+
+
+            response = httpClient.execute(httpGet);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            httpEntity = response.getEntity();
+
+            result_url = EntityUtils.toString(httpEntity, "utf-8");
+
+            if (!(result_url.indexOf("爆")<0)) {
+                log.info("Piggy Check can't find BURST in page: " + random_num);
+                result_url = "";
+                tryCount--;
+                continue;
+            }
+            else {
+                result_url = 
+                result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
+                result_url = "https://www.ptt.cc" + result_url + ".html";
+                break;
+            }
+        }
+        log.info("Piggy Check result_url: " + result_url);
+        if (result_url.equals("")) {
+            return "";
+        }
+
+        httpGet = new HttpGet(result_url);
+        httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
+        httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+        httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+        httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+        httpGet.setHeader("Cache-Control", "max-age=0");
+        httpGet.setHeader("Connection", "keep-alive");
+
+
+        response = httpClient.execute(httpGet);
+        //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+        httpEntity = response.getEntity();
+
+        String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
+
+        result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
+
+        Pattern patternJp = Pattern.compile("https://i.imgur.com/*.jp");
+        Matcher matcherJp = patternJp.matcher(html);
+        while(matcherJp.find()){
+            String result = matcherJp.group();
+            log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+        }
+        
+
+
     }
 
     private String getRandomPexelsImageUrl(String target) {
@@ -3506,7 +3608,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String maxPage = "";
@@ -3550,7 +3652,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
             response = httpClient.execute(httpGet);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             httpEntity = response.getEntity();
             String html = EntityUtils.toString(httpEntity, "utf-8");
 
