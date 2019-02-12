@@ -2291,6 +2291,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void randomPttBeautyGirl(String replyToken) throws IOException {
         log.info("Piggy Check randomPttBeautyGirl");
         String url = getRandomPttBeautyImageUrl();
+        log.info("Piggy Check randomPttBeautyGirl: " + url);
         if (url.equals("")) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
@@ -3599,11 +3600,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     while(matcherJp.find()){
                         String result = matcherJp.group();
                         resultImageList.add(result);
-                        log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                        //log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
                     }
                     if (resultImageList.size() > 0) {
                         random_num = randomGenerator.nextInt(resultImageList.size());
-                        return resultImageList.get(random_num);
+                        return resultImageList.get(random_num);;
                     }
                     else {
                         tryCount--;
