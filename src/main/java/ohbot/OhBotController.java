@@ -3568,7 +3568,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             if (tempList.size() > 0) {
                 random_num = randomGenerator.nextInt(tempList.size());
-                return tempList.get(random_num);
+
+                String result_url = tempList.get(random_num);
+                log.info("Piggy Check result_url: " + result_url);
+                return result_url;
             }
             else {
                 log.info("Piggy Check parse fail!");
