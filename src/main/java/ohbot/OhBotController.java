@@ -3488,48 +3488,85 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private String getRandomPttBeautyImageUrl() {
+        try{
 
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        String url="https://www.ptt.cc/bbs/Beauty/index.html";
-        
-        Random randomGenerator = new Random();
-        int random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="https://www.ptt.cc/bbs/Beauty/index.html";
+            
+            Random randomGenerator = new Random();
+            int random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
-        HttpGet httpGet = new HttpGet(url);
-        httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
-        httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
-        httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-        httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
-        httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
-        httpGet.setHeader("Cache-Control", "max-age=0");
-        httpGet.setHeader("Connection", "keep-alive");
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+            httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+            httpGet.setHeader("Cache-Control", "max-age=0");
+            httpGet.setHeader("Connection", "keep-alive");
 
 
-        CloseableHttpResponse response = httpClient.execute(httpGet);
-        //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-        HttpEntity httpEntity = response.getEntity();
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
 
-        String maxPage = "";
-        int maxPageInt = -1;
+            String maxPage = "";
+            int maxPageInt = -1;
 
-        maxPage = EntityUtils.toString(httpEntity, "utf-8");
-        maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.length());
-        maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.indexOf(".html"));
-        try {
-                maxPageInt = Integer.parseInt(maxPage);
+            maxPage = EntityUtils.toString(httpEntity, "utf-8");
+            maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.length());
+            maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.indexOf(".html"));
+            try {
+                    maxPageInt = Integer.parseInt(maxPage);
+                }
+                catch(java.lang.NumberFormatException e1) {
+                    log.info("NumberFormatException " + e1);
+                }
+                log.info("Piggy Check maxPageInt: " + maxPageInt);
+            
+            String result_url = "";
+            int tryCount = 10;
+            while (tryCount > 0){
+                int random_num = randomGenerator.nextInt(maxPageInt);
+                random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
+
+                httpGet = new HttpGet("https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html");
+                httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
+                httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+                httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+                httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+                httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+                httpGet.setHeader("Cache-Control", "max-age=0");
+                httpGet.setHeader("Connection", "keep-alive");
+
+
+                response = httpClient.execute(httpGet);
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                httpEntity = response.getEntity();
+
+                result_url = EntityUtils.toString(httpEntity, "utf-8");
+
+                if (!(result_url.indexOf("爆")<0)) {
+                    log.info("Piggy Check can't find BURST in page: " + random_num);
+                    result_url = "";
+                    tryCount--;
+                    continue;
+                }
+                else {
+                    result_url = 
+                    result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
+                    result_url = "https://www.ptt.cc" + result_url + ".html";
+                    break;
+                }
             }
-            catch(java.lang.NumberFormatException e1) {
-                log.info("NumberFormatException " + e1);
+            log.info("Piggy Check result_url: " + result_url);
+            if (result_url.equals("")) {
+                return "";
             }
-            log.info("Piggy Check maxPageInt: " + maxPageInt);
-        
-        String result_url = "";
-        int tryCount = 10;
-        while (tryCount > 0){
-            int random_num = randomGenerator.nextInt(maxPageInt);
+
             random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
-            httpGet = new HttpGet("https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html");
+            httpGet = new HttpGet(result_url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
             httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
@@ -3543,53 +3580,20 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             httpEntity = response.getEntity();
 
-            result_url = EntityUtils.toString(httpEntity, "utf-8");
+            String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
 
-            if (!(result_url.indexOf("爆")<0)) {
-                log.info("Piggy Check can't find BURST in page: " + random_num);
-                result_url = "";
-                tryCount--;
-                continue;
+            result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
+
+            Pattern patternJp = Pattern.compile("https://i.imgur.com/*.jp*");
+            Matcher matcherJp = patternJp.matcher(result_image_image);
+            while(matcherJp.find()){
+                String result = matcherJp.group();
+                log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
             }
-            else {
-                result_url = 
-                result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
-                result_url = "https://www.ptt.cc" + result_url + ".html";
-                break;
-            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-        log.info("Piggy Check result_url: " + result_url);
-        if (result_url.equals("")) {
-            return "";
-        }
-
-        random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
-
-        httpGet = new HttpGet(result_url);
-        httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
-        httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
-        httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-        httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
-        httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
-        httpGet.setHeader("Cache-Control", "max-age=0");
-        httpGet.setHeader("Connection", "keep-alive");
-
-
-        response = httpClient.execute(httpGet);
-        //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-        httpEntity = response.getEntity();
-
-        String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
-
-        result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
-
-        Pattern patternJp = Pattern.compile("https://i.imgur.com/*.jp*");
-        Matcher matcherJp = patternJp.matcher(result_image_image);
-        while(matcherJp.find()){
-            String result = matcherJp.group();
-            log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
-        }
-
+        return "";//TODO
     }
 
     private String getRandomPexelsImageUrl(String target) {
