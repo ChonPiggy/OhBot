@@ -3601,7 +3601,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         resultImageList.add(result);
                         log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
                     }
-                    if (matcherJp.groupCount() > 0) {
+                    if (resultImageList.size() > 0) {
                         random_num = randomGenerator.nextInt(resultImageList.size());
                         return resultImageList.get(random_num);
                     }
