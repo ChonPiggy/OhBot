@@ -3514,7 +3514,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int maxPageInt = -1;
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
-            maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.length());
+            maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+50, maxPage.length());
             log.info("Piggy Check maxPage: " + maxPage);
             maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.indexOf(".html"));
             log.info("Piggy Check maxPage: " + maxPage);
