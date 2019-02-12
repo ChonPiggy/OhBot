@@ -3598,13 +3598,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
 
             Random randomGenerator = new Random();
-            int random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
+            int random_num = randomGenerator.nextInt(mUserAgentList.size());
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://www.pexels.com/search/" + target;
             log.info("getRandomPexelsImageUrl:" + url);
             HttpGet httpGet = new HttpGet(url);
-            httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
+            httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
             httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
             httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
