@@ -3594,7 +3594,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                     result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
 
-                    Pattern patternJp = Pattern.compile("https:.*?.jp.*?g");
+                    Pattern patternJp = Pattern.compile("http.*?:.*?.jp.*?g");
                     Matcher matcherJp = patternJp.matcher(result_image_image);
                     while(matcherJp.find()){
                         String result = matcherJp.group();
