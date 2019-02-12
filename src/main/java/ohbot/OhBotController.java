@@ -3595,7 +3595,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
 
                     if (result_image_image.indexOf("http://imgur.com/")) {
-                        Pattern patternJp = Pattern.compile("http:\/\/imgur.com\/.*");
+                        Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
                         Matcher matcherJp = patternJp.matcher(result_image_image);
                         while(matcherJp.find()){
                             String result = matcherJp.group();
