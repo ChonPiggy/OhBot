@@ -3562,6 +3562,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result = matcher.group();
                 result = result.substring(13, result.length());
                 result = result.substring(0, result.length()-3);
+                result = result.substring(0, result.indexOf("?"));
                 //log.info("Piggy Check Pexel " + target + " jpg img_link: " + result);
                 tempList.add(result);
             }
