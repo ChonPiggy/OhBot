@@ -3594,13 +3594,29 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                     result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
 
-                    Pattern patternJp = Pattern.compile("http.*?:.*?.jp.*?g");
-                    Matcher matcherJp = patternJp.matcher(result_image_image);
-                    while(matcherJp.find()){
-                        String result = matcherJp.group();
-                        resultImageList.add(result);
-                        //log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                    if (result_image_image.indexOf("http://imgur.com/")) {
+                        Pattern patternJp = Pattern.compile("http:\/\/imgur.com\/.*");
+                        Matcher matcherJp = patternJp.matcher(result_image_image);
+                        while(matcherJp.find()){
+                            String result = matcherJp.group();
+                            result = result.replace("http:","https:");
+                            result = result.replace("imgur.com","i.imgur.com");
+                            result = result + ".jpg";
+                            resultImageList.add(result);
+                            log.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
+                        }
                     }
+                    else {
+                        Pattern patternJp = Pattern.compile("http.*?:.*?.jp.*?g");
+                        Matcher matcherJp = patternJp.matcher(result_image_image);
+                        while(matcherJp.find()){
+                            String result = matcherJp.group();
+                            resultImageList.add(result);
+                            //log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                        }
+                    }
+
+                    
                     if (resultImageList.size() > 0) {
                         random_num = randomGenerator.nextInt(resultImageList.size());
                         return resultImageList.get(random_num);
