@@ -738,7 +738,7 @@ public class OhBotController {
             pexelsTarget(text, replyToken);
         }
         else if (text.equals("抽")) {
-            getRandomPttBeautyImageUrl();
+            randomPttBeautyGirl(replyToken);
             //randomGirl(text, replyToken);
         }
 
@@ -2288,6 +2288,21 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    private void randomPttBeautyGirl(String replyToken) throws IOException {
+        log.info("Piggy Check randomPttBeautyGirl");
+        String url = getRandomPttBeautyImageUrl();
+        if (url.equals("")) {
+            this.replyText(replyToken, "PTT 表特版 parse 失敗");
+            return;
+        }
+
+        if (url.indexOf("http:") >= 0) {
+            url = url.replace("http", "https");
+        }
+        this.replyImage(replyToken, url, url);
+    }
+
+
     private void randomGirl(String text, String replyToken) throws IOException {
         log.info("Piggy Check randomGirl: " + text);
         try {
@@ -3545,7 +3560,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 httpEntity = response.getEntity();
 
                 result_url = EntityUtils.toString(httpEntity, "utf-8");
-
+                List<String> resultImageList = new ArrayList<String> ();
                 if (result_url.indexOf("爆")<0) {
                     log.info("Piggy Check can't find BURST in page: " + random_num);
                     result_url = "";
@@ -3579,14 +3594,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                     result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
 
-                    Pattern patternJp = Pattern.compile("https://i.imgur.com/*.jp*");
+                    Pattern patternJp = Pattern.compile("https:.*?.jp.*?g");
                     Matcher matcherJp = patternJp.matcher(result_image_image);
                     while(matcherJp.find()){
                         String result = matcherJp.group();
+                        resultImageList.add(result);
                         log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
                     }
                     if (matcherJp.groupCount() > 0) {
-                        break;
+                        random_num = randomGenerator.nextInt(resultImageList.size());
+                        return resultImageList.get(random_num);
                     }
                     else {
                         tryCount--;
@@ -3596,6 +3613,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             
             if (result_url.equals("")) {
+                log.info("Piggy Check Ptt Beauty parse fail");
                 return "";
             }
 
