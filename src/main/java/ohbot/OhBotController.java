@@ -2289,7 +2289,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void randomPttBeautyGirl(String replyToken) throws IOException {
-        log.info("Piggy Check randomPttBeautyGirl");
         String url = getRandomPttBeautyImageUrl();
         log.info("Piggy Check randomPttBeautyGirl: " + url);
         if (url.equals("")) {
@@ -3604,7 +3603,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     }
                     if (resultImageList.size() > 0) {
                         random_num = randomGenerator.nextInt(resultImageList.size());
-                        return resultImageList.get(random_num);;
+                        return resultImageList.get(random_num);
                     }
                     else {
                         tryCount--;
