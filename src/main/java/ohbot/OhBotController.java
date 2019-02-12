@@ -2295,7 +2295,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
         }
-
+        if (url.endsWith(".gif")) {
+            this.replyText(replyToken, "Line 不能顯示 gif 直接貼: " + url);
+        }
         if (url.indexOf("http:") >= 0) {
             url = url.replace("http", "https");
         }
@@ -3611,10 +3613,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         Matcher matcherJp = patternJp.matcher(result_image_image);
                         while(matcherJp.find()){
                             String result = matcherJp.group();
-                            if (!result.endsWith(".gif")) {
-                                resultImageList.add(result);    
-                            }
-                            
+                            resultImageList.add(result);
                             //log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
                         }
                     }
