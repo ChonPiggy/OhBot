@@ -3546,8 +3546,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             while (tryCount > 0){
                 int random_num = randomGenerator.nextInt(maxPageInt-1500)+1500;
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
-
-                httpGet = new HttpGet("https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html");
+                String target_url = "https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html";
+                log.info("Piggy Check target PTT beauty list page: " + target_url);
+                httpGet = new HttpGet(target_url);
                 httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
                 httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
@@ -3563,7 +3564,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 result_url = EntityUtils.toString(httpEntity, "utf-8");
                 List<String> resultImageList = new ArrayList<String> ();
-                if (result_url.indexOf("爆")<0) {
+                if (result_url.indexOf("hl f1\">爆</span>")<0) {
                     log.info("Piggy Check can't find BURST in page: " + random_num);
                     result_url = "";
                     tryCount--;
