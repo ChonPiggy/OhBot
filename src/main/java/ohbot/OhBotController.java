@@ -3515,14 +3515,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             maxPage = EntityUtils.toString(httpEntity, "utf-8");
             maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.length());
+            log.info("Piggy Check maxPage: " + maxPage);
             maxPage = maxPage.substring(maxPage.indexOf("<a class=\"btn wide\" href=\"/bbs/Beauty/index")+43, maxPage.indexOf(".html"));
+            log.info("Piggy Check maxPage: " + maxPage);
             try {
-                    maxPageInt = Integer.parseInt(maxPage);
-                }
-                catch(java.lang.NumberFormatException e1) {
-                    log.info("NumberFormatException " + e1);
-                }
-                log.info("Piggy Check maxPageInt: " + maxPageInt);
+                maxPageInt = Integer.parseInt(maxPage);
+            }catch(java.lang.NumberFormatException e1) {
+                log.info("NumberFormatException " + e1);
+            }
+            log.info("Piggy Check maxPageInt: " + maxPageInt);
             
             String result_url = "";
             int tryCount = 10;
