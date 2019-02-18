@@ -135,6 +135,7 @@ public class OhBotController {
     private String NO_CONSCIENCE_IMAGE = "https://i.imgur.com/8v9oZ2P.jpg";
     private String OK_FINE_IMAGE = "https://i.imgur.com/CNM3c0Y.jpg";
     private String GIVE_SALMON_NO_SWORDFISH_IMAGE = "https://i.imgur.com/ySGhh61.jpg";
+    private String IF_YOU_ANGRY_IMAGE = "https://i.imgur.com/3ITqKUG.jpg";
 
     
 
@@ -813,7 +814,11 @@ public class OhBotController {
 
         if (text.equals("悲慘世界")) {
             keywordImage("TragicWorld",replyToken);
-        }    
+        }
+
+        if (text.equals("幹")||text.equals("操")||text.equals("雞掰")||text.equals("機掰")) {
+            keywordImage("IfYouAngry",replyToken);
+        }
 
         // keyword image control
         if (text.endsWith("閉嘴")||text.endsWith("閉嘴！")||text.endsWith("閉嘴!")) {
@@ -2140,7 +2145,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String strDate = sdFormat.format(date);
-        String beautyLink = "http://unayung.cc/links/" + strDate;
+        String beautyLink = "https://unayung.cc/links/" + strDate;
 
         //this.replyText(replyToken, beautyLink);
 
@@ -2793,6 +2798,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
         if (text.equals("TragicWorld")) {
             source = "https://i.imgur.com/1Ap4Qka.jpg";
+        }
+        if (text.equals("IfYouAngry")) {
+            source = IF_YOU_ANGRY_IMAGE;
         }
         if (text.equals("EG")) {
             List<String> mEgDevilImgurLinkList = Arrays.asList("https://i.imgur.com/6qN9GI1.jpg", "https://i.imgur.com/qHbEBjN.jpg", "https://i.imgur.com/NFbnbSs.jpg", "https://i.imgur.com/68KRiAj.jpg", "https://i.imgur.com/dHEEBcU.jpg", "https://i.imgur.com/OMqBsOl.jpg", "https://i.imgur.com/JBuBhqr.jpg", "https://i.imgur.com/O5o7tD3.jpg", "https://i.imgur.com/PYZ4v9V.jpg", "https://i.imgur.com/GRD3yXF.jpg");
@@ -4009,4 +4017,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (i < 0) {i += 256;}
         return h[i/16] + h[i%16];
     }
+
+    /*public static HttpClient getHttpsClient() throws Exception {
+
+        if (client != null) {
+            return client;
+        }
+        SSLContext sslcontext = getSSLContext();
+        SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext,
+                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+        client = HttpClients.custom().setSSLSocketFactory(factory).build();
+
+        return client;
+    }*/
 }
