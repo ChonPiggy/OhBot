@@ -139,6 +139,11 @@ public class OhBotController {
     private String OK_FINE_IMAGE = "https://i.imgur.com/CNM3c0Y.jpg";
     private String GIVE_SALMON_NO_SWORDFISH_IMAGE = "https://i.imgur.com/ySGhh61.jpg";
     private String IF_YOU_ANGRY_IMAGE = "https://i.imgur.com/3ITqKUG.jpg";
+    private String PIGGY_USER_ID = "U8147d3d84ccc1e6e12d0eb82d30b1f1a";
+
+    private String mTotallyBullyUserId = "";
+    private String mTotallyBullyReplyString = "閉嘴死肥豬";
+    private boolean mIsTotallyBullyEnable = false;
 
     
 
@@ -665,8 +670,8 @@ public class OhBotController {
         dumpClassMethod(source.getClass());
         log.info("source: " + source);
 
-        String groupId = source.getGroupId();
         String senderId = source.getSenderId();
+        String userId = source.getUserId();
         log.info("senderId: " + senderId);
         log.info("userId: " + userId);
         if (UserSource.class.isInstance(source)) {
@@ -676,15 +681,12 @@ public class OhBotController {
         if (RoomSource.class.isInstance(source)) {
             log.info("RoomSource.class");
             String roomId = source.getSenderId();
-            String userId = source.getUserId();
             log.info("roomId: " + roomId);
             log.info("userId: " + userId);
         }
         if (GroupSource.class.isInstance(source)) {
             log.info("GroupSource.class");
-            String userId = source.getUserId();
-            String senderId = source.getSenderId();
-            String userId = source.getUserId();
+            String groupId = source.getGroupId();
             log.info("groupId: " + groupId);
             log.info("senderId: " + senderId);
             log.info("userId: " + userId);
@@ -784,63 +786,102 @@ public class OhBotController {
         }
         
         if (text.startsWith("PgCommand新增吃什麼:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             updateEatWhat(text, replyToken);
         }
         if (text.startsWith("PgCommand刪除吃什麼:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             deleteEatWhat(text, replyToken);
         }
         if (text.equals("PgCommand清空吃什麼")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             cleanEatWhat(text, replyToken);
         }
         if (text.equals("PgCommand列出吃什麼")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             dumpEatWhat(text, replyToken);
         }
         if (text.equals("PgCommand煎蛋進度")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             randomGirlProgressing(text, replyToken);
         }
         if (text.equals("PgCommand煎蛋數量")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             randomGirlCount(text, replyToken);
         }
         if (text.startsWith("PgCommand煎蛋解碼:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             randomGirlDecode(text, replyToken);
         }
         if (text.startsWith("PgCommand煎蛋解碼圖:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             randomGirlDecodeImage(text, replyToken);
         }
         if (text.startsWith("PgCommand圖片:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             replyInputImage(text, replyToken);
         }
         if (text.equals("PgCommand開始煎蛋")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             startFetchJanDanGirlImages();
         }
 
         if (text.startsWith("PgCommand新增隨機地點:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             updateRandomAddress(text, replyToken);
         }
         if (text.startsWith("PgCommand刪除隨機地點:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             deleteRandomAddress(text, replyToken);
         }
         if (text.equals("PgCommand清空隨機地點")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             cleanRandomAddress(text, replyToken);
         }
         if (text.equals("PgCommand列出隨機地點")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             dumpRandomAddress(text, replyToken);
         }
 
         if (text.startsWith("PgCommand新增隨機動作:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             updateRandomTitle(text, replyToken);
         }
         if (text.startsWith("PgCommand刪除隨機動作:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             deleteRandomTitle(text, replyToken);
         }
         if (text.equals("PgCommand清空隨機動作")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             cleanRandomTitle(text, replyToken);
         }
         if (text.equals("PgCommand列出隨機動作")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             dumpRandomTitle(text, replyToken);
         }
         if (text.startsWith("PgCommand設定預設匯率:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
             setDefaultExchanged(text,replyToken);
+        }
+
+        if (text.startsWith("PgCommand開始徹底霸凌")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            startTotallyBully(replyToken);
+        }
+
+        if (text.startsWith("PgCommand停止徹底霸凌")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            stopTotallyBully(replyToken);
+        }
+
+        if (text.startsWith("PgCommand設定徹底霸凌對象:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            setTotallyBullyUser(text, replyToken);
+        }
+
+        if (text.startsWith("PgCommand設定徹底霸凌字串:")) {
+            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            setTotallyBullyString(text, replyToken);
         }
 
         if (text.contains("蛙")) {
@@ -907,6 +948,8 @@ public class OhBotController {
         if (text.startsWith("霸凌不好")) {
             interruptBullyMode(replyToken);
         }
+
+        checkNeedTotallyBullyReply(userId, replyToken);
 
         if (text.length() > 0) {
             bullyModeTrigger(replyToken);
@@ -2907,6 +2950,35 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyImage(replyToken, source, source);
     }
 
+    private void startTotallyBully(String replyToken) {
+        mIsTotallyBullyEnable = true;
+        this.replyMessage(replyToken, "好的 PG 大人");
+    }
+
+    private void stopTotallyBully(String replyToken) {
+        mIsTotallyBullyEnable = false;
+        String source = NO_CONSCIENCE_IMAGE;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void setTotallyBullyUser(String text, String replyToken) {
+        text = text.replace("PgCommand設定徹底霸凌對象:", "");
+        mTotallyBullyUserId = text;
+        this.replyMessage(replyToken, "好的 PG 大人");
+    }
+
+    private void setTotallyBullyString(String text, String replyToken) {
+        text = text.replace("PgCommand設定徹底霸凌字串:", "");
+        mTotallyBullyReplyString = text;
+        this.replyMessage(replyToken, "好的 PG 大人");
+    }
+
+    private void checkNeedTotallyBullyReply(String userId, String replyToken) {
+        if (mIsTotallyBullyEnable && userId.equals(mTotallyBullyUserId)) {
+            this.replyMessage(replyToken, mTotallyBullyReplyString);
+        }
+    }
+
     private void setDefaultExchanged(String text, String replyToken) {
         text = text.replace("PgCommand設定預設匯率:", "");
 
@@ -4141,5 +4213,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info("Exception: " + e);
             return "";
         }
+    }
+
+    private boolean isPgMasterUserId(String userId, String replyToken) {
+        if (!userId.equals(PIGGY_USER_ID)) {
+            this.reply(replyToken, "你以為你是偉大的 PG 大人嗎？\n滾!!!");
+            return false;
+        }
+        return true;
     }
 }
