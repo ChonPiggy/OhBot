@@ -140,8 +140,10 @@ public class OhBotController {
     private String OK_FINE_IMAGE = "https://i.imgur.com/CNM3c0Y.jpg";
     private String GIVE_SALMON_NO_SWORDFISH_IMAGE = "https://i.imgur.com/ySGhh61.jpg";
     private String IF_YOU_ANGRY_IMAGE = "https://i.imgur.com/3ITqKUG.jpg";
+    private String I_HAVE_NO_SPERM_IMAGE = "https://i.imgur.com/dL4sqfu.jpg";
     private String PIGGY_USER_ID = "U8147d3d84ccc1e6e12d0eb82d30b1f1a";
     private String TEST_MASTER_USER_ID = "U9c99b691ba0b5d32de41606c19b2e2eb";
+    private String GROUP_ID_CONNECTION = "Ccc1bbf4da77b2fbbc5745be3d6ca154f";
 
     private String mTotallyBullyUserId = "";
     private String mTotallyBullyReplyString = "閉嘴死肥豬";
@@ -152,6 +154,8 @@ public class OhBotController {
     private String mStartRPSUserId = "";
     private boolean mIsUserIdDetectMode = false;
     private String mUserIdDetectModeGroupId = "";
+
+    private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
     
 
     @Autowired
@@ -814,7 +818,7 @@ public class OhBotController {
             pexelsTarget(text, replyToken);
         }
         else if (text.equals("抽")) {
-            randomPttBeautyGirl(replyToken);
+            randomPttBeautyGirl(userId, senderId, replyToken);
             //randomGirl(text, replyToken);
         }
 
@@ -945,7 +949,7 @@ public class OhBotController {
             if(!isAdminUserId(userId, replyToken)) {return;}
             startUserIdDetectMode(senderId, replyToken);
         }
-        
+
         if (text.equals("PgCommand停止偵測ID")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
             stopUserIdDetectMode(senderId, replyToken);
@@ -2499,7 +2503,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void randomPttBeautyGirl(String replyToken) throws IOException {
+    private void randomPttBeautyGirl(String userId, String senderId, String replyToken) throws IOException {
+        if (senderId.equals(GROUP_ID_CONNECTION)) {
+            if(mConnectionGroupRandomGirlUserIdList.contains(userId)) {
+                this.replyImage(replyToken, I_HAVE_NO_SPERM_IMAGE, I_HAVE_NO_SPERM_IMAGE);
+                return;
+            }
+            else {
+                mConnectionGroupRandomGirlUserIdList.add(userId);
+            }
+        }
+
         String url = getRandomPttBeautyImageUrl();
         log.info("Piggy Check randomPttBeautyGirl: " + url);
         if (url.equals("")) {
