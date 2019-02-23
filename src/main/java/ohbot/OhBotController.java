@@ -150,7 +150,8 @@ public class OhBotController {
     private List<String> mRPSGameUserList = new ArrayList<String> ();
     private String mStartRPSGroupId = "";
     private String mStartRPSUserId = "";
-
+    private boolean mIsUserIdDetectMode = false;
+    private String mUserIdDetectModeGroupId = "";
     
 
     @Autowired
@@ -704,6 +705,10 @@ public class OhBotController {
 
         String senderId = source.getSenderId();
         String userId = source.getUserId();
+
+        if (replyUserId(userId, senderId, replyToken)) {
+            return;
+        }
         // log.info("senderId: " + senderId);
         // log.info("userId: " + userId);
         if (UserSource.class.isInstance(source)) {
@@ -934,6 +939,16 @@ public class OhBotController {
         if (text.equals("PgCommand強制終止猜拳")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
             forceStopRPS(replyToken);
+        }
+
+        if (text.equals("PgCommand開始偵測ID")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            startUserIdDetectMode(senderId, replyToken);
+        }
+        
+        if (text.equals("PgCommand停止偵測ID")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            stopUserIdDetectMode(senderId, replyToken);
         }
 
         if (text.contains("蛙")) {
@@ -3017,6 +3032,26 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
         this.replyImage(replyToken, source, source);
+    }
+
+    private void startUserIdDetectMode(String senderId, String replyToken) {
+        mUserIdDetectModeGroupId = senderId;
+        mIsUserIdDetectMode = true;
+        this.replyText(replyToken, "好的 PG 大人");
+    }
+
+    private void stopUserIdDetectMode(String senderId, String replyToken) {
+        mUserIdDetectModeGroupId = "";
+        mIsUserIdDetectMode = false;
+        this.replyText(replyToken, "好的 PG 大人");
+    }
+
+    private boolean replyUserId(String userId, String senderId, String replyToken) {
+        if (mIsUserIdDetectMode && mUserIdDetectModeGroupId.equals(senderId)) {
+            this.replyText(replyToken, userId);
+            return true;
+        }
+        return false;
     }
 
     private void startTotallyBully(String replyToken) {
