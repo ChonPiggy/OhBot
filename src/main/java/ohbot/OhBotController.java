@@ -3056,6 +3056,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void startRPS(String userId, String senderId, String replyToken) {
+        if (!mStartRPSGroupId.equals("") && !mStartRPSGroupId.equals(senderId)) {
+            this.replyText(replyToken, "別的群組正在玩唷");
+            return;
+        }
         if (!mStartRPSUserId.equals("")) {return;}
         mStartRPSGroupId = senderId;
         mStartRPSUserId = userId;
