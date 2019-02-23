@@ -34,6 +34,7 @@ import ohbot.aqiObj.AqiResult;
 import ohbot.aqiObj.Datum;
 import ohbot.stockObj.*;
 import ohbot.utils.Utils;
+import java.lang.reflect.*;
 
 import java.util.concurrent.CompletableFuture;
 import java.lang.reflect.Method;
@@ -665,20 +666,25 @@ public class OhBotController {
         log.info("source: " + source);
         if (UserSource.class.isInstance(source)) {
             log.info("UserSource.class");
-            String userId = source.getUserId();
+            /*String userId = source.getUserId();*/
+            String userId = getPrivateString("userId");
             log.info("userId: ", userId);
         }
         if (RoomSource.class.isInstance(source)) {
             log.info("RoomSource.class");
-            String roomId = source.getSenderId();
-            String userId = source.getUserId();
+            /*String roomId = source.getSenderId();
+            String userId = source.getUserId();*/
             log.info("roomId: ", roomId);
             log.info("userId: ", userId);
         }
         if (GroupSource.class.isInstance(source)) {
             log.info("GroupSource.class");
-            String groupId = source.getSenderId();
-            String userId = source.getUserId();
+            /*String groupId = source.getGroupId();
+            String senderId = source.getSenderId();
+            String userId = source.getUserId();*/
+
+            String groupId = getPrivateString("groupId");
+            String userId = getPrivateString("userId");
             log.info("groupId: ", groupId);
             log.info("userId: ", userId);
         }
@@ -4106,5 +4112,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         for (Method method : c.getDeclaredMethods()) {
             log.info("Method name: " + method.getName());
         }
+    }
+
+    private String getPrivateString(String name) {
+        Field field = Other.class.getDeclaredField(name);
+        field.setAccessible(true);
+        Object value = field.get(t);
+        return (String) value;
     }
 }
