@@ -1058,7 +1058,9 @@ public class OhBotController {
                     log.info("Piggy Check response: " + response);
             return response.get();//TODO
         } catch (IOException e) {
-            log.info("e: " + e);
+            log.info("IOException: " + e);
+        } catch (InterruptedException e) {
+            log.info("InterruptedException: " + e);
         }
         return null;
     }
