@@ -1064,7 +1064,7 @@ public class OhBotController {
             CompletableFuture<UserProfileResponse> response = lineMessagingClient
                     .getProfile(userId);
                     log.info("Piggy Check response: " + response);
-            return response.body();//TODO
+            return response.get();//TODO
         } catch (IOException e) {
             log.info("e: " + e);
         }
