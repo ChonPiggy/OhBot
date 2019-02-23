@@ -3081,6 +3081,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, "你已經出過了啦北七!");
             return;
         }
+        if (getUserDisplayName(userId).equals("")) {
+            this.replyText(replyToken, "你要先加我好友才可以玩唷!");
+            return;
+        }
         mRPSGameUserList.add(userId);
 
         Random randomGenerator = new Random();
