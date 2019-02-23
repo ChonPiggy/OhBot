@@ -651,7 +651,8 @@ public class OhBotController {
         try {
             UserProfileResponse userProfileResponse = getUserProfile(userid);
             strResult = userProfileResponse.getDisplayName() + "\n" + userProfileResponse.getPictureUrl();
-        } catch (IOException) {
+        } catch (IOException e) {
+            log.info("e: " + e);
 
         }
         return strResult;
@@ -665,8 +666,8 @@ public class OhBotController {
                 return "";
             }
             strResult = userProfileResponse.getDisplayName();
-        } catch (IOException) {
-
+        } catch (IOException e) {
+            log.info("e: " + e);
         }
         return strResult;
     }
@@ -679,7 +680,8 @@ public class OhBotController {
                 return "";
             }
             strResult = userProfileResponse.getPictureUrl();
-        } catch (IOException) {
+        } catch (IOException e) {
+            log.info("e: " + e);
 
         }
         return strResult;
@@ -1064,7 +1066,7 @@ public class OhBotController {
                     log.info("Piggy Check response: " + response);
             return response.body();//TODO
         } catch (IOException e) {
-
+            log.info("e: " + e);
         }
         return null;
     }
