@@ -646,10 +646,42 @@ public class OhBotController {
     }
 
     @RequestMapping("/user")
-    public String user(@RequestParam(value = "userid") String userid) throws IOException {
+    public String user(@RequestParam(value = "userid") String userid) {
         String strResult="";
-        UserProfileResponse userProfileResponse = getUserProfile(userid);
-        strResult = userProfileResponse.getDisplayName() + "\n" + userProfileResponse.getPictureUrl();
+        try {
+            UserProfileResponse userProfileResponse = getUserProfile(userid);
+            strResult = userProfileResponse.getDisplayName() + "\n" + userProfileResponse.getPictureUrl();
+        } catch (IOException) {
+
+        }
+        return strResult;
+    }
+
+    public String getUserDisplayName(String userid) {
+        String strResult="";
+        try {
+            UserProfileResponse userProfileResponse = getUserProfile(userid);
+            if (userProfileResponse == null) {
+                return "";
+            }
+            strResult = userProfileResponse.getDisplayName();
+        } catch (IOException) {
+
+        }
+        return strResult;
+    }
+
+    public String getUserDisplayPicture(String userid) {
+        String strResult="";
+        try {
+            UserProfileResponse userProfileResponse = getUserProfile(userid);
+            if (userProfileResponse == null) {
+                return "";
+            }
+            strResult = userProfileResponse.getPictureUrl();
+        } catch (IOException) {
+
+        }
         return strResult;
     }
 
@@ -1025,11 +1057,15 @@ public class OhBotController {
         
     }
 
-    private UserProfileResponse getUserProfile(@NonNull String userId) throws IOException {
-        CompletableFuture<UserProfileResponse> response = lineMessagingClient
-                .getProfile(userId);
-                log.info("Piggy Check response: " + response);
-        //return response.body();//TODO
+    private UserProfileResponse getUserProfile(@NonNull String userId) {
+        try {
+            CompletableFuture<UserProfileResponse> response = lineMessagingClient
+                    .getProfile(userId);
+                    log.info("Piggy Check response: " + response);
+            return response.body();//TODO
+        } catch (IOException e) {
+
+        }
         return null;
     }
 
@@ -2971,14 +3007,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void setTotallyBullyUser(String text, String replyToken) {
         text = text.replace("PgCommand設定徹底霸凌對象:", "");
         mTotallyBullyUserId = text;
-        log.info("Piggy Check profile: " + getUserProfile(mTotallyBullyUserId));
-        this.replyText(replyToken, "好的 PG 大人");
+        this.replyText(replyToken, "好的 PG 大人\n對象是: " + getUserDisplayName(mTotallyBullyUserId));
     }
 
     private void setTestAdminUser(String text, String replyToken) {
         text = text.replace("PgCommand設定代理管理員:", "");
         TEST_MASTER_USER_ID = text;
-        this.replyText(replyToken, "好的 PG 大人");
+        this.replyText(replyToken, "好的 PG 大人\n對象是: " + getUserDisplayName(mTotallyBullyUserId));
     }
 
     private void setTotallyBullyString(String text, String replyToken) {
