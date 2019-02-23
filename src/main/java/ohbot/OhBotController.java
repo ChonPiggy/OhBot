@@ -2145,7 +2145,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String strDate = sdFormat.format(date);
-        String beautyLink = "https://unayung.cc/links/" + strDate;
+        String beautyLink = "http://unayung.cc/links/" + strDate;
 
         //this.replyText(replyToken, beautyLink);
 
@@ -2184,7 +2184,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String strDate = sdFormat.format(date);
-        String beautyLink = "https://unayung.cc/links/" + strDate;
+        String beautyLink = "http://unayung.cc/links/" + strDate;
 
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
