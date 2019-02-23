@@ -2952,7 +2952,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void startTotallyBully(String replyToken) {
         mIsTotallyBullyEnable = true;
-        this.replyMessage(replyToken, "好的 PG 大人");
+        this.replyText(replyToken, "好的 PG 大人");
     }
 
     private void stopTotallyBully(String replyToken) {
@@ -2964,18 +2964,18 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void setTotallyBullyUser(String text, String replyToken) {
         text = text.replace("PgCommand設定徹底霸凌對象:", "");
         mTotallyBullyUserId = text;
-        this.replyMessage(replyToken, "好的 PG 大人");
+        this.replyText(replyToken, "好的 PG 大人");
     }
 
     private void setTotallyBullyString(String text, String replyToken) {
         text = text.replace("PgCommand設定徹底霸凌字串:", "");
         mTotallyBullyReplyString = text;
-        this.replyMessage(replyToken, "好的 PG 大人");
+        this.replyText(replyToken, "好的 PG 大人");
     }
 
     private void checkNeedTotallyBullyReply(String userId, String replyToken) {
         if (mIsTotallyBullyEnable && userId.equals(mTotallyBullyUserId)) {
-            this.replyMessage(replyToken, mTotallyBullyReplyString);
+            this.replyText(replyToken, mTotallyBullyReplyString);
         }
     }
 
