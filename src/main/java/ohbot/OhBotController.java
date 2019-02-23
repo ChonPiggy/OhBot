@@ -4114,17 +4114,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private String getGroupSourcePrivateString(GroupSource source, String name) {
+    private String getGroupSourcePrivateString(Source source, String name) {
         Field field = GroupSource.class.getDeclaredField(name);
         field.setAccessible(true);
-        Object value = field.get(source);
+        Object value = field.get((GroupSource)source);
         return (String) value;
     }
 
-    private String getUserSourcePrivateString(UserSource source, String name) {
+    private String getUserSourcePrivateString(Source source, String name) {
         Field field = UserSource.class.getDeclaredField(name);
         field.setAccessible(true);
-        Object value = field.get(source);
+        Object value = field.get((UserSource)source);
         return (String) value;
     }
 }
