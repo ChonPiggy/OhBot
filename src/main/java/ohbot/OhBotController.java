@@ -4230,8 +4230,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private boolean isAdminUserId(String userId, String replyToken) {
 
-        if (!userId.equals(PIGGY_USER_ID) || !userId.equals(TEST_MASTER_USER_ID) ) {
-            this.replyText(replyToken, "你以為你是偉大的 PG 大人嗎？\n滾!!!");
+        if (!userId.equals(PIGGY_USER_ID) && !userId.equals(TEST_MASTER_USER_ID) ) {
+            this.replyText(replyToken, "你以為你是偉大的 PG 大人嗎？\n\n滾！！！");
             return false;
         }
         return true;
