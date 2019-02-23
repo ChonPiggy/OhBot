@@ -4115,16 +4115,25 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private String getGroupSourcePrivateString(Source source, String name) {
-        Field field = GroupSource.class.getDeclaredField(name);
-        field.setAccessible(true);
-        Object value = field.get((GroupSource)source);
-        return (String) value;
+        try {
+            Field field = GroupSource.class.getDeclaredField(name);
+            field.setAccessible(true);
+            Object value = field.get((GroupSource)source);
+            return (String) value;
+        } catch(Exception e) {
+            return "";
+        }
+        
     }
 
     private String getUserSourcePrivateString(Source source, String name) {
-        Field field = UserSource.class.getDeclaredField(name);
-        field.setAccessible(true);
-        Object value = field.get((UserSource)source);
-        return (String) value;
+        try {
+            Field field = UserSource.class.getDeclaredField(name);
+            field.setAccessible(true);
+            Object value = field.get((UserSource)source);
+            return (String) value;
+        } catch(Exception e) {
+            return "";
+        }
     }
 }
