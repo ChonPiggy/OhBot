@@ -24,6 +24,7 @@ import com.linecorp.bot.model.message.template.CarouselTemplate;
 //import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
+import com.linecorp.bot.model.event.source.*;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import emoji4j.EmojiUtils;
@@ -655,8 +656,32 @@ public class OhBotController {
     }
 
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
+
         String text = content.getText();
         log.info(text);
+        Source source = event.getSource();
+        if (source.isInstance(UserSource.class)) {
+            log.info("UserSource.class");
+            String userId = ((UserSource)source).userId;
+            log.info("userId: ", userId);
+        }
+        if (source.isInstance(RoomSource.class)) {
+            log.info("RoomSource.class");
+            String roomId = ((RoomSource)source).roomId;
+            String userId = ((RoomSource)source).userId;
+            log.info("roomId: ", roomId);
+            log.info("userId: ", userId);
+        }
+        if (source.isInstance(GroupSource.class)) {
+            log.info("GroupSource.class");
+            String groupId = ((GroupSource)source).groupId;
+            String userId = ((GroupSource)source).userId;
+            log.info("groupId: ", groupId);
+            log.info("userId: ", userId);
+        }
+        if (source.isInstance(UnknownSource.class)) {
+            log.info("UnknownSource.class");
+        }
 
         if (mJanDanGirlList.size() == 0 && !mIsStartJandanStarted) {
             //mIsStartJandanStarted = true;
@@ -2183,54 +2208,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void dailyBeautyName(String text, String replyToken) throws IOException {
-
-        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String strDate = sdFormat.format(date);
-        String beautyLink = "http://unayung.cc/links/" + strDate;
-
-        try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
-            String url= beautyLink;
-            log.info(url);
-            HttpGet httpget = new HttpGet(url);
-            CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-            HttpEntity httpEntity = response.getEntity();
-
-            String dumpSource = "";
-            dumpSource = EntityUtils.toString(httpEntity, "utf-8");
-            //dumpSource = dumpSource.substring(dumpSource.indexOf("og:description\" content=\"")+25, dumpSource.length());
-            dumpSource = dumpSource.substring(dumpSource.indexOf("white-box detail\">"), dumpSource.length());
-            //dumpSource = dumpSource.substring(0, dumpSource.indexOf("\"/>"));
-            //dumpSource = dumpSource.substring(0, dumpSource.indexOf("本專欄歡迎"));
-
-            if (dumpSource.indexOf("本專欄歡迎") > 0) {
-                dumpSource = dumpSource.substring(0, dumpSource.indexOf("本專欄歡迎"));
-            }
-            else {
-                dumpSource = dumpSource.substring(0, dumpSource.indexOf("<p>資料來源"));
-            }
-                
-
-            dumpSource = dumpSource.substring(dumpSource.indexOf("<h4>")+4, dumpSource.length());
-            dumpSource = dumpSource.replaceAll("          ", "");
-            dumpSource = dumpSource.replaceAll("</h4>", "");
-            dumpSource = dumpSource.replaceAll("<br>", "\n");
-
-            if (dumpSource.indexOf("\" target=\"") > 0) {
-                dumpSource = dumpSource.replaceAll("<a href=\"", "");
-                dumpSource = dumpSource.substring(0, dumpSource.indexOf("\" target=\""));
-            }
-            
-            this.replyText(replyToken, dumpSource);
-
-        }catch (IOException e2) {
-            throw e2;
-        }
-    }
-
     /*private void dailyBeauty(String text, String replyToken) throws IOException {
 
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -2268,7 +2245,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (IOException e2) {
             throw e2;
         }
-    }
+    }*/
 
     private void dailyBeautyName(String text, String replyToken) throws IOException {
 
@@ -2316,7 +2293,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (IOException e2) {
             throw e2;
         }
-    }*/
+    }
 
     private void dailySentence(String text, String replyToken) throws IOException {
         try {
