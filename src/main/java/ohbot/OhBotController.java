@@ -143,8 +143,8 @@ public class OhBotController {
     private String I_HAVE_NO_SPERM_IMAGE = "https://i.imgur.com/dL4sqfu.jpg";
     private String PIGGY_USER_ID = "U8147d3d84ccc1e6e12d0eb82d30b1f1a";
     private String TEST_MASTER_USER_ID = "U9c99b691ba0b5d32de41606c19b2e2eb";
-    //private String GROUP_ID_CONNECTION = "Ccc1bbf4da77b2fbbc5745be3d6ca154f";
-    private String GROUP_ID_CONNECTION = "C3691a96649f0d57c367eedb2c7f0e161";
+    private String GROUP_ID_CONNECTION = "Ccc1bbf4da77b2fbbc5745be3d6ca154f";
+    private String GROUP_ID_BOT_HELL = "C3691a96649f0d57c367eedb2c7f0e161";
     
 
     private String mTotallyBullyUserId = "";
