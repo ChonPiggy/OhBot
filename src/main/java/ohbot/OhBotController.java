@@ -679,7 +679,7 @@ public class OhBotController {
             log.info("groupId: ", groupId);
             log.info("userId: ", userId);
         }
-        if (source.isInstance(UnknownSource.class)) {
+        if (source.getClass().isInstance(UnknownSource.class)) {
             log.info("UnknownSource.class");
         }
 
