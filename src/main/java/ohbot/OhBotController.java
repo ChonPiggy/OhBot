@@ -660,6 +660,7 @@ public class OhBotController {
         String text = content.getText();
         log.info(text);
         Source source = event.getSource();
+        dumpClassMethod(source);
         log.info("source: " + source);
         if (UserSource.class.isInstance(source)) {
             log.info("UserSource.class");
@@ -4099,4 +4100,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         return client;
     }*/
+
+    private void dumpClassMethod(Class c) {
+        for (Method method : c.getDeclaredMethods()) {
+            log.info("Method name: " + method.getName());
+        }
+    }
 }
