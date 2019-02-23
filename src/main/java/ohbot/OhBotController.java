@@ -648,42 +648,34 @@ public class OhBotController {
     @RequestMapping("/user")
     public String user(@RequestParam(value = "userid") String userid) {
         String strResult="";
-        try {
-            UserProfileResponse userProfileResponse = getUserProfile(userid);
-            strResult = userProfileResponse.getDisplayName() + "\n" + userProfileResponse.getPictureUrl();
-        } catch (IOException e) {
-            log.info("e: " + e);
-
-        }
+    
+        UserProfileResponse userProfileResponse = getUserProfile(userid);
+        strResult = userProfileResponse.getDisplayName() + "\n" + userProfileResponse.getPictureUrl();
+    
         return strResult;
     }
 
     public String getUserDisplayName(String userid) {
         String strResult="";
-        try {
-            UserProfileResponse userProfileResponse = getUserProfile(userid);
-            if (userProfileResponse == null) {
-                return "";
-            }
-            strResult = userProfileResponse.getDisplayName();
-        } catch (IOException e) {
-            log.info("e: " + e);
+        
+        UserProfileResponse userProfileResponse = getUserProfile(userid);
+        if (userProfileResponse == null) {
+            return "";
         }
+        strResult = userProfileResponse.getDisplayName();
+        
         return strResult;
     }
 
     public String getUserDisplayPicture(String userid) {
         String strResult="";
-        try {
-            UserProfileResponse userProfileResponse = getUserProfile(userid);
-            if (userProfileResponse == null) {
-                return "";
-            }
-            strResult = userProfileResponse.getPictureUrl();
-        } catch (IOException e) {
-            log.info("e: " + e);
-
+        
+        UserProfileResponse userProfileResponse = getUserProfile(userid);
+        if (userProfileResponse == null) {
+            return "";
         }
+        strResult = userProfileResponse.getPictureUrl();
+        
         return strResult;
     }
 
