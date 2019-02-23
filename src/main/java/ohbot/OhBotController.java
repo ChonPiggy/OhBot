@@ -992,15 +992,15 @@ public class OhBotController {
         }
 
         if (text.equals("開始猜拳")) {
-            startRPS(userId, replyToken);
+            startRPS(userId, senderId, replyToken);
         }
 
         if (text.equals("結束猜拳")) {
-            stopRPS(userId, replyToken);
+            stopRPS(userId, senderId, replyToken);
         }
 
         if (text.equals("參加猜拳")) {
-            joinRPS(userId, replyToken);
+            joinRPS(userId, senderId, replyToken);
         }
 
         checkNeedTotallyBullyReply(userId, replyToken);
