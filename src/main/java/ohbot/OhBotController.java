@@ -661,7 +661,7 @@ public class OhBotController {
         String text = content.getText();
         log.info(text);
         Source source = event.getSource();
-        dumpClassMethod(source);
+        dumpClassMethod(source.getClass());
         log.info("source: " + source);
         if (UserSource.class.isInstance(source)) {
             log.info("UserSource.class");
