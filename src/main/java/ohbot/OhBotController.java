@@ -662,20 +662,20 @@ public class OhBotController {
         Source source = event.getSource();
         if (source.isInstance(UserSource.class)) {
             log.info("UserSource.class");
-            String userId = ((UserSource)source).userId;
+            String userId = ((UserSource)source).getUserId();
             log.info("userId: ", userId);
         }
         if (source.isInstance(RoomSource.class)) {
             log.info("RoomSource.class");
-            String roomId = ((RoomSource)source).roomId;
-            String userId = ((RoomSource)source).userId;
+            String roomId = ((RoomSource)source).getSenderId();
+            String userId = ((RoomSource)source).getUserId();
             log.info("roomId: ", roomId);
             log.info("userId: ", userId);
         }
         if (source.isInstance(GroupSource.class)) {
             log.info("GroupSource.class");
-            String groupId = ((GroupSource)source).groupId;
-            String userId = ((GroupSource)source).userId;
+            String groupId = ((GroupSource)source).getSenderId();
+            String userId = ((GroupSource)source).getUserId();
             log.info("groupId: ", groupId);
             log.info("userId: ", userId);
         }
