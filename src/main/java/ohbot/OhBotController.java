@@ -111,6 +111,7 @@ public class OhBotController {
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36"));
     private List<String> mDefaultRandamLocationTitleList = Arrays.asList("正在吃飯", "正在洗澡", "死了", "正在散步", "正在合照", "正在做羞羞的事", "正在慢跑", "正在睡覺");
     private List<String> mDefaultRandamLocationAddressList = Arrays.asList("某個路邊", "某個下水溝", "某顆樹上", "某人家裡", "某個機場跑道上", "某個商店街", "某間公司");
+    private List<String> mDefaultRockPaperScissors = Arrays.asList("剪刀", "石頭", "布");
     private List<String> mRandamLocationTitleList = new ArrayList<String> (mDefaultRandamLocationTitleList);
     private List<String> mRandamLocationAddressList = new ArrayList<String> (mDefaultRandamLocationAddressList);
     private boolean mIsStartJandanParsing = false;
@@ -145,6 +146,10 @@ public class OhBotController {
     private String mTotallyBullyUserId = "";
     private String mTotallyBullyReplyString = "閉嘴死肥豬";
     private boolean mIsTotallyBullyEnable = false;
+
+    private List<String> mRPSGameUserList = new ArrayList<String> ();
+    private String mStartRPSGroupId = "";
+    private String mStartRPSUserId = "";
 
     
 
@@ -916,6 +921,11 @@ public class OhBotController {
             setTotallyBullyString(text, replyToken);
         }
 
+        if (text.equals("PgCommand強制終止猜拳")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            forceStopRPS(replyToken);
+        }
+
         if (text.contains("蛙")) {
             whereIsMyFrog(text, replyToken);
         }
@@ -979,6 +989,18 @@ public class OhBotController {
 
         if (text.startsWith("霸凌不好")) {
             interruptBullyMode(replyToken);
+        }
+
+        if (text.equals("開始猜拳")) {
+            startRPS(userId, replyToken);
+        }
+
+        if (text.equals("結束猜拳")) {
+            stopRPS(userId, replyToken);
+        }
+
+        if (text.equals("參加猜拳")) {
+            joinRPS(userId, replyToken);
         }
 
         checkNeedTotallyBullyReply(userId, replyToken);
@@ -3014,6 +3036,48 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace("PgCommand設定徹底霸凌字串:", "");
         mTotallyBullyReplyString = text;
         this.replyText(replyToken, "好的 PG 大人");
+    }
+
+    private void forceStopRPS(String replyToken) {
+        mStartRPSUserId = "";
+        mStartRPSGroupId = "";
+        mRPSGameUserList.clear();
+        this.replyText(replyToken, "好的 PG 大人");
+    }
+
+    private void startRPS(String userId, String senderId, String replyToken) {
+        if (!mStartRPSUserId.equals("")) {return;}
+        mStartRPSGroupId = senderId;
+        mStartRPSUserId = userId;
+        this.replyText(replyToken, "猜拳遊戲開始囉!\n請說「參加猜拳」來加入比賽");
+    }
+
+    private void stopRPS(String userId, String senderId, String replyToken) {
+        if (!senderId.equals(mStartRPSGroupId)) {return;}
+        if (!userId.equals(mStartRPSUserId)) {return;}
+        Random randomGenerator = new Random();
+        int random_num = randomGenerator.nextInt(mRPSGameUserList.size());
+        String winnerUserId = mRPSGameUserList.get(random_num);
+        String winner = getUserDisplayName(winnerUserId);
+        mStartRPSUserId = "";
+        mStartRPSGroupId = "";
+        mRPSGameUserList.clear();
+        this.replyText(replyToken, winner + " 把中指插進所有人的鼻孔贏得了比賽");
+    }
+
+    private void joinRPS(String userId, String senderId, String replyToken) {
+        if (!senderId.equals(mStartRPSGroupId)) {return;}
+        if (mRPSGameUserList.contains(userId)) {
+            this.replyText(replyToken, "你已經出過了啦北七!");
+            return;
+        }
+        mRPSGameUserList.add(userId);
+
+        Random randomGenerator = new Random();
+        int random_num = randomGenerator.nextInt(mDefaultRockPaperScissors.size());
+        String result = mDefaultRockPaperScissors.get(random_num);
+
+        this.replyText(replyToken, "" + getUserDisplayName(userId) + " 出了 " + result);
     }
 
     private void checkNeedTotallyBullyReply(String userId, String replyToken) {
