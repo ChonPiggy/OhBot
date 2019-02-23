@@ -664,29 +664,30 @@ public class OhBotController {
         Source source = event.getSource();
         dumpClassMethod(source.getClass());
         log.info("source: " + source);
+
+        String groupId = source.getGroupId();
+        String senderId = source.getSenderId();
+        log.info("senderId: " + senderId);
+        log.info("userId: " + userId);
         if (UserSource.class.isInstance(source)) {
             log.info("UserSource.class");
-            /*String userId = source.getUserId();*/
-            String userId = getUserSourcePrivateString(source, "userId");
-            log.info("userId: ", userId);
+            log.info("userId: " + userId);
         }
         if (RoomSource.class.isInstance(source)) {
             log.info("RoomSource.class");
-            /*String roomId = source.getSenderId();
-            String userId = source.getUserId();*/
-            /*log.info("roomId: ", roomId);
-            log.info("userId: ", userId);*/
+            String roomId = source.getSenderId();
+            String userId = source.getUserId();
+            log.info("roomId: " + roomId);
+            log.info("userId: " + userId);
         }
         if (GroupSource.class.isInstance(source)) {
             log.info("GroupSource.class");
-            /*String groupId = source.getGroupId();
+            String userId = source.getUserId();
             String senderId = source.getSenderId();
-            String userId = source.getUserId();*/
-
-            String groupId = getGroupSourcePrivateString(source, "groupId");
-            String userId = getGroupSourcePrivateString(source, "userId");
-            log.info("groupId: ", groupId);
-            log.info("userId: ", userId);
+            String userId = source.getUserId();
+            log.info("groupId: " + groupId);
+            log.info("senderId: " + senderId);
+            log.info("userId: " + userId);
         }
         if (UnknownSource.class.isInstance(source)) {
             log.info("UnknownSource.class");
