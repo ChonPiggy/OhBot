@@ -4115,12 +4115,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private String getGroupSourcePrivateString(Source source, String name) {
+        log.info("getGroupSourcePrivateString: " + source + " name: " + name);
         try {
             Field field = GroupSource.class.getDeclaredField(name);
+            log.info("field: " + field);
             field.setAccessible(true);
             Object value = field.get((GroupSource)source);
+            log.info("value: " + value);
             return (String) value;
         } catch(Exception e) {
+            log.info("Exception: " + e);
             return "";
         }
         
@@ -4133,6 +4137,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             Object value = field.get((UserSource)source);
             return (String) value;
         } catch(Exception e) {
+            log.info("Exception: " + e);
             return "";
         }
     }
