@@ -672,24 +672,24 @@ public class OhBotController {
 
         String senderId = source.getSenderId();
         String userId = source.getUserId();
-        log.info("senderId: " + senderId);
-        log.info("userId: " + userId);
+        // log.info("senderId: " + senderId);
+        // log.info("userId: " + userId);
         if (UserSource.class.isInstance(source)) {
-            log.info("UserSource.class");
-            log.info("userId: " + userId);
+            // log.info("UserSource.class");
+            // log.info("userId: " + userId);
         }
         if (RoomSource.class.isInstance(source)) {
-            log.info("RoomSource.class");
-            String roomId = source.getSenderId();
-            log.info("roomId: " + roomId);
-            log.info("userId: " + userId);
+            // log.info("RoomSource.class");
+            //String roomId = source.getSenderId();
+            // log.info("roomId: " + roomId);
+            // log.info("userId: " + userId);
         }
         if (GroupSource.class.isInstance(source)) {
-            log.info("GroupSource.class");
-            String groupId = source.getGroupId();
-            log.info("groupId: " + groupId);
-            log.info("senderId: " + senderId);
-            log.info("userId: " + userId);
+            // log.info("GroupSource.class");
+            //String groupId = source.getGroupId();
+            // log.info("groupId: " + groupId);
+            // log.info("senderId: " + senderId);
+            // log.info("userId: " + userId);
         }
         if (UnknownSource.class.isInstance(source)) {
             log.info("UnknownSource.class");
@@ -4217,7 +4217,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private boolean isPgMasterUserId(String userId, String replyToken) {
         if (!userId.equals(PIGGY_USER_ID)) {
-            this.reply(replyToken, "你以為你是偉大的 PG 大人嗎？\n滾!!!");
+            this.replyText(replyToken, "你以為你是偉大的 PG 大人嗎？\n滾!!!");
             return false;
         }
         return true;
