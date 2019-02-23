@@ -2970,6 +2970,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void setTotallyBullyUser(String text, String replyToken) {
         text = text.replace("PgCommand設定徹底霸凌對象:", "");
         mTotallyBullyUserId = text;
+        log.info("Piggy Check profile: "lineMessagingClient.getProfile(mTotallyBullyUserId));
         this.replyText(replyToken, "好的 PG 大人");
     }
 
