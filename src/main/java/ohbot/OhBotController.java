@@ -140,6 +140,7 @@ public class OhBotController {
     private String GIVE_SALMON_NO_SWORDFISH_IMAGE = "https://i.imgur.com/ySGhh61.jpg";
     private String IF_YOU_ANGRY_IMAGE = "https://i.imgur.com/3ITqKUG.jpg";
     private String PIGGY_USER_ID = "U8147d3d84ccc1e6e12d0eb82d30b1f1a";
+    private String TEST_MASTER_USER_ID = "U9c99b691ba0b5d32de41606c19b2e2eb";
 
     private String mTotallyBullyUserId = "";
     private String mTotallyBullyReplyString = "閉嘴死肥豬";
@@ -786,101 +787,106 @@ public class OhBotController {
         }
         
         if (text.startsWith("PgCommand新增吃什麼:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             updateEatWhat(text, replyToken);
         }
         if (text.startsWith("PgCommand刪除吃什麼:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             deleteEatWhat(text, replyToken);
         }
         if (text.equals("PgCommand清空吃什麼")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             cleanEatWhat(text, replyToken);
         }
         if (text.equals("PgCommand列出吃什麼")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             dumpEatWhat(text, replyToken);
         }
         if (text.equals("PgCommand煎蛋進度")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             randomGirlProgressing(text, replyToken);
         }
         if (text.equals("PgCommand煎蛋數量")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             randomGirlCount(text, replyToken);
         }
         if (text.startsWith("PgCommand煎蛋解碼:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             randomGirlDecode(text, replyToken);
         }
         if (text.startsWith("PgCommand煎蛋解碼圖:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             randomGirlDecodeImage(text, replyToken);
         }
         if (text.startsWith("PgCommand圖片:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             replyInputImage(text, replyToken);
         }
         if (text.equals("PgCommand開始煎蛋")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             startFetchJanDanGirlImages();
         }
 
         if (text.startsWith("PgCommand新增隨機地點:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             updateRandomAddress(text, replyToken);
         }
         if (text.startsWith("PgCommand刪除隨機地點:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             deleteRandomAddress(text, replyToken);
         }
         if (text.equals("PgCommand清空隨機地點")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             cleanRandomAddress(text, replyToken);
         }
         if (text.equals("PgCommand列出隨機地點")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             dumpRandomAddress(text, replyToken);
         }
 
         if (text.startsWith("PgCommand新增隨機動作:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             updateRandomTitle(text, replyToken);
         }
         if (text.startsWith("PgCommand刪除隨機動作:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             deleteRandomTitle(text, replyToken);
         }
         if (text.equals("PgCommand清空隨機動作")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             cleanRandomTitle(text, replyToken);
         }
         if (text.equals("PgCommand列出隨機動作")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             dumpRandomTitle(text, replyToken);
         }
         if (text.startsWith("PgCommand設定預設匯率:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             setDefaultExchanged(text,replyToken);
         }
 
         if (text.startsWith("PgCommand開始徹底霸凌")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             startTotallyBully(replyToken);
         }
 
         if (text.startsWith("PgCommand停止徹底霸凌")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             stopTotallyBully(replyToken);
         }
 
         if (text.startsWith("PgCommand設定徹底霸凌對象:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             setTotallyBullyUser(text, replyToken);
         }
 
+        if (text.startsWith("PgCommand設定代理管理員:")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            setTestAdminUser(text, replyToken);
+        }
+
         if (text.startsWith("PgCommand設定徹底霸凌字串:")) {
-            if(!isPgMasterUserId(userId, replyToken)) {return;}
+            if(!isAdminUserId(userId, replyToken)) {return;}
             setTotallyBullyString(text, replyToken);
         }
 
@@ -2967,6 +2973,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyText(replyToken, "好的 PG 大人");
     }
 
+    private void setTestAdminUser(String text, String replyToken) {
+        text = text.replace("PgCommand設定代理管理員:", "");
+        TEST_MASTER_USER_ID = text;
+        this.replyText(replyToken, "好的 PG 大人");
+    }
+
     private void setTotallyBullyString(String text, String replyToken) {
         text = text.replace("PgCommand設定徹底霸凌字串:", "");
         mTotallyBullyReplyString = text;
@@ -4215,8 +4227,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private boolean isPgMasterUserId(String userId, String replyToken) {
-        if (!userId.equals(PIGGY_USER_ID)) {
+    private boolean isAdminUserId(String userId, String replyToken) {
+
+        if (!userId.equals(PIGGY_USER_ID) || !userId.equals(TEST_MASTER_USER_ID) ) {
             this.replyText(replyToken, "你以為你是偉大的 PG 大人嗎？\n滾!!!");
             return false;
         }
