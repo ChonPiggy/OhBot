@@ -4048,7 +4048,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 maxPageInt = Integer.parseInt(maxPage);
             }
             catch(java.lang.NumberFormatException e1) {
-                log.info("NumberFormatException " + e1);
+                log.info("NumberFormatException");
             }
             log.info("Piggy Check maxPageInt: " + maxPageInt);
 
