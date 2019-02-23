@@ -3063,6 +3063,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private boolean replyUserId(String userId, String senderId, String replyToken) {
+        if (userId.equals(PIGGY_USER_ID) || userId.equals(TEST_MASTER_USER_ID)) {
+            return false;
+        }
         if (mIsUserIdDetectMode && mUserIdDetectModeGroupId.equals(senderId)) {
             this.replyText(replyToken, userId);
             return true;
