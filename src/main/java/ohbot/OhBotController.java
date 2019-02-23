@@ -667,15 +667,15 @@ public class OhBotController {
         if (UserSource.class.isInstance(source)) {
             log.info("UserSource.class");
             /*String userId = source.getUserId();*/
-            String userId = getPrivateString("userId");
+            String userId = getUserSourcePrivateString(source, "userId");
             log.info("userId: ", userId);
         }
         if (RoomSource.class.isInstance(source)) {
             log.info("RoomSource.class");
             /*String roomId = source.getSenderId();
             String userId = source.getUserId();*/
-            log.info("roomId: ", roomId);
-            log.info("userId: ", userId);
+            /*log.info("roomId: ", roomId);
+            log.info("userId: ", userId);*/
         }
         if (GroupSource.class.isInstance(source)) {
             log.info("GroupSource.class");
@@ -683,8 +683,8 @@ public class OhBotController {
             String senderId = source.getSenderId();
             String userId = source.getUserId();*/
 
-            String groupId = getPrivateString("groupId");
-            String userId = getPrivateString("userId");
+            String groupId = getGroupSourcePrivateString(source, "groupId");
+            String userId = getGroupSourcePrivateString(source, "userId");
             log.info("groupId: ", groupId);
             log.info("userId: ", userId);
         }
@@ -4114,10 +4114,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private String getPrivateString(String name) {
-        Field field = Other.class.getDeclaredField(name);
+    private String getGroupSourcePrivateString(GroupSource source, String name) {
+        Field field = GroupSource.class.getDeclaredField(name);
         field.setAccessible(true);
-        Object value = field.get(t);
+        Object value = field.get(source);
+        return (String) value;
+    }
+
+    private String getUserSourcePrivateString(UserSource source, String name) {
+        Field field = UserSource.class.getDeclaredField(name);
+        field.setAccessible(true);
+        Object value = field.get(source);
         return (String) value;
     }
 }
