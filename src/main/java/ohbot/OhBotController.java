@@ -145,9 +145,10 @@ public class OhBotController {
     private String TEST_MASTER_USER_ID = "U9c99b691ba0b5d32de41606c19b2e2eb";
     private String GROUP_ID_CONNECTION = "Ccc1bbf4da77b2fbbc5745be3d6ca154f";
     private String GROUP_ID_BOT_HELL = "C3691a96649f0d57c367eedb2c7f0e161";
+    private String CATHY_USER_ID = "U0473526c4d3f618618244132ca0d7ea0";
     
 
-    private String mTotallyBullyUserId = "";
+    private String mTotallyBullyUserId = CATHY_USER_ID;
     private String mTotallyBullyReplyString = "閉嘴死肥豬";
     private boolean mIsTotallyBullyEnable = false;
 
@@ -3092,6 +3093,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void setTestAdminUser(String text, String replyToken) {
         text = text.replace("PgCommand設定代理管理員:", "");
+        if (text.equals(CATHY_USER_ID)) {
+            this.replyText(replyToken, "死肥豬不能當管理員");
+        }
         TEST_MASTER_USER_ID = text;
         this.replyText(replyToken, "好的 PG 大人\n對象是: " + getUserDisplayName(mTotallyBullyUserId));
     }
