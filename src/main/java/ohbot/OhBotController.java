@@ -896,6 +896,16 @@ public class OhBotController {
             setDefaultExchanged(text,replyToken);
         }
 
+        if (text.startsWith("PgCommand使用者顯示名稱:")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            printUserDisplayName(text, replyToken);
+        }
+
+        if (text.startsWith("PgCommand使用者顯示圖片:")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            printUserDisplayPicture(text, replyToken);
+        }
+
         if (text.startsWith("PgCommand開始徹底霸凌")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
             startTotallyBully(replyToken);
@@ -3011,7 +3021,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void startTotallyBully(String replyToken) {
         mIsTotallyBullyEnable = true;
-        this.replyText(replyToken, "好的 PG 大人");
+        this.replyText(replyToken, "好的 PG 大人\n對象是: " + getUserDisplayName(mTotallyBullyUserId));
     }
 
     private void stopTotallyBully(String replyToken) {
@@ -3084,6 +3094,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (mIsTotallyBullyEnable && userId.equals(mTotallyBullyUserId)) {
             this.replyText(replyToken, mTotallyBullyReplyString);
         }
+    }
+
+    private void printUserDisplayName(String text, String replyToken) {
+        text = text.replace("PgCommand使用者顯示名稱:", "");
+        this.replyText(replyToken, "" + getUserDisplayName(text));
+    }
+
+    private void printUserDisplayPicture(String text, String replyToken) {
+        text = text.replace("PgCommand使用者顯示圖片:", "");
+        String source = getUserDisplayPicture(text);
+        this.replyImage(replyToken, source, source);
     }
 
     private void setDefaultExchanged(String text, String replyToken) {
