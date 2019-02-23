@@ -2140,7 +2140,98 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void dailyBeauty(String text, String replyToken) throws IOException {
+        private void dailyBeauty(String text, String replyToken) throws IOException {
+
+        String beautyLink = "https://tw.appledaily.com/search/result?querystrS=%E4%BB%8A%E5%A4%A9%E6%88%91%E6%9C%80%E7%BE%8E&sort=time&searchType=all&dateStart=&dateEnd=";
+
+        //this.replyText(replyToken, beautyLink);
+
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url= beautyLink;
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String targetUrl = "";
+            targetUrl = EntityUtils.toString(httpEntity, "utf-8");
+
+            targetUrl = targetUrl.substring(targetUrl.indexOf("<h2><a href=\"https://tw.appledaily.com/headline/daily/")+13, targetUrl.length());
+            targetUrl = targetUrl.substring(0, targetUrl.indexOf("\" target=\"_blank\">"));
+
+            log.info(targetUrl);
+            httpget = new HttpGet(targetUrl);
+            response = httpClient.execute(httpget);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            httpEntity = response.getEntity();
+
+            String dumpSource = "";
+            dumpSource = EntityUtils.toString(httpEntity, "utf-8");
+
+            dumpSource = dumpSource.substring(dumpSource.indexOf("\"thumbnailUrl\": \"")+17, dumpSource.length());
+            dumpSource = dumpSource.substring(0, dumpSource.indexOf("\","));
+                        
+            log.info("Piggy Check dailyBeauty image: " + dumpSource);
+            //this.replyText(replyToken, dumpSource);
+
+            this.replyImage(replyToken, dumpSource, dumpSource);
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+
+    private void dailyBeautyName(String text, String replyToken) throws IOException {
+
+        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String strDate = sdFormat.format(date);
+        String beautyLink = "http://unayung.cc/links/" + strDate;
+
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url= beautyLink;
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String dumpSource = "";
+            dumpSource = EntityUtils.toString(httpEntity, "utf-8");
+            //dumpSource = dumpSource.substring(dumpSource.indexOf("og:description\" content=\"")+25, dumpSource.length());
+            dumpSource = dumpSource.substring(dumpSource.indexOf("white-box detail\">"), dumpSource.length());
+            //dumpSource = dumpSource.substring(0, dumpSource.indexOf("\"/>"));
+            //dumpSource = dumpSource.substring(0, dumpSource.indexOf("本專欄歡迎"));
+
+            if (dumpSource.indexOf("本專欄歡迎") > 0) {
+                dumpSource = dumpSource.substring(0, dumpSource.indexOf("本專欄歡迎"));
+            }
+            else {
+                dumpSource = dumpSource.substring(0, dumpSource.indexOf("<p>資料來源"));
+            }
+                
+
+            dumpSource = dumpSource.substring(dumpSource.indexOf("<h4>")+4, dumpSource.length());
+            dumpSource = dumpSource.replaceAll("          ", "");
+            dumpSource = dumpSource.replaceAll("</h4>", "");
+            dumpSource = dumpSource.replaceAll("<br>", "\n");
+
+            if (dumpSource.indexOf("\" target=\"") > 0) {
+                dumpSource = dumpSource.replaceAll("<a href=\"", "");
+                dumpSource = dumpSource.substring(0, dumpSource.indexOf("\" target=\""));
+            }
+            
+            this.replyText(replyToken, dumpSource);
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+
+    /*private void dailyBeauty(String text, String replyToken) throws IOException {
 
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
@@ -2225,7 +2316,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (IOException e2) {
             throw e2;
         }
-    }
+    }*/
 
     private void dailySentence(String text, String replyToken) throws IOException {
         try {
