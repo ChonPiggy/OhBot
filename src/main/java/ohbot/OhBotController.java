@@ -159,6 +159,7 @@ public class OhBotController {
     private String mUserIdDetectModeGroupId = "";
 
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
+    HashMap<String, String> mWhoImPickRandomPttBeautyGirlMap = new HashMap<>(); // userId, webLink
     
 
     @Autowired
@@ -823,6 +824,10 @@ public class OhBotController {
         else if (text.equals("抽")) {
             randomPttBeautyGirl(userId, senderId, replyToken);
             //randomGirl(text, replyToken);
+        }
+
+        if (text.equals("我剛抽了誰?") || text.equals("我剛抽了誰？")) {
+            whoImPickRandomPttBeautyGirlMap(userId, replyToken);
         }
 
         if (text.startsWith("AmazonJp:")) {
@@ -2506,6 +2511,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    private void whoImPickRandomPttBeautyGirlMap(String userId) {
+        if (mWhoImPickRandomPttBeautyGirlMap.containsKey(userId)) {
+            this.replyText(replyToken, mWhoImPickRandomPttBeautyGirlMap.get(userId));
+        }
+        else {
+            this.replyText(replyToken, "你剛又還沒抽過...\n腦抽？");
+        }
+    }
+
     private void randomPttBeautyGirl(String userId, String senderId, String replyToken) throws IOException {
         if (senderId.equals(GROUP_ID_CONNECTION)) {
             if(mConnectionGroupRandomGirlUserIdList.contains(userId)) {
@@ -2517,7 +2531,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        String url = getRandomPttBeautyImageUrl();
+        String url = getRandomPttBeautyImageUrl(String userId);
+
         log.info("Piggy Check randomPttBeautyGirl: " + url);
         if (url.equals("")) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
@@ -3857,7 +3872,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return "";
     }
 
-    private String getRandomPttBeautyImageUrl() {
+    private String getRandomPttBeautyImageUrl(String userId) {
         try{
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -3936,6 +3951,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
                 log.info("Piggy Check result_url: " + result_url);
+
+                mWhoImPickRandomPttBeautyGirlMap.put(userId, url);
 
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
