@@ -2531,7 +2531,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        String url = getRandomPttBeautyImageUrl(String userId);
+        String url = getRandomPttBeautyImageUrl(userId);
 
         log.info("Piggy Check randomPttBeautyGirl: " + url);
         if (url.equals("")) {
