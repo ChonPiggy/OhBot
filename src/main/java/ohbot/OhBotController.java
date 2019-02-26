@@ -3952,7 +3952,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 log.info("Piggy Check result_url: " + result_url);
 
-                mWhoImPickRandomPttBeautyGirlMap.put(userId, url);
+                mWhoImPickRandomPttBeautyGirlMap.put(userId, result_url);
 
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
