@@ -2511,7 +2511,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void whoImPickRandomPttBeautyGirlMap(String userId) {
+    private void whoImPickRandomPttBeautyGirlMap(String userId, String replyToken) {
         if (mWhoImPickRandomPttBeautyGirlMap.containsKey(userId)) {
             this.replyText(replyToken, mWhoImPickRandomPttBeautyGirlMap.get(userId));
         }
