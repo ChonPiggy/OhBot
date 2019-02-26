@@ -3939,7 +3939,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     continue;
                 }
                 else {
-                    result_url = result_url.substring(result_url.indexOf("爆"), result_url.length());
+                    result_url = result_url.substring(result_url.indexOf("hl f1\">爆</span>"), result_url.length());
                     result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
                     result_url = "https://www.ptt.cc" + result_url + ".html";
                 }
