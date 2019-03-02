@@ -1040,6 +1040,16 @@ public class OhBotController {
             joinRPS(userId, senderId, replyToken);
         }
 
+        if (text.startsWith("Md")||text.startsWith("MD")||text.startsWith("ＭＤ")&&
+            (text.endsWith("地圖")||text.endsWith("地圖？")||text.endsWith("地圖?"))) {
+            replyMdMap(replyToken);
+        }
+
+        if (text.startsWith("Pg")||text.startsWith("PG")||text.startsWith("ＰＧ")&&
+            (text.endsWith("怎麼解")||text.endsWith("怎麼解？")||text.endsWith("怎麼解?"))) {
+            howPgSolveMdMap(replyToken);
+        }
+
         checkNeedTotallyBullyReply(userId, replyToken);
 
         if (text.length() > 0) {
@@ -2960,6 +2970,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (isDoSomething) {
             this.replyText(replyToken, "靠");
         }
+    }
+
+    private void replyMdMap(String replyToken) throws IOException {
+        String source = "https://i.imgur.com/7OBa9mj.png";
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void howPgSolveMdMap(String replyToken) throws IOException {
+        String source = "https://i.imgur.com/KgRvW2u.png";
+        this.replyImage(replyToken, source, source);
     }
 
     private void bullyModeTrigger(String replyToken) throws IOException {
