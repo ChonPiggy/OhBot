@@ -792,7 +792,8 @@ public class OhBotController {
             exchangeToTwd(text, replyToken);
         }
 
-        if (text.endsWith("台幣換算?") || text.endsWith("台幣換算？")||text.endsWith("臺幣換算?") || text.endsWith("臺幣換算？")) {
+        if ((text.contains("台幣換算") || text.contains("台幣換算")||text.contains("臺幣換算") || text.contains("臺幣換算")) &&
+            text.endsWith("?") || text.endsWith("？")) {
             exchangeFromTwd(text, replyToken);
         }
 
