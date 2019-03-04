@@ -3438,7 +3438,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void exchangeToTwd(String text, String replyToken) throws IOException {
-        text = text.replace("換算台幣", "").replace("臺幣換算", "").replace("?", "").replace("？", "").trim();
+        text = text.replace("換算台幣", "").replace("換算臺幣", "").replace("?", "").replace("？", "").trim();
         log.info(text);
         try {
             String strResult = text;    
