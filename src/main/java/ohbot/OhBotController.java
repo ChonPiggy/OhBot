@@ -2512,13 +2512,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 log.info("Piggy Check searchResultUrl: " + searchResultUrl);
                 log.info("Piggy Check imgUrl: " + imgUrl);
                 columnsList.add(getImageCarouselColumn(imgUrl, "PG Cute!", searchResultUrl));
-            }*/
+            }
             if (maxCount>0) {
                 this.replyImageCarouselTemplate(replyToken, columnsList);    
             }
             else {
                 this.replyText(replyToken, "搜索失敗");
-            }
+            }*/
 
         }catch (IOException e2) {
             this.replyText(replyToken, "搜索大失敗");
