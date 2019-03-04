@@ -788,8 +788,12 @@ public class OhBotController {
             exchangeBitcon(text, replyToken);
         }
 
-        if (text.endsWith("換算台幣?") || text.endsWith("換算台幣？")) {
-            exchange(text, replyToken);
+        if (text.endsWith("換算台幣?") || text.endsWith("換算台幣？")||text.endsWith("換算臺幣?") || text.endsWith("換算臺幣？")) {
+            exchangeToTwd(text, replyToken);
+        }
+
+        if (text.endsWith("台幣換算?") || text.endsWith("台幣換算？")||text.endsWith("臺幣換算?") || text.endsWith("臺幣換算？")) {
+            exchangeFromTwd(text, replyToken);
         }
 
         if (text.startsWith("呆股?") || text.startsWith("呆股？")) {
@@ -3432,8 +3436,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void exchange(String text, String replyToken) throws IOException {
-        text = text.replace("換算台幣", "").replace("?", "").replace("？", "").trim();
+    private void exchangeToTwd(String text, String replyToken) throws IOException {
+        text = text.replace("換算台幣", "").replace("臺幣換算", "").replace("?", "").replace("？", "").trim();
         log.info(text);
         try {
             String strResult = text;    
@@ -3550,6 +3554,149 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 if (rateNumber > 0) {
                     int numResult = (int) ((float)inputNumber * rateNumber);
                     strResult += "換算台幣大概 $" + numResult;
+                    this.replyText(replyToken, strResult);
+                }
+                else {
+                    return;
+                }
+
+            }
+            
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+        private void exchangeFromTwd(String text, String replyToken) throws IOException {
+        text = text.replace("台幣換算", "").replace("臺幣換算", "").replace("?", "").replace("？", "").trim();
+        log.info(text);
+        try {
+            String strResult = text;    
+            String country = "";
+            String countryText = "";
+
+            if (text.length() >= 3) {
+
+                if (text.endsWith("美金")) {
+                    country="USD";
+                    countryText="美金";
+                    text = text.replace("美金","").trim();
+                }
+                else if (text.endsWith("日圓") || text.endsWith("日幣") ) {
+                    country="JPY";
+                    countryText="日圓";
+                    text = text.replace("日圓","").replace("日幣", "").trim();
+                }
+                else if (text.endsWith("人民幣")) {
+                    country="CNY";
+                    countryText="人民幣";
+                    text = text.replace("人民幣","").trim();
+                }
+                else if (text.endsWith("歐元")) {
+                    country="EUR";
+                    countryText="歐元";
+                    text = text.replace("歐元","").trim();
+                }
+                else if (text.endsWith("港幣")) {
+                    country="HKD";
+                    countryText="港幣";
+                    text = text.replace("港幣","").trim();
+                }
+                else if (text.endsWith("英鎊")) {
+                    country="GBP";
+                    countryText="英鎊";
+                    text = text.replace("英鎊","").trim();
+                }
+                else if (text.endsWith("韓元")) {
+                    country="KRW";
+                    countryText="韓元";
+                    text = text.replace("韓元","").trim();
+                }
+                else if (text.endsWith("越南盾")) {
+                    country="VND";
+                    countryText="越南盾";
+                    text = text.replace("越南盾","").trim();
+                }
+                else if (text.endsWith("泰銖")) {
+                    country="THB";
+                    countryText="泰銖";
+                    text = text.replace("泰銖","").trim();
+                }
+                else if (text.endsWith("印尼盾")) {
+                    country="IDR";
+                    countryText="印尼盾";
+                    text = text.replace("印尼盾","").trim();
+                }
+                else if (text.endsWith("法郎")) {
+                    country="CHF";
+                    countryText="法郎";
+                    text = text.replace("法郎","").trim();
+                }
+                else if (text.endsWith("披索")) {
+                    country="PHP";
+                    countryText="披索";
+                    text = text.replace("披索","").trim();
+                }
+                else if (text.endsWith("新幣")) {
+                    country="SGD";
+                    countryText="新幣";
+                    text = text.replace("新幣","").trim();
+                }
+                else {
+                    text = "";
+                }
+
+            }
+
+
+            if(text.equals("")){
+                strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖 印尼盾 法郎\n披索 新幣";
+                this.replyText(replyToken, strResult);
+                return;
+            }else{
+
+                int inputNumber = -1;
+                try {
+                    inputNumber = Integer.parseInt(text);
+                }
+                catch(java.lang.NumberFormatException e1) {
+                    
+                    return;
+                }
+                if (inputNumber <= 0) {
+                    return;
+                }
+
+                CloseableHttpClient httpClient = HttpClients.createDefault();
+                String url="http://m.findrate.tw/"+country+"/";
+                log.info(url);
+                HttpGet httpget = new HttpGet(url);
+                CloseableHttpResponse response = httpClient.execute(httpget);
+                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                HttpEntity httpEntity = response.getEntity();
+                String tempParseNumber = "";
+                tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
+                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("<td>現鈔賣出</td>"), tempParseNumber.length());
+                tempParseNumber = tempParseNumber.substring(0, tempParseNumber.indexOf("</tr>"));
+                
+                float rateNumber = 0f;
+                Pattern pattern = Pattern.compile("[\\d]{1,}\\.[\\d]{1,}");
+                Matcher matcher = pattern.matcher(tempParseNumber);
+                while(matcher.find()){
+                    tempParseNumber = matcher.group();
+                }
+                
+                try {
+                    rateNumber = Float.parseFloat(tempParseNumber);
+                }
+                catch(java.lang.NumberFormatException e2) {
+                    return;
+                }
+
+                if (rateNumber > 0) {
+                    int numResult = (int) ((float)inputNumber / rateNumber);
+                    strResult += "換算大概 " + country + " $" + numResult;
+                    strResult = "" + inputNumber + countryText + "換算台幣大概 $" + numResult;
                     this.replyText(replyToken, strResult);
                 }
                 else {
