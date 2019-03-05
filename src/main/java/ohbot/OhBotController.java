@@ -2933,7 +2933,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void notifyMessage(String text, String replyToken) throws IOException {
         text = text.replace("PgCommandNotifyMessage:", "");
 
-        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN, text)) {
+        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, text)) {
             this.replyText(replyToken, "文字發送成功");
         }
         else {
@@ -2944,7 +2944,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void notifyImage(String image, String replyToken) throws IOException {
         image = image.replace("PgCommandNotifyImage:", "");
 
-        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN, "", image)) {
+        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "", image)) {
             this.replyText(replyToken, "圖片發送成功");
         }
         else {
