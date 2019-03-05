@@ -2944,7 +2944,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void notifyImage(String image, String replyToken) throws IOException {
         image = image.replace("PgCommandNotifyImage:", "");
 
-        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "", image)) {
+        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, " ", image)) {
             this.replyText(replyToken, "圖片發送成功");
         }
         else {
