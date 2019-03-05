@@ -1073,7 +1073,7 @@ public class OhBotController {
             howPgSolveMdMap(replyToken);
         }
 
-        if ((text.equals("?")||text.equals("？")) {
+        if (text.equals("?")||text.equals("？")) {
             replyQuestionMarkImage(replyToken);
         }
 
