@@ -13,6 +13,10 @@ public class LineNotify {
         try {
             message = replaceProcess(message);
             message = URLEncoder.encode(message, "UTF-8");
+            if (!image.equals("")) {
+            	image = replaceProcess(image);
+            	image = URLEncoder.encode(image, "UTF-8");
+            }
             String strUrl = strEndpoint;
             URL url = new URL( strUrl );
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -24,10 +28,8 @@ public class LineNotify {
             PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
             printWriter.println(parameterMessageString);
             if (!image.equals("")) {
-            	String imageThumbnail = new String("imageThumbnail=" + image);
-            	String imageFullsize = new String("imageFullsize=" + image);
-            	printWriter.println(imageThumbnail);
-            	printWriter.println(imageFullsize);
+            	String imageFile = new String("imageFile=" + image);
+            	printWriter.println(imageFile);
             }
             printWriter.close();
             connection.connect();
