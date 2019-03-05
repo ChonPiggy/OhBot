@@ -136,19 +136,37 @@ public class OhBotController {
     private int mBullyModeCount = 0;
     private int mPttBeautyParseLevel = 10;
     private String mBullyModeTarget = "";
-    private String NO_CONSCIENCE_IMAGE = "https://i.imgur.com/8v9oZ2P.jpg";
-    private String OK_FINE_IMAGE = "https://i.imgur.com/CNM3c0Y.jpg";
-    private String GIVE_SALMON_NO_SWORDFISH_IMAGE = "https://i.imgur.com/ySGhh61.jpg";
-    private String IF_YOU_ANGRY_IMAGE = "https://i.imgur.com/3ITqKUG.jpg";
-    private String I_HAVE_NO_SPERM_IMAGE = "https://i.imgur.com/dL4sqfu.jpg";
-    private String PIGGY_USER_ID = "U8147d3d84ccc1e6e12d0eb82d30b1f1a";
-    private String TEST_MASTER_USER_ID = "U9c99b691ba0b5d32de41606c19b2e2eb";
+    private String IMAGE_NO_CONSCIENCE = "https://i.imgur.com/8v9oZ2P.jpg";
+    private String IMAGE_OK_FINE = "https://i.imgur.com/CNM3c0Y.jpg";
+    private String IMAGE_GIVE_SALMON_NO_SWORDFISH = "https://i.imgur.com/ySGhh61.jpg";
+    private String IMAGE_IF_YOU_ANGRY = "https://i.imgur.com/3ITqKUG.jpg";
+    private String IMAGE_I_HAVE_NO_SPERM = "https://i.imgur.com/dL4sqfu.jpg";
+    private List<String> mQuestionMarkImageList = new ArrayList<String> (
+        Arrays.asList("https://i.imgur.com/DaTZLOa.jpg",
+                      "https://i.imgur.com/93xbOIq.jpg",
+                      "https://i.imgur.com/6k5QxGg.jpg",
+                      "https://i.imgur.com/tFXq8Lr.jpg",
+                      "https://i.imgur.com/Z987kf1.jpg",
+                      "https://i.imgur.com/MSEPmEh.jpg",
+                      "https://i.imgur.com/6BCL8cm.jpg",
+                      "https://i.imgur.com/9eWuqBw.jpg",
+                      "https://i.imgur.com/lTvALCg.jpg",
+                      "https://i.imgur.com/UGAs7Qy.jpg",
+                      "https://i.imgur.com/DFJs7Ww.jpg",
+                      "https://i.imgur.com/Nmn5GYN.jpg",
+                      "https://i.imgur.com/YR16X68.jpg",
+                      "https://i.imgur.com/uPzMlqu.jpg"));
+
+    private String USER_ID_PIGGY = "U8147d3d84ccc1e6e12d0eb82d30b1f1a";
+    private String USER_ID_KOFAT = "U9c99b691ba0b5d32de41606c19b2e2eb";
+    private String USER_ID_CATHY = "U0473526c4d3f618618244132ca0d7ea0";
+    private String USER_ID_TEST_MASTER = USER_ID_KOFAT;
+
     private String GROUP_ID_CONNECTION = "Ccc1bbf4da77b2fbbc5745be3d6ca154f";
     private String GROUP_ID_BOT_HELL = "C3691a96649f0d57c367eedb2c7f0e161";
-    private String CATHY_USER_ID = "U0473526c4d3f618618244132ca0d7ea0";
     
 
-    private String mTotallyBullyUserId = CATHY_USER_ID;
+    private String mTotallyBullyUserId = USER_ID_CATHY;
     private String mTotallyBullyReplyString = "閉嘴死肥豬";
     private boolean mIsTotallyBullyEnable = false;
 
@@ -159,7 +177,7 @@ public class OhBotController {
     private String mUserIdDetectModeGroupId = "";
 
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
-    HashMap<String, String> mWhoImPickRandomPttBeautyGirlMap = new HashMap<>(); // userId, webLink
+    private HashMap<String, String> mWhoImPickRandomPttBeautyGirlMap = new HashMap<>(); // userId, webLink
     
 
     @Autowired
@@ -1050,9 +1068,13 @@ public class OhBotController {
             replyMdMap(replyToken);
         }
 
-        if (text.startsWith("Pg")||text.startsWith("PG")||text.startsWith("ＰＧ")&&
+        if ((text.startsWith("Pg")||text.startsWith("PG")||text.startsWith("ＰＧ"))&&
             (text.endsWith("怎麼解")||text.endsWith("怎麼解？")||text.endsWith("怎麼解?"))) {
             howPgSolveMdMap(replyToken);
+        }
+
+        if ((text.equals("?")||text.equals("？")) {
+            replyQuestionMarkImage(replyToken);
         }
 
         checkNeedTotallyBullyReply(userId, replyToken);
@@ -2538,7 +2560,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void randomPttBeautyGirl(String userId, String senderId, String replyToken) throws IOException {
         if (senderId.equals(GROUP_ID_CONNECTION)) {
             if(mConnectionGroupRandomGirlUserIdList.contains(userId)) {
-                this.replyImage(replyToken, I_HAVE_NO_SPERM_IMAGE, I_HAVE_NO_SPERM_IMAGE);
+                this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
                 return;
             }
             else {
@@ -2987,10 +3009,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyImage(replyToken, source, source);
     }
 
+    private void replyQuestionMarkImage(String replyToken) throws IOException {
+        Random randomGenerator = new Random();
+        int random_num = randomGenerator.nextInt(mQuestionMarkImageList.size());
+        String source = mQuestionMarkImageList.get(random_num);        
+        this.replyImage(replyToken, source, source);
+    }
+
     private void bullyModeTrigger(String replyToken) throws IOException {
 
         if (mBullyModeCount > 0) {
-            String source = mBullyModeCount == 1 ? NO_CONSCIENCE_IMAGE : mBullyModeTarget;
+            String source = mBullyModeCount == 1 ? IMAGE_NO_CONSCIENCE : mBullyModeTarget;
             mBullyModeCount--;
             this.replyImage(replyToken, source, source);    
         }
@@ -2998,12 +3027,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void replyOkFineImage(String replyToken) throws IOException {
-        String source = OK_FINE_IMAGE;
+        String source = IMAGE_OK_FINE;
         this.replyImage(replyToken, source, source);
     }
 
     private void replyGiveSalmonNoSwordFishImage(String replyToken) throws IOException {
-        String source = GIVE_SALMON_NO_SWORDFISH_IMAGE;
+        String source = IMAGE_GIVE_SALMON_NO_SWORDFISH;
         this.replyImage(replyToken, source, source);
     }
 
@@ -3014,7 +3043,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void interruptBullyMode(String replyToken) throws IOException {
-        String source = NO_CONSCIENCE_IMAGE;
+        String source = IMAGE_NO_CONSCIENCE;
         mBullyModeCount = 0;
         this.replyImage(replyToken, source, source);   
     }
@@ -3062,7 +3091,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             source = "https://i.imgur.com/1Ap4Qka.jpg";
         }
         if (text.equals("IfYouAngry")) {
-            source = IF_YOU_ANGRY_IMAGE;
+            source = IMAGE_IF_YOU_ANGRY;
         }
         if (text.equals("EG")) {
             List<String> mEgDevilImgurLinkList = Arrays.asList("https://i.imgur.com/6qN9GI1.jpg", "https://i.imgur.com/qHbEBjN.jpg", "https://i.imgur.com/NFbnbSs.jpg", "https://i.imgur.com/68KRiAj.jpg", "https://i.imgur.com/dHEEBcU.jpg", "https://i.imgur.com/OMqBsOl.jpg", "https://i.imgur.com/JBuBhqr.jpg", "https://i.imgur.com/O5o7tD3.jpg", "https://i.imgur.com/PYZ4v9V.jpg", "https://i.imgur.com/GRD3yXF.jpg");
@@ -3104,7 +3133,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private boolean replyUserId(String userId, String senderId, String replyToken) {
-        if (userId.equals(PIGGY_USER_ID) || userId.equals(TEST_MASTER_USER_ID)) {
+        if (userId.equals(USER_ID_PIGGY) || userId.equals(USER_ID_TEST_MASTER)) {
             return false;
         }
         if (mIsUserIdDetectMode && mUserIdDetectModeGroupId.equals(senderId)) {
@@ -3121,7 +3150,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void stopTotallyBully(String replyToken) {
         mIsTotallyBullyEnable = false;
-        String source = NO_CONSCIENCE_IMAGE;
+        String source = IMAGE_NO_CONSCIENCE;
         this.replyImage(replyToken, source, source);
     }
 
@@ -3133,10 +3162,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void setTestAdminUser(String text, String replyToken) {
         text = text.replace("PgCommand設定代理管理員:", "");
-        if (text.equals(CATHY_USER_ID)) {
+        if (text.equals(USER_ID_CATHY)) {
             this.replyText(replyToken, "死肥豬不能當管理員");
         }
-        TEST_MASTER_USER_ID = text;
+        USER_ID_TEST_MASTER = text;
         this.replyText(replyToken, "好的 PG 大人\n對象是: " + getUserDisplayName(mTotallyBullyUserId));
     }
 
@@ -4591,7 +4620,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private boolean isAdminUserId(String userId, String replyToken) {
 
-        if (!userId.equals(PIGGY_USER_ID) && !userId.equals(TEST_MASTER_USER_ID) ) {
+        if (!userId.equals(USER_ID_PIGGY) && !userId.equals(USER_ID_TEST_MASTER) ) {
             this.replyText(replyToken, "你以為你是偉大的 PG 大人嗎？\n\n滾！！！");
             return false;
         }
