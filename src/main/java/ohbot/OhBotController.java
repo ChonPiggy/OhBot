@@ -2920,7 +2920,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void notifyImage(String image, String replyToken) throws IOException {
-        text = text.replace("PgCommandNotifyImage:", "");
+        image = image.replace("PgCommandNotifyImage:", "");
 
         if (LineNotify.callEvent(LINE_NOTIFY_TOKEN, "Image Notify", image)) {
             this.replyText(replyToken, "圖片發送成功");
