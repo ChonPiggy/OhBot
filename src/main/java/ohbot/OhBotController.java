@@ -141,6 +141,8 @@ public class OhBotController {
     private String IMAGE_GIVE_SALMON_NO_SWORDFISH = "https://i.imgur.com/ySGhh61.jpg";
     private String IMAGE_IF_YOU_ANGRY = "https://i.imgur.com/3ITqKUG.jpg";
     private String IMAGE_I_HAVE_NO_SPERM = "https://i.imgur.com/dL4sqfu.jpg";
+    private String IMAGE_TAIWAN_WEATHER_CLOUD = "https://www.cwb.gov.tw/V7/observe/satellite/Data/cloud_weather.png";
+    private String IMAGE_TAIWAN_WEATHER_RAIN = "https://www.cwb.gov.tw/V7/observe/rainfall/Data/hk.jpg";
     private List<String> mQuestionMarkImageList = new ArrayList<String> (
         Arrays.asList("https://i.imgur.com/DaTZLOa.jpg",
                       "https://i.imgur.com/93xbOIq.jpg",
@@ -728,7 +730,7 @@ public class OhBotController {
         Source source = event.getSource();
         String senderId = source.getSenderId();
         String userId = source.getUserId();
-        log.info("source: " + source + " name: " + getUserDisplayName(userId));
+        log.info("source: " + source + " name: " + getUserDisplayName(userId) + " text: " + text);
 
 
         if (replyUserId(userId, senderId, replyToken)) {
@@ -838,6 +840,14 @@ public class OhBotController {
         }
         if (text.equals("吃什麼?") || text.equals("吃什麼？")) {
             eatWhat(text, replyToken);
+        }
+
+        if (text.equals("天氣雲圖?") || text.equals("天氣雲圖？")) {
+            replyTaiwanWeatherCloudImage(replyToken);
+        }
+
+        if (text.equals("累積雨量圖?") || text.equals("累積雨量圖？")) {
+            replyTaiwanWeatherRainImage(replyToken);
         }
 
         if (text.startsWith("抽") && text.length() > 1) {
@@ -2881,6 +2891,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
     }
 
+    private void replyTaiwanWeatherCloudImage(String replyToken) throws IOException {
+        String source = IMAGE_TAIWAN_WEATHER_CLOUD;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyTaiwanWeatherRainImage(String replyToken) throws IOException {
+        String source = IMAGE_TAIWAN_WEATHER_RAIN;
+        this.replyImage(replyToken, source, source);
+    }
+
 
 
     // Eat what
@@ -2905,7 +2925,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private String LINE_NOTIFY_TOKEN = "v9pojDtQ6uipgmeyfrecGeqlsmUD5YWyvNwIugx0KRp";
+    private String LINE_NOTIFY_TOKEN_HELL_TEST_ROOM = "RPKQnj2YVRslWIodM2BBOZhlbJbomKzDFBOdD447png";
+    private String LINE_NOTIFY_TOKEN_INGRESS_ROOM_RUN_RUN_RUN = "";
+    private String LINE_NOTIFY_TOKEN_INGRESS_ROOM_CONNETION = "";
+    private String LINE_NOTIFY_TOKEN_CHONPIGGY = "";
 
     private void notifyMessage(String text, String replyToken) throws IOException {
         text = text.replace("PgCommandNotifyMessage:", "");
@@ -2921,7 +2944,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void notifyImage(String image, String replyToken) throws IOException {
         image = image.replace("PgCommandNotifyImage:", "");
 
-        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN, "Image Notify", image)) {
+        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN, "", image)) {
             this.replyText(replyToken, "圖片發送成功");
         }
         else {
