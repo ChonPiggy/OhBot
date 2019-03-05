@@ -22,7 +22,7 @@ public class LineNotify {
             connection.setDoOutput( true );
             String parameterMessageString = new String("message=" + message);
             PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
-            printWriter.println(parameterString);
+            printWriter.println(parameterMessageString);
             if (!image.equals("")) {
             	String imageThumbnail = new String("imageThumbnail=" + image);
             	String imageFullsize = new String("imageFullsize=" + image);
