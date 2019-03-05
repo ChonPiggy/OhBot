@@ -726,11 +726,10 @@ public class OhBotController {
         String text = content.getText();
         log.info(text);
         Source source = event.getSource();
-        //dumpClassMethod(source.getClass());
-        log.info("source: " + source);
-
         String senderId = source.getSenderId();
         String userId = source.getUserId();
+        log.info("source: " + source + " name: " + getUserDisplayName(userId));
+
 
         if (replyUserId(userId, senderId, replyToken)) {
             return;
