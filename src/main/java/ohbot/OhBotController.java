@@ -143,6 +143,11 @@ public class OhBotController {
     private String IMAGE_I_HAVE_NO_SPERM = "https://i.imgur.com/dL4sqfu.jpg";
     private String IMAGE_TAIWAN_WEATHER_CLOUD = "https://www.cwb.gov.tw/V7/observe/satellite/Data/cloud_weather.png";
     private String IMAGE_TAIWAN_WEATHER_RAIN = "https://www.cwb.gov.tw/V7/observe/rainfall/Data/hk.jpg";
+    private String IMAGE_TAIWAN_WEATHER_INFRARED_CLOUD = "https://www.cwb.gov.tw/V7/observe/satellite/Data/s1p/s1p.jpg";
+    private String IMAGE_TAIWAN_WEATHER_RADAR_ECHO = "https://www.cwb.gov.tw/V7/observe/radar/Data/HD_Radar/CV1_1000.png";
+    private String IMAGE_TAIWAN_WEATHER_TEMPERATURE = "https://www.cwb.gov.tw/V7/observe/temperature/Data/temp.jpg";
+    private String IMAGE_TAIWAN_WEATHER_ULTRAVIOLET_LIGHT = "https://www.cwb.gov.tw/V7/observe/UVI/Data/UVI.png";
+
     private List<String> mQuestionMarkImageList = new ArrayList<String> (
         Arrays.asList("https://i.imgur.com/DaTZLOa.jpg",
                       "https://i.imgur.com/93xbOIq.jpg",
@@ -848,6 +853,26 @@ public class OhBotController {
 
         if (text.equals("累積雨量圖?") || text.equals("累積雨量圖？")) {
             replyTaiwanWeatherRainImage(replyToken);
+        }
+
+        if (text.equals("紅外線雲圖?") || text.equals("紅外線雲圖？")) {
+            replyTaiwanWeatherInfraredCloudImage(replyToken);
+        }
+
+        if (text.equals("雷達回波圖?") || text.equals("雷達回波圖？") || text.equals("雷達迴波圖?") || text.equals("雷達迴波圖？")) {
+            replyTaiwanWeatherRadarEchoImage(replyToken);
+        }
+
+        if (text.equals("溫度分佈圖?") || text.equals("溫度分佈圖？") || text.equals("溫度分布圖?") || text.equals("溫度分布圖？")) {
+            replyTaiwanWeatherTemperatureImage(replyToken);
+        }
+
+        if (text.equals("紫外線圖?") || text.equals("紫外線圖？")) {
+            replyTaiwanWeatherUltravioletLightImage(replyToken);
+        }
+
+        if (text.equals("紅外線雲圖?") || text.equals("紅外線雲圖？")) {
+            replyTaiwanWeatherInfraredCloudImage(replyToken);
         }
 
         if (text.startsWith("抽") && text.length() > 1) {
@@ -2898,6 +2923,26 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void replyTaiwanWeatherRainImage(String replyToken) throws IOException {
         String source = IMAGE_TAIWAN_WEATHER_RAIN;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyTaiwanWeatherInfraredCloudImage(String replyToken) throws IOException {
+        String source = IMAGE_TAIWAN_WEATHER_INFRARED_CLOUD;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyTaiwanWeatherRadarEchoImage(String replyToken) throws IOException {
+        String source = IMAGE_TAIWAN_WEATHER_RADAR_ECHO;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyTaiwanWeatherTemperatureImage(String replyToken) throws IOException {
+        String source = IMAGE_TAIWAN_WEATHER_TEMPERATURE;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyTaiwanWeatherUltravioletLightImage(String replyToken) throws IOException {
+        String source = IMAGE_TAIWAN_WEATHER_ULTRAVIOLET_LIGHT;
         this.replyImage(replyToken, source, source);
     }
 
