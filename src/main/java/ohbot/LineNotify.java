@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class LineNotify {
     private static final String strEndpoint = "https://notify-api.line.me/api/notify";
 
-    public static boolean callEvent(String token, String message) {
+    public static boolean callEvent(String token, String message, String image) {
         boolean result = false;
         try {
             message = replaceProcess(message);
@@ -20,25 +20,36 @@ public class LineNotify {
             connection.setRequestMethod( "POST" );
             connection.addRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
             connection.setDoOutput( true );
-            String parameterString = new String("message=" + message);
+            String parameterMessageString = new String("message=" + message);
             PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
-            printWriter.print(parameterString);
+            printWriter.println(parameterString);
+            if (!image.equals("")) {
+            	String imageThumbnail = new String("imageThumbnail=" + image);
+            	String imageFullsize = new String("imageFullsize=" + image);
+            	printWriter.println(imageThumbnail);
+            	printWriter.println(imageFullsize);
+            }
             printWriter.close();
             connection.connect();
             
             int statusCode = connection.getResponseCode();
-                if ( statusCode == 200 ) {
-                    result = true;
-                } else {
-                    throw new Exception( "Error:(StatusCode)" + statusCode + ", " + connection.getResponseMessage() );
-                }
-                connection.disconnect();
+            if ( statusCode == 200 ) {
+                result = true;
+            } else {
+                throw new Exception( "Error:(StatusCode)" + statusCode + ", " + connection.getResponseMessage() );
+            }
+            connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return result;
     }
+
+    public static boolean callEvent(String token, String message) {
+        return callEvent(token, message, "");
+    }
+
     private static String replaceProcess(String txt){
             txt = replaceAllRegex(txt, "\\\\", "￥");        // \
         return txt;
