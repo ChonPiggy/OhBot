@@ -856,6 +856,11 @@ public class OhBotController {
         if (text.startsWith("AmazonJp:")) {
             amazonJpSearch(text, replyToken);
         }
+
+        if (text.startsWith("PgCommandNotify:")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            notifyMessage(text, replyToken);
+        }
         
         if (text.startsWith("PgCommand新增吃什麼:")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
@@ -2894,6 +2899,20 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (IndexOutOfBoundsException e2) {
             throw e2;
         }
+    }
+
+    private String LINE_NOTIFY_TOKEN = "v9pojDtQ6uipgmeyfrecGeqlsmUD5YWyvNwIugx0KRp";
+
+    private void notifyMessage(String text, String replyToken) throws IOException {
+        text = text.replace("PgCommandNotify:", "");
+
+        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN, text)) {
+            this.replyText(replyToken, "發送成功");
+        }
+        else {
+            this.replyText(replyToken, "發送失敗");
+        }
+        
     }
 
     private void updateEatWhat(String text, String replyToken) throws IOException {
