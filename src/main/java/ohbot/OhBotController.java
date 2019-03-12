@@ -4767,7 +4767,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return true;
     }
 
-    private String getRandomSourceFromList(List list) {
+    private String getRandomSourceFromList(List<String> list) {
         Random randomGenerator = new Random();
         int random_num = randomGenerator.nextInt(list.size());
         String source = list.get(random_num);
