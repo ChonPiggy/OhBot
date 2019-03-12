@@ -141,6 +141,15 @@ public class OhBotController {
     private String IMAGE_GIVE_SALMON_NO_SWORDFISH = "https://i.imgur.com/ySGhh61.jpg";
     private String IMAGE_IF_YOU_ANGRY = "https://i.imgur.com/3ITqKUG.jpg";
     private String IMAGE_I_HAVE_NO_SPERM = "https://i.imgur.com/dL4sqfu.jpg";
+    private String IMAGE_IM_NOT_YOUR_WIFE = "https://i.imgur.com/m9pXYDx.jpg";
+    private String IMAGE_PANDA = "https://i.imgur.com/4RJ2AuT.jpg";
+    private String IMAGE_WILL_YOU_COME = "https://i.imgur.com/11cUbVH.jpg";
+    private String IMAGE_YOU_ARE_PERVERT = "https://i.imgur.com/dRJinz7.jpg";
+
+    private List<String> mIWillBeLateList = new ArrayList<String> (
+        Arrays.asList("https://i.imgur.com/0cNbr9c.jpg",
+                      "https://i.imgur.com/XBV3bP6.jpg"));
+
     private String IMAGE_TAIWAN_WEATHER_CLOUD = "https://www.cwb.gov.tw/V7/observe/satellite/Data/cloud_weather.png";
     private String IMAGE_TAIWAN_WEATHER_RAIN = "https://www.cwb.gov.tw/V7/observe/rainfall/Data/hk.jpg";
     private String IMAGE_TAIWAN_WEATHER_INFRARED_CLOUD = "https://www.cwb.gov.tw/V7/observe/satellite/Data/s1p/s1p.jpg";
@@ -163,6 +172,23 @@ public class OhBotController {
                       "https://i.imgur.com/Nmn5GYN.jpg",
                       "https://i.imgur.com/YR16X68.jpg",
                       "https://i.imgur.com/uPzMlqu.jpg"));
+
+    private List<String> mKofatCosplayImgurLinkList = Arrays.asList("https://i.imgur.com/gxkWn4A.jpg", 
+                "https://i.imgur.com/gb0Lq9n.jpg", 
+                "https://i.imgur.com/M9PK8Yv.jpg", 
+                "https://i.imgur.com/M9PK8Yv.jpg", 
+                "https://i.imgur.com/ModcBfG.jpg", 
+                "https://i.imgur.com/ILdOVVU.jpg", 
+                "https://i.imgur.com/9vNvyNU.jpg", 
+                "https://i.imgur.com/vCUHxNG.jpg", 
+                "https://i.imgur.com/6FnBh36.jpg", 
+                "https://i.imgur.com/LRByCFW.jpg", 
+                "https://i.imgur.com/AU6WcdZ.jpg", 
+                "https://i.imgur.com/kqMVlRL.jpg", 
+                "https://i.imgur.com/khIEZAV.jpg", 
+                "https://i.imgur.com/QxkjpS1.jpg", 
+                "https://i.imgur.com/S3zo1WG.jpg", 
+                "https://i.imgur.com/CHby1As.jpg");
 
     private String USER_ID_PIGGY = "U8147d3d84ccc1e6e12d0eb82d30b1f1a";
     private String USER_ID_KOFAT = "U9c99b691ba0b5d32de41606c19b2e2eb";
@@ -871,16 +897,28 @@ public class OhBotController {
             replyTaiwanWeatherUltravioletLightImage(replyToken);
         }
 
-        if (text.equals("紅外線雲圖?") || text.equals("紅外線雲圖？")) {
-            replyTaiwanWeatherInfraredCloudImage(replyToken);
-        }
-
         if (text.startsWith("抽") && text.length() > 1) {
             pexelsTarget(text, replyToken);
         }
         else if (text.equals("抽")) {
             randomPttBeautyGirl(userId, senderId, replyToken);
             //randomGirl(text, replyToken);
+        }
+
+        if (text.contains("熊貓")) {
+            replyImageTaiwanBearAndPanda(replyToken);
+        }
+
+        if (text.contains("我老婆")) {
+            replyImageIamNotYourWife(replyToken);
+        }
+
+        if (text.contains("晚點到") || text.contains("遲到") || text.contains("晚到") ) {
+            replyImageIWillBeLate(replyToken);
+        }
+
+        if (text.contains("變態")) {
+            replyImageYouArePrev(replyToken);
         }
 
         if (text.equals("我剛抽了誰?") || text.equals("我剛抽了誰？")) {
@@ -3101,6 +3139,26 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    private void replyImageTaiwanBearAndPanda(String replyToken) throws IOException {
+        String source = IMAGE_PANDA;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyImageIamNotYourWife(String replyToken) throws IOException {
+        String source = IMAGE_IM_NOT_YOUR_WIFE;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyImageYouArePrev(String replyToken) throws IOException {
+        String source = IMAGE_YOU_ARE_PERVERT;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyImageIWillBeLate(String replyToken) throws IOException {
+        String source = getRandomSourceFromList(mIWillBeLateList);
+        this.replyImage(replyToken, source, source);
+    }
+
     private void replyMdMap(String replyToken) throws IOException {
         String source = "https://i.imgur.com/7OBa9mj.png";
         this.replyImage(replyToken, source, source);
@@ -3112,9 +3170,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void replyQuestionMarkImage(String replyToken) throws IOException {
-        Random randomGenerator = new Random();
-        int random_num = randomGenerator.nextInt(mQuestionMarkImageList.size());
-        String source = mQuestionMarkImageList.get(random_num);        
+        String source = getRandomSourceFromList(mQuestionMarkImageList);
         this.replyImage(replyToken, source, source);
     }
 
@@ -3169,25 +3225,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
         if (text.equals("kofat")) {
-            List<String> mKofatCosplayImgurLinkList = Arrays.asList("https://i.imgur.com/gxkWn4A.jpg", 
-                "https://i.imgur.com/gb0Lq9n.jpg", 
-                "https://i.imgur.com/M9PK8Yv.jpg", 
-                "https://i.imgur.com/M9PK8Yv.jpg", 
-                "https://i.imgur.com/ModcBfG.jpg", 
-                "https://i.imgur.com/ILdOVVU.jpg", 
-                "https://i.imgur.com/9vNvyNU.jpg", 
-                "https://i.imgur.com/vCUHxNG.jpg", 
-                "https://i.imgur.com/6FnBh36.jpg", 
-                "https://i.imgur.com/LRByCFW.jpg", 
-                "https://i.imgur.com/AU6WcdZ.jpg", 
-                "https://i.imgur.com/kqMVlRL.jpg", 
-                "https://i.imgur.com/khIEZAV.jpg", 
-                "https://i.imgur.com/QxkjpS1.jpg", 
-                "https://i.imgur.com/S3zo1WG.jpg", 
-                "https://i.imgur.com/CHby1As.jpg");
-            Random randomGenerator = new Random();
-            int random_num = randomGenerator.nextInt(mKofatCosplayImgurLinkList.size());
-            source = mKofatCosplayImgurLinkList.get(random_num);
+            source = getRandomSourceFromList(mKofatCosplayImgurLinkList);
         }
         if (text.equals("TragicWorld")) {
             source = "https://i.imgur.com/1Ap4Qka.jpg";
@@ -4727,5 +4765,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return false;
         }
         return true;
+    }
+
+    private String getRandomSourceFromList(List list) {
+        Random randomGenerator = new Random();
+        int random_num = randomGenerator.nextInt(list.size());
+        String source = list.get(random_num);
     }
 }
