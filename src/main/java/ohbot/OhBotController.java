@@ -4828,7 +4828,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             mNewestEarthquakeTime = strResult.substring(strResult.indexOf("<span>")+6,strResult.indexOf("</span>"));
             String targetReport = "https://www.cwb.gov.tw";
-            targetReport = strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
+            targetReport += strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
 
             log.info("targetReport: " + targetReport);
 
