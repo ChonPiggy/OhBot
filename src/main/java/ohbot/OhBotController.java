@@ -3189,7 +3189,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyImage(replyToken, source, source);
     }
 
-    private void makeWish(String source, String userId, String text, String replyToken) throws IOException {
+    private void makeWish(String senderId, String userId, String text, String replyToken) throws IOException {
         String result = "許願事件:\n";
         result += "senderId: " + senderId + "\n";
         result += "userId: " + userId + "\n";
