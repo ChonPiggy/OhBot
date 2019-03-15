@@ -4819,27 +4819,32 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     String mNewestEarthquakeTime = "";
     private void checkEarthquakeReport(String replyToken) {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V8/C/E/MOD/EQ_ROW.html");
-        CloseableHttpResponse response = httpClient.execute(httpget);
-        HttpEntity httpEntity = response.getEntity();
-        String strResult = EntityUtils.toString(httpEntity, "utf-8");
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V8/C/E/MOD/EQ_ROW.html");
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
-        mNewestEarthquakeTime = strResult.substring(strResult.indexOf("<span>")+6,strResult.indexOf("</span>"));
-        String targetReport = "https://www.cwb.gov.tw";
-        targetReport = strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
+            mNewestEarthquakeTime = strResult.substring(strResult.indexOf("<span>")+6,strResult.indexOf("</span>"));
+            String targetReport = "https://www.cwb.gov.tw";
+            targetReport = strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
 
-        log.info("targetReport: " + targetReport);
+            log.info("targetReport: " + targetReport);
 
-        httpget = new HttpGet(targetReport);
-        response = httpClient.execute(httpget);
-        httpEntity = response.getEntity();
-        strResult = EntityUtils.toString(httpEntity, "utf-8");
-        strResult = strResult.substring(strResult.indexOf("點此下載\" target=\"_blank\" href=\"")+28, 0);
-        strResult = strResult.substring(0, strResult.indexOf("\">"));
-        String resultImage = "https://www.cwb.gov.tw";
-        resultImage += strResult;
-        LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "mNewestEarthquakeTime", resultImage);
-        this.replyImage(replyToken, resultImage, resultImage);
+            httpget = new HttpGet(targetReport);
+            response = httpClient.execute(httpget);
+            httpEntity = response.getEntity();
+            strResult = EntityUtils.toString(httpEntity, "utf-8");
+            strResult = strResult.substring(strResult.indexOf("點此下載\" target=\"_blank\" href=\"")+28, 0);
+            strResult = strResult.substring(0, strResult.indexOf("\">"));
+            String resultImage = "https://www.cwb.gov.tw";
+            resultImage += strResult;
+            LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "mNewestEarthquakeTime", resultImage);
+            this.replyImage(replyToken, resultImage, resultImage);
+
+        } catch (Exception e) {
+            log.info("checkEarthquakeReport e: " + e);
+        }
     }
 }
