@@ -4823,7 +4823,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V8/C/E/MOD/EQ_ROW.html");
         CloseableHttpResponse response = httpClient.execute(httpget);
         HttpEntity httpEntity = response.getEntity();
-        strResult = EntityUtils.toString(httpEntity, "utf-8");
+        String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
         mNewestEarthquakeTime = strResult.substring(strResult.indexOf("<span>")+6,strResult.indexOf("</span>"));
         String targetReport = "https://www.cwb.gov.tw";
