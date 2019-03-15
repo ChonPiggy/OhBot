@@ -4837,7 +4837,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private NewestEarthquakeTimeCheckThread mEarthquakeCheckThread = null;
     String mNewestEarthquakeTime = "";
-    String mNewestEarthquakemNewestEarthquakeReportText = "";
+    String mNewestEarthquakeReportText = "";
     String mNewestEarthquakeReportImage = "";
     private void checkEarthquakeReport() {
         try {
@@ -4857,7 +4857,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String targetReport = "https://www.cwb.gov.tw";
             targetReport += strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
 
-            String mNewestEarthquakeReportText = "\n";
+            mNewestEarthquakeReportText = "\n";
 
 
             httpget = new HttpGet(targetReport);
@@ -4890,7 +4890,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             tempContext = tempContext.substring(tempContext.indexOf("點此下載\" target=\"_blank\" href=\"")+28, tempContext.length());
             tempContext = tempContext.substring(0, tempContext.indexOf("\">"));
-            String mNewestEarthquakeReportImage = "https://www.cwb.gov.tw";
+            mNewestEarthquakeReportImage = "https://www.cwb.gov.tw";
             mNewestEarthquakeReportImage += tempContext;
             if (isNeedNotify) {
                 notifyAllNeedEarthquakeEventRoom();
