@@ -764,6 +764,11 @@ public class OhBotController {
         String userId = source.getUserId();
         log.info("source: " + source + " name: " + getUserDisplayName(userId) + " text: " + text);
 
+        if (mEarthquakeCheckThread == null) {
+            mEarthquakeCheckThread = new NewestEarthquakeTimeCheckThread();
+            mEarthquakeCheckThread.start();
+        }
+
 
         if (replyUserId(userId, senderId, replyToken)) {
             return;
@@ -1069,8 +1074,11 @@ public class OhBotController {
             stopUserIdDetectMode(senderId, replyToken);
         }
 
+        if (text.equals("最新地震報告圖")) {
+            this.replyImage(replyToken, mNewestEarthquakeReportImage, mNewestEarthquakeReportImage);
+        }
         if (text.equals("最新地震報告")) {
-            checkEarthquakeReport(replyToken);
+            this.replyText(replyToken, mNewestEarthquakeReportText);
         }
 
         if (text.contains("蛙")) {
@@ -4817,8 +4825,21 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return source;
     }
 
+    public class NewestEarthquakeTimeCheckThread extends Thread {
+        public void run(){
+            while (true) {
+                Thread.sleep(3000);
+                checkEarthquakeReport();
+            }
+            
+        }
+    }
+
+    private NewestEarthquakeTimeCheckThread mEarthquakeCheckThread = null;
     String mNewestEarthquakeTime = "";
-    private void checkEarthquakeReport(String replyToken) {
+    String mNewestEarthquakemNewestEarthquakeReportText = "";
+    String mNewestEarthquakeReportImage = "";
+    private void checkEarthquakeReport() {
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V8/C/E/MOD/EQ_ROW.html");
@@ -4826,14 +4847,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
+            boolean isNeedNotify = true;
+
+            if (mNewestEarthquakeTime.equals("")) {
+                isNeedNotify = false;
+            }
+
             mNewestEarthquakeTime = strResult.substring(strResult.indexOf("<span>")+6,strResult.indexOf("</span>"));
             String targetReport = "https://www.cwb.gov.tw";
             targetReport += strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
 
-            log.info("targetReport: " + targetReport);
-
-
-            String reportText = "\n";
+            String mNewestEarthquakeReportText = "\n";
 
 
             httpget = new HttpGet(targetReport);
@@ -4842,39 +4866,50 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String tempContext = EntityUtils.toString(httpEntity, "utf-8");
 
             tempContext = tempContext.substring(tempContext.indexOf("og:title\" content=")+19, tempContext.length());
-            reportText += tempContext.substring(0, tempContext.indexOf("\" />")) + "\n"; // Title
+            mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("\" />")) + "\n"; // Title
 
             tempContext = tempContext.substring(tempContext.indexOf("fa fa-clock-o\"></i>")+19, tempContext.length());
-            reportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n\n"; // Time
+            mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n\n"; // Time
 
             tempContext = tempContext.substring(tempContext.indexOf("<span>")+6, tempContext.length());
-            reportText += tempContext.substring(0, tempContext.indexOf("</span>")) + "\n"; // Location
+            mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</span>")) + "\n"; // Location
 
             tempContext = tempContext.substring(tempContext.indexOf("icon-earthquake-depth\"></i>")+27, tempContext.length());
-            reportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n"; // Depth
+            mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n"; // Depth
 
             tempContext = tempContext.substring(tempContext.indexOf("icon-earthquake-scale\"></i>")+27, tempContext.length());
-            reportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n"; // Scale
-            reportText += "\n各地震度級:\n";
+            mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n"; // Scale
+            mNewestEarthquakeReportText += "\n各地震度級:\n";
             
             while (tempContext.contains("href=\"#collapse")) {
                 tempContext = tempContext.substring(tempContext.indexOf("href=\"#collapse")+15, tempContext.length());
                 tempContext = tempContext.substring(tempContext.indexOf("\">")+2, tempContext.length());
-                reportText += tempContext.substring(0, tempContext.indexOf("</a>")) + "\n"; // Scale per location
+                mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</a>")) + "\n"; // Scale per location
             }
 
 
             tempContext = tempContext.substring(tempContext.indexOf("點此下載\" target=\"_blank\" href=\"")+28, tempContext.length());
             tempContext = tempContext.substring(0, tempContext.indexOf("\">"));
-            String resultImage = "https://www.cwb.gov.tw";
-            resultImage += tempContext;
-
-            LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, reportText);
-            LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, " ", resultImage);
-            this.replyImage(replyToken, resultImage, resultImage);
+            String mNewestEarthquakeReportImage = "https://www.cwb.gov.tw";
+            mNewestEarthquakeReportImage += tempContext;
+            if (isNeedNotify) {
+                notifyAllNeedEarthquakeEventRoom();
+            }
+            this.replyImage(replyToken, mNewestEarthquakeReportImage, mNewestEarthquakeReportImage);
 
         } catch (Exception e) {
             log.info("checkEarthquakeReport e: " + e);
         }
     }
+
+    private List<String> mEarthquakeEventRoomList = new ArrayList<String> (
+        Arrays.asList(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM));
+
+    private void notifyAllNeedEarthquakeEventRoom() {
+        for (String room : mEarthquakeEventRoomList){
+            LineNotify.callEvent(room, mNewestEarthquakeReportText);
+            LineNotify.callEvent(room, " ", mNewestEarthquakeReportImage);
+        }        
+    }
+
 }
