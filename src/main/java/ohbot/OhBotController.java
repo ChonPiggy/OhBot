@@ -4828,8 +4828,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     public class NewestEarthquakeTimeCheckThread extends Thread {
         public void run(){
             while (true) {
-                Thread.sleep(3000);
-                checkEarthquakeReport();
+                try {
+                    Thread.sleep(3000);
+                    checkEarthquakeReport();
+                } catch (Exception e) {
+                    log.info("NewestEarthquakeTimeCheckThread e: " + e);
+                }
             }
             
         }
