@@ -116,6 +116,7 @@ public class OhBotController {
     private List<String> mRandamLocationAddressList = new ArrayList<String> (mDefaultRandamLocationAddressList);
     private boolean mIsStartJandanParsing = false;
     private boolean mIsStartJandanStarted = false;
+    private String FUNCTION_LIST_TEXT = "功能指令集 \n\n(不區分問號全形半形)\n(Ｘ代表變數)\nＸ天氣？（Ｘ需為地區\nＸ氣象？（Ｘ需為地區\nＸ座？（Ｘ需為星座\nＸ空氣？（Ｘ需為地區\nＸ匯率？（Ｘ需為幣名\n比特幣換算？\nＸＹ換算台幣？（Ｘ需為數字Ｙ需為幣名\n呆股？\n每日一句？\n今日我最美？\n今日我最美是誰？\n吃什麼？\n抽\n抽Ｘ（Ｘ須為英文）\n*蛙*哪*\n霸凌模式:https:xxxxxx.jpg\n霸凌不好\n開始猜拳\n結束猜拳\n參加猜拳\n我剛抽了誰?\n天氣雲圖?\n累積雨量圖?\n紅外線雲圖?\n雷達回波圖?\n溫度分佈圖?\n紫外線圖?\n許願:X\n投稿:X\n最新地震報告圖\n最新地震報告\n";
 
     private int mJanDanParseCount = 0;
     private int mJanDanGifCount = 0;
@@ -1178,6 +1179,10 @@ public class OhBotController {
 
         if (text.startsWith("投稿:")) {
             makeSubmission(senderId, userId, text, replyToken);
+        }
+
+        if (text.equals("指令集")) {
+            this.replyText(replyToken, FUNCTION_LIST_TEXT);
         }
 
 
@@ -4864,8 +4869,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpEntity = response.getEntity();
             String tempContext = EntityUtils.toString(httpEntity, "utf-8");
 
-            tempContext = tempContext.substring(tempContext.indexOf("og:title\" content=")+19, tempContext.length());
-            mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("\" />")) + "\n"; // Title
+            tempContext = tempContext.substring(tempContext.indexOf("yellow-dot-title\">")+18, tempContext.length());
+            mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</")) + "\n"; // Title
 
             tempContext = tempContext.substring(tempContext.indexOf("fa fa-clock-o\"></i>")+19, tempContext.length());
             mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n\n"; // Time
