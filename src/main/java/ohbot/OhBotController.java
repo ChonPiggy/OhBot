@@ -4836,7 +4836,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             response = httpClient.execute(httpget);
             httpEntity = response.getEntity();
             strResult = EntityUtils.toString(httpEntity, "utf-8");
-            strResult = strResult.substring(strResult.indexOf("點此下載\" target=\"_blank\" href=\"")+28, 0);
+            strResult = strResult.substring(strResult.indexOf("點此下載\" target=\"_blank\" href=\"")+28, strResult.length());
             strResult = strResult.substring(0, strResult.indexOf("\">"));
             String resultImage = "https://www.cwb.gov.tw";
             resultImage += strResult;
