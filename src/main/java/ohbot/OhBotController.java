@@ -196,7 +196,7 @@ public class OhBotController {
     private String USER_ID_TEST_MASTER = USER_ID_KOFAT;
 
     private String GROUP_ID_CONNECTION = "Ccc1bbf4da77b2fbbc5745be3d6ca154f";
-    private String GROUP_ID_CONNECTION = "C85a3ee8bcca930815577ad8955c70723";
+    private String GROUP_ID_RUNRUNRUN = "C85a3ee8bcca930815577ad8955c70723";
     private String GROUP_ID_BOT_HELL = "C3691a96649f0d57c367eedb2c7f0e161";
     
 
@@ -3201,7 +3201,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void makeSubmission(String source, String userId, String text, String replyToken) throws IOException {
-        
+        String result = "投稿事件:\n";
+        result += "source: " + source + "\n";
+        result += "userId: " + userId + "\n";
+        result += "name: " + getUserDisplayName(userId) + "\n";
+        result += "內容: \n";
+        result += text;
+        LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, result);
         this.replyText(replyToken, "偉大的 PG 大人收到了.");
     }
 
