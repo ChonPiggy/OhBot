@@ -1161,11 +1161,11 @@ public class OhBotController {
         }
 
         if (text.startsWith("許願:")) {
-            makeWish(source, userId, text, replyToken);
+            makeWish(senderId, userId, text, replyToken);
         }
 
         if (text.startsWith("投稿:")) {
-            makeSubmission(source, userId, text, replyToken);
+            makeSubmission(senderId, userId, text, replyToken);
         }
 
 
@@ -3191,7 +3191,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void makeWish(String source, String userId, String text, String replyToken) throws IOException {
         String result = "許願事件:\n";
-        result += "source: " + source + "\n";
+        result += "senderId: " + senderId + "\n";
         result += "userId: " + userId + "\n";
         result += "name: " + getUserDisplayName(userId) + "\n";
         result += "內容: \n";
@@ -3200,9 +3200,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyText(replyToken, "偉大的 PG 大人與你同在.");
     }
 
-    private void makeSubmission(String source, String userId, String text, String replyToken) throws IOException {
+    private void makeSubmission(String senderId, String userId, String text, String replyToken) throws IOException {
         String result = "投稿事件:\n";
-        result += "source: " + source + "\n";
+        result += "senderId: " + senderId + "\n";
         result += "userId: " + userId + "\n";
         result += "name: " + getUserDisplayName(userId) + "\n";
         result += "內容: \n";
