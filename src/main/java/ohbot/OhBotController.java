@@ -4833,20 +4833,19 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info("targetReport: " + targetReport);
 
 
-            String reportText = "";
+            String reportText = "\n";
 
 
             httpget = new HttpGet(targetReport);
             response = httpClient.execute(httpget);
             httpEntity = response.getEntity();
-            strResult = EntityUtils.toString(httpEntity, "utf-8");
-            String tempContext = strResult;
+            String tempContext = EntityUtils.toString(httpEntity, "utf-8");
 
             tempContext = tempContext.substring(tempContext.indexOf("og:title\" content=")+19, tempContext.length());
             reportText += tempContext.substring(0, tempContext.indexOf("\" />")) + "\n"; // Title
 
             tempContext = tempContext.substring(tempContext.indexOf("fa fa-clock-o\"></i>")+19, tempContext.length());
-            reportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n"; // Time
+            reportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n\n"; // Time
 
             tempContext = tempContext.substring(tempContext.indexOf("<span>")+6, tempContext.length());
             reportText += tempContext.substring(0, tempContext.indexOf("</span>")) + "\n"; // Location
@@ -4856,7 +4855,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             tempContext = tempContext.substring(tempContext.indexOf("icon-earthquake-scale\"></i>")+27, tempContext.length());
             reportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n"; // Scale
-            reportText += "各地震度級:\n";
+            reportText += "\n各地震度級:\n";
             
             while (tempContext.contains("href=\"#collapse")) {
                 tempContext = tempContext.substring(tempContext.indexOf("href=\"#collapse")+15, tempContext.length());
@@ -4871,7 +4870,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             resultImage += tempContext;
 
             LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, reportText);
-            LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "最新地震報告圖", resultImage);
+            LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, " ", resultImage);
             this.replyImage(replyToken, resultImage, resultImage);
 
         } catch (Exception e) {
