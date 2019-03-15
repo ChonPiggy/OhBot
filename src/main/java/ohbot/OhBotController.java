@@ -196,6 +196,7 @@ public class OhBotController {
     private String USER_ID_TEST_MASTER = USER_ID_KOFAT;
 
     private String GROUP_ID_CONNECTION = "Ccc1bbf4da77b2fbbc5745be3d6ca154f";
+    private String GROUP_ID_CONNECTION = "C85a3ee8bcca930815577ad8955c70723";
     private String GROUP_ID_BOT_HELL = "C3691a96649f0d57c367eedb2c7f0e161";
     
 
@@ -1158,6 +1159,16 @@ public class OhBotController {
         if (text.equals("?")||text.equals("？")) {
             replyQuestionMarkImage(replyToken);
         }
+
+        if (text.startsWith("許願:")) {
+            makeWish(source, userId, text, replyToken);
+        }
+
+        if (text.startsWith("投稿:")) {
+            makeSubmission(source, userId, text, replyToken);
+        }
+
+
 
         checkNeedTotallyBullyReply(userId, replyToken);
 
@@ -3017,10 +3028,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace("PgCommandNotifyMessage:", "");
 
         if (LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, text)) {
-            this.replyText(replyToken, "文字發送成功");
+            if (!replyToken.equals("")) {
+                this.replyText(replyToken, "文字發送成功");
+            }
         }
         else {
-            this.replyText(replyToken, "文字發送失敗");
+            if (!replyToken.equals("")) {
+                this.replyText(replyToken, "文字發送失敗");
+            }
         }
     }
 
@@ -3172,6 +3187,22 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void replyQuestionMarkImage(String replyToken) throws IOException {
         String source = getRandomSourceFromList(mQuestionMarkImageList);
         this.replyImage(replyToken, source, source);
+    }
+
+    private void makeWish(String source, String userId, String text, String replyToken) throws IOException {
+        String result = "許願事件:\n";
+        result += "source: " + source + "\n";
+        result += "userId: " + userId + "\n";
+        result += "name: " + getUserDisplayName(userId) + "\n";
+        result += "內容: \n";
+        result += text;
+        LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, result);
+        this.replyText(replyToken, "偉大的 PG 大人與你同在.");
+    }
+
+    private void makeSubmission(String source, String userId, String text, String replyToken) throws IOException {
+        
+        this.replyText(replyToken, "偉大的 PG 大人收到了.");
     }
 
     private void bullyModeTrigger(String replyToken) throws IOException {
