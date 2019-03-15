@@ -4851,13 +4851,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
-            boolean isNeedNotify = true;
+            newestEarthquakeTime = strResult.substring(strResult.indexOf("<span>")+6,strResult.indexOf("</span>"));
 
-            if (mNewestEarthquakeTime.equals("")) {
-                isNeedNotify = false;
-            }
-
-            mNewestEarthquakeTime = strResult.substring(strResult.indexOf("<span>")+6,strResult.indexOf("</span>"));
             String targetReport = "https://www.cwb.gov.tw";
             targetReport += strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
 
@@ -4896,9 +4891,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             tempContext = tempContext.substring(0, tempContext.indexOf("\">"));
             mNewestEarthquakeReportImage = "https://www.cwb.gov.tw";
             mNewestEarthquakeReportImage += tempContext;
-            if (isNeedNotify) {
+            if (!mNewestEarthquakeTime.equals("") && !mNewestEarthquakeTime.equals(newestEarthquakeTime)) {
                 notifyAllNeedEarthquakeEventRoom();
             }
+            mNewestEarthquakeTime = newestEarthquakeTime;
 
         } catch (Exception e) {
             log.info("checkEarthquakeReport e: " + e);
