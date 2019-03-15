@@ -4876,7 +4876,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n\n"; // Time
 
             tempContext = tempContext.substring(tempContext.indexOf("<span>")+6, tempContext.length());
-            mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</span>")) + "\n"; // Location
+            mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</span>")) + "\n\n"; // Location
 
             tempContext = tempContext.substring(tempContext.indexOf("icon-earthquake-depth\"></i>")+27, tempContext.length());
             mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n"; // Depth
