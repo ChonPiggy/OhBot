@@ -4895,7 +4895,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (isNeedNotify) {
                 notifyAllNeedEarthquakeEventRoom();
             }
-            this.replyImage(replyToken, mNewestEarthquakeReportImage, mNewestEarthquakeReportImage);
 
         } catch (Exception e) {
             log.info("checkEarthquakeReport e: " + e);
