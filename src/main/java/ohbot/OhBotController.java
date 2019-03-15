@@ -4836,7 +4836,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         httpEntity = response.getEntity();
         strResult = EntityUtils.toString(httpEntity, "utf-8");
         strResult = strResult.substring(strResult.indexOf("點此下載\" target=\"_blank\" href=\"")+28, 0);
-        strResult = strResult.substring(strResult.indexOf(0, "\">"));
+        strResult = strResult.substring(0, strResult.indexOf("\">"));
         String resultImage = "https://www.cwb.gov.tw";
         resultImage += strResult;
         LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "mNewestEarthquakeTime", resultImage);
