@@ -4858,7 +4858,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String newestEarthquakeTime = strResult.substring(strResult.indexOf("<span>")+6,strResult.indexOf("</span>"));
             if (newestEarthquakeTime.contains("<i class=")) {
-                newestEarthquakeTime = newestEarthquakeTime.substring(0, strResult.indexOf("<i class="));
+                newestEarthquakeTime = newestEarthquakeTime.substring(0, newestEarthquakeTime.indexOf("<i class="));
             }
             log.info("Newest earth quake time: " + newestEarthquakeTime);
             
