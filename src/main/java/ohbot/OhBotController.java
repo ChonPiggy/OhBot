@@ -4857,7 +4857,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
             String newestEarthquakeTime = strResult.substring(strResult.indexOf("<span>")+6,strResult.indexOf("</span>"));
-
+            if (newestEarthquakeTime.contains("<i class=")) {
+                newestEarthquakeTime = newestEarthquakeTime.substring(0, strResult.indexOf("<i class="));
+            }
+            log.info("Newest earth quake time: " + newestEarthquakeTime);
+            
             String targetReport = "https://www.cwb.gov.tw";
             targetReport += strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
 
