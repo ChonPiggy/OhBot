@@ -1183,17 +1183,13 @@ public class OhBotController {
             makeSubmission(senderId, userId, text, replyToken);
         }
 
-        if (text.equals("指令集")) {
-            this.replyText(replyToken, FUNCTION_LIST_TEXT);
-        }
-
         if (text.equals("特價")) {
             HttpResponse response = LinHoImageHelper.getImageUrl("特價");
             log.info("Piggy Check response: " + response);
             BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
             String json = reader.readLine();
             log.info("Piggy Check json: " + json);
-            log.info(String.valueOf(response.getEntity().getStatusCode()));
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
         }
 
 
