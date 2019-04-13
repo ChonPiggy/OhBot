@@ -1185,6 +1185,10 @@ public class OhBotController {
             this.replyText(replyToken, FUNCTION_LIST_TEXT);
         }
 
+        if (text.equals("特價")) {
+            LinHoImageHelper.getImageUrl("特價");
+        }
+
 
 
         checkNeedTotallyBullyReply(userId, replyToken);
