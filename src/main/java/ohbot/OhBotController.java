@@ -1184,12 +1184,21 @@ public class OhBotController {
         }
 
         if (text.equals("特價")) {
-            HttpResponse response = LinHoImageHelper.getImageUrl("特價");
-            log.info("Piggy Check response: " + response);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
-            String json = reader.readLine();
-            log.info("Piggy Check json: " + json);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            // HttpResponse response = LinHoImageHelper.getImageUrl("特價");
+            // log.info("Piggy Check response: " + response);
+            // String newLine;
+            // StringBuilder stringBuilder = new StringBuilder();
+            // while ((newLine = bufferedReader.readLine()) != null) {
+            //     stringBuilder.append(newLine);
+            //     log.info("Piggy Check newLine: " + newLine);
+            // }
+
+            // BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+            // String json = reader.readLine();
+
+            String str = LinHoImageHelper.testImageUrl();
+            log.info("Piggy Check str: " + str);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
         }
 
 

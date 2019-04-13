@@ -37,4 +37,34 @@ public class LinHoImageHelper {
 
         return response;
     }
+
+    public static String testImageUrl() {
+        String result = "";
+        try {
+            String strUrl = generateUrl;
+            URL url = new URL( strUrl );
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod( "POST" );
+            connection.addRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
+            connection.setDoOutput( true );
+            String parameterMessageString = new String("txt=%E7%89%B9%E5%83%B9&type=1&twid=");
+            PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
+            printWriter.print(parameterMessageString);
+            printWriter.close();
+            connection.connect();
+            
+            int statusCode = connection.getResponseCode();
+            // if ( statusCode == 200 ) {
+            //     result = true;
+            // } else {
+            //     throw new Exception( "Error:(StatusCode)" + statusCode + ", " + connection.getResponseMessage() );
+            // }
+            result = connection.getResponseMessage();
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }
