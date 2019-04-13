@@ -1190,7 +1190,10 @@ public class OhBotController {
         if (text.equals("特價")) {
             HttpResponse response = LinHoImageHelper.getImageUrl("特價");
             log.info("Piggy Check response: " + response);
-            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+            String json = reader.readLine();
+            log.info("Piggy Check json: " + json);
+            log.info(String.valueOf(response.getEntity().getStatusCode()));
         }
 
 
