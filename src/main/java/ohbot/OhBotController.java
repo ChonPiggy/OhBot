@@ -1186,7 +1186,9 @@ public class OhBotController {
         }
 
         if (text.equals("特價")) {
-            LinHoImageHelper.getImageUrl("特價");
+            HttpResponse response = LinHoImageHelper.getImageUrl("特價");
+            log.info("Piggy Check response: " + response);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
         }
 
 
