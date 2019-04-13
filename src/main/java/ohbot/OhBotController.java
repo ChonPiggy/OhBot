@@ -4864,7 +4864,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (newestEarthquakeTime.contains("<i class=")) {
                 newestEarthquakeTime = newestEarthquakeTime.substring(0, newestEarthquakeTime.indexOf("<i class="));
             }
-            log.info("Newest earth quake time: " + newestEarthquakeTime);
+            //log.info("Newest earth quake time: " + newestEarthquakeTime);
             
             String targetReport = "https://www.cwb.gov.tw";
             targetReport += strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
