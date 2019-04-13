@@ -54,12 +54,25 @@ public class LinHoImageHelper {
             connection.connect();
             
             int statusCode = connection.getResponseCode();
+            if (statusCode == 200) {
+                InputStream inputStream = connection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+                String newLine;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((newLine = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(newLine);
+                }
+                result = stringBuilder.toString();
+            }
+            else {
+                result = connection.getResponseMessage();
+            }
             // if ( statusCode == 200 ) {
             //     result = true;
             // } else {
             //     throw new Exception( "Error:(StatusCode)" + statusCode + ", " + connection.getResponseMessage() );
             // }
-            result = connection.getResponseMessage();
+            
             connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
