@@ -3245,6 +3245,24 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    private boolean isStringIncludeNumber(String text) {
+        boolean hasNum = false;
+        if(text.matches(".*\\d+.*")) {
+            hasNum = true;
+        }
+        return hasNum;
+    }
+    private static boolean isStringIncludeEnglish(String text){
+        boolean hasEng = false;
+        for(int i=0; i<text.length(); i++) {
+            String test = text.substring(i, i+1);
+            if(test.matches("[a-zA-Z]+")) {
+                return true;
+            }
+        }
+        return hasEng;
+    }
+
     private void bullyModeTrigger(String replyToken) throws IOException {
 
         if (mBullyModeCount > 0) {
