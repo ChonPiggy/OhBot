@@ -3232,7 +3232,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void processLinHoImage(String replyToken, String text) throws IOException {
-        if (rext.matches("[a-zA-Z0-9|\\.]*")) {
+        if (text.matches("[a-zA-Z0-9|\\.]*")) {
             return;
         }
         String result = LinHoImageHelper.getImageUrl(text);
