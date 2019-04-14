@@ -84,6 +84,7 @@ import java.util.Base64;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.net.*;
 
 /**
  * Created by lambertyang on 2017/1/13.
