@@ -3234,8 +3234,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void processLinHoImage(String replyToken, String text) throws IOException {
 
         String result = LinHoImageHelper.getImageUrl(text);
-        if (result != null) {
-
+        log.info("Piggy Check processLinHoImage: " + result);
+        if (result != null && result.contains("https://singengo.com/api/v1/img/")) {
             this.replyImage(replyToken, result, result);    
         }
     }
