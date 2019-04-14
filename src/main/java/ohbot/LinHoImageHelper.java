@@ -54,7 +54,7 @@ public class LinHoImageHelper {
             connection.addRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
             connection.setDoOutput( true );
             String parameterMessageString = new String("txt="+message+"&type=1&twid=");
-            String parameterMessageString = new String("txt=%E7%89%B9%E5%83%B9&type=1&twid=");
+            //String parameterMessageString = new String("txt=%E7%89%B9%E5%83%B9&type=1&twid=");
             PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
             printWriter.print(parameterMessageString);
             printWriter.close();
