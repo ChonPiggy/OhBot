@@ -54,7 +54,7 @@ public class LinHoImageHelper {
                     result = result.substring(result.indexOf("msg")+7, result.length());
                     result = result.substring(0, result.indexOf("\""));
                     try {
-                        byte[] utf8 = string.getBytes("UTF-8");
+                        byte[] utf8 = result.getBytes("UTF-8");
                         return new String(utf8, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                     }
