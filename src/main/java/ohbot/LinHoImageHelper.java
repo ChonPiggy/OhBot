@@ -53,7 +53,7 @@ public class LinHoImageHelper {
             connection.addRequestProperty( "User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36" );
             connection.addRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
             connection.setDoOutput( true );
-            String parameterMessageString = new String("txt=%E7%89%B9%E5%83%B9&type=1&twid=");
+            String parameterMessageString = new String(message);
             PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
             printWriter.print(parameterMessageString);
             printWriter.close();
