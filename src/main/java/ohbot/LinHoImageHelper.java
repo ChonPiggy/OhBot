@@ -85,7 +85,7 @@ public class LinHoImageHelper {
         return result;
     }
 
-    public String getStringFromUnicode(String input) {
+    private static String getStringFromUnicode(String input) {
         String str = input.split(" ")[0];
         str = str.replace("\\","");
         String[] arr = str.split("u");
