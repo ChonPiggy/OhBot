@@ -53,7 +53,11 @@ public class LinHoImageHelper {
                 if (result.startsWith("400")) {
                     result = result.substring(result.indexOf("msg")+7, result.length());
                     result = result.substring(0, result.indexOf("\""));
-                    return new String(result.getBytes("UTF-8"),"UTF-8");
+                    try {
+                        byte[] utf8 = string.getBytes("UTF-8");
+                        return new String(utf8, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                    }
                 }
                 else if (result.startsWith("200")) {
                     result = result.substring(result.indexOf("hash")+7, result.length());
@@ -78,4 +82,6 @@ public class LinHoImageHelper {
 
         return result;
     }
+
+
 }
