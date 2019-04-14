@@ -53,11 +53,13 @@ public class LinHoImageHelper {
                 if (result.startsWith("400")) {
                     result = result.substring(result.indexOf("msg")+7, result.length());
                     result = result.substring(0, result.indexOf("\""));
-                    try {
-                        byte[] utf8 = result.getBytes("UTF-8");
-                        return new String(utf8, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                    }
+                    result = getStringFromUnicode(result);
+                    // try {
+                    //     byte[] utf8 = result.getBytes("UTF-8");
+                    //     return new String(utf8, "UTF-8");
+                    // } catch (UnsupportedEncodingException e) {
+                    //     return null;
+                    // }
                 }
                 else if (result.startsWith("200")) {
                     result = result.substring(result.indexOf("hash")+7, result.length());
@@ -81,6 +83,17 @@ public class LinHoImageHelper {
         }
 
         return result;
+    }
+
+    public String getStringFromUnicode(String input) {
+        String str = input.split(" ")[0];
+        str = str.replace("\\","");
+        String[] arr = str.split("u");
+        String text = "";
+        for(int i = 1; i < arr.length; i++){
+            int hexVal = Integer.parseInt(arr[i], 16);
+            text += (char)hexVal;
+        }
     }
 
 
