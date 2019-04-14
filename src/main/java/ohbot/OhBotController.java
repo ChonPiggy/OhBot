@@ -1196,7 +1196,7 @@ public class OhBotController {
             // BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
             // String json = reader.readLine();
 
-            String str = LinHoImageHelper.testImageUrl();
+            String str = LinHoImageHelper.getImageUrl("特價");
             log.info("Piggy Check str: " + str);
             //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
         }
