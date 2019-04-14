@@ -39,7 +39,7 @@ public class LinHoImageHelper {
     // }
 
     public static String getImageUrl(String message) {
-        String result = "";
+        String result = null;
         try {
             message = URLEncoder.encode(message, "UTF-8");
             String strUrl = generateUrl;
@@ -69,6 +69,11 @@ public class LinHoImageHelper {
                     stringBuilder.append(newLine);
                 }
                 result = stringBuilder.toString();
+
+                result = result.substring(result.indexOf("hash")+7, result.length());
+                result = result.substring(0, result.indexOf("\""));
+                result = "https://singengo.com/api/v1/img/" + result;
+
             }
             else {
                 result = connection.getResponseMessage();

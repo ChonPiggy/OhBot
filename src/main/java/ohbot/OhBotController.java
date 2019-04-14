@@ -1183,25 +1183,9 @@ public class OhBotController {
             makeSubmission(senderId, userId, text, replyToken);
         }
 
-        if (text.equals("特價")) {
-            // HttpResponse response = LinHoImageHelper.getImageUrl("特價");
-            // log.info("Piggy Check response: " + response);
-            // String newLine;
-            // StringBuilder stringBuilder = new StringBuilder();
-            // while ((newLine = bufferedReader.readLine()) != null) {
-            //     stringBuilder.append(newLine);
-            //     log.info("Piggy Check newLine: " + newLine);
-            // }
-
-            // BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
-            // String json = reader.readLine();
-
-            String str = LinHoImageHelper.getImageUrl("特價");
-            log.info("Piggy Check str: " + str);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+        if (text.length() == 2) {
+            processLinHoImage(replyToken, text);
         }
-
-
 
         checkNeedTotallyBullyReply(userId, replyToken);
 
@@ -3244,6 +3228,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += text;
         LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, result);
         this.replyText(replyToken, "偉大的 PG 大人收到了.");
+    }
+
+    private void processLinHoImage(String replyToken, String text) throws IOException {
+        String result = LinHoImageHelper.getImageUrl(text);
+        log.info("Piggy Check result: " + result);
+        if (result != null) {
+
+            this.replyImage(replyToken, result, result);    
+        }
     }
 
     private void bullyModeTrigger(String replyToken) throws IOException {
