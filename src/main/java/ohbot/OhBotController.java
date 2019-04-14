@@ -3236,7 +3236,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String result = LinHoImageHelper.getImageUrl(text);
         log.info("Piggy Check processLinHoImage: " + result);
         if (result != null && result.length() == 64)) {
-            this.replyImage(replyToken, result, result);    
+            this.replyImage(replyToken, result, result);
+        }
+        else if (result != null) {
+            this.replyText(replyToken, result);
         }
     }
 

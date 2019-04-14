@@ -71,9 +71,17 @@ public class LinHoImageHelper {
                 }
                 result = stringBuilder.toString();
 
-                result = result.substring(result.indexOf("hash")+7, result.length());
-                result = result.substring(0, result.indexOf("\""));
-                result = "https://singengo.com/api/v1/img/" + result;
+                result = result.substring(10, result.length());
+
+                if (result.startsWith("400")) {
+                    result = result.substring(result.indexOf("msg")+7, result.length());
+                    result = result.substring(0, result.indexOf("\""));
+                }
+                else if (result.startsWith("200")) {
+                    result = result.substring(result.indexOf("hash")+7, result.length());
+                    result = result.substring(0, result.indexOf("\""));
+                    result = "https://singengo.com/api/v1/img/" + result;
+                }
 
             }
             else {
