@@ -3233,11 +3233,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void processLinHoImage(String replyToken, String text) throws IOException {
 
-        String text1 = URLEncoder.encode(text, "UTF-8");
-        
-        log.info("Piggy Check result: " + text1);
         String result = LinHoImageHelper.getImageUrl(text);
-        log.info("Piggy Check result: " + result);
         if (result != null) {
 
             this.replyImage(replyToken, result, result);    
