@@ -1184,7 +1184,7 @@ public class OhBotController {
             makeSubmission(senderId, userId, text, replyToken);
         }
 
-        if (text.length() == 2) {
+        if (text.startsWith("年號:")) {
             processLinHoImage(replyToken, text);
         }
 
@@ -3232,6 +3232,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void processLinHoImage(String replyToken, String text) throws IOException {
+        text = text.replace("年號:", "");
+        if (text.length() != 2) {
+            return;
+        }
         if (isStringIncludeNumber(text) || isStringIncludeEnglish(text)) {
             return;
         }
