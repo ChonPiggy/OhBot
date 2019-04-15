@@ -919,7 +919,7 @@ public class OhBotController {
             replyImageTaiwanBearAndPanda(replyToken);
         }
 
-        if (text.contains("我老婆")) {
+        if (text.contains("我") && text.contains("老婆")) {
             replyImageIamNotYourWife(replyToken);
         }
 
