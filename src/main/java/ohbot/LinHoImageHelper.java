@@ -11,6 +11,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import java.util.Random;
 
 public class LinHoImageHelper {
     private static final String generateUrl = "https://singengo.com/api/v1/generate";
