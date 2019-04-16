@@ -3275,7 +3275,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("imgur.com","i.imgur.com");
                     result = result + ".jpg";
                     resultImageList.add(result);
-                    log.info("Piggy Check Ptt Beauty imgur url: " + url + " img_link: " + result);
+                    log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
             else {
@@ -3284,7 +3284,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 while(matcherJp.find()){
                     String result = matcherJp.group();
                     resultImageList.add(result);
-                    //log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                    log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
 
