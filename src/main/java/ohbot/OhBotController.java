@@ -1184,6 +1184,10 @@ public class OhBotController {
             makeSubmission(senderId, userId, text, replyToken);
         }
 
+        if (text.startsWith("隨機取圖:")) {
+            processRandomeGetImage(replyToken, text);
+        }
+
         if (text.startsWith("年號:")) {
             processLinHoImage(replyToken, text);
         }
@@ -3229,6 +3233,86 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += text;
         LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, result);
         this.replyText(replyToken, "偉大的 PG 大人收到了.");
+    }
+
+    private void processRandomeGetImage(String replyToken, String text) throws IOException {
+        text = text.replace("隨機取圖:", "");
+        if (!text.startsWith("http")) {
+            return;
+        }
+        String result = "";
+
+        try{
+
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url=text;
+            
+            Random randomGenerator = new Random();
+            int random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
+
+
+
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            
+            HttpGet httpGet = new HttpGet(result_url);
+            httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+            httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+            httpGet.setHeader("Cache-Control", "max-age=0");
+            httpGet.setHeader("Connection", "keep-alive");
+
+
+            response = httpClient.execute(httpGet);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            httpEntity = response.getEntity();
+
+            String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
+
+            if (result_image_image.indexOf("http://imgur.com/") > 0) {
+                Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
+                Matcher matcherJp = patternJp.matcher(result_image_image);
+                while(matcherJp.find()){
+                    String result = matcherJp.group();
+                    result = result.replace("http:","https:");
+                    result = result.replace("imgur.com","i.imgur.com");
+                    result = result + ".jpg";
+                    resultImageList.add(result);
+                    log.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
+                }
+            }
+            else {
+                Pattern patternJp = Pattern.compile("http.*?:.*?.jp.*?g");
+                Matcher matcherJp = patternJp.matcher(result_image_image);
+                while(matcherJp.find()){
+                    String result = matcherJp.group();
+                    resultImageList.add(result);
+                    //log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                }
+            }
+
+            
+            if (resultImageList.size() > 0) {
+                random_num = randomGenerator.nextInt(resultImageList.size());
+                this.replyImage(replyToken, result, result);
+            }
+            
+        
+            
+            if (result_url.equals("")) {
+                log.info("Piggy Check get image from website parse fail");
+                
+            }
+
+            
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void processLinHoImage(String replyToken, String text) throws IOException {
