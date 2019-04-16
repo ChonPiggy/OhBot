@@ -3257,7 +3257,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
 
             
-            HttpGet httpGet = new HttpGet(result_url);
+            HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
             httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
@@ -3282,7 +3282,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("imgur.com","i.imgur.com");
                     result = result + ".jpg";
                     resultImageList.add(result);
-                    log.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
+                    log.info("Piggy Check Ptt Beauty imgur url: " + url + " img_link: " + result);
                 }
             }
             else {
@@ -3298,16 +3298,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             if (resultImageList.size() > 0) {
                 random_num = randomGenerator.nextInt(resultImageList.size());
+                String result = resultImageList.get(random_num);
+                if (result == null || result.equals("")) {
+                    log.info("Piggy Check get image from website parse fail");
+                }
                 this.replyImage(replyToken, result, result);
             }
-            
-        
-            
-            if (result_url.equals("")) {
-                log.info("Piggy Check get image from website parse fail");
-                
-            }
-
             
         }catch (Exception e) {
             e.printStackTrace();
