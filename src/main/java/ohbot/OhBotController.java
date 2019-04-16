@@ -3240,7 +3240,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (!text.startsWith("http")) {
             return;
         }
-        String result = "";
 
         try{
 
@@ -3249,13 +3248,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             Random randomGenerator = new Random();
             int random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
-
-
-
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-            HttpEntity httpEntity = response.getEntity();
-
             
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
@@ -3267,12 +3259,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpGet.setHeader("Connection", "keep-alive");
 
 
-            response = httpClient.execute(httpGet);
+            CloseableHttpResponse response = httpClient.execute(httpGet);
             //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-            httpEntity = response.getEntity();
+            HttpEntity httpEntity = response.getEntity();
 
             String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
 
+            List<String> resultImageList = new ArrayList<String> ();
             if (result_image_image.indexOf("http://imgur.com/") > 0) {
                 Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
@@ -3297,7 +3290,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             
             if (resultImageList.size() > 0) {
-                random_num = randomGenerator.nextInt(resultImageList.size());
+                int random_num = randomGenerator.nextInt(resultImageList.size());
                 String result = resultImageList.get(random_num);
                 if (result == null || result.equals("")) {
                     log.info("Piggy Check get image from website parse fail");
