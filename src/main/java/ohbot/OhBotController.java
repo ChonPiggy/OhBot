@@ -796,7 +796,7 @@ public class OhBotController {
                     this.replyText(replyToken, getUserDisplayName(userId) + "\n我代替偉大的 PG 大人感謝你😊");
                     mSaidBdCongrat.add(userId);
                     String resultText = getUserDisplayName(userId) + "\n向您說:\n" + text + "\n總數:" + mSaidBdCongrat.size();
-                    LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, resultText)
+                    LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, resultText);
                     return;
                 }
             }
