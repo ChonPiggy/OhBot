@@ -785,7 +785,7 @@ public class OhBotController {
             }
 
             if (!mSaidBdCongrat.contains(userId) && !mAskedBdCongrat.contains(userId)) {
-                this.replyText(replyToken, "今天是偉大的 PG 大人生日\n能不能跟 他說聲生日快樂呢😊");
+                this.replyText(replyToken, getUserDisplayName(userId) + "\n今天是偉大的 PG 大人生日\n能不能跟他說聲生日快樂呢😊");
                 mAskedBdCongrat.add(userId);
                 return;
             }
@@ -793,8 +793,10 @@ public class OhBotController {
             if(text.contains("生日快樂") || text.contains("牲日快樂") || text.contains("誕辰快樂") || 
                 ((text.contains("Happy") || text.contains("happy")) && (text.contains("Birthday") || text.contains("birthday")))) {
                 if (!mSaidBdCongrat.contains(userId)) {
-                    this.replyText(replyToken, "我代替偉大的 PG 大人感謝你😊");
+                    this.replyText(replyToken, getUserDisplayName(userId) + "\n我代替偉大的 PG 大人感謝你😊");
                     mSaidBdCongrat.add(userId);
+                    String resultText = getUserDisplayName(userId) + "\n向您說:\n" + text + "\n總數:" + mSaidBdCongrat.size();
+                    LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, resultText)
                     return;
                 }
             }
