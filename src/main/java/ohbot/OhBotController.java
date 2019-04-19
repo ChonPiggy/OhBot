@@ -216,6 +216,11 @@ public class OhBotController {
 
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
     private HashMap<String, String> mWhoImPickRandomPttBeautyGirlMap = new HashMap<>(); // userId, webLink
+
+    private HashSet<String> mAskedBotFriend = new HashSet<String>();
+    private HashSet<String> mAskedBdCongrat = new HashSet<String>();
+    private HashSet<String> mSaidBdCongrat = new HashSet<String>();
+    private boolean mIsBdAdFeatureEnable = false;
     
 
     @Autowired
@@ -768,6 +773,32 @@ public class OhBotController {
         String userId = source.getUserId();
         log.info("source: " + source + " name: " + getUserDisplayName(userId) + " text: " + text);
 
+        // BD feature
+        if (mIsBdAdFeatureEnable && senderId.equals(GROUP_ID_BOT_HELL)) {
+            if (getUserDisplayName((userId)).equals("") && !mAskedBotFriend.contains(userid)) {
+                this.replyText(replyToken, "今天是偉大的 PG 大人生日\n能不能加 BOT 好友當生日禮物呢😊");
+                mAskedBotFriend.add(userid);
+                return;
+            }
+
+            if (!mSaidBdCongrat.contains(userid) && !mAskedBdCongrat.contains(userid)) {
+                this.replyText(replyToken, "今天是偉大的 PG 大人生日\n能不能跟 他說聲生日快樂呢😊");
+                mAskedBdCongrat.add(userid);
+                return;
+            }
+
+            if(text.contains("生日快樂") || text.contains("牲日快樂") || text.contains("誕辰快樂") || 
+                ((text.contains("Happy") || text.contains("happy")) && (text.contains("Birthday") || text.contains("birthday")))) {
+                if (!mSaidBdCongrat.contains(userid)) {
+                    this.replyText(replyToken, "我代替偉大的 PG 大人感謝你😊");
+                    mSaidBdCongrat.add(userid);
+                    return;
+                }
+            }
+        }
+        
+        // BD feature End
+
         if (mEarthquakeCheckThread == null) {
             mEarthquakeCheckThread = new NewestEarthquakeTimeCheckThread();
             mEarthquakeCheckThread.start();
@@ -937,6 +968,17 @@ public class OhBotController {
 
         if (text.startsWith("AmazonJp:")) {
             amazonJpSearch(text, replyToken);
+        }
+
+        if (text.startsWith("PgCommand開啟生日快樂廣告")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            mIsBdAdFeatureEnable = true;
+            this.replyText(replyToken, "好的 PG 大人");
+        }
+        if (text.startsWith("PgCommand關閉生日快樂廣告")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            mIsBdAdFeatureEnable = false;
+            this.replyText(replyToken, "好的 PG 大人");
         }
 
         if (text.startsWith("PgCommandNotifyMessage:")) {
