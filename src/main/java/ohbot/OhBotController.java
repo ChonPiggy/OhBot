@@ -780,6 +780,9 @@ public class OhBotController {
                 mAskedBotFriend.add(userId);
                 return;
             }
+            else if (getUserDisplayName((userId)).equals("") && mAskedBotFriend.contains(userId)) {
+                return;
+            }
 
             if (!mSaidBdCongrat.contains(userId) && !mAskedBdCongrat.contains(userId)) {
                 this.replyText(replyToken, "今天是偉大的 PG 大人生日\n能不能跟 他說聲生日快樂呢😊");
