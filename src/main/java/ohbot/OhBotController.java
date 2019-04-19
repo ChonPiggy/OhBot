@@ -774,7 +774,7 @@ public class OhBotController {
         log.info("source: " + source + " name: " + getUserDisplayName(userId) + " text: " + text);
 
         // BD feature
-        if (mIsBdAdFeatureEnable && senderId.equals(GROUP_ID_BOT_HELL)) {
+        if (mIsBdAdFeatureEnable) {
             if (getUserDisplayName((userId)).equals("") && !mAskedBotFriend.contains(userId)) {
                 this.replyText(replyToken, "今天是偉大的 PG 大人生日\n能不能加 BOT 好友當生日禮物呢😊");
                 mAskedBotFriend.add(userId);
