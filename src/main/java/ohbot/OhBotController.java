@@ -784,12 +784,6 @@ public class OhBotController {
                 return;
             }
 
-            if (!mSaidBdCongrat.contains(userId) && !mAskedBdCongrat.contains(userId)) {
-                this.replyText(replyToken, getUserDisplayName(userId) + "\n今天是偉大的 PG 大人生日\n能不能跟他說聲生日快樂呢😊");
-                mAskedBdCongrat.add(userId);
-                return;
-            }
-
             if(text.contains("生日快樂") || text.contains("牲日快樂") || text.contains("誕辰快樂") || 
                 ((text.contains("Happy") || text.contains("happy")) && (text.contains("Birthday") || text.contains("birthday")))) {
                 if (!mSaidBdCongrat.contains(userId)) {
@@ -799,6 +793,12 @@ public class OhBotController {
                     LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, resultText);
                     return;
                 }
+            }
+
+            if (!mSaidBdCongrat.contains(userId) && !mAskedBdCongrat.contains(userId)) {
+                this.replyText(replyToken, getUserDisplayName(userId) + "\n今天是偉大的 PG 大人生日\n能不能跟他說聲生日快樂呢😊");
+                mAskedBdCongrat.add(userId);
+                return;
             }
         }
         
