@@ -800,6 +800,10 @@ public class OhBotController {
                 mAskedBdCongrat.add(userId);
                 return;
             }
+            else if (!mSaidBdCongrat.contains(userId) && mAskedBdCongrat.contains(userId)) {
+                return;
+            }
+
         }
         
         // BD feature End
