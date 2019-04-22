@@ -254,10 +254,10 @@ public class OhBotController {
         public String getGuideString() {
             String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n";
             result += "標題:" + mSheetSubject + "\n";
-            result += "說出\"收單\"可結束表單\n";
-            result += "說出\"查表單\"可印當前表單\n";
-            result += "說出\"登記:XXX\"可登記商品\n";
-            result += "如:登記:炙燒鮭魚肚握壽司\n";
+            result += "說出\"收單\"可結束表單\n\n";
+            result += "說出\"查表單\"可印當前表單\n\n";
+            result += "說出\"登記:XXX\"可登記商品\n\n";
+            result += "如:登記:炙燒鮭魚肚握壽司\n\n";
             result += "建議盡快結單以免資料遺失";
             return result;
         }
