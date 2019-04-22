@@ -1000,11 +1000,11 @@ public class OhBotController {
         }
 
         if (text.endsWith("幾台?") || text.endsWith("幾台？") || text.endsWith("幾臺?") || text.endsWith("幾臺？")) {
-            replyTextMjHowManyTai(replyToken);
+            replyTextMjHowManyTai(replyToken, text);
         }
 
         if (text.endsWith("幾歲?") || text.endsWith("幾歲？")) {
-            replyTextHowOld(replyToken);
+            replyTextHowOld(replyToken, text);
         }
 
         if (text.equals("我剛抽了誰?") || text.equals("我剛抽了誰？")) {
@@ -2747,6 +2747,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (IOException e2) {
             this.replyText(replyToken, "搜索大失敗");
             throw e2;
+        }
+    }
+
+    private void whoImPickRandomPttBeautyGirlMap(String userId, String replyToken) {
+        if (mWhoImPickRandomPttBeautyGirlMap.containsKey(userId)) {
+            this.replyText(replyToken, mWhoImPickRandomPttBeautyGirlMap.get(userId));
+        }
+        else {
+            this.replyText(replyToken, "你剛又還沒抽過...\n腦抽？");
         }
     }
 
