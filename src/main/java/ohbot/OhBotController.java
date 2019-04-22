@@ -3833,7 +3833,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return hasEng;
     }
 
-    private void processSheetOpen(replyToken, senderId, userId, text) {
+    private void processSheetOpen(String replyToken, String senderId, String userId, String text) {
         text = text.replace("開表單:", "").trim();
         if (!mSheetListMap.containsKey(senderId)) {
             SheetList sl = new SheetList(userId, text);
