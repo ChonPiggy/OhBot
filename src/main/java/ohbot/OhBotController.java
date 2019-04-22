@@ -258,6 +258,7 @@ public class OhBotController {
             result += "由任何人說出\"查表單\"可印出當前表單\n";
             result += "由任何人說出\"登記:XXX\"可登記商品\n";
             result += "例如: \n登記:炙燒鮭魚肚握壽司20貫\n";
+            result += "建議盡快結單以免資料遺失";
             return result;
         }
 
