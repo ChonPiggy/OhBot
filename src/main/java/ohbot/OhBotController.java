@@ -255,9 +255,9 @@ public class OhBotController {
             String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n";
             result += "標題:" + mSheetSubject + "\n";
             result += "說出\"收單\"可結束表單\n";
-            result += "說出\"查表單\"可印出當前表單\n";
+            result += "說出\"查表單\"可印當前表單\n";
             result += "說出\"登記:XXX\"可登記商品\n";
-            result += "例如: \n登記:炙燒鮭魚肚握壽司\n";
+            result += "如:登記:炙燒鮭魚肚握壽司\n";
             result += "建議盡快結單以免資料遺失";
             return result;
         }
@@ -272,7 +272,7 @@ public class OhBotController {
             result += "-----\n";
             result += "點餐用:\n";
             for (String data : mSheetList.values()) {
-                result = data + "\n";
+                result += data + "\n";
             }
             result += "\n-----\n";
             result += "對帳用:\n";
