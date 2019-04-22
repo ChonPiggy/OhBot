@@ -96,11 +96,7 @@ public class OhBotController {
 
     private ArrayList<String> mEatWhatArray = new ArrayList<String>();
     private List<String> mJanDanGirlList = new ArrayList<String> ();
-    private List<String> mPexelFoodList = new ArrayList<String> ();
-    private List<String> mPexelBoyList = new ArrayList<String> ();
-    private List<String> mPexelGirlList = new ArrayList<String> ();
-    private List<String> mPexelManList = new ArrayList<String> ();
-    private List<String> mPexelWomenList = new ArrayList<String> ();
+
     private List<String> mUserAgentList = new ArrayList<String> (Arrays.asList(
         "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20130406 Firefox/23.0",
         "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0",
@@ -161,8 +157,7 @@ public class OhBotController {
     private String IMAGE_TAIWAN_WEATHER_TEMPERATURE = "https://www.cwb.gov.tw/V7/observe/temperature/Data/temp.jpg";
     private String IMAGE_TAIWAN_WEATHER_ULTRAVIOLET_LIGHT = "https://www.cwb.gov.tw/V7/observe/UVI/Data/UVI.png";
 
-    private List<String> mQuestionMarkImageList = new ArrayList<String> (
-        Arrays.asList("https://i.imgur.com/DaTZLOa.jpg",
+    private List<String> mQuestionMarkImageList = Arrays.asList("https://i.imgur.com/DaTZLOa.jpg",
                       "https://i.imgur.com/93xbOIq.jpg",
                       "https://i.imgur.com/6k5QxGg.jpg",
                       "https://i.imgur.com/tFXq8Lr.jpg",
@@ -175,24 +170,53 @@ public class OhBotController {
                       "https://i.imgur.com/DFJs7Ww.jpg",
                       "https://i.imgur.com/Nmn5GYN.jpg",
                       "https://i.imgur.com/YR16X68.jpg",
-                      "https://i.imgur.com/uPzMlqu.jpg"));
+                      "https://i.imgur.com/uPzMlqu.jpg");
 
     private List<String> mKofatCosplayImgurLinkList = Arrays.asList("https://i.imgur.com/gxkWn4A.jpg", 
-                "https://i.imgur.com/gb0Lq9n.jpg", 
-                "https://i.imgur.com/M9PK8Yv.jpg", 
-                "https://i.imgur.com/M9PK8Yv.jpg", 
-                "https://i.imgur.com/ModcBfG.jpg", 
-                "https://i.imgur.com/ILdOVVU.jpg", 
-                "https://i.imgur.com/9vNvyNU.jpg", 
-                "https://i.imgur.com/vCUHxNG.jpg", 
-                "https://i.imgur.com/6FnBh36.jpg", 
-                "https://i.imgur.com/LRByCFW.jpg", 
-                "https://i.imgur.com/AU6WcdZ.jpg", 
-                "https://i.imgur.com/kqMVlRL.jpg", 
-                "https://i.imgur.com/khIEZAV.jpg", 
-                "https://i.imgur.com/QxkjpS1.jpg", 
-                "https://i.imgur.com/S3zo1WG.jpg", 
-                "https://i.imgur.com/CHby1As.jpg");
+                        "https://i.imgur.com/gb0Lq9n.jpg", 
+                        "https://i.imgur.com/M9PK8Yv.jpg", 
+                        "https://i.imgur.com/M9PK8Yv.jpg", 
+                        "https://i.imgur.com/ModcBfG.jpg", 
+                        "https://i.imgur.com/ILdOVVU.jpg", 
+                        "https://i.imgur.com/9vNvyNU.jpg", 
+                        "https://i.imgur.com/vCUHxNG.jpg", 
+                        "https://i.imgur.com/6FnBh36.jpg", 
+                        "https://i.imgur.com/LRByCFW.jpg", 
+                        "https://i.imgur.com/AU6WcdZ.jpg", 
+                        "https://i.imgur.com/kqMVlRL.jpg", 
+                        "https://i.imgur.com/khIEZAV.jpg", 
+                        "https://i.imgur.com/QxkjpS1.jpg", 
+                        "https://i.imgur.com/S3zo1WG.jpg", 
+                        "https://i.imgur.com/CHby1As.jpg");
+
+    private List<String> mYouDeserveItImgurLinkList = Arrays.asList("https://i.imgur.com/lxYthkh.jpg",
+                        "https://i.imgur.com/zaniSB0.jpg",
+                        "https://i.imgur.com/uqcXvHg.jpg",
+                        "https://i.imgur.com/GKmNzx6.jpg",
+                        "https://i.imgur.com/8Nd2jdp.jpg",
+                        "https://i.imgur.com/k1R05nF.png",
+                        "https://i.imgur.com/O8xL0lk.jpg",
+                        "https://i.imgur.com/aAI9Pwj.jpg",
+                        "https://i.imgur.com/vrOtGmO.jpg",
+                        "https://i.imgur.com/pL8A4nk.jpg",
+                        "https://i.imgur.com/xiiPjZL.jpg",
+                        "https://i.imgur.com/TP29jJ6.jpg",
+                        "https://i.imgur.com/w16KAZZ.jpg",
+                        "https://i.imgur.com/DA3nMD1.jpg",
+                        "https://i.imgur.com/QhjuMZw.jpg",
+                        "https://i.imgur.com/M02fiyV.jpg",
+                        "https://i.imgur.com/fAdjcI1.jpg",
+                        "https://i.imgur.com/od6GkEF.jpg",
+                        "https://i.imgur.com/h2luMlP.jpg",
+                        "https://i.imgur.com/tzlJlpa.jpg",
+                        "https://i.imgur.com/y2yheZt.jpg",
+                        "https://i.imgur.com/dJ4uunk.jpg",
+                        "https://i.imgur.com/YLbewAv.jpg",
+                        "https://i.imgur.com/mIHJgOV.jpg",
+                        "https://i.imgur.com/My3TLjx.jpg",
+                        "https://i.imgur.com/X1ruLf6.jpg",
+                        "https://i.imgur.com/NFsVhu4.jpg",
+                        "https://i.imgur.com/XDVLQIF.jpg");
 
     private String USER_ID_PIGGY = "U8147d3d84ccc1e6e12d0eb82d30b1f1a";
     private String USER_ID_KOFAT = "U9c99b691ba0b5d32de41606c19b2e2eb";
@@ -967,8 +991,20 @@ public class OhBotController {
             replyImageIWillBeLate(replyToken);
         }
 
+        if (text.contains("活該") || text.contains("你看看你") || text.contains("妳看看妳") ) {
+            replyImageYouDeserveIt(replyToken);
+        }
+
         if (text.contains("變態")) {
             replyImageYouArePrev(replyToken);
+        }
+
+        if (text.endsWith("幾台?") || text.endsWith("幾台？") || text.endsWith("幾臺?") || text.endsWith("幾臺？")) {
+            replyTextMjHowManyTai(replyToken);
+        }
+
+        if (text.endsWith("幾歲?") || text.endsWith("幾歲？")) {
+            replyTextHowOld(replyToken);
         }
 
         if (text.equals("我剛抽了誰?") || text.equals("我剛抽了誰？")) {
@@ -2714,12 +2750,326 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void whoImPickRandomPttBeautyGirlMap(String userId, String replyToken) {
-        if (mWhoImPickRandomPttBeautyGirlMap.containsKey(userId)) {
-            this.replyText(replyToken, mWhoImPickRandomPttBeautyGirlMap.get(userId));
+    private void replyTextHowOld(String replyToken, String text) {
+        text = text.replace("幾歲", "").replace("?", "").replace("？", "").trim();
+        String result = "";
+        if (text.equals("幼稚園小小班") || text.equals("幼稚園幼幼班") || text.equals("幼幼班")) {
+            result = "3 歲";
         }
-        else {
-            this.replyText(replyToken, "你剛又還沒抽過...\n腦抽？");
+        else if (text.equals("幼稚園小班") || text.equals("小班")) {
+            result = "4 歲";
+        }
+        else if (text.equals("幼稚園中班") || text.equals("中班")) {
+            result = "5 歲";
+        }
+        else if (text.equals("幼稚園大班") || text.equals("大班")) {
+            result = "6 歲";
+        }
+        else if (text.equals("國小一年級") || text.equals("小一")) {
+            result = "7 歲";
+        }
+        else if (text.equals("國小二年級") || text.equals("小二")) {
+            result = "8 歲";
+        }
+        else if (text.equals("國小三年級") || text.equals("小三")) {
+            result = "9 歲";
+        }
+        else if (text.equals("國小四年級") || text.equals("小四")) {
+            result = "10 歲";
+        }
+        else if (text.equals("國小五年級") || text.equals("小五")) {
+            result = "11 歲";
+        }
+        else if (text.equals("國小六年級") || text.equals("小六")) {
+            result = "12 歲";
+        }
+        else if (text.equals("國中一年級") || text.equals("國一")) {
+            result = "13 歲";
+        }
+        else if (text.equals("國中二年級") || text.equals("國二")) {
+            result = "14 歲";
+        }
+        else if (text.equals("國中三年級") || text.equals("國三")) {
+            result = "15 歲";
+        }
+        else if (text.equals("高中一年級") || text.equals("高一")) {
+            result = "16 歲";
+        }
+        else if (text.equals("高中二年級") || text.equals("高二")) {
+            result = "17 歲";
+        }
+        else if (text.equals("高中三年級") || text.equals("高三")) {
+            result = "18 歲";
+        }
+        else if (text.equals("大學一年級") || text.equals("大一")) {
+            result = "19 歲";
+        }
+        else if (text.equals("大學二年級") || text.equals("大二")) {
+            result = "20 歲";
+        }
+        else if (text.equals("大學三年級") || text.equals("大三")) {
+            result = "21 歲";
+        }
+        else if (text.equals("大學四年級") || text.equals("大四")) {
+            result = "22 歲";
+        }
+
+        if (!result.equals("")) {
+            this.replyText(replyToken, result);
+        }
+    }
+
+    private void replyTextMjHowManyTai(String replyToken, String text) {
+        text = text.replace("幾臺", "").replace("幾台", "").replace("?", "").replace("？", "").replace("\n", "").replace("\r\n", "").trim();
+        String original_text = text;
+        int count = 0;
+        String result = "已處理:\n";
+
+        if (text.contains("莊家連一拉一")) {
+            text = text.replace("莊家連一拉一").trim();
+            count+=3;
+            result = result + "莊家連一拉一 3台\n";
+        }
+        else if (text.contains("莊家連二拉二")) {
+            text = text.replace("莊家連二拉二").trim();
+            count+=5;
+            result = result + "莊家連二拉二 5台\n";
+        }
+        else if (text.contains("莊家連三拉三")) {
+            text = text.replace("莊家連三拉三").trim();
+            count+=7;
+            result = result + "莊家連三拉三 7台\n";
+        }
+        else if (text.contains("莊家連四拉四")) {
+            text = text.replace("莊家連四拉四").trim();
+            count+=9;
+            result = result + "莊家連四拉四 9台\n";
+        }
+        else if (text.contains("莊家連五拉五")) {
+            text = text.replace("莊家連五拉五").trim();
+            count+=11;
+            result = result + "莊家連五拉五 11台\n";
+        }
+        else if (text.contains("莊家連六拉六")) {
+            text = text.replace("莊家連六拉六").trim();
+            count+=13;
+            result = result + "莊家連六拉六 13台\n";
+        }
+        else if (text.contains("莊家連七拉七")) {
+            text = text.replace("莊家連七拉七").trim();
+            count+=15;
+            result = result + "莊家連七拉七 15台\n";
+        }
+        else if (text.contains("莊家連八拉八")) {
+            text = text.replace("莊家連八拉八").trim();
+            count+=17;
+            result = result + "莊家連八拉八 17台\n";
+        }
+        else if (text.contains("莊家連九拉九")) {
+            text = text.replace("莊家連九拉九").trim();
+            count+=19;
+            result = result + "莊家連九拉九 19台\n";
+        }
+        else if (text.contains("莊家連十拉十")) {
+            text = text.replace("莊家連十拉十").trim();
+            count+=21;
+            result = result + "莊家連十拉十 21台\n";
+        }
+        else if (text.contains("莊家連") && text.contains("拉")) {
+            this.replyText(replyToken, "放屁你連這麼多？\n做牌啦！\n拿刀來拿刀來！");
+            return;
+        }
+
+        if (text.contains("莊家")) {
+            text = text.replace("莊家").trim();
+            count+=1;
+            result = result + "莊家 1台\n";
+        }
+
+        if (text.contains("門清") && text.contains("自摸") ) {
+            text = text.replace("門清").replace("自摸").trim();
+            count+=3;
+            result = result + "門清自摸 3台\n";
+        }
+
+        if (text.contains("門清")) {
+            text = text.replace("門清").trim();
+            count+=1;
+            result = result + "門清 1台\n";
+        }
+
+        if (text.contains("自摸")) {
+            text = text.replace("自摸").trim();
+            count+=1;
+            result = result + "自摸 1台\n";
+        }
+
+        if (text.contains("搶槓")) {
+            text = text.replace("搶槓").trim();
+            count+=1;
+            result = result + "搶槓 1台\n";
+        }
+
+        if (text.contains("紅中")) {
+            text = text.replace("紅中").trim();
+            count+=1;
+            result = result + "紅中 1台\n";
+        }
+
+        if (text.contains("青發")) {
+            text = text.replace("青發").trim();
+            count+=1;
+            result = result + "青發 1台\n";
+        }
+
+        if (text.contains("白板")) {
+            text = text.replace("白板").trim();
+            count+=1;
+            result = result + "白板 1台\n";
+        }
+
+        if (text.contains("單吊") || text.contains("單釣")) {
+            text = text.replace("單吊").replace("單釣").trim();
+            count+=1;
+            result = result + "單吊 1台\n";
+        } else if (text.contains("邊張")) {
+            text = text.replace("邊張").trim();
+            count+=1;
+            result = result + "邊張 1台\n";
+        }
+
+        if (text.contains("門清")) {
+            text = text.replace("門清").trim();
+            count+=1;
+            result = result + "門清 1台\n";
+        }
+
+        if (text.contains("半求") && original_text.contains("自摸")) {
+            text = text.replace("半求").trim();
+            count+=1;
+            result = result + "半求 1台\n";
+        } else if (text.contains("半求") && !original_text.contains("自摸")) {
+            text = text.replace("半求").trim();
+            count+=2;
+            result = result + "半求 1台 (半求一定是自摸)\n自摸 1台";
+        }
+
+        if (text.contains("槓上開花")) {
+            text = text.replace("槓上開花").trim();
+            count+=1;
+            result = result + "槓上開花 1台\n";
+        }
+
+        if (text.contains("海底撈月")) {
+            text = text.replace("海底撈月").trim();
+            count+=1;
+            result = result + "海底撈月 1台\n";
+        }
+
+        if (text.contains("河底撈月")) {
+            text = text.replace("河底撈月").trim();
+            count+=1;
+            result = result + "河底撈月 1台\n";
+        }
+
+        if (text.contains("全求")) {
+            text = text.replace("全求").trim();
+            count+=2;
+            result = result + "全求 2台\n";
+        }        
+
+        if (text.contains("春夏秋冬")) {
+            text = text.replace("春夏秋冬").trim();
+            count+=2;
+            result = result + "春夏秋冬 2台\n";
+        }
+
+        if (text.contains("梅蘭竹菊")) {
+            text = text.replace("梅蘭竹菊").trim();
+            count+=2;
+            result = result + "梅蘭竹菊 2台\n";
+        }
+
+        if (text.contains("地聽")) {
+            text = text.replace("地聽").trim();
+            count+=4;
+            result = result + "地聽 4台\n";
+        }
+
+        if (text.contains("碰碰胡")) {
+            text = text.replace("碰碰胡").trim();
+            count+=4;
+            result = result + "碰碰胡 4台\n";
+        }
+
+        if (text.contains("小三元")) {
+            text = text.replace("小三元").trim();
+            count+=4;
+            result = result + "小三元 4台\n";
+        }
+
+        if (text.contains("混一色")) {
+            text = text.replace("混一色").trim();
+            count+=4;
+            result = result + "混一色 1台\n";
+        }
+
+        if (text.contains("三暗刻")) {
+            text = text.replace("三暗刻").trim();
+            count+=2;
+            result = result + "三暗刻 2台\n";
+        }
+        else if (text.contains("四暗刻")) {
+            text = text.replace("四暗刻").trim();
+            count+=5;
+            result = result + "四暗刻 5台\n";
+        }
+        else if (text.contains("五暗刻")) {
+            text = text.replace("五暗刻").trim();
+            count+=8;
+            result = result + "五暗刻 8台\n";
+        }
+
+        if (text.contains("天聽")) {
+            text = text.replace("天聽").trim();
+            count+=8;
+            result = result + "天聽 8台\n";
+        }
+
+        if (text.contains("大三元")) {
+            text = text.replace("大三元").trim();
+            count+=8;
+            result = result + "大三元 8台\n";
+        }
+
+        if (text.contains("小四喜")) {
+            text = text.replace("小四喜").trim();
+            count+=8;
+            result = result + "小四喜 8台\n";
+        }
+
+        if (text.contains("清一色")) {
+            text = text.replace("清一色").trim();
+            count+=8;
+            result = result + "清一色 8台\n";
+        }
+
+        if (text.contains("字一色")) {
+            text = text.replace("字一色").trim();
+            count+=8;
+            result = result + "字一色 8台\n";
+        }
+
+        if (text.contains("八仙過海")) {
+            text = text.replace("八仙過海").trim();
+            count+=8;
+            result = result + "八仙過海 8台\n";
+        }
+
+        result = result + "\n未處理:\n" + text + "\n" + "總台數: " + count;
+
+        if (!result.equals("")) {
+            this.replyText(replyToken, result);
         }
     }
 
@@ -2806,7 +3156,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void pexelFoodCount(String text, String replyToken) throws IOException {
 
-        this.replyText(replyToken, "" + mPexelFoodList.size());
+        
         
     }
 
@@ -3244,6 +3594,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void replyImageIWillBeLate(String replyToken) throws IOException {
         String source = getRandomSourceFromList(mIWillBeLateList);
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyImageYouDeserveIt(String replyToken) throws IOException {
+        String source = getRandomSourceFromList(mYouDeserveItImgurLinkList);
         this.replyImage(replyToken, source, source);
     }
 
@@ -4708,18 +5063,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result = matcherJpeg.group();
                 result = result.substring(13, result.length());
                 log.info("Piggy Check Pexel " + target + " img_link: " + result);
-            }
-        }
-
-        private void insertImage(String target, String img_url) {
-            if (target.equals("food")) {
-                    mPexelFoodList.add(img_url);
-            }
-            else if (target.equals("girl")) {
-                    mPexelFoodList.add(img_url);
-            }
-            else if (target.equals("boy")) {
-                    mPexelFoodList.add(img_url);
             }
         }
     }
