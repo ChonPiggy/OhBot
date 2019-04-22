@@ -254,10 +254,10 @@ public class OhBotController {
         public String getGuideString() {
             String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n";
             result += "標題:" + mSheetSubject + "\n";
-            result += "由發起人說出\"收單\"可結束表單\n";
-            result += "由任何人說出\"查表單\"可印出當前表單\n";
-            result += "由任何人說出\"登記:XXX\"可登記商品\n";
-            result += "例如: \n登記:炙燒鮭魚肚握壽司20貫\n";
+            result += "說出\"收單\"可結束表單\n";
+            result += "說出\"查表單\"可印出當前表單\n";
+            result += "說出\"登記:XXX\"可登記商品\n";
+            result += "例如: \n登記:炙燒鮭魚肚握壽司\n";
             result += "建議盡快結單以免資料遺失";
             return result;
         }
@@ -1070,11 +1070,11 @@ public class OhBotController {
             whoImPickRandomPttBeautyGirlMap(userId, replyToken);
         }
 
-        if (text.startsWith("開表單:")) {
+        if (text.startsWith("開表單:")||text.startsWith("開表單：")) {
             processSheetOpen(replyToken, senderId, userId, text);
         }
 
-        if (text.startsWith("查表單")) {
+        if (text.equals("查表單")) {
             processSheetDump(replyToken, senderId, userId);
         }
 
@@ -1082,7 +1082,7 @@ public class OhBotController {
             processSheetClose(replyToken, senderId, userId);
         }
 
-        if (text.equals("登記:")) {
+        if (text.startsWith("登記:")||ext.startsWith("登記：")) {
             processSheetAdd(replyToken, senderId, userId, text);
         }
 
@@ -3837,7 +3837,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void processSheetOpen(String replyToken, String senderId, String userId, String text) {
-        text = text.replace("開表單:", "").trim();
+        text = text.replace("開表單:", "").replace("：", "").trim();
         if (!mSheetListMap.containsKey(senderId)) {
             SheetList sl = new SheetList(userId, text);
             mSheetListMap.put(senderId, sl);
@@ -3878,7 +3878,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     private void processSheetAdd(String replyToken, String senderId, String userId, String text) {
-        text = text.replace("登記:", "").trim();
+        text = text.replace("登記:", "").replace("：", "").trim();
         if (mSheetListMap.containsKey(senderId)) {
             SheetList sl = mSheetListMap.get(senderId);
             sl.updateData(userId, text);
