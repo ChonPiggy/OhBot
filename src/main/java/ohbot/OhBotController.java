@@ -1082,7 +1082,7 @@ public class OhBotController {
             processSheetClose(replyToken, senderId, userId);
         }
 
-        if (text.startsWith("登記:")||ext.startsWith("登記：")) {
+        if (text.startsWith("登記:")||text.startsWith("登記：")) {
             processSheetAdd(replyToken, senderId, userId, text);
         }
 
