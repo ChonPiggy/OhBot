@@ -2826,52 +2826,52 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String result = "已處理:\n";
 
         if (text.contains("莊家連一拉一")) {
-            text = text.replace("莊家連一拉一").trim();
+            text = text.replace("莊家連一拉一", "").trim();
             count+=3;
             result = result + "莊家連一拉一 3台\n";
         }
         else if (text.contains("莊家連二拉二")) {
-            text = text.replace("莊家連二拉二").trim();
+            text = text.replace("莊家連二拉二", "").trim();
             count+=5;
             result = result + "莊家連二拉二 5台\n";
         }
         else if (text.contains("莊家連三拉三")) {
-            text = text.replace("莊家連三拉三").trim();
+            text = text.replace("莊家連三拉三", "").trim();
             count+=7;
             result = result + "莊家連三拉三 7台\n";
         }
         else if (text.contains("莊家連四拉四")) {
-            text = text.replace("莊家連四拉四").trim();
+            text = text.replace("莊家連四拉四", "").trim();
             count+=9;
             result = result + "莊家連四拉四 9台\n";
         }
         else if (text.contains("莊家連五拉五")) {
-            text = text.replace("莊家連五拉五").trim();
+            text = text.replace("莊家連五拉五", "").trim();
             count+=11;
             result = result + "莊家連五拉五 11台\n";
         }
         else if (text.contains("莊家連六拉六")) {
-            text = text.replace("莊家連六拉六").trim();
+            text = text.replace("莊家連六拉六", "").trim();
             count+=13;
             result = result + "莊家連六拉六 13台\n";
         }
         else if (text.contains("莊家連七拉七")) {
-            text = text.replace("莊家連七拉七").trim();
+            text = text.replace("莊家連七拉七", "").trim();
             count+=15;
             result = result + "莊家連七拉七 15台\n";
         }
         else if (text.contains("莊家連八拉八")) {
-            text = text.replace("莊家連八拉八").trim();
+            text = text.replace("莊家連八拉八", "").trim();
             count+=17;
             result = result + "莊家連八拉八 17台\n";
         }
         else if (text.contains("莊家連九拉九")) {
-            text = text.replace("莊家連九拉九").trim();
+            text = text.replace("莊家連九拉九", "").trim();
             count+=19;
             result = result + "莊家連九拉九 19台\n";
         }
         else if (text.contains("莊家連十拉十")) {
-            text = text.replace("莊家連十拉十").trim();
+            text = text.replace("莊家連十拉十", "").trim();
             count+=21;
             result = result + "莊家連十拉十 21台\n";
         }
@@ -2881,187 +2881,187 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
 
         if (text.contains("莊家")) {
-            text = text.replace("莊家").trim();
+            text = text.replace("莊家", "").trim();
             count+=1;
             result = result + "莊家 1台\n";
         }
 
         if (text.contains("門清") && text.contains("自摸") ) {
-            text = text.replace("門清").replace("自摸").trim();
+            text = text.replace("門清", "").replace("自摸", "").trim();
             count+=3;
             result = result + "門清自摸 3台\n";
         }
 
         if (text.contains("門清")) {
-            text = text.replace("門清").trim();
+            text = text.replace("門清", "").trim();
             count+=1;
             result = result + "門清 1台\n";
         }
 
         if (text.contains("自摸")) {
-            text = text.replace("自摸").trim();
+            text = text.replace("自摸", "").trim();
             count+=1;
             result = result + "自摸 1台\n";
         }
 
         if (text.contains("搶槓")) {
-            text = text.replace("搶槓").trim();
+            text = text.replace("搶槓", "").trim();
             count+=1;
             result = result + "搶槓 1台\n";
         }
 
         if (text.contains("紅中")) {
-            text = text.replace("紅中").trim();
+            text = text.replace("紅中", "").trim();
             count+=1;
             result = result + "紅中 1台\n";
         }
 
         if (text.contains("青發")) {
-            text = text.replace("青發").trim();
+            text = text.replace("青發", "").trim();
             count+=1;
             result = result + "青發 1台\n";
         }
 
         if (text.contains("白板")) {
-            text = text.replace("白板").trim();
+            text = text.replace("白板", "").trim();
             count+=1;
             result = result + "白板 1台\n";
         }
 
         if (text.contains("單吊") || text.contains("單釣")) {
-            text = text.replace("單吊").replace("單釣").trim();
+            text = text.replace("單吊", "").replace("單釣", "").trim();
             count+=1;
             result = result + "單吊 1台\n";
         } else if (text.contains("邊張")) {
-            text = text.replace("邊張").trim();
+            text = text.replace("邊張", "").trim();
             count+=1;
             result = result + "邊張 1台\n";
         }
 
         if (text.contains("門清")) {
-            text = text.replace("門清").trim();
+            text = text.replace("門清", "").trim();
             count+=1;
             result = result + "門清 1台\n";
         }
 
         if (text.contains("半求") && original_text.contains("自摸")) {
-            text = text.replace("半求").trim();
+            text = text.replace("半求", "").trim();
             count+=1;
             result = result + "半求 1台\n";
         } else if (text.contains("半求") && !original_text.contains("自摸")) {
-            text = text.replace("半求").trim();
+            text = text.replace("半求", "").trim();
             count+=2;
             result = result + "半求 1台 (半求一定是自摸)\n自摸 1台";
         }
 
         if (text.contains("槓上開花")) {
-            text = text.replace("槓上開花").trim();
+            text = text.replace("槓上開花", "").trim();
             count+=1;
             result = result + "槓上開花 1台\n";
         }
 
         if (text.contains("海底撈月")) {
-            text = text.replace("海底撈月").trim();
+            text = text.replace("海底撈月", "").trim();
             count+=1;
             result = result + "海底撈月 1台\n";
         }
 
         if (text.contains("河底撈月")) {
-            text = text.replace("河底撈月").trim();
+            text = text.replace("河底撈月", "").trim();
             count+=1;
             result = result + "河底撈月 1台\n";
         }
 
         if (text.contains("全求")) {
-            text = text.replace("全求").trim();
+            text = text.replace("全求", "").trim();
             count+=2;
             result = result + "全求 2台\n";
         }        
 
         if (text.contains("春夏秋冬")) {
-            text = text.replace("春夏秋冬").trim();
+            text = text.replace("春夏秋冬", "").trim();
             count+=2;
             result = result + "春夏秋冬 2台\n";
         }
 
         if (text.contains("梅蘭竹菊")) {
-            text = text.replace("梅蘭竹菊").trim();
+            text = text.replace("梅蘭竹菊", "").trim();
             count+=2;
             result = result + "梅蘭竹菊 2台\n";
         }
 
         if (text.contains("地聽")) {
-            text = text.replace("地聽").trim();
+            text = text.replace("地聽", "").trim();
             count+=4;
             result = result + "地聽 4台\n";
         }
 
         if (text.contains("碰碰胡")) {
-            text = text.replace("碰碰胡").trim();
+            text = text.replace("碰碰胡", "").trim();
             count+=4;
             result = result + "碰碰胡 4台\n";
         }
 
         if (text.contains("小三元")) {
-            text = text.replace("小三元").trim();
+            text = text.replace("小三元", "").trim();
             count+=4;
             result = result + "小三元 4台\n";
         }
 
         if (text.contains("混一色")) {
-            text = text.replace("混一色").trim();
+            text = text.replace("混一色", "").trim();
             count+=4;
             result = result + "混一色 1台\n";
         }
 
         if (text.contains("三暗刻")) {
-            text = text.replace("三暗刻").trim();
+            text = text.replace("三暗刻", "").trim();
             count+=2;
             result = result + "三暗刻 2台\n";
         }
         else if (text.contains("四暗刻")) {
-            text = text.replace("四暗刻").trim();
+            text = text.replace("四暗刻", "").trim();
             count+=5;
             result = result + "四暗刻 5台\n";
         }
         else if (text.contains("五暗刻")) {
-            text = text.replace("五暗刻").trim();
+            text = text.replace("五暗刻", "").trim();
             count+=8;
             result = result + "五暗刻 8台\n";
         }
 
         if (text.contains("天聽")) {
-            text = text.replace("天聽").trim();
+            text = text.replace("天聽", "").trim();
             count+=8;
             result = result + "天聽 8台\n";
         }
 
         if (text.contains("大三元")) {
-            text = text.replace("大三元").trim();
+            text = text.replace("大三元", "").trim();
             count+=8;
             result = result + "大三元 8台\n";
         }
 
         if (text.contains("小四喜")) {
-            text = text.replace("小四喜").trim();
+            text = text.replace("小四喜", "").trim();
             count+=8;
             result = result + "小四喜 8台\n";
         }
 
         if (text.contains("清一色")) {
-            text = text.replace("清一色").trim();
+            text = text.replace("清一色", "").trim();
             count+=8;
             result = result + "清一色 8台\n";
         }
 
         if (text.contains("字一色")) {
-            text = text.replace("字一色").trim();
+            text = text.replace("字一色", "").trim();
             count+=8;
             result = result + "字一色 8台\n";
         }
 
         if (text.contains("八仙過海")) {
-            text = text.replace("八仙過海").trim();
+            text = text.replace("八仙過海", "").trim();
             count+=8;
             result = result + "八仙過海 8台\n";
         }
