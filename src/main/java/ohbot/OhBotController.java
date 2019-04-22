@@ -3834,6 +3834,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void processSheetOpen(replyToken, senderId, userId, text) {
+        text = text.replace("開表單:", "").trim();
         if (!mSheetListMap.containsKey(senderId)) {
             SheetList sl = new SheetList(userId, text);
             mSheetListMap.put(senderId, sl);
@@ -3845,7 +3846,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
     
-    private void processSheetDump(replyToken, senderId, userId) {
+    private void processSheetDump(String replyToken, String senderId, String userId) {
         if (mSheetListMap.containsKey(senderId)) {
             SheetList sl = mSheetListMap.get(senderId);
             String result = sl.getDumpResult();
@@ -3856,7 +3857,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
     
-    private void processSheetClose(replyToken, senderId, userId) {
+    private void processSheetClose(String replyToken, String senderId, String userId) {
         if (mSheetListMap.containsKey(senderId)) {
             SheetList sl = mSheetListMap.get(senderId);
             if (sl.getHolder().equals(userId)) {
@@ -3873,7 +3874,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
     
-    private void processSheetAdd(replyToken, senderId, userId, text) {
+    private void processSheetAdd(String replyToken, String senderId, String userId, String text) {
+        text = text.replace("登記:", "").trim();
         if (mSheetListMap.containsKey(senderId)) {
             SheetList sl = mSheetListMap.get(senderId);
             sl.updateData(userId, text);
