@@ -240,6 +240,62 @@ public class OhBotController {
 
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
     private HashMap<String, String> mWhoImPickRandomPttBeautyGirlMap = new HashMap<>(); // userId, webLink
+    
+    private class SheetList {
+        private String mSheetHolder = "";
+        private String mSheetSubject = "";
+        private boolean mIsFinished = false;
+        private HashMap<String, String> mSheetList = HashMap<>();
+        private SheetList(String holder, String subject) {
+            mSheetHolder = holder;
+            mSheetSubject = subject;
+        }
+
+        public String getGuideString() {
+            String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n";
+            result += "標題:" + mSheetSubject + "\n";
+            result += "由發起人說出\"收單\"可結束表單\n";
+            result += "由任何人說出\"查表單\"可印出當前表單\n";
+            result += "由任何人說出\"登記:XXX\"可登記商品\n";
+            result += "例如: \n登記:炙燒鮭魚肚握壽司20貫\n";
+        }
+
+        public void updateData(String userId, String data) {
+            mSheetList.put(userId, data);
+        }
+
+        public String getDumpResult() {
+            String result = "表單:" + mSheetSubject + "\n";
+            result += "發起者:" + getUserDisplayName(mSheetHolder) + "\n";
+            result += "-----\n";
+            result += "點餐用:\n";
+            for (String data : mSheetList.values()) {
+                result = data + "\n";
+            }
+            result += "\n-----\n";
+            result += "對帳用:\n";
+            for (Map.Entry<String, String> entry : mSheetList.entrySet()) {
+                result += "購買人:" + getUserDisplayName(entry.getKey()) + "\n" + "品項:" + entry.getValue();
+                result += "\n---\n";
+            }
+            return result;
+        }
+
+        public String getHolder() {
+            return mSheetHolder;
+        }
+
+        public String getSubject() {
+            return mSheetSubject;
+        }
+
+        public String close() {
+            mIsFinished = true;
+            return getDumpResult();
+        }
+    }
+    private HashMap<String, SheetList> mSheetListMap = new HashMap<>(); 
+    
 
     private HashSet<String> mAskedBotFriend = new HashSet<String>();
     private HashSet<String> mAskedBdCongrat = new HashSet<String>();
@@ -1009,6 +1065,22 @@ public class OhBotController {
 
         if (text.equals("我剛抽了誰?") || text.equals("我剛抽了誰？")) {
             whoImPickRandomPttBeautyGirlMap(userId, replyToken);
+        }
+
+        if (text.startsWith("開表單:")) {
+            processSheetOpen(replyToken, senderId, userId, text);
+        }
+
+        if (text.startsWith("查表單")) {
+            processSheetDump(replyToken, senderId, userId);
+        }
+
+        if (text.equals("收單")) {
+            processSheetClose(replyToken, senderId, userId);
+        }
+
+        if (text.equals("登記:")) {
+            processSheetAdd(replyToken, senderId, userId, text);
         }
 
         if (text.startsWith("AmazonJp:")) {
@@ -3759,6 +3831,57 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
         return hasEng;
+    }
+
+    private void processSheetOpen(replyToken, senderId, userId, text) {
+        if (!mSheetListMap.containsKey(senderId)) {
+            SheetList sl = new SheetList(userId, text);
+            mSheetListMap.put(senderId, sl);
+            this.replyText(replyToken, sl.getGuideString());
+        }
+        else {
+            SheetList sl = mSheetListMap.get(senderId);
+            this.replyText(replyToken, "此群組已開啟了一個表單名為:\n" + sl.getSubject());
+        }
+    }
+    
+    private void processSheetDump(replyToken, senderId, userId) {
+        if (mSheetListMap.containsKey(senderId)) {
+            SheetList sl = mSheetListMap.get(senderId);
+            String result = sl.getDumpResult();
+            this.replyText(replyToken, result);
+        }
+        else {
+            this.replyText(replyToken, "此群組尚未開啟任何表單");
+        }
+    }
+    
+    private void processSheetClose(replyToken, senderId, userId) {
+        if (mSheetListMap.containsKey(senderId)) {
+            SheetList sl = mSheetListMap.get(senderId);
+            if (sl.getHolder().equals(userId)) {
+                String result = sl.close();
+                this.replyText(replyToken, result);
+                mSheetListMap.remove(senderId);
+            }
+            else {
+                this.replyText(replyToken, "表單只能由發起人\n" + getUserDisplayName(sl.getHolder()) + "\n做收單操作");
+            }
+        }
+        else {
+            this.replyText(replyToken, "此群組尚未開啟任何表單");
+        }
+    }
+    
+    private void processSheetAdd(replyToken, senderId, userId, text) {
+        if (mSheetListMap.containsKey(senderId)) {
+            SheetList sl = mSheetListMap.get(senderId);
+            sl.updateData(userId, text);
+            this.replyText(replyToken, "登記成功");
+        }
+        else {
+            this.replyText(replyToken, "此群組尚未開啟任何表單");
+        }
     }
 
     private void bullyModeTrigger(String replyToken) throws IOException {
