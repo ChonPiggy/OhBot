@@ -245,7 +245,7 @@ public class OhBotController {
         private String mSheetHolder = "";
         private String mSheetSubject = "";
         private boolean mIsFinished = false;
-        private HashMap<String, String> mSheetList = HashMap<>();
+        private HashMap<String, String> mSheetList = new HashMap<>();
         private SheetList(String holder, String subject) {
             mSheetHolder = holder;
             mSheetSubject = subject;
@@ -294,6 +294,7 @@ public class OhBotController {
             return getDumpResult();
         }
     }
+
     private HashMap<String, SheetList> mSheetListMap = new HashMap<>(); 
     
 
