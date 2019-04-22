@@ -3837,7 +3837,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void processSheetOpen(String replyToken, String senderId, String userId, String text) {
-        text = text.replace("開表單:", "").replace("：", "").trim();
+        text = text.replace("開表單", "").replace(":", "").replace("：", "").trim();
         if (!mSheetListMap.containsKey(senderId)) {
             SheetList sl = new SheetList(userId, text);
             mSheetListMap.put(senderId, sl);
@@ -3878,7 +3878,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     private void processSheetAdd(String replyToken, String senderId, String userId, String text) {
-        text = text.replace("登記:", "").replace("：", "").trim();
+        text = text.replace("登記", "").replace(":", "").replace("：", "").trim();
         if (mSheetListMap.containsKey(senderId)) {
             SheetList sl = mSheetListMap.get(senderId);
             sl.updateData(userId, text);
