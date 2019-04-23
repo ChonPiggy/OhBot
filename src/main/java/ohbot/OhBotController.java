@@ -2902,6 +2902,21 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         else if (text.equals("大學四年級") || text.equals("大四")) {
             result = "22 歲";
         }
+        else if (isStringIncludeNumber(text)) {
+            try {
+                inputNumber = Integer.parseInt(text);
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+                if (year - inputNumber > 0) {
+                    this.replyText(replyToken, "" + (year - inputNumber) + " 歲");
+                }
+                else {
+                    this.replyText(replyToken, "白痴...我懶得理你");
+                }
+            }
+            catch(java.lang.NumberFormatException e1) {
+                return;
+            }
+        }
 
         if (!result.equals("")) {
             this.replyText(replyToken, result);
@@ -5642,12 +5657,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "今日我最美是誰？\n";
         result += "吃什麼？\n";
         result += "抽\n";
+        result += "我剛抽了誰?\n";
         result += "抽Ｘ（Ｘ須為英文）\n";
         result += "*蛙*哪*\n";
         result += "開始猜拳\n";
         result += "結束猜拳\n";
         result += "參加猜拳\n";
-        result += "我剛抽了誰?\n";
         result += "天氣雲圖?\n";
         result += "累積雨量圖?\n";
         result += "紅外線雲圖?\n";
