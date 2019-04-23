@@ -3890,9 +3890,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (mSheetListMap.containsKey(senderId)) {
             SheetList sl = mSheetListMap.get(senderId);
             sl.updateData(userId, text);
-            String result = "購買人:" + getUserDisplayName(userId);
-            result += "品項:" + text;
-            result += "登記成功";
+            String result = "購買人:" + getUserDisplayName(userId) + "\n";
+            result += "品項:" + text + "\n";
+            result += "\n登記成功";
             this.replyText(replyToken, result);
         }
         else {
