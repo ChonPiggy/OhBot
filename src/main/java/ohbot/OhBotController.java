@@ -1355,6 +1355,10 @@ public class OhBotController {
             processLinHoImage(replyToken, text);
         }
 
+        if (text.equals("功能指令集")) {
+            this.replyText(replyToken, getFeatureListString(userId));
+        }
+
         checkNeedTotallyBullyReply(userId, replyToken);
 
         if (text.length() > 0) {
@@ -5589,7 +5593,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private String getFeatureListString(String userId) {
         String result = "功能指令集\n\n";
-        if(!isAdminUserId(userId, replyToken)) {
+        if(isAdminUserId(userId)) {
             result += "PgCommand新增吃什麼:Ｘ\n";
             result += "PgCommand刪除吃什麼:Ｘ\n";
             result += "PgCommand清空吃什麼\n";
