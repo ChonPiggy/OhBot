@@ -2904,7 +2904,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
         else if (isStringIncludeNumber(text)) {
             try {
-                inputNumber = Integer.parseInt(text);
+                int inputNumber = Integer.parseInt(text);
                 int year = Calendar.getInstance().get(Calendar.YEAR);
                 if (year - inputNumber > 0) {
                     this.replyText(replyToken, "" + (year - inputNumber) + " 歲");
@@ -2929,57 +2929,57 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int count = 0;
         String result = "已處理:\n";
 
-        if (text.contains("莊家連一拉一")) {
-            text = text.replace("莊家連一拉一", "").trim();
+        if (text.contains("莊家連一拉一") || text.contains("連一拉一")) {
+            text = text.replace("莊家連一拉一", "").replace("連一拉一", "").trim();
             count+=3;
             result = result + "莊家連一拉一 3台\n";
         }
-        else if (text.contains("莊家連二拉二")) {
-            text = text.replace("莊家連二拉二", "").trim();
+        else if (text.contains("莊家連二拉二") || text.contains("連二拉二")) {
+            text = text.replace("莊家連二拉二", "").replace("連二拉二", "").trim();
             count+=5;
             result = result + "莊家連二拉二 5台\n";
         }
-        else if (text.contains("莊家連三拉三")) {
-            text = text.replace("莊家連三拉三", "").trim();
+        else if (text.contains("莊家連三拉三") || text.contains("連三拉三")) {
+            text = text.replace("莊家連三拉三", "").replace("連三拉三", "").trim();
             count+=7;
             result = result + "莊家連三拉三 7台\n";
         }
-        else if (text.contains("莊家連四拉四")) {
-            text = text.replace("莊家連四拉四", "").trim();
+        else if (text.contains("莊家連四拉四") || text.contains("連四拉四")) {
+            text = text.replace("莊家連四拉四", "").replace("連四拉四", "").trim();
             count+=9;
             result = result + "莊家連四拉四 9台\n";
         }
-        else if (text.contains("莊家連五拉五")) {
-            text = text.replace("莊家連五拉五", "").trim();
+        else if (text.contains("莊家連五拉五") || text.contains("連五拉五")) {
+            text = text.replace("莊家連五拉五", "").replace("連五拉五", "").trim();
             count+=11;
             result = result + "莊家連五拉五 11台\n";
         }
-        else if (text.contains("莊家連六拉六")) {
-            text = text.replace("莊家連六拉六", "").trim();
+        else if (text.contains("莊家連六拉六") || text.contains("連六拉六")) {
+            text = text.replace("莊家連六拉六", "").replace("連六拉六", "").trim();
             count+=13;
             result = result + "莊家連六拉六 13台\n";
         }
-        else if (text.contains("莊家連七拉七")) {
-            text = text.replace("莊家連七拉七", "").trim();
+        else if (text.contains("莊家連七拉七") || text.contains("連七拉七")) {
+            text = text.replace("莊家連七拉七", "").replace("連七拉七", "").trim();
             count+=15;
             result = result + "莊家連七拉七 15台\n";
         }
-        else if (text.contains("莊家連八拉八")) {
-            text = text.replace("莊家連八拉八", "").trim();
+        else if (text.contains("莊家連八拉八") || text.contains("連八拉八")) {
+            text = text.replace("莊家連八拉八", "").replace("連八拉八", "").trim();
             count+=17;
             result = result + "莊家連八拉八 17台\n";
         }
-        else if (text.contains("莊家連九拉九")) {
-            text = text.replace("莊家連九拉九", "").trim();
+        else if (text.contains("莊家連九拉九") || text.contains("連九拉九")) {
+            text = text.replace("莊家連九拉九", "").replace("連九拉九", "").trim();
             count+=19;
             result = result + "莊家連九拉九 19台\n";
         }
-        else if (text.contains("莊家連十拉十")) {
-            text = text.replace("莊家連十拉十", "").trim();
+        else if (text.contains("莊家連十拉十") || text.contains("連十拉十")) {
+            text = text.replace("莊家連十拉十", "").replace("連十拉十", "").trim();
             count+=21;
             result = result + "莊家連十拉十 21台\n";
         }
-        else if (text.contains("莊家連") && text.contains("拉")) {
+        else if ((text.contains("莊家連") && text.contains("拉")) || (text.contains("連") && text.contains("拉"))) {
             this.replyText(replyToken, "放屁你連這麼多？\n做牌啦！\n拿刀來拿刀來！");
             return;
         }
