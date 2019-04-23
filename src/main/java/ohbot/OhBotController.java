@@ -252,12 +252,12 @@ public class OhBotController {
         }
 
         public String getGuideString() {
-            String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n";
+            String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n\n";
             result += "標題:" + mSheetSubject + "\n";
             result += "說出\"收單\"可結束表單\n\n";
             result += "說出\"查表單\"可印當前表單\n\n";
             result += "說出\"登記:XXX\"可登記商品\n\n";
-            result += "如:登記:炙燒鮭魚肚握壽司\n\n";
+            result += "如: 登記:炙燒鮭魚肚握壽司\n\n";
             result += "建議盡快結單以免資料遺失";
             return result;
         }
@@ -3838,6 +3838,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void processSheetOpen(String replyToken, String senderId, String userId, String text) {
         text = text.replace("開表單", "").replace(":", "").replace("：", "").trim();
+        if (getUserDisplayName(userId).equals("")) {
+            this.replyText(replyToken, "請將 BOT 加為好友後方可使用此功能");
+            return;
+        }
         if (!mSheetListMap.containsKey(senderId)) {
             SheetList sl = new SheetList(userId, text);
             mSheetListMap.put(senderId, sl);
@@ -3879,10 +3883,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     
     private void processSheetAdd(String replyToken, String senderId, String userId, String text) {
         text = text.replace("登記", "").replace(":", "").replace("：", "").trim();
+        if (getUserDisplayName(userId).equals("")) {
+            this.replyText(replyToken, "請將 BOT 加為好友後方可使用此功能");
+            return;
+        }
         if (mSheetListMap.containsKey(senderId)) {
             SheetList sl = mSheetListMap.get(senderId);
             sl.updateData(userId, text);
-            this.replyText(replyToken, "登記成功");
+            String result = "購買人:" + getUserDisplayName(userId);
+            result += "品項:" + text;
+            result += "登記成功";
+            this.replyText(replyToken, result);
         }
         else {
             this.replyText(replyToken, "此群組尚未開啟任何表單");
