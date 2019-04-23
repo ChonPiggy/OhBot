@@ -252,8 +252,8 @@ public class OhBotController {
         }
 
         public String getGuideString() {
-            String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n\n";
-            result += "標題:" + mSheetSubject + "\n";
+            String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n";
+            result += "標題:" + mSheetSubject + "\n\n";
             result += "說出\"收單\"可結束表單\n\n";
             result += "說出\"查表單\"可印當前表單\n\n";
             result += "說出\"登記:XXX\"可登記商品\n\n";
@@ -3892,7 +3892,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             sl.updateData(userId, text);
             String result = "購買人:" + getUserDisplayName(userId) + "\n";
             result += "品項:" + text + "\n";
-            result += "\n登記成功";
+            result += "登記成功";
             this.replyText(replyToken, result);
         }
         else {
