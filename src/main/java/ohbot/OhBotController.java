@@ -115,7 +115,6 @@ public class OhBotController {
     private List<String> mRandamLocationAddressList = new ArrayList<String> (mDefaultRandamLocationAddressList);
     private boolean mIsStartJandanParsing = false;
     private boolean mIsStartJandanStarted = false;
-    private String FUNCTION_LIST_TEXT = "功能指令集 \n\n(不區分問號全形半形)\n(Ｘ代表變數)\nＸ天氣？（Ｘ需為地區\nＸ氣象？（Ｘ需為地區\nＸ座？（Ｘ需為星座\nＸ空氣？（Ｘ需為地區\nＸ匯率？（Ｘ需為幣名\n比特幣換算？\nＸＹ換算台幣？（Ｘ需為數字Ｙ需為幣名\n呆股？\n每日一句？\n今日我最美？\n今日我最美是誰？\n吃什麼？\n抽\n抽Ｘ（Ｘ須為英文）\n*蛙*哪*\n霸凌模式:https:xxxxxx.jpg\n霸凌不好\n開始猜拳\n結束猜拳\n參加猜拳\n我剛抽了誰?\n天氣雲圖?\n累積雨量圖?\n紅外線雲圖?\n雷達回波圖?\n溫度分佈圖?\n紫外線圖?\n許願:X\n投稿:X\n最新地震報告圖\n最新地震報告\n";
 
     private int mJanDanParseCount = 0;
     private int mJanDanGifCount = 0;
@@ -1305,10 +1304,12 @@ public class OhBotController {
         }
 
         if (text.startsWith("霸凌模式:")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
             initBullyMode(text, replyToken);
         }
 
         if (text.startsWith("霸凌不好")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
             interruptBullyMode(replyToken);
         }
 
@@ -5481,6 +5482,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return true;
     }
 
+    private boolean isAdminUserId(String userId) {
+
+        if (!userId.equals(USER_ID_PIGGY) && !userId.equals(USER_ID_TEST_MASTER) ) {
+            return false;
+        }
+        return true;
+    }
+
     private String getRandomSourceFromList(List<String> list) {
         Random randomGenerator = new Random();
         int random_num = randomGenerator.nextInt(list.size());
@@ -5578,4 +5587,81 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }        
     }
 
+    private String getFeatureListString(String userId) {
+        String result = "功能指令集\n\n";
+        if(!isAdminUserId(userId, replyToken)) {
+            result += "PgCommand新增吃什麼:Ｘ\n";
+            result += "PgCommand刪除吃什麼:Ｘ\n";
+            result += "PgCommand清空吃什麼\n";
+            result += "PgCommand列出吃什麼\n";
+            result += "PgCommand煎蛋進度\n";
+            result += "PgCommand煎蛋數量\n";
+            result += "PgCommand煎蛋解碼:X (undecode string\n";
+            result += "PgCommand煎蛋解碼圖:X (undecode string\n";
+            result += "PgCommand圖片:X (image path\n";
+            result += "PgCommand開始煎蛋\n";
+            result += "PgCommand新增隨機地點:X\n";
+            result += "PgCommand刪除隨機地點:X\n";
+            result += "PgCommand清空隨機地點\n";
+            result += "PgCommand列出隨機地點\n";
+            result += "PgCommand新增隨機動作:X\n";
+            result += "PgCommand刪除隨機動作:X\n";
+            result += "PgCommand清空隨機動作\n";
+            result += "PgCommand列出隨機動作\n";
+            result += "PgCommand設定預設匯率:JPY\n";
+            result += "PgCommand開始徹底霸凌\n";
+            result += "PgCommand停止徹底霸凌\n";
+            result += "PgCommand設定徹底霸凌對象:userId\n";
+            result += "PgCommand設定徹底霸凌字串:X\n";
+            result += "PgCommand設定代理管理員:X\n";
+            result += "PgCommand使用者顯示名稱:X\n";
+            result += "PgCommand使用者顯示圖片:X\n";
+            result += "PgCommand開始偵測ID\n";
+            result += "PgCommand停止偵測ID\n";
+            result += "PgCommandNotifyMessage:X\n";
+            result += "PgCommandNotifyImage:X\n";
+            result += "霸凌模式:https:xxxxxx.jpg\n";
+            result += "霸凌不好\n";
+        }
+
+        result += "Ｘ天氣？（Ｘ需為地區\n";
+        result += "Ｘ氣象？（Ｘ需為地區\n";
+        result += "Ｘ座？（Ｘ需為星座\n";
+        result += "Ｘ座運勢？（Ｘ需為星座\n";
+        result += "Ｘ空氣？（Ｘ需為地區\n";
+        result += "Ｘ匯率？（Ｘ需為幣名\n";
+        result += "比特幣換算？\n";
+        result += "ＸＹ換算台幣？（Ｘ需為數字Ｙ需為幣名\n";
+        result += "呆股？\n";
+        result += "每日一句？\n";
+        result += "今日我最美？\n";
+        result += "今日我最美是誰？\n";
+        result += "吃什麼？\n";
+        result += "抽\n";
+        result += "抽Ｘ（Ｘ須為英文）\n";
+        result += "*蛙*哪*\n";
+        result += "開始猜拳\n";
+        result += "結束猜拳\n";
+        result += "參加猜拳\n";
+        result += "我剛抽了誰?\n";
+        result += "天氣雲圖?\n";
+        result += "累積雨量圖?\n";
+        result += "紅外線雲圖?\n";
+        result += "雷達回波圖?\n";
+        result += "溫度分佈圖?\n";
+        result += "紫外線圖?\n";
+        result += "許願:X\n";
+        result += "投稿:X\n";
+        result += "最新地震報告圖\n";
+        result += "最新地震報告\n";
+        result += "隨機取圖:https:xxxxxx\n";
+        result += "年號:X (X 限制為兩個字\n";
+        result += "XX幾歲?\n";
+        result += "XX幾台?\n";
+        result += "開表單：XXX\n";
+        result += "查表單\n";
+        result += "登記：XXX\n";
+        result += "收單\n";
+        return result;
+    }
 }
