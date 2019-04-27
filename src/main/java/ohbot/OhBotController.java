@@ -895,6 +895,11 @@ public class OhBotController {
             mEarthquakeCheckThread.start();
         }
 
+        if (mIngressCheckThread == null) {
+            mIngressCheckThread = new NewestIngressCheckThread();
+            mIngressCheckThread.start();
+        }
+
 
         if (replyUserId(userId, senderId, replyToken)) {
             return;
@@ -5601,8 +5606,48 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    public class NewestIngressCheckThread extends Thread {
+        public void run(){
+            while (true) {
+                try {
+                    Thread.sleep(5000);
+                    if (isIngressTwitterUpdated()) {
+                        notifyAllNeedIngressTwitterEventRoom();
+                    }
+                } catch (Exception e) {
+                    log.info("NewestEarthquakeTimeCheckThread e: " + e);
+                }
+            }
+        }
+    }
+
+    private NewestIngressCheckThread mIngressCheckThread = null;
+
     private String mNewestIngressTwitterTime = "";
 
+    private boolean isIngressTwitterUpdated() {
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet("https://twitter.com/ingress");
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+            String result = strResult.substring(strResult.indexOf("data-time-ms=\"")+14,strResult.indexOf("data-time-ms=\"")+27);
+
+            boolean isNeedUpdate = false;
+            if (!mNewestIngressTwitterTime.equals("") && !mNewestIngressTwitterTime.equals(result)) {
+                isNeedUpdate = true;
+            }
+
+            mNewestIngressTwitterTime = result;
+            return isNeedUpdate;
+        } catch (Exception e) {
+            log.info("checkEarthquakeReport e: " + e);
+        }
+        return false;
+
+    }
     private String getIngressNewestTwitter() {
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -5637,8 +5682,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String result = "Ingress Newest Twitter\n";
 
-            result += ("\n" + titleTime + "\n");
-            result += ("\n\n" + twitterContext + "\n");
+            result += ("" + titleTime + "\n");
+            result += ("\n" + twitterContext + "\n");
             result += ("\n" + twitterUrl);
 
             return result;
@@ -5651,12 +5696,22 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private List<String> mEarthquakeEventRoomList = new ArrayList<String> (
-        Arrays.asList(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM));
+        Arrays.asList(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM)
+    );
 
     private void notifyAllNeedEarthquakeEventRoom() {
         for (String room : mEarthquakeEventRoomList){
             LineNotify.callEvent(room, mNewestEarthquakeReportText);
             LineNotify.callEvent(room, " ", mNewestEarthquakeReportImage);
+        }        
+    }
+
+    private List<String> mIngressTwitterEventRoonList = new ArrayList<String> (
+        Arrays.asList(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM)
+    );
+    private void notifyAllNeedIngressTwitterEventRoom() {
+        for (String room : mIngressTwitterEventRoonList){
+            LineNotify.callEvent(room, getIngressNewestTwitter());
         }        
     }
 
