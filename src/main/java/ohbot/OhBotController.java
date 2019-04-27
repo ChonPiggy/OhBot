@@ -5635,11 +5635,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             log.info("Newest ingress twitter context: " + twitterContext);
 
-            String result = "Ingress 最新 Twitter\n";
+            String result = "Ingress Newest Twitter\n";
 
-            result += ("時間:\n" + titleTime + "\n");
-            result += ("內容:\n" + twitterContext + "\n");
-            result += ("網址:\n" + twitterUrl);
+            result += ("\n" + titleTime + "\n");
+            result += ("\n\n" + twitterContext + "\n");
+            result += ("\n" + twitterUrl);
 
             return result;
 
