@@ -1247,7 +1247,7 @@ public class OhBotController {
         }
 
         if (text.contains("Ingress") || text.contains("ingress") &&
-            text.contains("Twitter") || text.contains("twitter") &&) {
+            text.contains("Twitter") || text.contains("twitter")) {
             this.replyText(replyToken, getIngressNewestTwitter());
         }
 
