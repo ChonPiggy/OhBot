@@ -1246,6 +1246,11 @@ public class OhBotController {
             this.replyText(replyToken, mNewestEarthquakeReportText);
         }
 
+        if (text.contains("Ingress") || text.contains("ingress") &&
+            text.contains("Twitter") || text.contains("twitter") &&) {
+            this.replyText(replyToken, getIngressNewestTwitter());
+        }
+
         if (text.contains("蛙")) {
             whereIsMyFrog(text, replyToken);
         }
@@ -5596,6 +5601,53 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    private String mNewestIngressTwitterTime = "";
+
+    private String getIngressNewestTwitter() {
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet("https://twitter.com/ingress");
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+            mNewestIngressTwitterTime = strResult.substring(strResult.indexOf("data-time-ms=\"")+14,strResult.indexOf("data-time-ms=\"")+27);
+            
+            log.info("Newest ingress twitter time: " + mNewestIngressTwitterTime);
+
+            strResult = strResult.substring(strResult.indexOf("<small class=\"time\">")+20,strResult.length());
+
+            strResult = strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.length());
+
+            String twitterUrl = "https://twitter.com" + strResult.substring(0, strResult.indexOf("\""));
+
+            log.info("Newest ingress twitter Url: " + twitterUrl);
+
+            strResult = strResult.substring(strResult.indexOf("title=\"")+7,strResult.length());
+
+            String titleTime = strResult.substring(0, strResult.indexOf("\""));
+
+            log.info("Newest ingress twitter time: " + titleTime);
+
+            strResult = strResult.substring(strResult.indexOf("data-aria-label-part=\"0\">")+25,strResult.length());
+
+            String twitterContext = strResult.substring(0, strResult.indexOf("</p>"));
+
+            log.info("Newest ingress twitter context: " + twitterContext);
+
+            String result = "Ingress 最新 Twitter\n";
+
+            result += ("時間:\n" + titleTime + "\n");
+            result += ("內容:\n" + twitterContext + "\n");
+            result += ("網址:\n" + twitterUrl);
+
+
+        } catch (Exception e) {
+            log.info("checkEarthquakeReport e: " + e);
+        }
+        return "抓取 Ingress Twitter 失敗";
+    }
+
     private List<String> mEarthquakeEventRoomList = new ArrayList<String> (
         Arrays.asList(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM));
 
@@ -5681,6 +5733,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "查表單\n";
         result += "登記：XXX\n";
         result += "收單\n";
+        result += "Ingress Twitter\n";
         return result;
     }
 }
