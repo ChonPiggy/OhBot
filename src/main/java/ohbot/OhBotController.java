@@ -5641,6 +5641,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += ("內容:\n" + twitterContext + "\n");
             result += ("網址:\n" + twitterUrl);
 
+            return result;
+
 
         } catch (Exception e) {
             log.info("checkEarthquakeReport e: " + e);
