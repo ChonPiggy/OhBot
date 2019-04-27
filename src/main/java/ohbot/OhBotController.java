@@ -3557,9 +3557,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private String LINE_NOTIFY_TOKEN_HELL_TEST_ROOM = "RPKQnj2YVRslWIodM2BBOZhlbJbomKzDFBOdD447png";
-    private String LINE_NOTIFY_TOKEN_INGRESS_ROOM_RUN_RUN_RUN = "";
-    private String LINE_NOTIFY_TOKEN_INGRESS_ROOM_CONNETION = "";
-    private String LINE_NOTIFY_TOKEN_CHONPIGGY = "";
+    private String LINE_NOTIFY_TOKEN_INGRESS_ROOM_RUN_RUN_RUN = "prpaLTiFmUvrMjZ2ggV4RdpUyol5l7nK4uwV3u2ug6Q";
+    private String LINE_NOTIFY_TOKEN_INGRESS_ROOM_COMPLICATE = "Fo4mDtJlPr0Di9BTYD8eMuVWrvKjIZ0GgwyL39UeihM";
+    private String LINE_NOTIFY_TOKEN_CHONPIGGY = "nOevfG97usKCBxO02FVFm0VZr32vx2d6yx76HosZAKQ";
 
     private void notifyMessage(String text, String replyToken) throws IOException {
         text = text.replace("PgCommandNotifyMessage:", "");
@@ -5712,7 +5712,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void notifyAllNeedIngressTwitterEventRoom() {
         for (String room : mIngressTwitterEventRoonList){
             LineNotify.callEvent(room, getIngressNewestTwitter());
-        }        
+        }
     }
 
     private String getFeatureListString(String userId) {
