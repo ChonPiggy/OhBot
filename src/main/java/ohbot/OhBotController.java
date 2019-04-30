@@ -895,10 +895,10 @@ public class OhBotController {
             mEarthquakeCheckThread.start();
         }
 
-        if (mIngressCheckThread == null) {
+        /*if (mIngressCheckThread == null) {
             mIngressCheckThread = new NewestIngressCheckThread();
             mIngressCheckThread.start();
-        }
+        }*/
 
 
         if (replyUserId(userId, senderId, replyToken)) {
