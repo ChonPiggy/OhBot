@@ -237,6 +237,8 @@ public class OhBotController {
     private boolean mIsUserIdDetectMode = false;
     private String mUserIdDetectModeGroupId = "";
 
+    private String mMdMapImageSource = null;
+
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
     private HashMap<String, String> mWhoImPickRandomPttBeautyGirlMap = new HashMap<>(); // userId, webLink
     
@@ -1092,6 +1094,13 @@ public class OhBotController {
 
         if (text.startsWith("AmazonJp:")) {
             amazonJpSearch(text, replyToken);
+        }
+
+        if (text.startsWith("PgCommand設定MD地圖:")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            text = text.replace("PgCommand設定MD地圖:", "").trim();
+            mMdMapImageSource = text;
+            this.replyText(replyToken, "設定MD地圖完成: " + text);
         }
 
         if (text.startsWith("PgCommand開啟生日快樂廣告")) {
@@ -3717,8 +3726,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void replyMdMap(String replyToken) throws IOException {
-        String source = "https://i.imgur.com/7OBa9mj.png";
-        this.replyImage(replyToken, source, source);
+        if (mMdMapImageSource != null) {
+            this.replyImage(replyToken, mMdMapImageSource, mMdMapImageSource);    
+        }        
     }
 
     private void howPgSolveMdMap(String replyToken) throws IOException {
@@ -5748,6 +5758,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += "PgCommand停止偵測ID\n";
             result += "PgCommandNotifyMessage:X\n";
             result += "PgCommandNotifyImage:X\n";
+            result += "PgCommand設定MD地圖:X\n";
             result += "霸凌模式:https:xxxxxx.jpg\n";
             result += "霸凌不好\n";
         }
