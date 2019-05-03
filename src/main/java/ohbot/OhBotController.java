@@ -1037,7 +1037,12 @@ public class OhBotController {
         }
 
         if (text.startsWith("抽") && text.length() > 1) {
-            pexelsTarget(text, replyToken);
+            if(text.replace("抽", "").replace(" ", "").trim().equals("")) {
+                randomPttBeautyGirl(userId, senderId, replyToken);
+            }
+            else {
+                pexelsTarget(text, replyToken);
+            }
         }
         else if (text.equals("抽")) {
             randomPttBeautyGirl(userId, senderId, replyToken);
