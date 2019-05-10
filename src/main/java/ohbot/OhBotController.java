@@ -1265,8 +1265,8 @@ public class OhBotController {
             this.replyText(replyToken, mNewestEarthquakeReportText);
         }
 
-        if (text.contains("Ingress") || text.contains("ingress") &&
-            text.contains("Twitter") || text.contains("twitter")) {
+        if ((text.contains("Ingress") || text.contains("ingress")) &&
+            (text.contains("Twitter") || text.contains("twitter"))) {
             this.replyText(replyToken, getIngressNewestTwitter());
         }
 
@@ -2859,7 +2859,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, mWhoImPickRandomPttBeautyGirlMap.get(userId));
         }
         else {
-            this.replyText(replyToken, "你剛又還沒抽過...\n腦抽？");
+            if (isAdminUserId(userId)) {
+                this.replyText(replyToken, "ＰＧ 大人您剛還沒抽過唷");
+            }
+            else {
+                this.replyText(replyToken, "你剛又還沒抽過...\n腦抽？");
+            }
+            
         }
     }
 
@@ -5764,6 +5770,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += "PgCommandNotifyMessage:X\n";
             result += "PgCommandNotifyImage:X\n";
             result += "PgCommand設定MD地圖:X\n";
+            result += "PgCommand開啟生日快樂廣告\n";
+            result += "PgCommand關閉生日快樂廣告\n";
             result += "霸凌模式:https:xxxxxx.jpg\n";
             result += "霸凌不好\n";
         }
