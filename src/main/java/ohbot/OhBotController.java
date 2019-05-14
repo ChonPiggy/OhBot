@@ -934,7 +934,7 @@ public class OhBotController {
             //startFetchJanDanGirlImages();
         }
 
-        if (text.startsWith("抽") && text.length() > 1) {
+        if ((text.startsWith("抽") || text.startsWith("熱抽")) && text.length() > 1) {
             if(text.replace("抽", "").replace(" ", "").trim().equals("")) {
                 randomPttBeautyGirl(userId, senderId, replyToken);
             }
