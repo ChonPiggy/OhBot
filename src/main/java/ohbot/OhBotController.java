@@ -3890,7 +3890,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private boolean isStringIncludeChinese(String text) {
         for(int i=0; i<text.length(); i++) {  
-            String test = str.substring(i, i+1);  
+            String test = text.substring(i, i+1);  
             if(test.matches("[\\u4E00-\\u9FA5]+")){  
                 return true;
             }
@@ -5162,15 +5162,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity httpEntity = response.getEntity();
 
-            String context = "";
+            String html = "";
             int maxPageInt = -1;
 
-            context = EntityUtils.toString(httpEntity, "utf-8");
+            html = EntityUtils.toString(httpEntity, "utf-8");
 
             List<String> tempList = new ArrayList<String> ();
 
-            pattern = Pattern.compile("display_url\":\".*?\",");
-            matcher = pattern.matcher(html);
+            Pattern pattern = Pattern.compile("display_url\":\".*?\",");
+            Matcher matcher = pattern.matcher(html);
             while(matcher.find()){
                 String result = matcher.group();
                 result = result.substring(14, result.length());
