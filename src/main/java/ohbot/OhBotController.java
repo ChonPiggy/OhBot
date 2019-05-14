@@ -1042,12 +1042,13 @@ public class OhBotController {
             }
             else {
                 text = text.replace("抽", "").replace(" ", "%20");
-                if (isStringIncludeChinese(text)) {
+                instagramTarget(text, replyToken);
+                /*if (isStringIncludeChinese(text)) {
                     instagramTarget(text, replyToken);
                 }
                 else if (isStringIncludeEnglish(text)) {
                     pexelsTarget(text, replyToken);    
-                }
+                }*/
             }
         }
         else if (text.equals("抽")) {
@@ -5860,9 +5861,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "今日我最美？\n";
         result += "今日我最美是誰？\n";
         result += "吃什麼？\n";
-        result += "抽\n";
+        result += "抽 （抽 PTT 表特）\n";
         result += "我剛抽了誰?\n";
-        result += "抽Ｘ（Ｘ須為英文）\n";
+        result += "抽Ｘ（為 IG）\n";
+        /*result += "抽Ｘ（為英文抽 Pexel）\n";*/
         result += "*蛙*哪*\n";
         result += "開始猜拳\n";
         result += "結束猜拳\n";
