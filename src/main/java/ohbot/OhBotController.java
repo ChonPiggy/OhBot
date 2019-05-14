@@ -5202,9 +5202,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 random_num = randomGenerator.nextInt(tempImgList.size());
 
                 String result_url = tempImgList.get(random_num);
-                log.info("Piggy Check result_url: " + result_url);
-
-                mWhoImPickRandomGirlMap.put(userId, ("https://www.instagram.com/p/" + tempIgList.get(random_num)));
+                String ig_url = "https://www.instagram.com/p/" + tempIgList.get(random_num);
+                log.info("Piggy Check ig_url: " + ig_url);
+                mWhoImPickRandomGirlMap.put(userId, ig_url);
                 return result_url;
             }
             else {
