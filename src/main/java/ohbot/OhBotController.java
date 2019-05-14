@@ -240,7 +240,7 @@ public class OhBotController {
     private String mMdMapImageSource = null;
 
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
-    private HashMap<String, String> mWhoImPickRandomPttBeautyGirlMap = new HashMap<>(); // userId, webLink
+    private HashMap<String, String> mWhoImPickRandomGirlMap = new HashMap<>(); // userId, webLink
     
     private class SheetList {
         private String mSheetHolder = "";
@@ -939,8 +939,10 @@ public class OhBotController {
                 randomPttBeautyGirl(userId, senderId, replyToken);
             }
             else {
-                text = text.replace("抽", "").replace(" ", "%20");
-                instagramTarget(text, replyToken);
+                boolean isHot = text.startsWith("熱抽");
+                text = text.replace("熱抽", "").replace("抽", "").replace(" ", "%20");
+
+                instagramTarget(userId, text, replyToken, isHot);
                 /*if (isStringIncludeChinese(text)) {
                     instagramTarget(text, replyToken);
                 }
@@ -2862,8 +2864,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void whoImPickRandomPttBeautyGirlMap(String userId, String replyToken) {
-        if (mWhoImPickRandomPttBeautyGirlMap.containsKey(userId)) {
-            this.replyText(replyToken, mWhoImPickRandomPttBeautyGirlMap.get(userId));
+        if (mWhoImPickRandomGirlMap.containsKey(userId)) {
+            this.replyText(replyToken, mWhoImPickRandomGirlMap.get(userId));
         }
         else {
             if (isAdminUserId(userId)) {
@@ -3264,8 +3266,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         log.info("Piggy Check 6");
     }
 
-    private void instagramTarget(String text, String replyToken) throws IOException {
-        String url = getRandomInstagramImageUrl(text);
+    private void instagramTarget(String userId, String text, String replyToken, boolean isHot) throws IOException {
+        String url = getRandomInstagramImageUrl(userId, text, isHot);
         if (url.equals("")) {
             return;
         }
@@ -5074,7 +5076,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 log.info("Piggy Check result_url: " + result_url);
 
-                mWhoImPickRandomPttBeautyGirlMap.put(userId, result_url);
+                mWhoImPickRandomGirlMap.put(userId, result_url);
 
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
@@ -5141,7 +5143,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return "";//TODO
     }
 
-    private String getRandomInstagramImageUrl(String target) {
+    private String getRandomInstagramImageUrl(String userId, String target, boolean isHot) {
         try {
 
             Random randomGenerator = new Random();
@@ -5168,7 +5170,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             html = EntityUtils.toString(httpEntity, "utf-8");
 
-            List<String> tempList = new ArrayList<String> ();
+            if (isHot) {
+                html = html.substring(html.indexOf("edge_hashtag_to_top_posts"), html.length());
+            }
+
+            List<String> tempImgList = new ArrayList<String> ();
+            List<String> tempIgList = new ArrayList<String> ();
 
             Pattern pattern = Pattern.compile("display_url\":\".*?\",");
             Matcher matcher = pattern.matcher(html);
@@ -5177,14 +5184,27 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 result = result.substring(14, result.length());
                 result = result.substring(0, result.length()-2);
                 //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
-                tempList.add(result);
+                tempImgList.add(result);
             }
 
-            if (tempList.size() > 0) {
-                random_num = randomGenerator.nextInt(tempList.size());
 
-                String result_url = tempList.get(random_num);
+            pattern = Pattern.compile("shortcode\":\".*?\",");
+            matcher = pattern.matcher(html);
+            while(matcher.find()){
+                String result = matcher.group();
+                result = result.substring(12, result.length());
+                result = result.substring(0, result.length()-2);
+                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                tempIgList.add(result);
+            }
+
+            if (tempImgList.size() > 0) {
+                random_num = randomGenerator.nextInt(tempImgList.size());
+
+                String result_url = tempImgList.get(random_num);
                 log.info("Piggy Check result_url: " + result_url);
+
+                mWhoImPickRandomGirlMap.put(userId, ("https://www.instagram.com/p/" + tempIgList.get(random_num)));
                 return result_url;
             }
             else {
