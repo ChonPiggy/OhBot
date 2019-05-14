@@ -1041,7 +1041,13 @@ public class OhBotController {
                 randomPttBeautyGirl(userId, senderId, replyToken);
             }
             else {
-                pexelsTarget(text, replyToken);
+                text = text.replace("抽", "").replace(" ", "%20");
+                if (isStringIncludeChinese(text)) {
+                    instagramTarget(text, replyToken);
+                }
+                else if (isStringIncludeEnglish(text)) {
+                    pexelsTarget(text, replyToken);    
+                }
             }
         }
         else if (text.equals("抽")) {
@@ -1265,10 +1271,10 @@ public class OhBotController {
             this.replyText(replyToken, mNewestEarthquakeReportText);
         }
 
-        if ((text.contains("Ingress") || text.contains("ingress")) &&
+        /*if ((text.contains("Ingress") || text.contains("ingress")) &&
             (text.contains("Twitter") || text.contains("twitter"))) {
             this.replyText(replyToken, getIngressNewestTwitter());
-        }
+        }*/
 
         if (text.contains("蛙")) {
             whereIsMyFrog(text, replyToken);
@@ -3257,25 +3263,20 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         log.info("Piggy Check 6");
     }
 
+    private void instagramTarget(String text, String replyToken) throws IOException {
+        String url = getRandomInstagramImageUrl(text);
+        if (url.equals("")) {
+            return;
+        }
+
+        if (url.indexOf("http:") >= 0) {
+            url = url.replace("http", "https");
+        }
+        this.replyImage(replyToken, url, url);
+        
+    }
+
     private void pexelsTarget(String text, String replyToken) throws IOException {
-        text = text.replace("抽", "");
-        text = text.replace(" ", "%20");
-        // try {
-        //     if (mPexelFoodList.size() > 0) {
-        //         Random randomGenerator = new Random();
-
-        //         int index = randomGenerator.nextInt(mPexelFoodList.size());
-        //         String item = mPexelFoodList.get(index);
-        //         this.replyImage(replyToken, item, item);
-        //     }
-        //     else {
-        //         this.replyText(replyToken, "餐廳準備中..");
-        //     }
-
-        // }catch (IndexOutOfBoundsException e2) {
-        //     throw e2;
-        // }
-
         String url = getRandomPexelsImageUrl(text);
         if (url.equals("")) {
             return;
@@ -3885,6 +3886,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
         return hasEng;
+    }
+
+    private boolean isStringIncludeChinese(String text) {
+        for(int i=0; i<text.length(); i++) {  
+            String test = str.substring(i, i+1);  
+            if(test.matches("[\\u4E00-\\u9FA5]+")){  
+                return true;
+            }
+        }
+        return false;
     }
 
     private void processSheetOpen(String replyToken, String senderId, String userId, String text) {
@@ -5127,6 +5138,66 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             e.printStackTrace();
         }
         return "";//TODO
+    }
+
+    private String getRandomInstagramImageUrl(String target) {
+        try {
+
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(mUserAgentList.size());
+
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="https://www.instagram.com/explore/tags/" + target + "/";
+            log.info("getRandomInstagramImageUrl:" + url);
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+            httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+            httpGet.setHeader("Cache-Control", "max-age=0");
+            httpGet.setHeader("Connection", "keep-alive");
+
+
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity httpEntity = response.getEntity();
+
+            String context = "";
+            int maxPageInt = -1;
+
+            context = EntityUtils.toString(httpEntity, "utf-8");
+
+            List<String> tempList = new ArrayList<String> ();
+
+            pattern = Pattern.compile("display_url\":\".*?\",");
+            matcher = pattern.matcher(html);
+            while(matcher.find()){
+                String result = matcher.group();
+                result = result.substring(14, result.length());
+                result = result.substring(0, result.length()-2);
+                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                tempList.add(result);
+            }
+
+            if (tempList.size() > 0) {
+                random_num = randomGenerator.nextInt(tempList.size());
+
+                String result_url = tempList.get(random_num);
+                log.info("Piggy Check result_url: " + result_url);
+                return result_url;
+            }
+            else {
+                log.info("Piggy Check parse IG fail!");
+            }
+            
+            
+
+
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     private String getRandomPexelsImageUrl(String target) {
