@@ -934,6 +934,26 @@ public class OhBotController {
             //startFetchJanDanGirlImages();
         }
 
+        if (text.startsWith("抽") && text.length() > 1) {
+            if(text.replace("抽", "").replace(" ", "").trim().equals("")) {
+                randomPttBeautyGirl(userId, senderId, replyToken);
+            }
+            else {
+                text = text.replace("抽", "").replace(" ", "%20");
+                instagramTarget(text, replyToken);
+                /*if (isStringIncludeChinese(text)) {
+                    instagramTarget(text, replyToken);
+                }
+                else if (isStringIncludeEnglish(text)) {
+                    pexelsTarget(text, replyToken);    
+                }*/
+            }
+        }
+        else if (text.equals("抽")) {
+            randomPttBeautyGirl(userId, senderId, replyToken);
+            //randomGirl(text, replyToken);
+        }
+
         if (text.endsWith("天氣?") || text.endsWith("天氣？")) {
             boolean result = weatherResult(text, replyToken);
             if (!result) {
@@ -1034,26 +1054,6 @@ public class OhBotController {
 
         if (text.equals("紫外線圖?") || text.equals("紫外線圖？")) {
             replyTaiwanWeatherUltravioletLightImage(replyToken);
-        }
-
-        if (text.startsWith("抽") && text.length() > 1) {
-            if(text.replace("抽", "").replace(" ", "").trim().equals("")) {
-                randomPttBeautyGirl(userId, senderId, replyToken);
-            }
-            else {
-                text = text.replace("抽", "").replace(" ", "%20");
-                instagramTarget(text, replyToken);
-                /*if (isStringIncludeChinese(text)) {
-                    instagramTarget(text, replyToken);
-                }
-                else if (isStringIncludeEnglish(text)) {
-                    pexelsTarget(text, replyToken);    
-                }*/
-            }
-        }
-        else if (text.equals("抽")) {
-            randomPttBeautyGirl(userId, senderId, replyToken);
-            //randomGirl(text, replyToken);
         }
 
         if (text.contains("熊貓")) {
