@@ -1086,7 +1086,7 @@ public class OhBotController {
             replyTextHowOld(replyToken, text);
         }
 
-        if (text.equals("我剛抽了誰?") || text.equals("我剛抽了誰？")) {
+        if (text.startsWith("我") && text.contains("抽了誰")) {
             whoImPickRandomPttBeautyGirlMap(userId, replyToken);
         }
 
