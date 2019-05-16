@@ -5965,9 +5965,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += "PgCommand關閉生日快樂廣告\n";
             result += "霸凌模式:https:xxxxxx.jpg\n";
             result += "霸凌不好\n";
-            result += "PgCommand表特最小推數設定值";
-            result += "PgCommand表特最小推數設定為X";
-            result += "\n---\n\n";
+            result += "PgCommand表特最小推數設定值\n";
+            result += "PgCommand表特最小推數設定為X\n";
+            result += "---\n\n";
         }
 
         result += "Ｘ天氣？（Ｘ需為地區\n";
