@@ -125,6 +125,8 @@ public class OhBotController {
     private String mExchangedDefaultText = "日圓";
     private String mExchangedDefaultCountry = "JPY";
 
+    private int mPttBeautyRandomCountMin = 30;
+
 
     private boolean isKofatKeywordEnable = false;
     private boolean isEgKeywordEnable = false;
@@ -133,7 +135,6 @@ public class OhBotController {
 
     private boolean isBullyModeEnable = false;
     private int mBullyModeCount = 0;
-    private int mPttBeautyParseLevel = 10;
     private String mBullyModeTarget = "";
     private String IMAGE_NO_CONSCIENCE = "https://i.imgur.com/8v9oZ2P.jpg";
     private String IMAGE_OK_FINE = "https://i.imgur.com/CNM3c0Y.jpg";
@@ -934,13 +935,14 @@ public class OhBotController {
             //startFetchJanDanGirlImages();
         }
 
-        if ((text.startsWith("抽") || text.startsWith("熱抽")) && text.length() > 1) {
-            if(text.replace("抽", "").replace(" ", "").trim().equals("")) {
-                randomPttBeautyGirl(userId, senderId, replyToken);
+        if ((text.startsWith("抽") || text.startsWith("熱抽") || text.startsWith("爆抽")) && text.length() > 1) {
+            if(text.replace("抽", "").replace("爆", "").replace(" ", "").trim().equals("")) {
+                boolean isHot = text.startsWith("爆抽");
+                randomPttBeautyGirl(userId, senderId, replyToken, isHot);
             }
             else {
                 boolean isHot = text.startsWith("熱抽");
-                text = text.replace("熱抽", "").replace("抽", "").replace(" ", "%20");
+                text = text.trim().replace("熱抽", "").replace("抽", "").replace(" ", "");
 
                 instagramTarget(userId, text, replyToken, isHot);
                 /*if (isStringIncludeChinese(text)) {
@@ -952,7 +954,7 @@ public class OhBotController {
             }
         }
         else if (text.equals("抽")) {
-            randomPttBeautyGirl(userId, senderId, replyToken);
+            randomPttBeautyGirl(userId, senderId, replyToken, false);
             //randomGirl(text, replyToken);
         }
 
@@ -1257,7 +1259,7 @@ public class OhBotController {
             forceStopRPS(replyToken);
         }
 
-        if (text.equals("PgCommand開始偵測ID")) {
+        /*if (text.equals("PgCommand開始偵測ID")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
             startUserIdDetectMode(senderId, replyToken);
         }
@@ -1265,6 +1267,41 @@ public class OhBotController {
         if (text.equals("PgCommand停止偵測ID")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
             stopUserIdDetectMode(senderId, replyToken);
+        }*/
+
+        if (text.equals("PgCommand表特最小推數設定值")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            this.replyText(replyToken, "ＰＧ大人目前設定值為 " + mPttBeautyRandomCountMin);
+            return;
+        }
+        if (text.startsWith("PgCommand表特最小推數設定為")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            int number = 10;
+            try {
+                number = Integer.parseInt(text.replace("PgCommand表特最小推數設定為"));
+            } catch (java.lang.NumberFormatException e) {
+                this.replyText(replyToken, "ＰＧ 大人數值偵測錯誤\n輸入值為: " + text.replace("PgCommand表特最小推數設定為"));
+                return;
+            }
+            if (number >= 100) {
+                number = 99;
+            }
+            else if (number < 10) {
+                number = 10;
+            }
+            mPttBeautyRandomCountMin = number;
+            this.replyText(replyToken, "ＰＧ 大人目前設定值為 " + mPttBeautyRandomCountMin);
+            return;
+        }
+
+        if (text.equals("我的LineId")) {
+            this.replyText(replyToken, "您的 Line User Id 為: " + userId);
+            return;
+        }
+
+        if (text.equals("我的Line群組Id")) {
+            this.replyText(replyToken, "您的 Line Group Id 為: " + senderId);
+            return;
         }
 
         if (text.equals("最新地震報告圖")) {
@@ -3216,7 +3253,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void randomPttBeautyGirl(String userId, String senderId, String replyToken) throws IOException {
+    private void randomPttBeautyGirl(String userId, String senderId, String replyToken, boolean isHot) throws IOException {
         if (senderId.equals(GROUP_ID_CONNECTION)) {
             if(mConnectionGroupRandomGirlUserIdList.contains(userId)) {
                 this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
@@ -3227,7 +3264,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        String url = getRandomPttBeautyImageUrl(userId);
+        String url = getRandomPttBeautyImageUrl(userId, isHot);
 
         log.info("Piggy Check randomPttBeautyGirl: " + url);
         if (url.equals("")) {
@@ -5036,6 +5073,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result_url = "";
             int tryCount = 10;
             while (tryCount > 0){
+                tryCount--;
                 int random_num = randomGenerator.nextInt(maxPageInt-1500)+1500;
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
                 String target_url = "https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html";
@@ -5055,22 +5093,53 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 httpEntity = response.getEntity();
 
                 result_url = EntityUtils.toString(httpEntity, "utf-8");
-                List<String> resultImageList = new ArrayList<String> ();
-                if (result_url.indexOf("hl f1\">爆</span>")<0) {
-                    log.info("Piggy Check can't find BURST in page: " + random_num);
-                    result_url = "";
-                    tryCount--;
-                    continue;
+                if (isHot) {
+                    if (result_url.indexOf("hl f1\">爆</span>")<0) {
+                        log.info("Piggy Check can't find BURST in page: " + random_num);
+                        result_url = "";
+                        continue;
+                    }
+                    else {
+                        result_url = result_url.substring(result_url.indexOf("hl f1\">爆</span>"), result_url.length());
+                        result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
+                        result_url = "https://www.ptt.cc" + result_url + ".html";
+                    }
+
+                    if (result_url.equals("")) {
+                        continue;
+                    }
                 }
                 else {
-                    result_url = result_url.substring(result_url.indexOf("hl f1\">爆</span>"), result_url.length());
-                    result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
-                    result_url = "https://www.ptt.cc" + result_url + ".html";
-                }
+                    
+                    Pattern pattern = Pattern.compile("<span class=\"hl f3\">.*?<\/span>");
+                    Matcher matcher = pattern.matcher(result_url);
+                    List<String> resultNumberCountList = new ArrayList<String> ();
 
-                if (result_url.equals("")) {
-                    tryCount--;
-                    continue;
+                    while(matcher.find()){
+                        String result = matcher.group();
+                        result = result.substring(result.indexOf("hl f3\">"), result.indexOf("</span></div>"));
+                        try {
+                            int number = Integer.parseInt(result);
+                            if (number >= mPttBeautyRandomCountMin) {
+                                resultNumberCountList.add(result);
+                            }
+                        } catch (java.lang.NumberFormatException e) {
+                            log.info("NumberFormatException: " + e);
+                            continue;
+                        }
+                    }
+                    if (resultNumberCountList.size() > 0) {
+                        // get random count number
+                        String number = randomGenerator.nextInt(resultNumberCountList.size());
+
+                        // generator result url
+                        result_url = result_url.substring(result_url.indexOf("hl f3\">" + number + "</span>"), result_url.length());
+                        result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
+                        result_url = "https://www.ptt.cc" + result_url + ".html";
+                    }
+                    else {
+                        continue;
+                    }
                 }
 
 
@@ -5097,6 +5166,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
 
                 result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
+
+                List<String> resultImageList = new ArrayList<String> ();
 
                 if (result_image_image.indexOf("http://imgur.com/") > 0) {
                     Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
@@ -5126,7 +5197,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     return resultImageList.get(random_num);
                 }
                 else {
-                    tryCount--;
                     continue;
                 }
             }
@@ -5831,6 +5901,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private String getFeatureListString(String userId) {
         String result = "功能指令集\n\n";
         if(isAdminUserId(userId)) {
+            result += "---\n";
             result += "PgCommand新增吃什麼:Ｘ\n";
             result += "PgCommand刪除吃什麼:Ｘ\n";
             result += "PgCommand清空吃什麼\n";
@@ -5866,6 +5937,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += "PgCommand關閉生日快樂廣告\n";
             result += "霸凌模式:https:xxxxxx.jpg\n";
             result += "霸凌不好\n";
+            result += "PgCommand表特最小推數設定值";
+            result += "PgCommand表特最小推數設定為X";
+            result += "PgCommandNotifyMessage:X";
+            result += "PgCommandNotifyImage:X";
+            result += "---\n";
         }
 
         result += "Ｘ天氣？（Ｘ需為地區\n";
@@ -5908,6 +5984,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "查表單\n";
         result += "登記：XXX\n";
         result += "收單\n";
+        result += "我的LineId\n";
+        result += "我的Line群組Id\n";
         result += "Ingress Twitter\n";
         return result;
     }
