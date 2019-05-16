@@ -5111,7 +5111,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
                 else {
                     
-                    Pattern pattern = Pattern.compile("<span class=\"hl f3\">.*?<\/span>");
+                    Pattern pattern = Pattern.compile("<span class=\"hl f3\">.*?<\\/span>");
                     Matcher matcher = pattern.matcher(result_url);
                     List<String> resultNumberCountList = new ArrayList<String> ();
 
