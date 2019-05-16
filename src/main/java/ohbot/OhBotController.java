@@ -5144,15 +5144,26 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                             continue;
                         }
                     }
+                    if (result_url.indexOf("hl f1\">爆</span>")>0) {
+                        resultNumberCountList.add("爆");
+                    }
                     if (resultNumberCountList.size() > 0) {
                         // get random count number
                         int randomNum = randomGenerator.nextInt(resultNumberCountList.size());
                         String numberCount = resultNumberCountList.get(randomNum);
 
                         // generator result url
-                        result_url = result_url.substring(result_url.indexOf("hl f3\">" + numberCount + "</span>"), result_url.length());
-                        result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
-                        result_url = "https://www.ptt.cc" + result_url + ".html";
+                        if (numberCount.equals("爆")) {
+                            result_url = result_url.substring(result_url.indexOf("hl f1\">爆</span>"), result_url.length());
+                            result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
+                            result_url = "https://www.ptt.cc" + result_url + ".html";
+                        }
+                        else {
+                            result_url = result_url.substring(result_url.indexOf("hl f3\">" + numberCount + "</span>"), result_url.length());
+                            result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
+                            result_url = "https://www.ptt.cc" + result_url + ".html";
+                        }
+                        
                     }
                     else {
                         continue;
@@ -5948,8 +5959,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += "PgCommand設定代理管理員:X\n";
             result += "PgCommand使用者顯示名稱:X\n";
             result += "PgCommand使用者顯示圖片:X\n";
-            result += "PgCommand開始偵測ID\n";
-            result += "PgCommand停止偵測ID\n";
             result += "PgCommandNotifyMessage:X\n";
             result += "PgCommandNotifyImage:X\n";
             result += "PgCommand設定MD地圖:X\n";
@@ -5959,8 +5968,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += "霸凌不好\n";
             result += "PgCommand表特最小推數設定值";
             result += "PgCommand表特最小推數設定為X";
-            result += "PgCommandNotifyMessage:X";
-            result += "PgCommandNotifyImage:X";
             result += "---\n";
         }
 
