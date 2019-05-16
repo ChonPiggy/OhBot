@@ -5133,8 +5133,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                     while(matcher.find()){
                         String result = matcher.group();
-                        log.info("Piggy Check result: " + result);
-                        result = result.substring(result.indexOf("hl f3\">"), result.indexOf("</span></div>"));
+                        result = result.substring(result.indexOf("hl f3\">"), result.indexOf("</span>"));
                         try {
                             int number = Integer.parseInt(result);
                             if (number >= mPttBeautyRandomCountMin) {
