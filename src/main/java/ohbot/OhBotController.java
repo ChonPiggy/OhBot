@@ -133,6 +133,8 @@ public class OhBotController {
     private boolean isCathyKeywordEnable = false;
     private boolean isChuiyiKeywordEnable = false;
 
+    private boolean isDisableBot = false;
+
     private boolean isBullyModeEnable = false;
     private int mBullyModeCount = 0;
     private String mBullyModeTarget = "";
@@ -856,6 +858,20 @@ public class OhBotController {
         Source source = event.getSource();
         String senderId = source.getSenderId();
         String userId = source.getUserId();
+        if (text.equals("PgCommand開啟全功能")) {
+            isDisableBot = false;
+            this.replyText(replyToken, "好的 ＰＧ 大人");
+            return;
+        }
+        else if (text.equals("PgCommand關閉全功能")) {
+            isDisableBot = true;
+            this.replyText(replyToken, "好的 ＰＧ 大人");
+            return;
+        }
+
+        if (isDisableBot && !isAdminUserId(userId)) {
+            return;
+        }
         log.info("source: " + source + " name: " + getUserDisplayName(userId) + " text: " + text);
 
         // BD feature
@@ -5117,6 +5133,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                     while(matcher.find()){
                         String result = matcher.group();
+                        log.info("Piggy Check result: " + e);
                         result = result.substring(result.indexOf("hl f3\">"), result.indexOf("</span></div>"));
                         try {
                             int number = Integer.parseInt(result);
@@ -5903,6 +5920,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String result = "功能指令集\n\n";
         if(isAdminUserId(userId)) {
             result += "---\n";
+            result += "PgCommand關閉全功能\n";
+            result += "PgCommand開啟全功能\n";
+            result += "PgCommand新增吃什麼:Ｘ\n";
             result += "PgCommand新增吃什麼:Ｘ\n";
             result += "PgCommand刪除吃什麼:Ｘ\n";
             result += "PgCommand清空吃什麼\n";
