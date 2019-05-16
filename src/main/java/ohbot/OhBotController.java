@@ -1278,9 +1278,9 @@ public class OhBotController {
             if(!isAdminUserId(userId, replyToken)) {return;}
             int number = 10;
             try {
-                number = Integer.parseInt(text.replace("PgCommand表特最小推數設定為"));
+                number = Integer.parseInt(text.replace("PgCommand表特最小推數設定為", ""));
             } catch (java.lang.NumberFormatException e) {
-                this.replyText(replyToken, "ＰＧ 大人數值偵測錯誤\n輸入值為: " + text.replace("PgCommand表特最小推數設定為"));
+                this.replyText(replyToken, "ＰＧ 大人數值偵測錯誤\n輸入值為: " + text.replace("PgCommand表特最小推數設定為", ""));
                 return;
             }
             if (number >= 100) {
@@ -5033,7 +5033,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return "";
     }
 
-    private String getRandomPttBeautyImageUrl(String userId) {
+    private String getRandomPttBeautyImageUrl(String userId, boolean isHot) {
         try{
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -5130,10 +5130,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     }
                     if (resultNumberCountList.size() > 0) {
                         // get random count number
-                        String number = randomGenerator.nextInt(resultNumberCountList.size());
+                        int randomNum = randomGenerator.nextInt(resultNumberCountList.size());
+                        String numberCount = resultNumberCountList.get(randomNum);
 
                         // generator result url
-                        result_url = result_url.substring(result_url.indexOf("hl f3\">" + number + "</span>"), result_url.length());
+                        result_url = result_url.substring(result_url.indexOf("hl f3\">" + numberCount + "</span>"), result_url.length());
                         result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
                         result_url = "https://www.ptt.cc" + result_url + ".html";
                     }
