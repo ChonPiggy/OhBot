@@ -5133,7 +5133,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                     while(matcher.find()){
                         String result = matcher.group();
-                        result = result.substring(result.indexOf("hl f3\">"), result.indexOf("</span>"));
+                        result = result.substring(result.indexOf("hl f3\">")+7, result.indexOf("</span>"));
                         try {
                             int number = Integer.parseInt(result);
                             if (number >= mPttBeautyRandomCountMin) {
