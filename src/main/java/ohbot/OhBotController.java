@@ -20,8 +20,8 @@ import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
-//import com.linecorp.bot.model.message.template.ImageCarouselColumn;
-//import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
+import com.linecorp.bot.model.message.template.ImageCarouselColumn;
+import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.model.event.source.*;
@@ -1485,7 +1485,7 @@ public class OhBotController {
         this.reply(replyToken, new ImageMessage(original, preview));
     }
 
-    /*private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
+    private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
         return new ImageCarouselColumn(imageUrl, new URIAction(label, url));
     }
 
@@ -1494,7 +1494,7 @@ public class OhBotController {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
         this.reply(replyToken, new TemplateMessage("PG soooo cute!", new ImageCarouselTemplate(columns)));
-    }*/
+    }
 
     private void replyLocation(@NonNull String replyToken, @NonNull String title, @NonNull String address, double latitude, double longitude) {
         if (replyToken.isEmpty()) {
