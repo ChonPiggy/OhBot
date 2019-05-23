@@ -2893,7 +2893,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             context = EntityUtils.toString(httpEntity, "utf-8");
 
             int maxCount = 0; // Max: 5
-            /*List<ImageCarouselColumn> columnsList = new ArrayList<>();
+            List<ImageCarouselColumn> columnsList = new ArrayList<>();
             while (maxCount<5 && context.indexOf("data-asin=\"")> 0) {
                 context = context.substring(context.indexOf("data-asin=\""), context.length());
                 context = context.substring(context.indexOf("href=\"https:")+6, context.length());
@@ -2908,7 +2908,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             else {
                 this.replyText(replyToken, "搜索失敗");
-            }*/
+            }
 
         }catch (IOException e2) {
             this.replyText(replyToken, "搜索大失敗");
