@@ -3341,6 +3341,23 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void instagramTarget(String userId, String text, String replyToken, boolean isHot) throws IOException {
+        if (senderId.equals(GROUP_ID_TOTYO_HOT)) {
+
+            if(mTokyoHotRandomGirlLimitationList.containsKey(userId)) {
+                int count = mTokyoHotRandomGirlLimitationList.get(userId);
+                if (count > 10) {
+                    this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
+                    return;
+                }
+                else {
+                    count++;
+                    mTokyoHotRandomGirlLimitationList.put(userId, count);    
+                }
+            }
+            else {
+                mTokyoHotRandomGirlLimitationList.put(userId, 1);
+            }
+        }
         String url = getRandomInstagramImageUrl(userId, text, isHot);
         if (url.equals("")) {
             return;
