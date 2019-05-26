@@ -20,8 +20,8 @@ import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
-import com.linecorp.bot.model.message.template.ImageCarouselColumn;
-import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
+//import com.linecorp.bot.model.message.template.ImageCarouselColumn;
+//import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.model.event.source.*;
@@ -85,6 +85,7 @@ import java.util.Base64;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.net.*;
+import java.lang.Integer;
 
 /**
  * Created by lambertyang on 2017/1/13.
@@ -228,6 +229,7 @@ public class OhBotController {
     private String GROUP_ID_CONNECTION = "Ccc1bbf4da77b2fbbc5745be3d6ca154f";
     private String GROUP_ID_RUNRUNRUN = "C85a3ee8bcca930815577ad8955c70723";
     private String GROUP_ID_BOT_HELL = "C3691a96649f0d57c367eedb2c7f0e161";
+    private String GROUP_ID_TOTYO_HOT = "C08a844342f10681cd7750d26974c5da8";
     
 
     private String mTotallyBullyUserId = USER_ID_CATHY;
@@ -244,6 +246,7 @@ public class OhBotController {
 
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
     private HashMap<String, String> mWhoImPickRandomGirlMap = new HashMap<>(); // userId, webLink
+    private HashMap<String, Integer> mTokyoHotRandomGirlLimitationList = new HashMap<>(); // userId, count
     
     private class SheetList {
         private String mSheetHolder = "";
@@ -1485,7 +1488,7 @@ public class OhBotController {
         this.reply(replyToken, new ImageMessage(original, preview));
     }
 
-    private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
+    /*private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
         return new ImageCarouselColumn(imageUrl, new URIAction(label, url));
     }
 
@@ -1494,7 +1497,7 @@ public class OhBotController {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
         this.reply(replyToken, new TemplateMessage("PG soooo cute!", new ImageCarouselTemplate(columns)));
-    }
+    }*/
 
     private void replyLocation(@NonNull String replyToken, @NonNull String title, @NonNull String address, double latitude, double longitude) {
         if (replyToken.isEmpty()) {
@@ -2893,7 +2896,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             context = EntityUtils.toString(httpEntity, "utf-8");
 
             int maxCount = 0; // Max: 5
-            List<ImageCarouselColumn> columnsList = new ArrayList<>();
+            /*List<ImageCarouselColumn> columnsList = new ArrayList<>();
             while (maxCount<5 && context.indexOf("data-asin=\"")> 0) {
                 context = context.substring(context.indexOf("data-asin=\""), context.length());
                 context = context.substring(context.indexOf("href=\"https:")+6, context.length());
@@ -2908,7 +2911,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             else {
                 this.replyText(replyToken, "搜索失敗");
-            }
+            }*/
 
         }catch (IOException e2) {
             this.replyText(replyToken, "搜索大失敗");
@@ -3277,6 +3280,24 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             else {
                 mConnectionGroupRandomGirlUserIdList.add(userId);
+            }
+        }
+
+        if (senderId.equals(GROUP_ID_TOTYO_HOT)) {
+
+            if(mTokyoHotRandomGirlLimitationList.contains(userId)) {
+                int count = mTokyoHotRandomGirlLimitationList.get(userId);
+                if (count > 10) {
+                    this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
+                    return;
+                }
+                else {
+                    count++;
+                    mTokyoHotRandomGirlLimitationList.put(userId, count);    
+                }
+            }
+            else {
+                mTokyoHotRandomGirlLimitationList.put(userId, 1);
             }
         }
 
