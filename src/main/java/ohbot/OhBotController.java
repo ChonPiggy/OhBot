@@ -3285,7 +3285,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         if (senderId.equals(GROUP_ID_TOTYO_HOT)) {
 
-            if(mTokyoHotRandomGirlLimitationList.contains(userId)) {
+            if(mTokyoHotRandomGirlLimitationList.containsKey(userId)) {
                 int count = mTokyoHotRandomGirlLimitationList.get(userId);
                 if (count > 10) {
                     this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
