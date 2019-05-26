@@ -963,7 +963,7 @@ public class OhBotController {
                 boolean isHot = text.startsWith("熱抽");
                 text = text.trim().replace("熱抽", "").replace("抽", "").replace(" ", "");
 
-                instagramTarget(userId, text, replyToken, isHot);
+                instagramTarget(userId, senderId, text, replyToken, isHot);
                 /*if (isStringIncludeChinese(text)) {
                     instagramTarget(text, replyToken);
                 }
@@ -3340,7 +3340,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         log.info("Piggy Check 6");
     }
 
-    private void instagramTarget(String userId, String text, String replyToken, boolean isHot) throws IOException {
+    private void instagramTarget(String userId, String senderId, String text, String replyToken, boolean isHot) throws IOException {
         if (senderId.equals(GROUP_ID_TOTYO_HOT)) {
 
             if(mTokyoHotRandomGirlLimitationList.containsKey(userId)) {
