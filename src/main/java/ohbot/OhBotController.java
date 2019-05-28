@@ -224,14 +224,16 @@ public class OhBotController {
     private String USER_ID_PIGGY = "U8147d3d84ccc1e6e12d0eb82d30b1f1a";
     private String USER_ID_KOFAT = "U9c99b691ba0b5d32de41606c19b2e2eb";
     private String USER_ID_CATHY = "U0473526c4d3f618618244132ca0d7ea0";
+    private String USER_ID_MEAT_UNCLE = "U267420c1d3d7f551c2c19b312e81db86";
     private String USER_ID_TEST_MASTER = USER_ID_KOFAT;
 
     private String GROUP_ID_CONNECTION = "Ccc1bbf4da77b2fbbc5745be3d6ca154f";
     private String GROUP_ID_RUNRUNRUN = "C85a3ee8bcca930815577ad8955c70723";
     private String GROUP_ID_BOT_HELL = "C3691a96649f0d57c367eedb2c7f0e161";
     private String GROUP_ID_TOTYO_HOT = "C08a844342f10681cd7750d26974c5da8";
+    private String GROUP_ID_INGRESS_EAT = "C0eb3ba0c74a0295aecde593c9bdc4fa3";
     
-
+    private String mRandomFootIgTargetString = "美食";
     private String mTotallyBullyUserId = USER_ID_CATHY;
     private String mTotallyBullyReplyString = "閉嘴死肥豬";
     private boolean mIsTotallyBullyEnable = false;
@@ -952,6 +954,23 @@ public class OhBotController {
         if (mJanDanGirlList.size() == 0 && !mIsStartJandanStarted) {
             //mIsStartJandanStarted = true;
             //startFetchJanDanGirlImages();
+        }
+
+        if (senderId.equals(GROUP_ID_INGRESS_EAT)) {
+            // ingress eat group specific feature.
+            if (userId.equals(USER_ID_MEAT_UNCLE) && text.startsWith("改抽")) {
+                mRandomFootIgTargetString = text.replace("改抽").replace(" ", "").trim();
+                this.replyText(replyToken, "好的肉叔叔, 關鍵字改為: " + mRandomFootIgTargetString);
+                return;
+            }
+            else if (userId.equals(USER_ID_MEAT_UNCLE) && text.startsWith("現在是抽什麼")) {
+                this.replyText(replyToken, "肉叔叔, 現在的關鍵字是: " + mRandomFootIgTargetString);
+                return;
+            }
+            else if (text.equals("吃")) {
+                instagramTarget(userId, senderId, mRandomFootIgTargetString, replyToken, false);
+                return;
+            }
         }
 
         if ((text.startsWith("抽") || text.startsWith("熱抽") || text.startsWith("爆抽")) && text.length() > 1) {
