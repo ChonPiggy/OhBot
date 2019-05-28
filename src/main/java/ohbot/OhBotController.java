@@ -959,7 +959,7 @@ public class OhBotController {
         if (senderId.equals(GROUP_ID_INGRESS_EAT)) {
             // ingress eat group specific feature.
             if (userId.equals(USER_ID_MEAT_UNCLE) && text.startsWith("改抽")) {
-                mRandomFootIgTargetString = text.replace("改抽").replace(" ", "").trim();
+                mRandomFootIgTargetString = text.replace("改抽", "").replace(" ", "").trim();
                 this.replyText(replyToken, "好的肉叔叔, 關鍵字改為: " + mRandomFootIgTargetString);
                 return;
             }
