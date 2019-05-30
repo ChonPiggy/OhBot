@@ -248,6 +248,7 @@ public class OhBotController {
 
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
     private HashMap<String, String> mWhoImPickRandomGirlMap = new HashMap<>(); // userId, webLink
+    private HashMap<String, String> mWhoTheyPickRandomGirlMap = new HashMap<>(); // senderId, webLink
     private HashMap<String, Integer> mTokyoHotRandomGirlLimitationList = new HashMap<>(); // userId, count
     
     private class SheetList {
@@ -1128,6 +1129,10 @@ public class OhBotController {
 
         if (text.startsWith("我") && text.contains("抽了誰")) {
             whoImPickRandomPttBeautyGirlMap(userId, replyToken);
+        }
+
+        if (text.startsWith("他") && text.contains("抽了誰")) {
+            whoTheyPickRandomPttBeautyGirlMap(senderId, replyToken);
         }
 
         if (text.startsWith("開表單:")||text.startsWith("開表單：")) {
@@ -2953,6 +2958,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    private void whoTheyPickRandomPttBeautyGirlMap(String senderId, String replyToken) {
+        if (mWhoTheyPickRandomGirlMap.containsKey(senderId)) {
+            this.replyText(replyToken, mWhoTheyPickRandomGirlMap.get(userId));
+        }
+        else {
+            this.replyText(replyToken, "這群組還沒人抽過唷");
+        }
+    }
+
     private void replyTextHowOld(String replyToken, String text) {
         text = text.replace("幾歲", "").replace("?", "").replace("？", "").trim();
         String result = "";
@@ -3320,7 +3334,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        String url = getRandomPttBeautyImageUrl(userId, isHot);
+        String url = getRandomPttBeautyImageUrl(userId, senderId, isHot);
 
         log.info("Piggy Check randomPttBeautyGirl: " + url);
         if (url.equals("")) {
@@ -3377,7 +3391,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 mTokyoHotRandomGirlLimitationList.put(userId, 1);
             }
         }
-        String url = getRandomInstagramImageUrl(userId, text, isHot);
+        String url = getRandomInstagramImageUrl(userId, senderId, text, isHot);
         if (url.equals("")) {
             return;
         }
@@ -5106,7 +5120,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return "";
     }
 
-    private String getRandomPttBeautyImageUrl(String userId, boolean isHot) {
+    private String getRandomPttBeautyImageUrl(String userId, String senderId, boolean isHot) {
         try{
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -5231,6 +5245,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 log.info("Piggy Check result_url: " + result_url);
 
                 mWhoImPickRandomGirlMap.put(userId, result_url);
+                mWhoTheyPickRandomGirlMap.put(senderId, result_url);
 
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
@@ -5298,7 +5313,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return "";//TODO
     }
 
-    private String getRandomInstagramImageUrl(String userId, String target, boolean isHot) {
+    private String getRandomInstagramImageUrl(String userId, String senderId, String target, boolean isHot) {
         try {
 
             Random randomGenerator = new Random();
@@ -5360,6 +5375,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String ig_url = "https://www.instagram.com/p/" + tempIgList.get(random_num);
                 log.info("Piggy Check ig_url: " + ig_url);
                 mWhoImPickRandomGirlMap.put(userId, ig_url);
+                mWhoTheyPickRandomGirlMap.put(senderId, ig_url);
                 return result_url;
             }
             else {
@@ -6042,6 +6058,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "吃什麼？\n";
         result += "抽 （抽 PTT 表特）\n";
         result += "我剛抽了誰?\n";
+        result += "他剛抽了誰?\n";
         result += "抽Ｘ（抽 IG X tag 最新）\n";
         result += "熱抽Ｘ（抽 IG X tag 熱門）\n";
         /*result += "抽Ｘ（為英文抽 Pexel）\n";*/
