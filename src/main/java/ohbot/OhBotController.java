@@ -148,6 +148,7 @@ public class OhBotController {
     private String IMAGE_PANDA = "https://i.imgur.com/4RJ2AuT.jpg";
     private String IMAGE_WILL_YOU_COME = "https://i.imgur.com/11cUbVH.jpg";
     private String IMAGE_YOU_ARE_PERVERT = "https://i.imgur.com/dRJinz7.jpg";
+    private String IMAGE_GPNUDD = "https://i.imgur.com/0Kr7J44.jpg";
 
     private List<String> mIWillBeLateList = new ArrayList<String> (
         Arrays.asList("https://i.imgur.com/0cNbr9c.jpg",
@@ -1369,6 +1370,10 @@ public class OhBotController {
 
         if (text.equals("幹")||text.equals("操")||text.equals("雞掰")||text.equals("機掰")) {
             keywordImage("IfYouAngry",replyToken);
+        }
+
+        if (text.contains("不自殺聲明")||text.contains("GPNUDD")) {
+            keywordImage("GPNUDD",replyToken);
         }
 
         // keyword image control
@@ -4158,6 +4163,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
         if (text.equals("IfYouAngry")) {
             source = IMAGE_IF_YOU_ANGRY;
+        }
+        if (text.equals("GPNUDD")) {
+            source = IMAGE_GPNUDD;
         }
         if (text.equals("EG")) {
             List<String> mEgDevilImgurLinkList = Arrays.asList("https://i.imgur.com/6qN9GI1.jpg", "https://i.imgur.com/qHbEBjN.jpg", "https://i.imgur.com/NFbnbSs.jpg", "https://i.imgur.com/68KRiAj.jpg", "https://i.imgur.com/dHEEBcU.jpg", "https://i.imgur.com/OMqBsOl.jpg", "https://i.imgur.com/JBuBhqr.jpg", "https://i.imgur.com/O5o7tD3.jpg", "https://i.imgur.com/PYZ4v9V.jpg", "https://i.imgur.com/GRD3yXF.jpg");
