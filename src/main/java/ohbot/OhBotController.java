@@ -2960,7 +2960,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void whoTheyPickRandomPttBeautyGirlMap(String senderId, String replyToken) {
         if (mWhoTheyPickRandomGirlMap.containsKey(senderId)) {
-            this.replyText(replyToken, mWhoTheyPickRandomGirlMap.get(userId));
+            this.replyText(replyToken, mWhoTheyPickRandomGirlMap.get(senderId));
         }
         else {
             this.replyText(replyToken, "這群組還沒人抽過唷");
