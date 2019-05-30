@@ -3934,7 +3934,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
             }
             else {
-                Pattern patternJp = Pattern.compile("(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?.(jpeg|jpg)");
+                Pattern patternJp = Pattern.compile("(http|ftp|https):\\/\\/([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:\\/~+#-]*[\\w@?^=%&\\/~+#-])?.(jpeg|jpg)");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
