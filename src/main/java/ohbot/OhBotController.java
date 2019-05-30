@@ -1131,7 +1131,7 @@ public class OhBotController {
             whoImPickRandomPttBeautyGirlMap(userId, replyToken);
         }
 
-        if (text.startsWith("他") && text.contains("抽了誰")) {
+        if ((text.startsWith("他") || text.startsWith("她")|| text.startsWith("牠")|| text.startsWith("它")|| text.startsWith("祂")) && text.contains("抽了誰")) {
             whoTheyPickRandomPttBeautyGirlMap(senderId, replyToken);
         }
 
