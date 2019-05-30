@@ -3947,6 +3947,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     //log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
+            else if (result_image_image.indexOf("http://i.imgur.com/") > 0) {
+                Pattern patternJp = Pattern.compile("http:\\/\\/i.imgur.com\\/.*");
+                Matcher matcherJp = patternJp.matcher(result_image_image);
+                while(matcherJp.find()){
+                    String result = matcherJp.group();
+                    result = result.replace("http:","https:");
+                    result = result + ".jpg";
+                    resultImageList.add(result);
+                    //log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
+                }
+            }
             else {
                 Pattern patternJp = Pattern.compile("(http|ftp|https):\\/\\/([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:\\/~+#-]*[\\w@?^=%&\\/~+#-])?.(jpeg|jpg)");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
