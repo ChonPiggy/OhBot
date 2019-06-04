@@ -1157,7 +1157,7 @@ public class OhBotController {
             text = text.substring(0,text.length()-1);
             String url = MrtPdfUrlMaker.getMrtPdfUrl(text);
             if (url.length() > 0) {
-                this.replyImage(replyToken, url, url);
+                this.replyText(replyToken, url);
             }
             else {
                 this.replyText(replyToken, "沒有這個站.");
