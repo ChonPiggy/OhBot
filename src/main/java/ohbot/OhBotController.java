@@ -1152,6 +1152,18 @@ public class OhBotController {
             processSheetAdd(replyToken, senderId, userId, text);
         }
 
+        if (text.endsWith("站?")||text.endsWith("站？")) {
+            text = text.replace("？", "").replace("?", "").trim();
+            text = text.substring(0,text.length()-1);
+            String url = MrtPdfUrlMaker.getMrtPdfUrl(text);
+            if (url.size() > 0) {
+                this.replyImage(replyToken, url, url);
+            }
+            else {
+                this.replyText(replyToken, "沒有這個站.");
+            }
+        }
+
         if (text.startsWith("AmazonJp:")) {
             amazonJpSearch(text, replyToken);
         }
@@ -1336,6 +1348,11 @@ public class OhBotController {
             mPttBeautyRandomCountMin = number;
             this.replyText(replyToken, "ＰＧ 大人目前設定值為 " + mPttBeautyRandomCountMin);
             return;
+        }
+
+        if (text.equals("PgCommand最新地震報告圖網址")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            this.replyText(replyToken, mNewestEarthquakeReportImage);
         }
 
         if (text.equals("我的LineId")) {
@@ -6059,6 +6076,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += "霸凌不好\n";
             result += "PgCommand表特最小推數設定值\n";
             result += "PgCommand表特最小推數設定為X\n";
+            result += "PgCommand最新地震報告圖網址\n";
             result += "---\n\n";
         }
 
@@ -6103,6 +6121,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "查表單\n";
         result += "登記：XXX\n";
         result += "收單\n";
+        result += "X站? (X 限制為捷運站名\n";
         result += "我的LineId\n";
         result += "我的Line群組Id\n";
         result += "Ingress Twitter\n";
