@@ -1156,7 +1156,7 @@ public class OhBotController {
             text = text.replace("？", "").replace("?", "").trim();
             text = text.substring(0,text.length()-1);
             String url = MrtPdfUrlMaker.getMrtPdfUrl(text);
-            if (url.size() > 0) {
+            if (url.length() > 0) {
                 this.replyImage(replyToken, url, url);
             }
             else {
@@ -5911,9 +5911,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</a>")) + "\n"; // Scale per location
             }
 
-
-            tempContext = tempContext.substring(tempContext.indexOf("點此下載\" target=\"_blank\" href=\"")+28, tempContext.length());
-            tempContext = tempContext.substring(0, tempContext.indexOf("\">"));
+            tempContext = tempContext.substring(tempContext.indexOf("\">詳細資料"), tempContext.length());
+            tempContext = tempContext.substring(tempContext.indexOf("title=\"點此下載"), tempContext.length());
+            tempContext = tempContext.substring(tempContext.indexOf("href=\"")+6, tempContext.indexOf("\">"));
             mNewestEarthquakeReportImage = "https://www.cwb.gov.tw";
             mNewestEarthquakeReportImage += tempContext;
             if (!mNewestEarthquakeTime.equals("") && !mNewestEarthquakeTime.equals(newestEarthquakeTime)) {
