@@ -5283,7 +5283,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 log.info("Piggy Check result_url: " + result_url);
 
-                String historyString = result_url + " " + (numberCount.equals("爆") ? "爆" : (numberCount + "推")));
+                String historyString = result_url + " " + (numberCount.equals("爆") ? "爆" : (numberCount + "推"));
 
                 mWhoImPickRandomGirlMap.put(userId, historyString);
                 mWhoTheyPickRandomGirlMap.put(senderId, historyString);
