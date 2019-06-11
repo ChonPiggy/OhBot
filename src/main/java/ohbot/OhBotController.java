@@ -5399,6 +5399,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             List<String> tempImgList = new ArrayList<String> ();
             List<String> tempIgList = new ArrayList<String> ();
+            List<String> tempIgLikeCountList = new ArrayList<String> ();
 
             Pattern pattern = Pattern.compile("display_url\":\".*?\",");
             Matcher matcher = pattern.matcher(html);
@@ -5421,14 +5422,25 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempIgList.add(result);
             }
 
+            pattern = Pattern.compile("edge_liked_by\":{\"count\":.*?\"},");
+            matcher = pattern.matcher(html);
+            while(matcher.find()){
+                String result = matcher.group();
+                result = result.substring(24, result.length());
+                result = result.substring(0, result.length()-2);
+                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                tempIgLikeCountList.add(result);
+            }
+
             if (tempImgList.size() > 0) {
                 random_num = randomGenerator.nextInt(tempImgList.size());
 
                 String result_url = tempImgList.get(random_num);
                 String ig_url = "https://www.instagram.com/p/" + tempIgList.get(random_num);
+                String like_count = tempIgLikeCountList.get(random_num);
                 log.info("Piggy Check ig_url: " + ig_url);
-                mWhoImPickRandomGirlMap.put(userId, ig_url);
-                mWhoTheyPickRandomGirlMap.put(senderId, ig_url);
+                mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + "like"));
+                mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + "like"));
                 return result_url;
             }
             else {
