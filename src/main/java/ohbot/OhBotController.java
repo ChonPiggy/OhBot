@@ -3427,7 +3427,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 mTokyoHotRandomGirlLimitationList.put(userId, 1);
             }
         }
-        String url = getRandomInstagramImageUrl(userId, senderId, text, isHot);
+        String url = getRandomInstagramImageUrl(replyToken, userId, senderId, text, isHot);
         if (url.equals("")) {
             return;
         }
@@ -5366,7 +5366,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return "";//TODO
     }
 
-    private String getRandomInstagramImageUrl(String userId, String senderId, String target, boolean isHot) {
+    private String getRandomInstagramImageUrl(String replyToken, String userId, String senderId, String target, boolean isHot) {
         try {
 
             Random randomGenerator = new Random();
@@ -5422,7 +5422,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempIgList.add(result);
             }
 
-            pattern = Pattern.compile("edge_liked_by\":\{\"count\":.*?\"\},\"edg");
+            pattern = Pattern.compile("edge_liked_by\":{\"count\":.*?\"},\"edg");
             matcher = pattern.matcher(html);
             while(matcher.find()){
                 String result = matcher.group();
@@ -5431,6 +5431,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
                 tempIgLikeCountList.add(result);
             }
+
+            this.replyText(replyToken, "tempIgLikeCountList size: " + tempIgLikeCountList.size());
 
             if (tempImgList.size() > 0) {
                 random_num = randomGenerator.nextInt(tempImgList.size());
@@ -5447,10 +5449,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 log.info("Piggy Check parse IG fail!");
             }
             
-            
-
-
-
         }catch (Exception e) {
             e.printStackTrace();
         }
