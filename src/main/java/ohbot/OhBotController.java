@@ -5432,8 +5432,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempIgLikeCountList.add(result);
             }
 
-            this.replyText(replyToken, "tempIgLikeCountList size: " + tempIgLikeCountList.size());
-
             if (tempImgList.size() > 0) {
                 random_num = randomGenerator.nextInt(tempImgList.size());
 
@@ -5451,6 +5449,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
         }catch (Exception e) {
             e.printStackTrace();
+            this.replyText(replyToken,e.printStackTrace());
         }
         return "";
     }
