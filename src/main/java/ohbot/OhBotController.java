@@ -3064,6 +3064,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     text = text.replace("民國", "").trim();
                     isRepublicEra = true;
                 }
+                else if (text.startsWith("西元")) {
+                    text = text.replace("西元", "").trim();
+                }
                 int inputNumber = Integer.parseInt(text);
                 inputNumber = isRepublicEra ? (inputNumber+1911) : inputNumber;
                 int year = Calendar.getInstance().get(Calendar.YEAR);
