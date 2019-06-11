@@ -3070,6 +3070,25 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 return;
             }
         }
+        else if (text.startsWith("民國")) {
+            text = text.replace("民國", "").trim();
+            if (isStringIncludeNumber(text)) {
+                try {
+                    int inputNumber = Integer.parseInt(text);
+                    inputNumber += 1911;
+                    int year = Calendar.getInstance().get(Calendar.YEAR);
+                    if (year - inputNumber > 0) {
+                        this.replyText(replyToken, "" + (year - inputNumber) + " 歲");
+                    }
+                    else {
+                        this.replyText(replyToken, "白痴...我懶得理你");
+                    }
+                }
+                catch(java.lang.NumberFormatException e1) {
+                    return;
+                }
+            }
+        }
 
         if (!result.equals("")) {
             this.replyText(replyToken, result);
