@@ -5422,7 +5422,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempIgList.add(result);
             }
 
-            pattern = Pattern.compile("edge_liked_by\":{\"count\":.*?\"},\"edg");
+            pattern = Pattern.compile("edge_liked_by\":\{\"count\":.*?\"\},\"edg");
             matcher = pattern.matcher(html);
             while(matcher.find()){
                 String result = matcher.group();
