@@ -5195,6 +5195,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             String result_url = "";
             int tryCount = 10;
+            String numberCount = "";
             while (tryCount > 0){
                 tryCount--;
                 int random_num = randomGenerator.nextInt(maxPageInt-1500)+1500;
@@ -5226,6 +5227,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         result_url = result_url.substring(result_url.indexOf("hl f1\">爆</span>"), result_url.length());
                         result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
                         result_url = "https://www.ptt.cc" + result_url + ".html";
+                        numberCount = "爆";
+                        break;
                     }
 
                     if (result_url.equals("")) {
@@ -5257,7 +5260,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     if (resultNumberCountList.size() > 0) {
                         // get random count number
                         int randomNum = randomGenerator.nextInt(resultNumberCountList.size());
-                        String numberCount = resultNumberCountList.get(randomNum);
+                        numberCount = resultNumberCountList.get(randomNum);
 
                         // generator result url
                         if (numberCount.equals("爆")) {
@@ -5270,7 +5273,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                             result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
                             result_url = "https://www.ptt.cc" + result_url + ".html";
                         }
-                        
+                        break;
                     }
                     else {
                         continue;
@@ -5280,16 +5283,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 log.info("Piggy Check result_url: " + result_url);
 
-                String historyString = result_url;
-                if (numberCount.equals("爆")) {
-                    historyString += " 爆";
-                }
-                else {
-                    historyString += (numberCount + "推");
-                }
+                String historyString = result_url + " " + (numberCount.equals("爆") ? "爆" : (numberCount + "推")));
 
-                mWhoImPickRandomGirlMap.put(userId, result_url + historyString);
-                mWhoTheyPickRandomGirlMap.put(senderId, result_url + historyString);
+                mWhoImPickRandomGirlMap.put(userId, historyString);
+                mWhoTheyPickRandomGirlMap.put(senderId, historyString);
 
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
