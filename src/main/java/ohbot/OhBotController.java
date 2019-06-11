@@ -5280,8 +5280,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 log.info("Piggy Check result_url: " + result_url);
 
-                mWhoImPickRandomGirlMap.put(userId, result_url);
-                mWhoTheyPickRandomGirlMap.put(senderId, result_url);
+                mWhoImPickRandomGirlMap.put(userId, result_url + "" + (numberCount.equals("爆") ? "爆" : numberCount + "推"));
+                mWhoTheyPickRandomGirlMap.put(senderId, result_url + "" + (numberCount.equals("爆") ? "爆" : numberCount + "推"));
 
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
