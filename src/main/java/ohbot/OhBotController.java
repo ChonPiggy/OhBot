@@ -3443,7 +3443,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, "此帳號未公開");
         }
         if (url.equals("")) {
-            this.replyText(replyToken, "IG 解析失敗");
+            this.replyText(replyToken, "沒有這個 TAG");
         }
 
         if (url.indexOf("http:") >= 0) {
@@ -6220,6 +6220,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "今日我最美是誰？\n";
         result += "吃什麼？\n";
         result += "抽 （抽 PTT 表特）\n";
+        result += "抽IG: （抽 IG 公開帳號）\n";
         result += "爆抽 （抽 PTT 表特爆文）\n";
         result += "抽Ｘ（抽 IG X tag 最新）\n";
         result += "熱抽Ｘ（抽 IG X tag 熱門）\n";
