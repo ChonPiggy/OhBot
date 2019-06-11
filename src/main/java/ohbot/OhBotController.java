@@ -3059,6 +3059,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             try {
                 boolean isRepublicEra = false;
+                text = text.replace("年", "").trim();
                 if (text.startsWith("民國")) {
                     text = text.replace("民國", "").trim();
                     isRepublicEra = true;
@@ -6107,10 +6108,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "今日我最美是誰？\n";
         result += "吃什麼？\n";
         result += "抽 （抽 PTT 表特）\n";
-        result += "我剛抽了誰?\n";
-        result += "他剛抽了誰?\n";
+        result += "爆抽 （抽 PTT 表特爆文）\n";
         result += "抽Ｘ（抽 IG X tag 最新）\n";
         result += "熱抽Ｘ（抽 IG X tag 熱門）\n";
+        result += "我剛抽了誰?\n";
+        result += "他剛抽了誰?\n";
         /*result += "抽Ｘ（為英文抽 Pexel）\n";*/
         result += "*蛙*哪*\n";
         result += "開始猜拳\n";
