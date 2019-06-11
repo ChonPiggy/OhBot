@@ -1491,7 +1491,10 @@ public class OhBotController {
         }
 
         if (text.equals("功能指令集")) {
-            this.replyText(replyToken, getFeatureListString(userId));
+            this.replyText(replyToken, getFeatureListString(userId, false));
+        }
+        else if (text.endsWith("功能指令集") && (text.startsWith("Pg") || text.startsWith("PG") || text.startsWith("ＰＧ") )) {
+            this.replyText(replyToken, getFeatureListString(userId, true));
         }
 
         checkNeedTotallyBullyReply(userId, replyToken);
@@ -6038,9 +6041,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private String getFeatureListString(String userId) {
+    private String getFeatureListString(String userId, boolean isAdmin) {
         String result = "功能指令集\n\n";
-        if(isAdminUserId(userId)) {
+        if(isAdminUserId(userId) && isAdmin) {
             result += "PgCommand關閉全功能\n";
             result += "PgCommand開啟全功能\n";
             result += "PgCommand新增吃什麼:Ｘ\n";
