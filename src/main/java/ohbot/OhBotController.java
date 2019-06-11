@@ -5422,12 +5422,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempIgList.add(result);
             }
 
-            pattern = Pattern.compile("edge_liked_by\":{\"count\":.*?\"},");
+            pattern = Pattern.compile("edge_liked_by\":{\"count\":.*?\"},\"edg");
             matcher = pattern.matcher(html);
             while(matcher.find()){
                 String result = matcher.group();
                 result = result.substring(24, result.length());
-                result = result.substring(0, result.length()-2);
+                result = result.substring(0, result.length()-6);
                 //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
                 tempIgLikeCountList.add(result);
             }
@@ -5439,8 +5439,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String ig_url = "https://www.instagram.com/p/" + tempIgList.get(random_num);
                 String like_count = tempIgLikeCountList.get(random_num);
                 log.info("Piggy Check ig_url: " + ig_url);
-                mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + "like"));
-                mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + "like"));
+                mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
+                mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
                 return result_url;
             }
             else {
