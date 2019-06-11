@@ -5228,7 +5228,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
                         result_url = "https://www.ptt.cc" + result_url + ".html";
                         numberCount = "爆";
-                        break;
                     }
 
                     if (result_url.equals("")) {
@@ -5273,7 +5272,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                             result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
                             result_url = "https://www.ptt.cc" + result_url + ".html";
                         }
-                        break;
                     }
                     else {
                         continue;
