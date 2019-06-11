@@ -970,9 +970,14 @@ public class OhBotController {
                 return;
             }
             else if (text.equals("吃")) {
-                instagramTarget(userId, senderId, mRandomFootIgTargetString, replyToken, false);
+                instagramTarget(userId, senderId, mRandomFootIgTargetString, replyToken, false, false);
                 return;
             }
+        }
+
+        if (text.startsWith("抽IG:") || text.startsWith("抽Ig:") || text.startsWith("抽ig:")) {
+            text = text.trim().replace("抽IG:", "").replace("抽Ig:", "").replace("抽ig:", "").replace(" ", "");
+            instagramTarget(userId, senderId, text, replyToken, false, true);
         }
 
         if ((text.startsWith("抽") || text.startsWith("熱抽") || text.startsWith("爆抽")) && text.length() > 1) {
@@ -984,7 +989,7 @@ public class OhBotController {
                 boolean isHot = text.startsWith("熱抽");
                 text = text.trim().replace("熱抽", "").replace("抽", "").replace(" ", "");
 
-                instagramTarget(userId, senderId, text, replyToken, isHot);
+                instagramTarget(userId, senderId, text, replyToken, isHot, false);
                 /*if (isStringIncludeChinese(text)) {
                     instagramTarget(text, replyToken);
                 }
@@ -3409,7 +3414,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         log.info("Piggy Check 6");
     }
 
-    private void instagramTarget(String userId, String senderId, String text, String replyToken, boolean isHot) throws IOException {
+    private void instagramTarget(String userId, String senderId, String text, String replyToken, boolean isHot, boolean isPerson) throws IOException {
         if (senderId.equals(GROUP_ID_TOTYO_HOT)) {
 
             if(mTokyoHotRandomGirlLimitationList.containsKey(userId)) {
@@ -3427,9 +3432,18 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 mTokyoHotRandomGirlLimitationList.put(userId, 1);
             }
         }
-        String url = getRandomInstagramImageUrl(replyToken, userId, senderId, text, isHot);
+        String url = "";
+        if (isPerson) {
+            url = getInstagramImageUrl(userId, senderId, text);
+        }
+        else {
+            url = getRandomInstagramImageUrl(userId, senderId, text, isHot);
+        }
+        if (url.equals("N/A")) {
+            this.replyText(replyToken, "此帳號未公開");
+        }
         if (url.equals("")) {
-            return;
+            this.replyText(replyToken, "IG 解析失敗");
         }
 
         if (url.indexOf("http:") >= 0) {
@@ -5366,7 +5380,94 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return "";//TODO
     }
 
-    private String getRandomInstagramImageUrl(String replyToken, String userId, String senderId, String target, boolean isHot) {
+    private String getInstagramImageUrl(String userId, String senderId, String target) {
+        try {
+
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(mUserAgentList.size());
+
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="https://www.instagram.com/" + target + "/";
+            log.info("getInstagramImageUrl:" + url);
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
+            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+            httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+            httpGet.setHeader("Cache-Control", "max-age=0");
+            httpGet.setHeader("Connection", "keep-alive");
+
+
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity httpEntity = response.getEntity();
+
+            String html = "";
+            int maxPageInt = -1;
+
+            html = EntityUtils.toString(httpEntity, "utf-8");
+
+            if (!html.contains("display_url")) {
+                return "N/A";
+            }
+
+            List<String> tempImgList = new ArrayList<String> ();
+            List<String> tempIgList = new ArrayList<String> ();
+            List<String> tempIgLikeCountList = new ArrayList<String> ();
+
+            Pattern pattern = Pattern.compile("display_url\":\".*?\",");
+            Matcher matcher = pattern.matcher(html);
+            while(matcher.find()){
+                String result = matcher.group();
+                result = result.substring(14, result.length());
+                result = result.substring(0, result.length()-2);
+                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                tempImgList.add(result);
+            }
+
+
+            pattern = Pattern.compile("shortcode\":\".*?\",");
+            matcher = pattern.matcher(html);
+            while(matcher.find()){
+                String result = matcher.group();
+                result = result.substring(12, result.length());
+                result = result.substring(0, result.length()-2);
+                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                tempIgList.add(result);
+            }
+
+            pattern = Pattern.compile("[e][d][g][e][_][l][i][k][e][d][_][b][y][\"][:][{]\"count\":.*?},\"edg");
+            matcher = pattern.matcher(html);
+            while(matcher.find()){
+                String result = matcher.group();
+                result = result.substring(24, result.length());
+                result = result.substring(0, result.length()-6);
+                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                tempIgLikeCountList.add(result);
+            }
+
+            if (tempImgList.size() > 0) {
+                random_num = randomGenerator.nextInt(tempImgList.size());
+
+                String result_url = tempImgList.get(random_num);
+                String ig_url = "https://www.instagram.com/p/" + tempIgList.get(random_num);
+                String like_count = tempIgLikeCountList.get(random_num);
+                log.info("Piggy Check ig_url: " + ig_url);
+                mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
+                mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
+                return result_url;
+            }
+            else {
+                log.info("Piggy Check parse IG fail!");
+            }
+            
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private String getRandomInstagramImageUrl(String userId, String senderId, String target, boolean isHot) {
         try {
 
             Random randomGenerator = new Random();
@@ -5449,7 +5550,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
         }catch (Exception e) {
             e.printStackTrace();
-            this.replyText(replyToken,e.toString());
         }
         return "";
     }
