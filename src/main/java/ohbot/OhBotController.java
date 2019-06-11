@@ -3066,7 +3066,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 int inputNumber = Integer.parseInt(text);
                 inputNumber = isRepublicEra ? (inputNumber+1911) : inputNumber;
                 int year = Calendar.getInstance().get(Calendar.YEAR);
-                if (year - inputNumber > 0) {
+                if (inputNumber > 0 && year - inputNumber > 0) {
                     this.replyText(replyToken, "" + (year - inputNumber) + " 歲");
                 }
                 else {
