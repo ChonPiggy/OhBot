@@ -3056,8 +3056,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result = "22 歲";
         }
         else if (isStringIncludeNumber(text)) {
+
             try {
+                boolean isRepublicEra = false;
+                if (text.startsWith("民國")) {
+                    text = text.replace("民國", "").trim();
+                    isRepublicEra = true;
+                }
                 int inputNumber = Integer.parseInt(text);
+                inputNumber = isRepublicEra ? (inputNumber+1911) : inputNumber;
                 int year = Calendar.getInstance().get(Calendar.YEAR);
                 if (year - inputNumber > 0) {
                     this.replyText(replyToken, "" + (year - inputNumber) + " 歲");
@@ -3068,25 +3075,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             catch(java.lang.NumberFormatException e1) {
                 return;
-            }
-        }
-        else if (text.startsWith("民國")) {
-            text = text.replace("民國", "").trim();
-            if (isStringIncludeNumber(text)) {
-                try {
-                    int inputNumber = Integer.parseInt(text);
-                    inputNumber += 1911;
-                    int year = Calendar.getInstance().get(Calendar.YEAR);
-                    if (year - inputNumber > 0) {
-                        this.replyText(replyToken, "" + (year - inputNumber) + " 歲");
-                    }
-                    else {
-                        this.replyText(replyToken, "白痴...我懶得理你");
-                    }
-                }
-                catch(java.lang.NumberFormatException e1) {
-                    return;
-                }
             }
         }
 
@@ -6141,6 +6129,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "隨機取圖:https:xxxxxx\n";
         result += "年號:X (X 限制為兩個字\n";
         result += "XX幾歲?\n";
+        result += "民國XX幾歲?\n";
         result += "XX幾台?\n";
         result += "開表單：XXX\n";
         result += "查表單\n";
