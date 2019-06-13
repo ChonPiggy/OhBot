@@ -12,7 +12,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import java.util.Random;
-import java.util.*;
 
 public class PttOver18Checker {
     private static final String generateUrl = "https://www.ptt.cc/ask/over18?from=%2Fbbs%2FGossiping%2Findex.html";
@@ -25,7 +24,7 @@ public class PttOver18Checker {
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod( "POST" );
             connection.addRequestProperty( "Accept", "application/json, text/javascript, */*; q=0.01" );
-            connection.addRequestProperty( "Origin", "https://singengo.com" );
+            connection.addRequestProperty( "Origin", "https://www.ptt.cc/" );
             connection.addRequestProperty( "X-Requested-With", "XMLHttpRequest" );
             connection.addRequestProperty( "x-hapi-key", "twitter-net_hiroki-followMe!" );
             connection.addRequestProperty( "User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36" );
@@ -39,7 +38,6 @@ public class PttOver18Checker {
             connection.connect();
             
             int statusCode = connection.getResponseCode();
-            log.info("PttOver18Checker statusCode: " + statusCode);
 
             connection.disconnect();
         } catch (Exception e) {
