@@ -38,8 +38,6 @@ public class PttOver18Checker {
             connection.connect();
             
             int statusCode = connection.getResponseCode();
-            log.info("PttOver18Checker statusCode: " + statusCode);
-
             connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
