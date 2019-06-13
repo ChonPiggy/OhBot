@@ -135,6 +135,7 @@ public class OhBotController {
     private boolean isChuiyiKeywordEnable = false;
 
     private boolean isDisableBot = false;
+    private boolean isPttOver18Sended = false;
 
     private boolean isBullyModeEnable = false;
     private int mBullyModeCount = 0;
@@ -865,6 +866,10 @@ public class OhBotController {
         Source source = event.getSource();
         String senderId = source.getSenderId();
         String userId = source.getUserId();
+        if (!isPttOver18Sended) {
+            PttOver18Checker.sendYes();
+            isPttOver18Sended = true;
+        }
         if (text.equals("PgCommand開啟全功能")) {
             isDisableBot = false;
             this.replyText(replyToken, "好的 ＰＧ 大人");
