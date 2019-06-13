@@ -12,9 +12,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import java.util.Random;
+import java.util.*;
 
 public class PttOver18Checker {
-    private static final String generateUrl = "https://www.ptt.cc/ask/over18";
+    private static final String generateUrl = "https://www.ptt.cc/ask/over18?from=%2Fbbs%2FGossiping%2Findex.html";
 
     public static String sendYes() {
         String result = null;
@@ -38,6 +39,8 @@ public class PttOver18Checker {
             connection.connect();
             
             int statusCode = connection.getResponseCode();
+            log.info("PttOver18Checker statusCode: " + statusCode);
+
             connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
