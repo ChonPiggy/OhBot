@@ -3987,6 +3987,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             List<String> resultImageList = new ArrayList<String> ();
             if (result_image_image.indexOf("http://imgur.com/") > 0) {
+                log.info("Website contains imgur url.");
                 Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
@@ -3995,10 +3996,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("imgur.com","i.imgur.com");
                     result = result + ".jpg";
                     resultImageList.add(result);
-                    //log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
+                    log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
             else if (result_image_image.indexOf("http://i.imgur.com/") > 0) {
+                log.info("Website contains i.imgur url.");
                 Pattern patternJp = Pattern.compile("http:\\/\\/i.imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
@@ -4006,16 +4008,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("http:","https:");
                     result = result + ".jpg";
                     resultImageList.add(result);
-                    //log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
+                    log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
             else {
+                log.info("Website don't have imgur url.");
                 Pattern patternJp = Pattern.compile("(http|ftp|https):\\/\\/([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:\\/~+#-]*[\\w@?^=%&\\/~+#-])?.(jpeg|jpg)");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
                     resultImageList.add(result);
-                    //log.info("Piggy Check get image from website url: " + url + " img_link: " + result);
+                    log.info("Piggy Check get image from website url: " + url + " img_link: " + result);
                 }
             }
 
