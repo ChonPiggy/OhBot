@@ -3985,7 +3985,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
 
             List<String> resultImageList = new ArrayList<String> ();
-            if (result_image_image.indexOf("http://imgur.com/") > 0) {
+            /*if (result_image_image.indexOf("http://imgur.com/") > 0) {
                 Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
@@ -4008,7 +4008,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     //log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
-            else {
+            else {*/
                 Pattern patternJp = Pattern.compile("(http|ftp|https):\\/\\/([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:\\/~+#-]*[\\w@?^=%&\\/~+#-])?.(jpeg|jpg)");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
@@ -4016,7 +4016,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     resultImageList.add(result);
                     //log.info("Piggy Check get image from website url: " + url + " img_link: " + result);
                 }
-            }
+            /*}*/
 
             
             if (resultImageList.size() > 0) {
@@ -6036,10 +6036,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempContext = tempContext.substring(tempContext.indexOf("\">")+2, tempContext.length());
                 mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</a>")) + "\n"; // Scale per location
             }
-
-            tempContext = tempContext.substring(tempContext.indexOf("\">詳細資料"), tempContext.length());
-            tempContext = tempContext.substring(tempContext.indexOf("title=\"點此下載"), tempContext.length());
-            tempContext = tempContext.substring(tempContext.indexOf("href=\"")+6, tempContext.indexOf("\">"));
+            if (tempContext.contains("\">詳細資料")) {
+                tempContext = tempContext.substring(tempContext.indexOf("\">詳細資料"), tempContext.length());
+                tempContext = tempContext.substring(tempContext.indexOf("title=\"點此下載"), tempContext.length());
+                tempContext = tempContext.substring(tempContext.indexOf("href=\"")+6, tempContext.indexOf("\">"));    
+            }
+            else {
+                tempContext = tempContext.substring(tempContext.indexOf("title=\"點此下載"), tempContext.length());
+                tempContext = tempContext.substring(tempContext.indexOf("href=\"")+6, tempContext.indexOf("\">"));
+            }
+            
             mNewestEarthquakeReportImage = "https://www.cwb.gov.tw";
             mNewestEarthquakeReportImage += tempContext;
             if (!mNewestEarthquakeTime.equals("") && !mNewestEarthquakeTime.equals(newestEarthquakeTime)) {
