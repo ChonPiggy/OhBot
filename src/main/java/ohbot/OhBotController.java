@@ -861,7 +861,7 @@ public class OhBotController {
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 
         String text = content.getText();
-        log.info(text);
+        //log.info(text);
         Source source = event.getSource();
         String senderId = source.getSenderId();
         String userId = source.getUserId();
@@ -1576,7 +1576,7 @@ public class OhBotController {
         try {
             CompletableFuture<UserProfileResponse> response = lineMessagingClient
                     .getProfile(userId);
-                    log.info("Piggy Check response: " + response);
+                    //log.info("Piggy Check response: " + response);
             return response.get();//TODO
         }catch (Exception e) {
             log.info("Exception: " + e);
@@ -3955,6 +3955,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void processRandomeGetImage(String replyToken, String text) throws IOException {
+        log.info("processRandomeGetImage: " + text);
         text = text.replace("隨機取圖:", "");
         if (!text.startsWith("http")) {
             return;
@@ -3985,7 +3986,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
 
             List<String> resultImageList = new ArrayList<String> ();
-            /*if (result_image_image.indexOf("http://imgur.com/") > 0) {
+            if (result_image_image.indexOf("http://imgur.com/") > 0) {
                 Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
@@ -4008,7 +4009,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     //log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
-            else {*/
+            else {
                 Pattern patternJp = Pattern.compile("(http|ftp|https):\\/\\/([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:\\/~+#-]*[\\w@?^=%&\\/~+#-])?.(jpeg|jpg)");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
@@ -4016,7 +4017,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     resultImageList.add(result);
                     //log.info("Piggy Check get image from website url: " + url + " img_link: " + result);
                 }
-            /*}*/
+            }
 
             
             if (resultImageList.size() > 0) {
@@ -4031,7 +4032,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 if (result.indexOf("http:") >= 0) {
                     result = result.replace("http", "https");
                 }
+                log.info("result image: " + result);
                 this.replyImage(replyToken, result, result);
+            }
+            else {
+                log.info("resultImageList.size() = 0");
             }
             
         }catch (Exception e) {
