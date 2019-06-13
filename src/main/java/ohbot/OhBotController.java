@@ -3984,7 +3984,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
 
             String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
-
+            log.info("Piggy Check result_image_image: |" + result_image_image +"|");
             List<String> resultImageList = new ArrayList<String> ();
             if (result_image_image.indexOf("http://imgur.com/") > 0) {
                 log.info("Website contains imgur url.");
@@ -3996,7 +3996,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("imgur.com","i.imgur.com");
                     result = result + ".jpg";
                     resultImageList.add(result);
-                    log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
+                    //log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
             else if (result_image_image.indexOf("http://i.imgur.com/") > 0) {
@@ -4008,7 +4008,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("http:","https:");
                     result = result + ".jpg";
                     resultImageList.add(result);
-                    log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
+                    //log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
             else {
@@ -4018,7 +4018,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 while(matcherJp.find()){
                     String result = matcherJp.group();
                     resultImageList.add(result);
-                    log.info("Piggy Check get image from website url: " + url + " img_link: " + result);
+                    //log.info("Piggy Check get image from website url: " + url + " img_link: " + result);
                 }
             }
 
