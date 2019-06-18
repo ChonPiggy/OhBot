@@ -866,10 +866,10 @@ public class OhBotController {
         Source source = event.getSource();
         String senderId = source.getSenderId();
         String userId = source.getUserId();
-        if (!isPttOver18Sended) {
-            PttOver18Checker.sendYes();
+        /*if (!isPttOver18Sended) {
+            sendPttOver18Checker();
             isPttOver18Sended = true;
-        }
+        }*/
         if (text.equals("PgCommand開啟全功能")) {
             isDisableBot = false;
             this.replyText(replyToken, "好的 ＰＧ 大人");
