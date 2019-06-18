@@ -3936,6 +3936,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void makeWish(String senderId, String userId, String text, String replyToken) throws IOException {
+        if (getUserDisplayName(userId).equals("")) {
+            this.replyText(replyToken, "請先將 BOT 加為好友.");
+            return;
+        }
         text = text.replace("許願:", "");
         String result = "許願事件:\n";
         result += "senderId: " + senderId + "\n";
@@ -3948,6 +3952,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void makeSubmission(String senderId, String userId, String text, String replyToken) throws IOException {
+        if (getUserDisplayName(userId).equals("")) {
+            this.replyText(replyToken, "請先將 BOT 加為好友.");
+            return;
+        }
         text = text.replace("投稿:", "");
         String result = "投稿事件:\n";
         result += "senderId: " + senderId + "\n";
