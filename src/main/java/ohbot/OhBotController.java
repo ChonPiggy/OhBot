@@ -6236,6 +6236,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private String getFeatureListString(String userId, boolean isAdmin) {
         String result = "功能指令集\n\n";
         if(isAdminUserId(userId) && isAdmin) {
+            result = "管理員功能指令集\n\n";
             result += "PgCommand關閉全功能\n";
             result += "PgCommand開啟全功能\n";
             result += "PgCommand新增吃什麼:Ｘ\n";
@@ -6275,7 +6276,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += "PgCommand表特最小推數設定值\n";
             result += "PgCommand表特最小推數設定為X\n";
             result += "PgCommand最新地震報告圖網址\n";
-            result += "---\n\n";
+            return result;
         }
 
         result += "Ｘ天氣？（Ｘ需為地區\n";
