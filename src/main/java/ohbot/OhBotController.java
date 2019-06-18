@@ -5309,7 +5309,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         numberCount = "爆";
 
                         resultTitle = resultTitle.substring(resultTitle.indexOf("<a href=\"")+9, resultTitle.length());
-                        resultTitle = resultTitle.substring(resultTitle.indexOf("\">")+2, resultTitle.indexOf("</a>)");
+                        resultTitle = resultTitle.substring(resultTitle.indexOf("\">")+2, resultTitle.indexOf("</a>"));
                     }
 
                     if (result_url.equals("")) {
@@ -5364,7 +5364,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         }
 
                         resultTitle = resultTitle.substring(resultTitle.indexOf("<a href=\"")+9, resultTitle.length());
-                        resultTitle = resultTitle.substring(resultTitle.indexOf("\">")+2, resultTitle.indexOf("</a>)");
+                        resultTitle = resultTitle.substring(resultTitle.indexOf("\">")+2, resultTitle.indexOf("</a>"));
                     }
                     else {
                         continue;
