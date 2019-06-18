@@ -963,6 +963,8 @@ public class OhBotController {
             //startFetchJanDanGirlImages();
         }
 
+        checkNeedTotallyBullyReply(userId, replyToken);
+
         if (senderId.equals(GROUP_ID_INGRESS_EAT)) {
             // ingress eat group specific feature.
             if (userId.equals(USER_ID_MEAT_UNCLE) && text.startsWith("改抽")) {
@@ -1307,6 +1309,10 @@ public class OhBotController {
 
         if (text.startsWith("PgCommand設定徹底霸凌對象:")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
+            if (isAdminUserId(text)) {
+                this.replyText(replyToken, "小的哪敢霸凌偉大的管理員大人...");
+                return;
+            }
             setTotallyBullyUser(text, replyToken);
         }
 
@@ -1506,8 +1512,6 @@ public class OhBotController {
         else if (text.endsWith("功能指令集") && (text.startsWith("Pg") || text.startsWith("PG") || text.startsWith("ＰＧ") )) {
             this.replyText(replyToken, getFeatureListString(userId, true));
         }
-
-        checkNeedTotallyBullyReply(userId, replyToken);
 
         if (text.length() > 0) {
             bullyModeTrigger(replyToken);
