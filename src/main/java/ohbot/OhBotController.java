@@ -3959,12 +3959,47 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyText(replyToken, "偉大的 PG 大人收到了.");
     }
 
+    public static String sendPttOver18Checker() {
+        String result = null;
+        try {
+            String strUrl = "https://www.ptt.cc/ask/over18?from=%2Fbbs%2FGossiping%2Findex.html";
+            URL url = new URL( strUrl );
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod( "POST" );
+            connection.addRequestProperty( "Accept", "application/json, text/javascript, */*; q=0.01" );
+            connection.addRequestProperty( "Origin", "https://www.ptt.cc/" );
+            connection.addRequestProperty( "X-Requested-With", "XMLHttpRequest" );
+            connection.addRequestProperty( "x-hapi-key", "twitter-net_hiroki-followMe!" );
+            connection.addRequestProperty( "User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36" );
+            connection.addRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
+            connection.setDoOutput(true);
+            String parameterMessageString = new String("from="+"/bbs/Gossiping/index.html"+"&yes=yes");
+            //String parameterMessageString = new String("txt=%E7%89%B9%E5%83%B9&type=1&twid=");
+            PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
+            printWriter.print(parameterMessageString);
+            printWriter.close();
+            connection.connect();
+            
+            int statusCode = connection.getResponseCode();
+
+            log.info("sendPttOver18Checker statusCode: " + statusCode);
+
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     private void processRandomeGetImage(String replyToken, String text) throws IOException {
         log.info("processRandomeGetImage: " + text);
         text = text.replace("隨機取圖:", "");
         if (!text.startsWith("http")) {
             return;
         }
+
+        sendPttOver18Checker();
 
         try{
 
@@ -5237,8 +5272,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result_url = "";
             int tryCount = 10;
             String numberCount = "";
+            String resultTitle = "";
             while (tryCount > 0){
                 tryCount--;
+                // Parse from list page
                 int random_num = randomGenerator.nextInt(maxPageInt-1500)+1500;
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
                 String target_url = "https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html";
@@ -5266,9 +5303,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     }
                     else {
                         result_url = result_url.substring(result_url.indexOf("hl f1\">爆</span>"), result_url.length());
+                        resultTitle = result_url;
                         result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
                         result_url = "https://www.ptt.cc" + result_url + ".html";
                         numberCount = "爆";
+
+                        resultTitle = resultTitle.substring(resultTitle.indexOf("<a href=\"")+9, resultTitle.length());
+                        resultTitle = resultTitle.substring(resultTitle.indexOf("\">")+2, resultTitle.indexOf("</a>)");
                     }
 
                     if (result_url.equals("")) {
@@ -5280,6 +5321,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     Pattern pattern = Pattern.compile("<span class=\"hl f3\">.*?<\\/span>");
                     Matcher matcher = pattern.matcher(result_url);
                     List<String> resultNumberCountList = new ArrayList<String> ();
+                    List<String> resultTitleList = new ArrayList<String> ();
 
                     while(matcher.find()){
                         String result = matcher.group();
@@ -5294,9 +5336,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                             continue;
                         }
                     }
+
+                    // Pick a burst article
                     if (result_url.indexOf("hl f1\">爆</span>")>0) {
                         resultNumberCountList.add("爆");
                     }
+
                     if (resultNumberCountList.size() > 0) {
                         // get random count number
                         int randomNum = randomGenerator.nextInt(resultNumberCountList.size());
@@ -5305,30 +5350,38 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         // generator result url
                         if (numberCount.equals("爆")) {
                             result_url = result_url.substring(result_url.indexOf("hl f1\">爆</span>"), result_url.length());
+                            resultTitle = result_url;
+
                             result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
                             result_url = "https://www.ptt.cc" + result_url + ".html";
                         }
                         else {
                             result_url = result_url.substring(result_url.indexOf("hl f3\">" + numberCount + "</span>"), result_url.length());
+                            resultTitle = result_url;
+
                             result_url = result_url.substring(result_url.indexOf("<a href=\"")+9, result_url.indexOf(".html\">"));
                             result_url = "https://www.ptt.cc" + result_url + ".html";
                         }
+
+                        resultTitle = resultTitle.substring(resultTitle.indexOf("<a href=\"")+9, resultTitle.length());
+                        resultTitle = resultTitle.substring(resultTitle.indexOf("\">")+2, resultTitle.indexOf("</a>)");
                     }
                     else {
                         continue;
                     }
                 }
 
-
+                // Process result save to history table
                 log.info("Piggy Check result_url: " + result_url);
 
-                String historyString = result_url + " " + (numberCount.equals("爆") ? "爆" : (numberCount + "推"));
+                String historyString = resultTitle + "\n\n" + result_url + " " + (numberCount.equals("爆") ? "爆" : (numberCount + "推"));
 
                 mWhoImPickRandomGirlMap.put(userId, historyString);
                 mWhoTheyPickRandomGirlMap.put(senderId, historyString);
 
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
+                // Process get image from result url.
                 httpGet = new HttpGet(result_url);
                 httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
