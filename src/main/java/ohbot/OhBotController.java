@@ -1057,6 +1057,10 @@ public class OhBotController {
             exchangeToTwd(text, replyToken);
         }
 
+        if (text.endsWith("金加隆?") || text.endsWith("金加隆？")) {
+            exchangeFromGoldGalleon(text, replyToken);
+        }
+
         if ((text.contains("台幣換算") || text.contains("台幣換算")||text.contains("臺幣換算") || text.contains("臺幣換算")) &&
             (text.endsWith("?") || text.endsWith("？"))) {
             exchangeFromTwd(text, replyToken);
@@ -4643,6 +4647,19 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info(e.toString());
             throw e;
         }
+    }
+
+    private void exchangeFromGoldGalleon(String text, String replyToken) throws IOException {
+        text = text.replace("金加隆", "").replace("?", "").replace("？", "").trim();
+        try {
+            inputNumber = Integer.parseInt(text);
+        }
+        catch(java.lang.NumberFormatException e1) {
+            return;
+        }
+        double goldGallenRate = 0.274166667;
+        strResult = "換算台幣大概 $" + (int)((double)inputNumber * goldGallenRate);
+        this.replyText(replyToken, strResult);
     }
 
     private void exchangeToTwd(String text, String replyToken) throws IOException {
