@@ -4484,6 +4484,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mExchangedDefaultText="新幣";
             mExchangedDefaultCountry="SGD";
         }
+        else if (text.equals("金加隆")) {
+            mExchangedDefaultText="金加隆";
+        }
         else {
             String strResult = "設定失敗! 不可識別的貨幣代號: " + text;
             this.replyText(replyToken, strResult);
@@ -4497,6 +4500,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void exchangeDefault(String text, String replyToken) throws IOException {
         text = text.replace("?", "").replace("？", "").trim();
         try {
+            if (mExchangedDefaultText.equals("金加隆")) {
+                exchangeFromGoldGalleon(text);
+                return;
+            }
+
             String strResult = text + mExchangedDefaultText;
             String country = mExchangedDefaultCountry;
 
@@ -4654,7 +4662,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             int inputNumber = Integer.parseInt(text);
             double goldGallenRate = 0.274166667;
-            String strResult = "換算台幣大概 $" + (int)((inputNumber * goldGallenRate));
+            String strResult = inputNumber + "金加隆換算台幣大概 $" + (int)((inputNumber * goldGallenRate));
             this.replyText(replyToken, strResult);
         }
         catch(java.lang.NumberFormatException e1) {
