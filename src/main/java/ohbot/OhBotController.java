@@ -4486,6 +4486,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
         else if (text.equals("金加隆")) {
             mExchangedDefaultText="金加隆";
+            mExchangedDefaultCountry="GGL";
+        }
+        else if (text.equals("GGL")) {
+            mExchangedDefaultText="金加隆";
+            mExchangedDefaultCountry="GGL";
         }
         else {
             String strResult = "設定失敗! 不可識別的貨幣代號: " + text;
