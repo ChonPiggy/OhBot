@@ -4652,14 +4652,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void exchangeFromGoldGalleon(String text, String replyToken) throws IOException {
         text = text.replace("金加隆", "").replace("?", "").replace("？", "").trim();
         try {
-            inputNumber = Integer.parseInt(text);
+            int inputNumber = Integer.parseInt(text);
+            double goldGallenRate = 0.274166667;
+            String strResult = "換算台幣大概 $" + (int)((inputNumber * goldGallenRate);
+            this.replyText(replyToken, strResult);
         }
         catch(java.lang.NumberFormatException e1) {
             return;
         }
-        double goldGallenRate = 0.274166667;
-        strResult = "換算台幣大概 $" + (int)((double)inputNumber * goldGallenRate);
-        this.replyText(replyToken, strResult);
+        
     }
 
     private void exchangeToTwd(String text, String replyToken) throws IOException {
