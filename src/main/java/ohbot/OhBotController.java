@@ -4501,7 +4501,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace("?", "").replace("？", "").trim();
         try {
             if (mExchangedDefaultText.equals("金加隆")) {
-                exchangeFromGoldGalleon(text);
+                exchangeFromGoldGalleon(text, replyToken);
                 return;
             }
 
