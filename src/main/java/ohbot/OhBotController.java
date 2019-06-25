@@ -4498,7 +4498,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return;
         }
 
-        String strResult = "成功設定預設匯率\n貨幣代號: " + mExchangedDefaultCountry + "\n中文幣名: " + mExchangedDefaultText + "\n歌頌 PG 讚美 PG";
+        String strResult = "成功設定預設匯率\n貨幣代號: " + mExchangedDefaultCountry + "\n中文幣名: " + mExchangedDefaultText + "\n感恩 PG 讚美 PG";
         this.replyText(replyToken, strResult);
     }
 
