@@ -4654,7 +4654,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             int inputNumber = Integer.parseInt(text);
             double goldGallenRate = 0.274166667;
-            String strResult = "換算台幣大概 $" + (int)((inputNumber * goldGallenRate);
+            String strResult = "換算台幣大概 $" + (int)((inputNumber * goldGallenRate));
             this.replyText(replyToken, strResult);
         }
         catch(java.lang.NumberFormatException e1) {
@@ -6317,6 +6317,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "Ｘ匯率？（Ｘ需為幣名\n";
         result += "比特幣換算？\n";
         result += "ＸＹ換算台幣？（Ｘ需為數字Ｙ需為幣名\n";
+        result += "Ｘ金加隆？（Ｘ需為數字 以最優惠包計算\n";
         result += "呆股？\n";
         result += "每日一句？\n";
         result += "今日我最美？\n";
