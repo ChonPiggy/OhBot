@@ -326,10 +326,10 @@ public class OhBotController {
             String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n";
             result += "標題:" + mSheetSubject + "\n\n";
             result += "說出\"截止\"可結束登記\n\n";
-            result += "說出\"有誰加加\"可列出當前登記意願\n\n";
-            result += "說出\"+1\"可登記參加意願\n\n";
-            result += "說出\"+0.5\"可登記有意願但不確定\n\n";
-            result += "說出\"-1\"可取消登記意願\n\n";
+            result += "說出\"有誰加加\"可列出有誰加加\n\n";
+            result += "說出\"+1\"代表有參加意願\n\n";
+            result += "說出\"+0.5\"代表想要但不確定\n\n";
+            result += "說出\"-1\"可取消登記\n\n";
             result += "建議盡快截止以免資料遺失";
             return result;
         }
@@ -358,7 +358,7 @@ public class OhBotController {
                     plusOneCount++;
                     countResult = "1";
                 }
-                result += getUserDisplayName(entry.getKey()) + " +" + countResult;
+                result += getUserDisplayName(entry.getKey()) + " +" + countResult + "\n";
             }
             result += "\n---\n";
             result += "確定人數: " + plusOneCount + "\n";
