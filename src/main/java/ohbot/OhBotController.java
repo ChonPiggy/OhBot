@@ -310,6 +310,76 @@ public class OhBotController {
     }
 
     private HashMap<String, SheetList> mSheetListMap = new HashMap<>(); 
+
+    private class PlusPlusList {
+        private String mSheetHolder = "";
+        private String mSheetSubject = "";
+        private boolean mIsFinished = false;
+        private HashMap<String, String> mPlusPlusList = new HashMap<>();
+        private SheetList(String holder, String subject) {
+            mSheetHolder = holder;
+            mSheetSubject = subject;
+        }
+
+        public String getGuideString() {
+            String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n";
+            result += "標題:" + mSheetSubject + "\n\n";
+            result += "說出\"截止\"可結束登記\n\n";
+            result += "說出\"有誰加加\"可列出當前登記意願\n\n";
+            result += "說出\"+1\"可登記參加意願\n\n";
+            result += "說出\"+0.5\"可登記有意願但不確定\n\n";
+            result += "說出\"-1\"可取消登記意願\n\n";
+            result += "建議盡快截止以免資料遺失";
+            return result;
+        }
+
+        public void updateData(String userId, String data) {
+            if (!data.equals("")) {
+                mPlusPlusList.put(userId, data);
+                return;
+            }
+            mPlusPlusList.remove(userId);
+        }
+
+        public String getDumpResult() {
+            String result = "要的加加: " + mSheetSubject + "\n";
+            int plusOneCount = 0;
+            int plusPointFiveCount = 0;
+            result += "發起者:" + getUserDisplayName(mSheetHolder) + "\n";
+            result += "-----\n";
+            for (Map.Entry<String, String> entry : mPlusPlusList.entrySet()) {
+                String result = "";
+                if (entry.getValue().equals("0.5")) {
+                    plusPointFiveCount++;
+                    result = "0.5";
+                }
+                else if (entry.getValue().equals("1")) {
+                    plusOneCount++;
+                    result = "1";
+                }
+                result += getUserDisplayName(entry.getKey()) + " +" + result;
+            }
+            result += "\n---\n";
+            result += "確定人數: " + plusOneCount + "\n";
+            result += "不確定人數: " + plusPointFiveCount + "\n";
+            return result;
+        }
+
+        public String getHolder() {
+            return mSheetHolder;
+        }
+
+        public String getSubject() {
+            return mSheetSubject;
+        }
+
+        public String close() {
+            mIsFinished = true;
+            return getDumpResult();
+        }
+    }
+
+    private HashMap<String, PlusPlusList> mPlusPlusListMap = new HashMap<>(); 
     
 
     private HashSet<String> mAskedBotFriend = new HashSet<String>();
@@ -1152,6 +1222,8 @@ public class OhBotController {
             whoTheyPickRandomPttBeautyGirlMap(senderId, replyToken);
         }
 
+        // Sheet Feature 
+
         if (text.startsWith("開表單:")||text.startsWith("開表單：")) {
             processSheetOpen(replyToken, senderId, userId, text);
         }
@@ -1167,6 +1239,28 @@ public class OhBotController {
         if (text.startsWith("登記:")||text.startsWith("登記：")) {
             processSheetAdd(replyToken, senderId, userId, text);
         }
+
+        // Sheet Feature End
+
+        // PlusPlus Sheet Feature
+
+        if (text.endsWith("要的加加")) {
+            processPlusPlusOpen(replyToken, senderId, userId, text);
+        }
+
+        if (text.equals("有誰加加")) {
+            processPlusPlusDump(replyToken, senderId, userId);
+        }
+
+        if (text.equals("截止")) {
+            processPlusPlusClose(replyToken, senderId, userId);
+        }
+
+        if (text.equals("+1")||text.equals("+0.5")||text.equals("-1")) {
+            processPlusPlusAdd(replyToken, senderId, userId, text);
+        }
+
+        // PlusPlus Sheet Feature End
 
         if (text.endsWith("站?")||text.endsWith("站？")) {
             text = text.replace("？", "").replace("?", "").trim();
@@ -4150,6 +4244,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return false;
     }
 
+    // Sheet Feature
     private void processSheetOpen(String replyToken, String senderId, String userId, String text) {
         text = text.replace("開表單", "").replace(":", "").replace("：", "").trim();
         if (getUserDisplayName(userId).equals("")) {
@@ -4213,6 +4308,82 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, "此群組尚未開啟任何表單");
         }
     }
+
+    // PlusPlus Sheet Feature
+
+    private void processPlusPlusOpen(String replyToken, String senderId, String userId, String text) {
+        text = text.replace("要的加加", "").trim();
+        if (getUserDisplayName(userId).equals("")) {
+            this.replyText(replyToken, "請將 BOT 加為好友後方可使用此功能");
+            return;
+        }
+        if (!mPlusPlusListMap.containsKey(senderId)) {
+            PlusPlusList sl = new PlusPlusList(userId, text);
+            mPlusPlusListMap.put(senderId, sl);
+            this.replyText(replyToken, sl.getGuideString());
+        }
+        else {
+            PlusPlusList sl = mPlusPlusListMap.get(senderId);
+            this.replyText(replyToken, "此群組已開啟了一個加加表單名為:\n" + sl.getSubject());
+        }
+    }
+    
+    private void processPlusPlusDump(String replyToken, String senderId, String userId) {
+        if (mPlusPlusListMap.containsKey(senderId)) {
+            PlusPlusList sl = mPlusPlusListMap.get(senderId);
+            String result = sl.getDumpResult();
+            this.replyText(replyToken, result);
+        }
+        else {
+            this.replyText(replyToken, "此群組尚未開啟加加表單");
+        }
+    }
+    
+    private void processPlusPlusClose(String replyToken, String senderId, String userId) {
+        if (mPlusPlusListMap.containsKey(senderId)) {
+            PlusPlusList sl = mPlusPlusListMap.get(senderId);
+            if (sl.getHolder().equals(userId)) {
+                String result = sl.close();
+                this.replyText(replyToken, result);
+                mPlusPlusListMap.remove(senderId);
+            }
+            else {
+                this.replyText(replyToken, "表單只能由加加發起人\n" + getUserDisplayName(sl.getHolder()) + "\n做截止操作");
+            }
+        }
+        else {
+            this.replyText(replyToken, "此群組尚未開啟加加表單");
+        }
+    }
+    
+    private void processPlusPlusAdd(String replyToken, String senderId, String userId, String text) {
+        text = text.replace(" ", "").trim();
+        if (getUserDisplayName(userId).equals("")) {
+            this.replyText(replyToken, "請將 BOT 加為好友後方可使用此功能");
+            return;
+        }
+        if (mPlusPlusListMap.containsKey(senderId)) {
+            if (text.equals("+0.5")||text.equals("+1")||text.equals("-1")) {
+                PlusPlusList sl = mPlusPlusListMap.get(senderId);
+                if (text.equals("-1")) {
+                    sl.updateData(userId, text);
+                    String result = "" + getUserDisplayName(userId) + " -1";
+                    this.replyText(replyToken, result);
+                }
+                else {
+                    text = text.replace("+", "");
+                    sl.updateData(userId, text);
+                    String result = "" + getUserDisplayName(userId) + " +" + text;
+                    this.replyText(replyToken, result);
+                }
+            }
+        }
+        else {
+            this.replyText(replyToken, "此群組尚未開啟加加表單");
+        }
+    }
+
+    // PlusPlus Sheet Feature End
 
     private void bullyModeTrigger(String replyToken) throws IOException {
 
