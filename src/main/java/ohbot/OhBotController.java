@@ -349,16 +349,16 @@ public class OhBotController {
             result += "發起者:" + getUserDisplayName(mSheetHolder) + "\n";
             result += "-----\n";
             for (Map.Entry<String, String> entry : mPlusPlusList.entrySet()) {
-                String result = "";
+                String countResult = "";
                 if (entry.getValue().equals("0.5")) {
                     plusPointFiveCount++;
-                    result = "0.5";
+                    countResult = "0.5";
                 }
                 else if (entry.getValue().equals("1")) {
                     plusOneCount++;
-                    result = "1";
+                    countResult = "1";
                 }
-                result += getUserDisplayName(entry.getKey()) + " +" + result;
+                result += getUserDisplayName(entry.getKey()) + " +" + countResult;
             }
             result += "\n---\n";
             result += "確定人數: " + plusOneCount + "\n";
