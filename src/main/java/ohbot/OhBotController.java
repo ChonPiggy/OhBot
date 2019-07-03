@@ -253,6 +253,7 @@ public class OhBotController {
     private HashMap<String, String> mWhoTheyPickRandomGirlMap = new HashMap<>(); // senderId, webLink
     private HashMap<String, Integer> mTokyoHotRandomGirlLimitationList = new HashMap<>(); // userId, count
     
+    private HashMap<String, SheetList> mSheetListMap = new HashMap<>(); 
     private class SheetList {
         private String mSheetHolder = "";
         private String mSheetSubject = "";
@@ -309,14 +310,14 @@ public class OhBotController {
         }
     }
 
-    private HashMap<String, SheetList> mSheetListMap = new HashMap<>(); 
 
+    private HashMap<String, PlusPlusList> mPlusPlusListMap = new HashMap<>(); 
     private class PlusPlusList {
         private String mSheetHolder = "";
         private String mSheetSubject = "";
         private boolean mIsFinished = false;
         private HashMap<String, String> mPlusPlusList = new HashMap<>();
-        private SheetList(String holder, String subject) {
+        private PlusPlusList(String holder, String subject) {
             mSheetHolder = holder;
             mSheetSubject = subject;
         }
@@ -378,8 +379,6 @@ public class OhBotController {
             return getDumpResult();
         }
     }
-
-    private HashMap<String, PlusPlusList> mPlusPlusListMap = new HashMap<>(); 
     
 
     private HashSet<String> mAskedBotFriend = new HashSet<String>();
@@ -931,7 +930,7 @@ public class OhBotController {
 
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 
-        String text = content.getText();
+        String text = content.getText().trim();
         //log.info(text);
         Source source = event.getSource();
         String senderId = source.getSenderId();
@@ -6538,6 +6537,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "查表單\n";
         result += "登記：XXX\n";
         result += "收單\n";
+        result += "XXX要的加加\n";
+        result += "有誰加加\n";
+        result += "+1, -1, +0.5\n";
+        result += "截止\n";
         result += "X站? (X 限制為捷運站名\n";
         result += "我的LineId\n";
         result += "我的Line群組Id\n";
