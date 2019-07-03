@@ -360,7 +360,7 @@ public class OhBotController {
                 }
                 result += getUserDisplayName(entry.getKey()) + " +" + countResult + "\n";
             }
-            result += "\n---\n";
+            result += "-----\n";
             result += "確定人數: " + plusOneCount + "\n";
             result += "不確定人數: " + plusPointFiveCount + "\n";
             return result;
@@ -4365,7 +4365,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (text.equals("+0.5")||text.equals("+1")||text.equals("-1")) {
                 PlusPlusList sl = mPlusPlusListMap.get(senderId);
                 if (text.equals("-1")) {
-                    sl.updateData(userId, text);
+                    sl.updateData(userId, "");
                     String result = "" + getUserDisplayName(userId) + " -1";
                     this.replyText(replyToken, result);
                 }
