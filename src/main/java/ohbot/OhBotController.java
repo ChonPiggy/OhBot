@@ -409,7 +409,7 @@ public class OhBotController {
         }
 
         public String getDumpResult() {
-            String result += "發起者:" + getUserDisplayName(mSheetHolder) + "\n";
+            String result = "發起者:" + getUserDisplayName(mSheetHolder) + "\n";
             result += "隨機排序參加成員數: " + mUserIdList.size() + "\n";
             result += "-----\n";
             for (String user : mUserIdList) {
