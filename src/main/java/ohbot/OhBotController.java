@@ -379,6 +379,102 @@ public class OhBotController {
             return getDumpResult();
         }
     }
+
+    // <group, list>
+    private HashMap<String, RandomSortList> mRandomSortMap = new HashMap<>(); 
+    private class RandomSortList {
+        private boolean mIsFinished = false;
+        private boolean mIsSortFinished = false;
+        private String mSheetHolder = "";
+        private String mSheetSender = "";
+        private List<String> mUserIdList = new List<String>();
+        private List<String> mSortResultList = new List<String>();
+        private RandomSortList(String holder, String sender) {
+            mSheetHolder = holder;
+            mSheetSender = sender;
+        }
+
+        public String getGuideString() {
+            String result = "發起人:" + getUserDisplayName(mSheetHolder) + "\n";
+            result += "說出\"結束隨機排序\"可結束登記\n\n";
+            result += "說出\"參加隨機排序\"可參加登記\n\n";
+            result += "建議盡快截止以免資料遺失";
+            return result;
+        }
+
+        public void addUserId(String userId) {
+            if (!mUserIdList.contains(userId)) {
+                mUserIdList.add(userId);
+            }
+        }
+
+        public String getDumpResult() {
+            String result += "發起者:" + getUserDisplayName(mSheetHolder) + "\n";
+            result += "隨機排序參加成員數: " + mUserIdList.size() + "\n";
+            result += "-----\n";
+            for (String user : mUserIdList) {
+                result += getUserDisplayName(user) + "\n";
+            }
+            result += "-----\n";
+            return result;
+        }
+
+        public String getRandomRule() {
+            String result = "請說出\"全部隨機排\"或\"隨機排序抽\"來開始排序.";
+            return result;
+        }
+
+        public String getSortResult() {
+            result += "隨機排序結果:" + "\n";
+            result += "-----\n";
+            int count = 1;
+            for (String user : mSortResultList) {
+                result += ("" + count + ". " + getUserDisplayName(user) + "\n");
+                count++;
+            }
+            result += "-----\n";
+            return result;
+        }
+
+        public String getHolder() {
+            return mSheetHolder;
+        }
+
+        public String runRandomSortOne() {
+            Random randomGenerator = new Random();
+            int index = randomGenerator.nextInt(mUserIdList.size());
+            String user = mUserIdList.remove(index);
+            mSortResultList.add(user);
+            if (mUserIdList.size() == 0) {
+                mIsSortFinished = true;
+                mRandomSortMap.remove(mSheetSender);
+            }
+            return getSortResult();
+        }
+
+        public String runRandomSortAll() {
+            Random randomGenerator = new Random();
+            while (mUserIdList.size() > 0) {
+                int index = randomGenerator.nextInt(mUserIdList.size());
+                String user = mUserIdList.remove(index);
+                mSortResultList.add(user);
+            }
+            if (mUserIdList.size() == 0) {
+                mIsSortFinished = true;
+                mRandomSortMap.remove(mSheetSender);
+            }
+            return getSortResult();
+        }
+
+        public String stopJoin() {
+            mIsFinished = true;
+            return getDumpResult() + "\n\n" + getRandomRule();
+        }
+
+        public boolean isJoinFinished() {
+            return mIsFinished;
+        }
+    }
     
 
     private HashSet<String> mAskedBotFriend = new HashSet<String>();
@@ -1571,6 +1667,26 @@ public class OhBotController {
 
         if (text.equals("參加猜拳")) {
             joinRPS(userId, senderId, replyToken);
+        }
+
+        if (text.equals("開始隨機排序")) {
+            startRandomSort(userId, senderId, replyToken);
+        }
+
+        if (text.equals("結束隨機排序")) {
+            stopRandomSort(userId, senderId, replyToken);
+        }
+
+        if (text.equals("參加隨機排序")) {
+            joinRandomSort(userId, senderId, replyToken);
+        }
+
+        if (text.equals("全部隨機排")) {
+            sortAllRandomSort(userId, senderId, replyToken);
+        }
+
+        if (text.equals("隨機排序抽")) {
+            sortOneRandomSort(userId, senderId, replyToken);
         }
 
         if (text.startsWith("Md")||text.startsWith("MD")||text.startsWith("ＭＤ")&&
@@ -4578,6 +4694,93 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyText(replyToken, "" + getUserDisplayName(userId) + " 出了 " + result);
     }
 
+    private void startRandomSort(String userId, String senderId, String replyToken) {
+        
+        if (getUserDisplayName(userId).equals("")) {
+            this.replyText(replyToken, "請將 BOT 加為好友後方可使用此功能");
+            return;
+        }
+        if (!mRandomSortMap.containsKey(senderId)) {
+            RandomSortList rsl = new RandomSortList(userId, senderId);
+            mRandomSortMap.put(senderId, rsl);
+            this.replyText(replyToken, rsl.getGuideString());
+        }
+        else {
+            RandomSortList rsl = RandomSortList.get(senderId);
+            this.replyText(replyToken, "此群組已經開始了一個隨機排序\n");
+        }
+    }
+
+    private void stopRandomSort(String userId, String senderId, String replyToken) {
+        if (mRandomSortMap.containsKey(senderId)) {
+            RandomSortList rsl = mRandomSortMap.get(senderId);
+            if (rsl.getHolder().equals(userId)) {
+                String result = rsl.stopJoin();
+                this.replyText(replyToken, result);
+            }
+            else {
+                this.replyText(replyToken, "表單只能由發起人\n" + getUserDisplayName(sl.getHolder()) + "\n做截止操作");
+            }
+        }
+        else {
+            this.replyText(replyToken, "此群組尚未開啟隨機排序");
+        }
+    }
+
+    private void joinRandomSort(String userId, String senderId, String replyToken) {
+        if (getUserDisplayName(userId).equals("")) {
+            this.replyText(replyToken, "請將 BOT 加為好友後方可使用此功能");
+            return;
+        }
+        if (mRandomSortMap.containsKey(senderId)) {
+            RandomSortList rsl = mRandomSortMap.get(senderId);
+            rsl.addUserId(userId);
+            String result = getDumpResult();
+            this.replyText(replyToken, result);
+        }
+        else {
+            this.replyText(replyToken, "此群組尚未開啟隨機排序");
+        }
+    }
+
+    private void sortAllRandomSort(String userId, String senderId, String replyToken) {
+        if (mRandomSortMap.containsKey(senderId)) {
+            RandomSortList rsl = mRandomSortMap.get(senderId);
+            if (!rsl.isJoinFinished()) {
+                this.replyText(replyToken, "表單尚未結束登記, 請說\"結束隨機排序\"來結束登記.");
+            }
+            if (rsl.getHolder().equals(userId)) {
+                String result = rsl.runRandomSortAll();
+                this.replyText(replyToken, result);
+            }
+            else {
+                this.replyText(replyToken, "表單只能由發起人\n" + getUserDisplayName(sl.getHolder()) + "\n做隨機排序");
+            }
+        }
+        else {
+            this.replyText(replyToken, "此群組尚未開啟隨機排序");
+        }
+    }
+
+    private void sortOneRandomSort(String userId, String senderId, String replyToken) {
+        if (mRandomSortMap.containsKey(senderId)) {
+            RandomSortList rsl = mRandomSortMap.get(senderId);
+            if (!rsl.isJoinFinished()) {
+                this.replyText(replyToken, "表單尚未結束登記, 請說\"結束隨機排序\"來結束登記.");
+            }
+            if (rsl.getHolder().equals(userId)) {
+                String result = rsl.runRandomSortOne();
+                this.replyText(replyToken, result);
+            }
+            else {
+                this.replyText(replyToken, "表單只能由發起人\n" + getUserDisplayName(sl.getHolder()) + "\n做隨機排序");
+            }
+        }
+        else {
+            this.replyText(replyToken, "此群組尚未開啟隨機排序");
+        }
+    }
+
     private void checkNeedTotallyBullyReply(String userId, String replyToken) {
         if (mIsTotallyBullyEnable && userId.equals(mTotallyBullyUserId)) {
             this.replyText(replyToken, mTotallyBullyReplyString);
@@ -6518,6 +6721,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "開始猜拳\n";
         result += "結束猜拳\n";
         result += "參加猜拳\n";
+        result += "開始隨機排序\n";
+        result += "結束隨機排序\n";
+        result += "參加隨機排序\n";
+        result += "全部隨機排\n";
+        result += "隨機排序抽\n";
         result += "天氣雲圖?\n";
         result += "累積雨量圖?\n";
         result += "紅外線雲圖?\n";
