@@ -4706,7 +4706,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, rsl.getGuideString());
         }
         else {
-            RandomSortList rsl = RandomSortList.get(senderId);
             this.replyText(replyToken, "此群組已經開始了一個隨機排序\n");
         }
     }
@@ -4719,7 +4718,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 this.replyText(replyToken, result);
             }
             else {
-                this.replyText(replyToken, "表單只能由發起人\n" + getUserDisplayName(sl.getHolder()) + "\n做截止操作");
+                this.replyText(replyToken, "表單只能由發起人\n" + getUserDisplayName(rsl.getHolder()) + "\n做截止操作");
             }
         }
         else {
@@ -4735,7 +4734,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (mRandomSortMap.containsKey(senderId)) {
             RandomSortList rsl = mRandomSortMap.get(senderId);
             rsl.addUserId(userId);
-            String result = getDumpResult();
+            String result = rsl.getDumpResult();
             this.replyText(replyToken, result);
         }
         else {
