@@ -387,8 +387,8 @@ public class OhBotController {
         private boolean mIsSortFinished = false;
         private String mSheetHolder = "";
         private String mSheetSender = "";
-        private List<String> mUserIdList = new List<String>();
-        private List<String> mSortResultList = new List<String>();
+        private ArrayList<String> mUserIdList = new ArrayList<String>();
+        private ArrayList<String> mSortResultList = new ArrayList<String>();
         private RandomSortList(String holder, String sender) {
             mSheetHolder = holder;
             mSheetSender = sender;
@@ -425,7 +425,7 @@ public class OhBotController {
         }
 
         public String getSortResult() {
-            result += "隨機排序結果:" + "\n";
+            String result = "隨機排序結果:" + "\n";
             result += "-----\n";
             int count = 1;
             for (String user : mSortResultList) {
@@ -4754,7 +4754,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 this.replyText(replyToken, result);
             }
             else {
-                this.replyText(replyToken, "表單只能由發起人\n" + getUserDisplayName(sl.getHolder()) + "\n做隨機排序");
+                this.replyText(replyToken, "表單只能由發起人\n" + getUserDisplayName(rsl.getHolder()) + "\n做隨機排序");
             }
         }
         else {
@@ -4773,7 +4773,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 this.replyText(replyToken, result);
             }
             else {
-                this.replyText(replyToken, "表單只能由發起人\n" + getUserDisplayName(sl.getHolder()) + "\n做隨機排序");
+                this.replyText(replyToken, "表單只能由發起人\n" + getUserDisplayName(rsl.getHolder()) + "\n做隨機排序");
             }
         }
         else {
