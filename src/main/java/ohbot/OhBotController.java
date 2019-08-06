@@ -4528,7 +4528,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result_local_time = "";
             String result_remote_time = "";
             String output = EntityUtils.toString(httpEntity, "utf-8");
-            log.info("output: " + output);
+            //log.info("output: " + output);
+            result = output;
             result_title = output.substring(output.indexOf("<div class=\"Mv3Zsd vk_bk dDoNo\">   ") + 35, output.length());
             // Copy
             result_local_time = result_title;
@@ -4556,7 +4557,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result = result_title + "\n" + result_local_time + "\n是\n" + result_remote_time;
 
         }catch (Exception e) {
-            log.info("" + e);
+            //log.info("" + e);
+            e.printStackTrace();
         }
 
         if (result.equals("")) {
