@@ -1369,8 +1369,14 @@ public class OhBotController {
             }
         }
 
+        if (text.endsWith("時差?")||text.endsWith("時差？")) {
+            text = text.replace("？", "").replace("?", "").trim();
+            text = text.replace("時差", "").replace(" ", "");
+            processJetLag(replyToken, text);
+        }
+
         if (text.startsWith("AmazonJp:")) {
-            amazonJpSearch(text, replyToken);
+            amazonJpSearch(replyToken, text);
         }
 
         if (text.startsWith("PgCommand設定MD地圖:")) {
@@ -3154,7 +3160,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
 
-    private void amazonJpSearch(String text, String replyToken) throws IOException {
+    private void amazonJpSearch(String replyToken, String text) throws IOException {
 
         text = text.replace("AmazonJp:", "").trim();
 
@@ -4499,6 +4505,58 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     // PlusPlus Sheet Feature End
+
+    private void processJetLag(String replyToken, String text) {
+        String result = "";
+        text = URLEncoder.encode(text, "UTF-8");
+        String url = "https://www.google.com/search?q=" + text + "+%E6%99%82%E5%B7%AE&oq=" + text + "+%E6%99%82%E5%B7%AE&aqs=chrome..69i57j0l5.5610j0j7&sourceid=chrome&ie=UTF-8";
+        log.info("JetLagUrl: " + url);
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String result_title = "";
+            String result_local_time = "";
+            String result_remote_time = "";
+            String output = EntityUtils.toString(httpEntity, "utf-8");
+            result_title = output.substring(output.indexOf("<div class=\"Mv3Zsd vk_bk dDoNo\">   ") + 35, output.length());
+            // Copy
+            result_local_time = result_title;
+            result_remote_time = result_title;
+            // Copy end
+            result_title = result_title.substring(0, result_title.indexOf("    </div>"));
+            log.info("result_title: " + result_title);
+            result_title = result_title.replace("台北市內湖區港墘里", "台灣的時間");
+            log.info("result_title: " + result_title);
+
+            result_local_time = result_local_time.substring(result_local_time.indexOf("<span class=\"KfQeJ\">") + 20, result_local_time.indexOf("</b> 是"));
+            result_local_time = result_local_time.replace("</span><b>", " ");
+            log.info("result_local_time: " + result_local_time);
+            result_local_time = "台灣 " + result_local_time;
+            log.info("result_local_time: " + result_local_time);
+
+            result_remote_time = result_remote_time.substring(result_remote_time.indexOf("class=\"DcFqyf\"><span class=\"fJY1Ee\">") + 36, result_remote_time.length());
+            String result_remote_time_temp_remote_name = result_remote_time.substring(0, result_remote_time.indexOf("</span>的"));
+            log.info("result_remote_time_temp_remote_name: " + result_remote_time_temp_remote_name);
+            result_remote_time = result_remote_time.substring(result_remote_time.indexOf("</span>的<span class=\"KfQeJ\">") + 28, result_remote_time.indexOf("</b></div>"));
+            log.info("result_remote_time: " + result_remote_time);
+            result_remote_time = result_remote_time.replace("</span><b>", " ");
+            log.info("result_remote_time: " + result_remote_time);
+
+            result = result_title + "\n" + result_local_time + "\n是\n" + result_remote_time;
+
+        }catch (Exception e) {
+            log.info(e);
+        }
+
+        if (result.equals("")) {
+            this.replyText(replyText, "查不到與此地區的時差");
+        }
+        else {
+            this.replyText(replyText, result);
+        }
+    }
 
     private void bullyModeTrigger(String replyToken) throws IOException {
 
