@@ -4551,10 +4551,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
 
         if (result.equals("")) {
-            this.replyText(replyText, "查不到與此地區的時差");
+            this.replyText(replyToken, "查不到與此地區的時差");
         }
         else {
-            this.replyText(replyText, result);
+            this.replyText(replyToken, result);
         }
     }
 
