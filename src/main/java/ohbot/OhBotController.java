@@ -4547,7 +4547,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result = result_title + "\n" + result_local_time + "\n是\n" + result_remote_time;
 
         }catch (Exception e) {
-            log.info(e);
+            log.info("" + e);
         }
 
         if (result.equals("")) {
