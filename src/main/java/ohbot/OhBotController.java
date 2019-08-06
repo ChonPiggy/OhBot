@@ -4509,10 +4509,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void processJetLag(String replyToken, String text) {
         String result = "";
         
-        log.info("JetLagUrl: " + url);
         try {
             text = URLEncoder.encode(text, "UTF-8");
             String url = "https://www.google.com/search?q=" + text + "+%E6%99%82%E5%B7%AE&oq=" + text + "+%E6%99%82%E5%B7%AE&aqs=chrome..69i57j0l5.5610j0j7&sourceid=chrome&ie=UTF-8";
+            log.info("JetLagUrl: " + url);
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
