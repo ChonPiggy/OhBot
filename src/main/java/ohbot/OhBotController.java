@@ -6851,7 +6851,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             }
             else if (temp.indexOf("教授") > 0) {
-                String levelString = text.substring(0,text.indexOf("魔動"));
+                String levelString = text.substring(0,text.indexOf("教授"));
                 int level = -1;
                 try {
                     level = Integer.parseInt(levelString);
