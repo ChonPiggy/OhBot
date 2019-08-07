@@ -1132,6 +1132,12 @@ public class OhBotController {
 
         checkNeedTotallyBullyReply(userId, replyToken);
 
+
+        if (text.equals("強制清除巫師求組清單") && userId.equals(USER_ID_PIGGY)) {
+            isWizardWaitingListInited = false;
+            initWizardWaitingList();
+        }
+
         if (mWizardGroupList.contains(senderId)) {
             // Is wizard group
 
@@ -1185,11 +1191,25 @@ public class OhBotController {
             }
         }
 
-        if (text.equals("設為巫師群")) {
-            if (!mWizardGroupList.contains(senderId)) {
+        if (text.equals("設為巫師群") && userId.equals(USER_ID_PIGGY)) {
+            if (!mWizardGroupList.contains(senderId) && mWizardGroupList.size() == 0) {
                 mWizardGroupList.add(senderId);
                 this.replyText(replyToken, "此群組已設定為巫師群組, 只會觸發巫師相關指令.\n請參考以下指令:\n" + getWizardFeatureListString());
+                return;
             }
+            else if (mWizardGroupList.size() > 0) {
+                this.replyText(replyToken, "ＰＧ 大人有其他群組設為巫師群組, 是否要強制設為巫師群?");
+                return;
+            }
+        }
+
+        if (text.equals("強制設為巫師群") && userId.equals(USER_ID_PIGGY)) {
+            mWizardGroupList.clear();
+            mWizardGroupList.add(senderId);
+            isWizardWaitingListInited = false;
+            initWizardWaitingList();
+            this.replyText(replyToken, "此群組已設定為巫師群組, 只會觸發巫師相關指令.\n請參考以下指令:\n" + getWizardFeatureListString());
+            return;
         }
         
 
@@ -6783,9 +6803,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private ArrayList<ArrayList> mAnimalWaitingList = new ArrayList<ArrayList>();
     private ArrayList<ArrayList> mProfessorWaitingList = new ArrayList<ArrayList>();
     private int MAX_WIZARD_LEVEL = 20;
-    private boolean isWaitingListInited = false;
-    private void initWaitingList() {
-        if (!isWaitingListInited) {
+    private boolean isWizardWaitingListInited = false;
+    private void initWizardWaitingList() {
+        if (!isWizardWaitingListInited) {
             int count = MAX_WIZARD_LEVEL;
             while(count > 0) {
                 // each index means Level
@@ -6794,7 +6814,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 mProfessorWaitingList.add(new ArrayList<String>());
                 count--;
             }
-            isWaitingListInited = true;
+            isWizardWaitingListInited = true;
         }
     }
 
@@ -6816,7 +6836,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace(" ", "").replace("　", "").trim();
         text = text.replace("等", "");
         text = text.replace("正氣", "正氣PG").replace("魔動", "魔動PG").replace("教授", "教授PG");
-        initWaitingList();
+        initWizardWaitingList();
         while(text.indexOf("PG") > 0) {
             String temp = text.substring(0,text.indexOf("PG"));
             if (temp.indexOf("正氣") > 0) {
@@ -6873,7 +6893,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private synchronized String processRemoveFromWizardWaitingList(String userId) {
         String result = "";
-        initWaitingList();
+        initWizardWaitingList();
         // Auror
         int level = MAX_WIZARD_LEVEL - 1;
         while (level > 0) {
@@ -6929,23 +6949,23 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void processDumpAurorWaitingList(String replyToken) {
         String result = "";
-        initWaitingList();
+        initWizardWaitingList();
         result = getWaitingListDumpString(mAurorWaitingList);
-        this.replyText(replyToken, result);
+        this.replyText(replyToken, "正氣師求組清單:\n" + result);
     }
 
     private void processDumpAnimalWaitingList(String replyToken) {
         String result = "";
-        initWaitingList();
+        initWizardWaitingList();
         result = getWaitingListDumpString(mAnimalWaitingList);
-        this.replyText(replyToken, result);
+        this.replyText(replyToken, "魔法動物學家求組清單:\n" + result);
     }
 
     private void processDumpProfessorWaitingList(String replyToken) {
         String result = "";
-        initWaitingList();
+        initWizardWaitingList();
         result = getWaitingListDumpString(mProfessorWaitingList);
-        this.replyText(replyToken, result);
+        this.replyText(replyToken, "教授求組清單:\n" + result);
     }
 
     private String getWaitingListDumpString(ArrayList<ArrayList> al) {
@@ -6954,9 +6974,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         while (level > 0) {
             ArrayList<String> list = al.get(level);
             if (!list.isEmpty()) {
-                result += "" + level + " 等:\n\n";
+                result += "" + level + " 等:\n";
                 for (String user : list) {
-                    result += getUserDisplayName(user);
+                    result += getUserDisplayName(user) + "\n";
                 }
                 result += "-----\n";
             }
