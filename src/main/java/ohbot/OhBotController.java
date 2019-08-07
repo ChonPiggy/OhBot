@@ -6778,9 +6778,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private List<ArrayList> mAurorWaitingList = new ArrayList<ArrayList>();
-    private List<ArrayList> mAnimalWaitingList = new ArrayList<ArrayList>();
-    private List<ArrayList> mProfessorWaitingList = new ArrayList<ArrayList>();
+    private ArrayListList<ArrayList> mAurorWaitingList = new ArrayList<ArrayList>();
+    private ArrayListList<ArrayList> mAnimalWaitingList = new ArrayList<ArrayList>();
+    private ArrayListList<ArrayList> mProfessorWaitingList = new ArrayList<ArrayList>();
     private int MAX_WIZARD_LEVEL = 20;
     private boolean isWaitingListInited = false;
     private void initWaitingList() {
