@@ -6883,7 +6883,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     String user = i.next();
                     if (user.equals(userId)) {
                         result += "" + level + " 等正氣師\n";
-                        i.remove(userId);
+                        i.remove();
                     }
                 }
             }
@@ -6900,7 +6900,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     String user = i.next();
                     if (user.equals(userId)) {
                         result += "" + level + " 等魔法動物學家\n";
-                        i.remove(userId);
+                        i.remove();
                     }
                 }
             }
@@ -6917,7 +6917,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     String user = i.next();
                     if (user.equals(userId)) {
                         result += "" + level + " 等教授\n";
-                        i.remove(userId);
+                        i.remove();
                     }
                 }
             }
