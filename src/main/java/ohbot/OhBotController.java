@@ -1154,6 +1154,7 @@ public class OhBotController {
                     this.replyText(replyToken, "內含不合規範的文字請重新輸入.");
                     return;
                 }
+                processRemoveFromWizardWaitingList(userId);
                 String result = processAddToWizardWaitingList(userId, text);
                 if (!result.equals("")) {
                     this.replyText(replyToken, "您已登記\n" + result);
@@ -6825,7 +6826,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     if (level > MAX_WIZARD_LEVEL) {
                         return "";
                     }
-                    ArrayList list = mAurorWaitingList.get(level);
+                    ArrayList<String> list = mAurorWaitingList.get(level);
                     list.add(userId);
                     result += "" + level + " 等正氣師";
                 } catch (java.lang.NumberFormatException e) {
@@ -6840,7 +6841,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     if (level > MAX_WIZARD_LEVEL) {
                         return "";
                     }
-                    ArrayList list = mAnimalWaitingList.get(level);
+                    ArrayList<String> list = mAnimalWaitingList.get(level);
                     list.add(userId);
                     result += "" + level + " 等魔法動物學家";
                 } catch (java.lang.NumberFormatException e) {
@@ -6856,7 +6857,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     if (level > MAX_WIZARD_LEVEL) {
                         return "";
                     }
-                    ArrayList list = mProfessorWaitingList.get(level);
+                    ArrayList<String> list = mProfessorWaitingList.get(level);
                     list.add(userId);
                     result += "" + level + " 等教授";
                 } catch (java.lang.NumberFormatException e) {
@@ -6874,7 +6875,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         // Auror
         int level = MAX_WIZARD_LEVEL - 1;
         while (level > 0) {
-            ArrayList list = mAurorWaitingList.get(level);
+            ArrayList<String> list = mAurorWaitingList.get(level);
             if (!list.isEmpty()) {
                 for (String user : list) {
                     if (user.equals(userId)) {
@@ -6889,7 +6890,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         // Animal
         level = MAX_WIZARD_LEVEL - 1;
         while (level > 0) {
-            ArrayList list = mAnimalWaitingList.get(level);
+            ArrayList<String> list = mAnimalWaitingList.get(level);
             if (!list.isEmpty()) {
                 for (String user : list) {
                     if (user.equals(userId)) {
@@ -6904,7 +6905,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         // Professor
         level = MAX_WIZARD_LEVEL - 1;
         while (level > 0) {
-            ArrayList list = mProfessorWaitingList.get(level);
+            ArrayList<String> list = mProfessorWaitingList.get(level);
             if (!list.isEmpty()) {
                 for (String user : list) {
                     if (user.equals(userId)) {
