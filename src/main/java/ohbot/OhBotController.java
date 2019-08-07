@@ -6822,9 +6822,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace(" ", "").replace("　", "").trim();
         text = text.replace("等", "").replace("求組", "");
         text = text.replace("正氣", "").replace("魔動", "").replace("教授", "");
-        int number = -1;
+        long number = -1;
         try {
-            number = Integer.parseInt(text);
+            number = Long.parseLong(text);
         } catch (java.lang.NumberFormatException e) {
             return false;
         }
