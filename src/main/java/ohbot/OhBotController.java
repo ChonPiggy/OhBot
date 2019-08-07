@@ -249,6 +249,7 @@ public class OhBotController {
     private String mMdMapImageSource = null;
 
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
+    private List<String> mWizardGroupList = new ArrayList<String> (); // senderId
     private HashMap<String, String> mWhoImPickRandomGirlMap = new HashMap<>(); // userId, webLink
     private HashMap<String, String> mWhoTheyPickRandomGirlMap = new HashMap<>(); // senderId, webLink
     private HashMap<String, Integer> mTokyoHotRandomGirlLimitationList = new HashMap<>(); // userId, count
@@ -1129,6 +1130,66 @@ public class OhBotController {
         }
 
         checkNeedTotallyBullyReply(userId, replyToken);
+
+        if (mWizardGroupList.contains(senderId)) {
+            // Is wizard group
+
+            if (text.endsWith("金加隆?") || text.endsWith("金加隆？")) {
+                exchangeFromGoldGalleon(text, replyToken);
+            }
+
+            if (text.equals("指令?") || text.equals("指令？") || text.equals("功能?") || text.equals("功能？")) {
+                this.replyText(replyToken, getWizardFeatureListString());
+            }
+
+            if (text.equals("取消巫師群")) {
+                if (mWizardGroupList.contains(senderId)) {
+                    mWizardGroupList.remove(senderId);
+                    this.replyText(replyToken, "已將此群組取消設定巫師群組, 可觸發一般指令.");
+                }
+            }
+
+            if (text.endsWith("求組")) {
+                if(!isAddWizardWaitingTextValid()) {
+                    this.replyText(replyToken, "內含不合規範的文字請重新輸入.");
+                    return;
+                }
+                String result = processAddToWizardWaitingList(userId, text);
+                if (!result.equals("")) {
+                    this.replyText(replyToken, "您已登記\n" + result);
+                    return;
+                }
+            }
+
+            if (text.equals("取消登記") || text.equals("取消") || text.startsWith("找到組")) {
+                String result = processRemoveFromWizardWaitingList(userId);
+                if (!result.equals("")) {
+                    this.replyText(replyToken, "您登記的\n" + result + "\n已取消登記.");
+                    return;
+                }
+            }
+
+            if (text.equals("正氣求組清單") || text.equals("正氣?") || text.equals("正氣？")) {
+                processDumpAurorWaitingList(replyToken);
+                return;
+            }
+            if (text.equals("魔動求組清單") || text.equals("魔動?") || text.equals("魔動？")) {
+                processDumpAnimalWaitingList(replyToken);
+                return;
+            }
+            if (text.equals("教授求組清單") || text.equals("教授?") || text.equals("教授？")) {
+                processDumpProfessorWaitingList(replyToken);
+                return;
+            }
+        }
+
+        if (text.equals("設為巫師群")) {
+            if (!mWizardGroupList.contains(senderId)) {
+                mWizardGroupList.add(senderId);
+                this.replyText(replyToken, "此群組已設定為巫師群組, 只會觸發巫師相關指令.\n請參考以下指令:\n" + getWizardFeatureListString());
+            }
+        }
+        
 
         if (senderId.equals(GROUP_ID_INGRESS_EAT)) {
             // ingress eat group specific feature.
@@ -4528,7 +4589,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result_remote_time = "";
             String output = EntityUtils.toString(httpEntity, "utf-8");
             //log.info("output: " + output);
-            result = output;
+            //result = output;
             result_title = output.substring(output.indexOf("<div class=\"Mv3Zsd vk_bk dDoNo\">   ") + 35, output.length());
             // Copy
             result_local_time = result_title;
@@ -6716,6 +6777,186 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    private List<String> mAurorWaitingList = new ArrayList<String>();
+    private List<String> mAnimalWaitingList = new ArrayList<String>();
+    private List<String> mProfessorWaitingList = new ArrayList<String>();
+    private int MAX_WIZARD_LEVEL = 20;
+    private boolean isWaitingListInited = false;
+    private void initWaitingList() {
+        if (!isWaitingListInited) {
+            int count = MAX_WIZARD_LEVEL;
+            while(count > 1) {
+                // each index means Level
+                mAurorWaitingList.add(new ArrayList<String>());
+                mAnimalWaitingList.add(new ArrayList<String>());
+                mProfessorWaitingList.add(new ArrayList<String>());
+                count--;
+            }
+            isWaitingListInited = true;
+        }
+    }
+
+    private boolean isAddWizardWaitingTextValid(String text) {
+        text = text.replace(" ", "").replace("　", "").trim();
+        text = text.replace("等", "").replace("求組", "");
+        text = text.replace("正氣", "").replace("魔動", "").replace("教授", "");
+        int number = -1;
+        try {
+            number = Integer.parseInt(text);
+        } catch (java.lang.NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private String processAddToWizardWaitingList(String userId, String text) {
+        String result = "";
+        text = text.replace(" ", "").replace("　", "").trim();
+        text = text.replace("等", "");
+        text = text.replace("正氣", "正氣PG").replace("魔動", "魔動PG").replace("教授", "教授PG");
+        initWaitingList();
+        while(text.indexOf("PG") > 0) {
+            String temp = text.substring(0,text.indexOf("PG"));
+            if (temp.indexOf("正氣") > 0) {
+                String levelString = text.substring(0,text.indexOf("正氣"));
+                int level = -1;
+                try {
+                    level = Integer.parseInt(levelString);
+                    if (level > MAX_WIZARD_LEVEL) {
+                        return "";
+                    }
+                    ArrayList list = mAurorWaitingList.get(level);
+                    list.add(userId);
+                    result += "" + level + " 等正氣師";
+                } catch (java.lang.NumberFormatException e) {
+                    return "NumberFormatException";
+                }
+            }
+            else if (temp.indexOf("魔動") > 0) {
+                String levelString = text.substring(0,text.indexOf("魔動"));
+                int level = -1;
+                try {
+                    level = Integer.parseInt(levelString);
+                    if (level > MAX_WIZARD_LEVEL) {
+                        return "";
+                    }
+                    ArrayList list = mAnimalWaitingList.get(level);
+                    list.add(userId);
+                    result += "" + level + " 等魔法動物學家";
+                } catch (java.lang.NumberFormatException e) {
+                    return "NumberFormatException";
+                }
+
+            }
+            else if (temp.indexOf("教授") > 0) {
+                String levelString = text.substring(0,text.indexOf("魔動"));
+                int level = -1;
+                try {
+                    level = Integer.parseInt(levelString);
+                    if (level > MAX_WIZARD_LEVEL) {
+                        return "";
+                    }
+                    ArrayList list = mProfessorWaitingList.get(level);
+                    list.add(userId);
+                    result += "" + level + " 等教授";
+                } catch (java.lang.NumberFormatException e) {
+                    return "NumberFormatException";
+                }
+            }
+            text = text.substring(text.indexOf("PG")+2, text.length());
+        }
+        return result;
+    }
+
+    private String processRemoveFromWizardWaitingList(String userId) {
+        String result = "";
+        initWaitingList();
+        // Auror
+        int level = MAX_WIZARD_LEVEL - 1;
+        while (level > 0) {
+            ArrayList list = mAurorWaitingList.get(level);
+            if (!list.isEmpty()) {
+                for (String user : list) {
+                    if (user.equals(userId)) {
+                        result += "" + level + " 等正氣師\n";
+                        list.remove(userId);
+                    }
+                }
+            }
+            level--;
+        }
+
+        // Animal
+        int level = MAX_WIZARD_LEVEL - 1;
+        while (level > 0) {
+            ArrayList list = mAnimalWaitingList.get(level);
+            if (!list.isEmpty()) {
+                for (String user : list) {
+                    if (user.equals(userId)) {
+                        result += "" + level + " 等魔法動物學家\n";
+                        list.remove(userId);
+                    }
+                }
+            }
+            level--;
+        }
+
+        // Professor
+        int level = MAX_WIZARD_LEVEL - 1;
+        while (level > 0) {
+            ArrayList list = mProfessorWaitingList.get(level);
+            if (!list.isEmpty()) {
+                for (String user : list) {
+                    if (user.equals(userId)) {
+                        result += "" + level + " 等教授\n";
+                        list.remove(userId);
+                    }
+                }
+            }
+            level--;
+        }
+        return result;
+    }
+
+    private void processDumpAurorWaitingList(String replyToken) {
+        String result = "";
+        initWaitingList();
+        result = getWaitingListDumpString(mAurorWaitingList);
+        this.replyText(replyToken, result);
+    }
+
+    private void processDumpAnimalWaitingList(String replyToken) {
+        String result = "";
+        initWaitingList();
+        result = getWaitingListDumpString(mAnimalWaitingList);
+        this.replyText(replyToken, result);
+    }
+
+    private void processDumpProfessorWaitingList(String replyToken) {
+        String result = "";
+        initWaitingList();
+        result = getWaitingListDumpString(mProfessorWaitingList);
+        this.replyText(replyToken, result);
+    }
+
+    private String getWaitingListDumpString(ArrayList al) {
+        String result = "";
+        int level = MAX_WIZARD_LEVEL - 1;
+        while (level > 0) {
+            ArrayList list = al.get(level);
+            if (!list.isEmpty()) {
+                result += "" + level + " 等:\n\n"
+                for (String user : list) {
+                    result += getUserDisplayName(user);
+                }
+                result += "-----\n"
+            }
+            level--;
+        }
+        return result;
+    }
+
+
     private String getFeatureListString(String userId, boolean isAdmin) {
         String result = "功能指令集\n\n";
         if(isAdminUserId(userId) && isAdmin) {
@@ -6820,6 +7061,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "我的LineId\n";
         result += "我的Line群組Id\n";
         result += "Ingress Twitter\n";
+        return result;
+    }
+    private String getWizardFeatureListString(String userId, boolean isAdmin) {
+        String result = "巫師功能指令集\n\n";
+        result += "Ｘ金加隆？\n";
+        result += "X等正氣求組\n";
+        result += "X等魔動求組\n";
+        result += "X等教授求組\n";
+        result += "取消登記\n";
+        result += "求組清單\n";
         return result;
     }
 }
