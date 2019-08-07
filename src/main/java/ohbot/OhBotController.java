@@ -6778,15 +6778,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private ArrayListList<ArrayList> mAurorWaitingList = new ArrayList<ArrayList>();
-    private ArrayListList<ArrayList> mAnimalWaitingList = new ArrayList<ArrayList>();
-    private ArrayListList<ArrayList> mProfessorWaitingList = new ArrayList<ArrayList>();
+    private ArrayList<ArrayList> mAurorWaitingList = new ArrayList<ArrayList>();
+    private ArrayList<ArrayList> mAnimalWaitingList = new ArrayList<ArrayList>();
+    private ArrayList<ArrayList> mProfessorWaitingList = new ArrayList<ArrayList>();
     private int MAX_WIZARD_LEVEL = 20;
     private boolean isWaitingListInited = false;
     private void initWaitingList() {
         if (!isWaitingListInited) {
             int count = MAX_WIZARD_LEVEL;
-            while(count > 1) {
+            while(count > 0) {
                 // each index means Level
                 mAurorWaitingList.add(new ArrayList<String>());
                 mAnimalWaitingList.add(new ArrayList<String>());
