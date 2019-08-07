@@ -6866,6 +6866,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
             }
             text = text.substring(text.indexOf("PG")+2, text.length());
+            result += "\n";
         }
         return result;
     }
