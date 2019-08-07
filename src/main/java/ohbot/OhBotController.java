@@ -1149,7 +1149,7 @@ public class OhBotController {
                 this.replyText(replyToken, getWizardFeatureListString());
             }
 
-            if (text.equals("取消巫師群")) {
+            if (text.equals("取消巫師群") && userId.equals(USER_ID_PIGGY)) {
                 if (mWizardGroupList.contains(senderId)) {
                     mWizardGroupList.remove(senderId);
                     this.replyText(replyToken, "已將此群組取消設定巫師群組, 可觸發一般指令.");
@@ -1157,6 +1157,10 @@ public class OhBotController {
             }
 
             if (text.endsWith("求組")) {
+                if (getUserDisplayName(userId).equals("")) {
+                    this.replyText(replyToken, "請將 BOT 加為好友後方可使用此功能");
+                    return;
+                }
                 if(!isAddWizardWaitingTextValid(text)) {
                     this.replyText(replyToken, "內含不合規範的文字請重新輸入.");
                     return;
