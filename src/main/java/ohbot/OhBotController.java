@@ -6944,7 +6944,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String result = "";
         int level = MAX_WIZARD_LEVEL - 1;
         while (level > 0) {
-            ArrayList list = al.get(level);
+            ArrayList<String> list = al.get(level);
             if (!list.isEmpty()) {
                 result += "" + level + " 等:\n\n";
                 for (String user : list) {
