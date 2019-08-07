@@ -6945,11 +6945,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         while (level > 0) {
             ArrayList list = al.get(level);
             if (!list.isEmpty()) {
-                result += "" + level + " 等:\n\n"
+                result += "" + level + " 等:\n\n";
                 for (String user : list) {
                     result += getUserDisplayName(user);
                 }
-                result += "-----\n"
+                result += "-----\n";
             }
             level--;
         }
