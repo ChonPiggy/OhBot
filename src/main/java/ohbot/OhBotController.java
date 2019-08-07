@@ -1172,7 +1172,7 @@ public class OhBotController {
             if (text.equals("取消登記") || text.equals("取消") || text.startsWith("找到組")) {
                 String result = processRemoveFromWizardWaitingList(userId);
                 if (!result.equals("")) {
-                    this.replyText(replyToken, "您登記的\n" + result + "\n已取消登記.");
+                    this.replyText(replyToken, "您登記的\n" + result + "已取消登記.");
                     return;
                 }
             }
@@ -7099,7 +7099,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "X等魔動求組\n";
         result += "X等教授求組\n";
         result += "取消登記\n";
-        result += "求組清單\n";
+        result += "正氣求組清單\n";
+        result += "魔動求組清單\n";
+        result += "教授求組清單\n";
         return result;
     }
 }
