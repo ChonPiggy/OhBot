@@ -1150,7 +1150,7 @@ public class OhBotController {
             }
 
             if (text.endsWith("求組")) {
-                if(!isAddWizardWaitingTextValid()) {
+                if(!isAddWizardWaitingTextValid(text)) {
                     this.replyText(replyToken, "內含不合規範的文字請重新輸入.");
                     return;
                 }
@@ -6777,9 +6777,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private List<String> mAurorWaitingList = new ArrayList<String>();
-    private List<String> mAnimalWaitingList = new ArrayList<String>();
-    private List<String> mProfessorWaitingList = new ArrayList<String>();
+    private List<ArrayList> mAurorWaitingList = new ArrayList<ArrayList>();
+    private List<ArrayList> mAnimalWaitingList = new ArrayList<ArrayList>();
+    private List<ArrayList> mProfessorWaitingList = new ArrayList<ArrayList>();
     private int MAX_WIZARD_LEVEL = 20;
     private boolean isWaitingListInited = false;
     private void initWaitingList() {
@@ -6887,7 +6887,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
 
         // Animal
-        int level = MAX_WIZARD_LEVEL - 1;
+        level = MAX_WIZARD_LEVEL - 1;
         while (level > 0) {
             ArrayList list = mAnimalWaitingList.get(level);
             if (!list.isEmpty()) {
@@ -6902,7 +6902,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
 
         // Professor
-        int level = MAX_WIZARD_LEVEL - 1;
+        level = MAX_WIZARD_LEVEL - 1;
         while (level > 0) {
             ArrayList list = mProfessorWaitingList.get(level);
             if (!list.isEmpty()) {
@@ -6939,7 +6939,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyText(replyToken, result);
     }
 
-    private String getWaitingListDumpString(ArrayList al) {
+    private String getWaitingListDumpString(ArrayList<ArrayList> al) {
         String result = "";
         int level = MAX_WIZARD_LEVEL - 1;
         while (level > 0) {
@@ -7063,7 +7063,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "Ingress Twitter\n";
         return result;
     }
-    private String getWizardFeatureListString(String userId, boolean isAdmin) {
+    private String getWizardFeatureListString() {
         String result = "巫師功能指令集\n\n";
         result += "Ｘ金加隆？\n";
         result += "X等正氣求組\n";
