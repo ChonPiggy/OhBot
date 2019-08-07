@@ -37,6 +37,7 @@ import ohbot.utils.Utils;
 import java.lang.reflect.*;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.Iterator;
 import java.lang.reflect.Method;
 
 import org.apache.http.Header;
@@ -6810,7 +6811,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return true;
     }
 
-    private String processAddToWizardWaitingList(String userId, String text) {
+    private synchronized String processAddToWizardWaitingList(String userId, String text) {
         String result = "";
         text = text.replace(" ", "").replace("　", "").trim();
         text = text.replace("等", "");
@@ -6869,7 +6870,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return result;
     }
 
-    private String processRemoveFromWizardWaitingList(String userId) {
+    private synchronized String processRemoveFromWizardWaitingList(String userId) {
         String result = "";
         initWaitingList();
         // Auror
@@ -6877,10 +6878,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         while (level > 0) {
             ArrayList<String> list = mAurorWaitingList.get(level);
             if (!list.isEmpty()) {
-                for (String user : list) {
+                Iterator<String> i = list.iterator();
+                while (i.hasNext()) {
+                    String user = i.next();
                     if (user.equals(userId)) {
                         result += "" + level + " 等正氣師\n";
-                        list.remove(userId);
+                        i.remove(userId);
                     }
                 }
             }
@@ -6892,10 +6895,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         while (level > 0) {
             ArrayList<String> list = mAnimalWaitingList.get(level);
             if (!list.isEmpty()) {
-                for (String user : list) {
+                Iterator<String> i = list.iterator();
+                while (i.hasNext()) {
+                    String user = i.next();
                     if (user.equals(userId)) {
                         result += "" + level + " 等魔法動物學家\n";
-                        list.remove(userId);
+                        i.remove(userId);
                     }
                 }
             }
@@ -6907,10 +6912,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         while (level > 0) {
             ArrayList<String> list = mProfessorWaitingList.get(level);
             if (!list.isEmpty()) {
-                for (String user : list) {
+                Iterator<String> i = list.iterator();
+                while (i.hasNext()) {
+                    String user = i.next();
                     if (user.equals(userId)) {
                         result += "" + level + " 等教授\n";
-                        list.remove(userId);
+                        i.remove(userId);
                     }
                 }
             }
