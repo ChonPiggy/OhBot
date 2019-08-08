@@ -6805,7 +6805,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
-            newestDgpaReportTime = strResult.substring(strResult.indexOf("更新時間："), strResult.length());
+            String newestDgpaReportTime = strResult.substring(strResult.indexOf("更新時間："), strResult.length());
             newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("<br/>"));
             newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("\r"));
             
