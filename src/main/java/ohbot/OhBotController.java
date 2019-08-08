@@ -1480,7 +1480,7 @@ public class OhBotController {
                 this.replyText(replyToken, getDgpaEastReportText());
             }
             else if (text.equals("離島")) {
-                this.replyText(replyToken, getDgpaReportText());
+                this.replyText(replyToken, getDgpaSeaReportText());
             }
         }
 
@@ -6818,7 +6818,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String middleArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>中部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>南部地區</FONT>"));
             String southArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>南部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>東部地區</FONT>"));
             String eastArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>東部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>外島地區</FONT>"));
-            String seaArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>外島地區</FONT>")+17, dgpaTableBody.indexOf("偽造、變造本總處網頁發布不實訊息者"));
+            String seaArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>外島地區</FONT>")+17, dgpaTableBody.indexOf("備註："));
 
             mNorthAreaReportText = EmojiUtils.emojify(":moyai:") + "北部地區\n" + getDgpaTableElementString(northArea);
             mMiddleAreaReportText = EmojiUtils.emojify(":moyai:") + "中部地區\n" + getDgpaTableElementString(middleArea);
