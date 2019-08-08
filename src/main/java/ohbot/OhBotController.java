@@ -6765,31 +6765,37 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += mSouthAreaReportText + "\n";
         result += mEastAreaReportText + "\n";
         result += mSeaAreaReportText;
+        return result;
     }
 
     private String getDgpaNorthReportText() {
         String result = mNewestDgpaReportTime + "\n";
         result += mNorthAreaReportText;
+        return result;
     }
 
     private String getDgpaMiddleReportText() {
         String result = mNewestDgpaReportTime + "\n";
         result += mMiddleAreaReportText;
+        return result;
     }
 
     private String getDgpaSouthReportText() {
         String result = mNewestDgpaReportTime + "\n";
         result += mSouthAreaReportText;
+        return result;
     }
 
     private String getDgpaEastReportText() {
         String result = mNewestDgpaReportTime + "\n";
         result += mEastAreaReportText;
+        return result;
     }
 
     private String getDgpaSeaReportText() {
         String result = mNewestDgpaReportTime + "\n";
         result += mSeaAreaReportText;
+        return result;
     }
 
     private void checkNeedToWorkOrSchoolReport() {
