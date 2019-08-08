@@ -5193,14 +5193,25 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace("金加隆", "").replace("?", "").replace("？", "").trim();
         try {
             int inputNumber = Integer.parseInt(text);
-            double goldGallenRate = 0.274166667;
-            String strResult = inputNumber + "金加隆換算台幣大概 $" + (int)((inputNumber * goldGallenRate));
+            double goldGallenRate1 = 0.4125;      // 80G    $33
+            double goldGallenRate2 = 0.4;         // 425G   $170
+            double goldGallenRate3 = 0.319047619; // 900G   $330
+            double goldGallenRate4 = 0.274166667; // 2100G  $670
+            double goldGallenRate5 = 0.312962963; // 5400G  $1690
+            double goldGallenRate6 = 0.274166667; // 12000G $3290
+            String strResult = inputNumber + "金加隆換算台幣:\n";
+            String strResult += "   +80 黃金組大概 $" + (int)(inputNumber * goldGallenRate1) + "\n";
+            String strResult += "  +425 黃金組大概 $" + (int)(inputNumber * goldGallenRate2) + "\n";
+            String strResult += "  +900 黃金組大概 $" + (int)(inputNumber * goldGallenRate3) + "\n";
+            String strResult += " +2100 黃金組大概 $" + (int)(inputNumber * goldGallenRate4) + "\n";
+            String strResult += " +5400 黃金組大概 $" + (int)(inputNumber * goldGallenRate5) + "\n";
+            String strResult += "+12000 黃金組大概 $" + (int)(inputNumber * goldGallenRate6) + "\n";
+            String strResult += "謝謝各位乾爹/乾娘" + EmojiUtils.emojify(":heart:");
             this.replyText(replyToken, strResult);
         }
         catch(java.lang.NumberFormatException e1) {
             return;
         }
-        
     }
 
     private void exchangeToTwd(String text, String replyToken) throws IOException {
