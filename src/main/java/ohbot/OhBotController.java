@@ -6836,7 +6836,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String result = "";
         while(text.indexOf("</TR>") > 0) {
             String tempTrString = text.substring(0, text.indexOf("</TR>"));
-            result = EmojiUtils.emojify(":office:") + tempTrString.substring(tempTrString.indexOf("<FONT>")+6, tempTrString.indexOf("</FONT>")) + " ";
+            result += EmojiUtils.emojify(":office:") + tempTrString.substring(tempTrString.indexOf("<FONT>")+6, tempTrString.indexOf("</FONT>")) + " ";
             tempTrString = tempTrString.substring(tempTrString.indexOf("</FONT>")+7, tempTrString.length());
 
             while (tempTrString.indexOf("<FONT color=") > 0) {
