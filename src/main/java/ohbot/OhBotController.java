@@ -6735,7 +6735,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     String mNewestDgpaReportTime = "";
-    String mNewestDgpaReportText = "";
     String mNorthAreaReportText = "";
     String mMiddleAreaReportText = "";
     String mSouthAreaReportText = "";
@@ -6806,11 +6805,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
-            mNewestDgpaReportTime = strResult.substring(strResult.indexOf("更新時間："), strResult.length());
-            mNewestDgpaReportTime = mNewestDgpaReportTime.substring(0, mNewestDgpaReportTime.indexOf("<br/>"));
-            mNewestDgpaReportTime = mNewestDgpaReportTime.substring(0, mNewestDgpaReportTime.indexOf("\r"));
+            newestDgpaReportTime = strResult.substring(strResult.indexOf("更新時間："), strResult.length());
+            newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("<br/>"));
+            newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("\r"));
             
-            log.info("Newest DGPA time: " + mNewestDgpaReportTime);
+            log.info("Newest DGPA time: " + newestDgpaReportTime);
             
             String dgpaTableBody = strResult.substring(strResult.indexOf("<TBODY class=\"Table_Body\">"), strResult.length());
 
@@ -6825,7 +6824,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mSouthAreaReportText = EmojiUtils.emojify(":moyai:") + "南部地區\n" + getDgpaTableElementString(southArea);
             mEastAreaReportText = EmojiUtils.emojify(":moyai:") + "東部地區\n" + getDgpaTableElementString(eastArea);
             mSeaAreaReportText = EmojiUtils.emojify(":moyai:") + "外島地區\n" + getDgpaTableElementString(seaArea);
-
+            if (!mNewestDgpaReportTime.equals("") && !mNewestDgpaReportTime.equals(newestDgpaReportTime)) {
+                notifyAllNeedDgpaEventRoom();
+            }
+            mNewestDgpaReportTime = newestDgpaReportTime;
 
         } catch (Exception e) {
             log.info("checkEarthquakeReport e: " + e);
@@ -6954,6 +6956,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         for (String room : mEarthquakeEventRoomList){
             LineNotify.callEvent(room, mNewestEarthquakeReportText);
             LineNotify.callEvent(room, " ", mNewestEarthquakeReportImage);
+        }        
+    }
+
+    private List<String> mDgpaEventRoomList = new ArrayList<String> (
+        Arrays.asList(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM)
+    );
+
+    private void notifyAllNeedDgpaEventRoom() {
+        for (String room : mDgpaEventRoomList){
+            LineNotify.callEvent(room, getDgpaReportText());
         }        
     }
 
@@ -7254,7 +7266,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "+1, -1, +0.5\n";
         result += "截止\n";
         result += "X站? (X 限制為捷運站名\n";
-        result += "停班停課?\n";
+        result += "北部停班停課?\n";
+        result += "中部停班停課?\n";
+        result += "南部停班停課?\n";
+        result += "東部停班停課?\n";
+        result += "離島停班停課?\n";
         result += "我的LineId\n";
         result += "我的Line群組Id\n";
         result += "Ingress Twitter\n";
