@@ -1482,6 +1482,20 @@ public class OhBotController {
             else if (text.equals("離島")) {
                 this.replyText(replyToken, getDgpaSeaReportText());
             }
+            else {
+                String result = getDgpaReportText();
+                text = text.replace("台", "臺");
+                if (result.indexOf(text) > 0) {
+                    result = result.substring(result.indexOf(text), result.length());
+                    if (result.indexOf(EmojiUtils.emojify(":moyai:")) > 0) {
+                        result = result.substring(0, result.indexOf(EmojiUtils.emojify(":moyai:")));
+                    }
+                    if (result.indexOf(EmojiUtils.emojify(":office:")) > 0) {
+                        result = result.substring(0, result.indexOf(EmojiUtils.emojify(":office:")));
+                    }
+                    result = EmojiUtils.emojify(":office:") + result;
+                }
+            }
         }
 
         if (text.endsWith("時差?")||text.endsWith("時差？")) {
