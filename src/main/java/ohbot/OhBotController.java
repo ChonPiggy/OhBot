@@ -5200,13 +5200,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             double goldGallenRate5 = 0.312962963; // 5400G  $1690
             double goldGallenRate6 = 0.274166667; // 12000G $3290
             String strResult = inputNumber + "金加隆換算台幣:\n";
-            String strResult += "   +80 黃金組大概 $" + (int)(inputNumber * goldGallenRate1) + "\n";
-            String strResult += "  +425 黃金組大概 $" + (int)(inputNumber * goldGallenRate2) + "\n";
-            String strResult += "  +900 黃金組大概 $" + (int)(inputNumber * goldGallenRate3) + "\n";
-            String strResult += " +2100 黃金組大概 $" + (int)(inputNumber * goldGallenRate4) + "\n";
-            String strResult += " +5400 黃金組大概 $" + (int)(inputNumber * goldGallenRate5) + "\n";
-            String strResult += "+12000 黃金組大概 $" + (int)(inputNumber * goldGallenRate6) + "\n";
-            String strResult += "謝謝各位乾爹/乾娘" + EmojiUtils.emojify(":heart:");
+            strResult += "   +80 黃金組大概 $" + (int)(inputNumber * goldGallenRate1) + "\n";
+            strResult += "  +425 黃金組大概 $" + (int)(inputNumber * goldGallenRate2) + "\n";
+            strResult += "  +900 黃金組大概 $" + (int)(inputNumber * goldGallenRate3) + "\n";
+            strResult += " +2100 黃金組大概 $" + (int)(inputNumber * goldGallenRate4) + "\n";
+            strResult += " +5400 黃金組大概 $" + (int)(inputNumber * goldGallenRate5) + "\n";
+            strResult += "+12000 黃金組大概 $" + (int)(inputNumber * goldGallenRate6) + "\n";
+            strResult += "謝謝各位乾爹/乾娘" + EmojiUtils.emojify(":heart:");
             this.replyText(replyToken, strResult);
         }
         catch(java.lang.NumberFormatException e1) {
