@@ -1093,6 +1093,11 @@ public class OhBotController {
             mEarthquakeCheckThread.start();
         }
 
+        if (mNewestDgpaReportCheckThread == null) {
+            mNewestDgpaReportCheckThread = new NewestDgpaReportCheckThread();
+            mNewestDgpaReportCheckThread.start();
+        }
+
         /*if (mIngressCheckThread == null) {
             mIngressCheckThread = new NewestIngressCheckThread();
             mIngressCheckThread.start();
@@ -1453,6 +1458,29 @@ public class OhBotController {
             }
             else {
                 this.replyText(replyToken, "沒有這個站.");
+            }
+        }
+
+        if (text.endsWith("停班停課?") || text.endsWith("停班停課？")) {
+            text = text.replace("？", "").replace("?", "").trim();
+            text = text.replace("停班停課", "");
+            if (text.length() == 0) {
+                this.replyText(replyToken, getDgpaReportText());
+            }
+            else if (text.equals("北部")) {
+                this.replyText(replyToken, getDgpaNorthReportText());
+            }
+            else if (text.equals("中部")) {
+                this.replyText(replyToken, getDgpaMiddleReportText());
+            }
+            else if (text.equals("南部")) {
+                this.replyText(replyToken, getDgpaSouthReportText());
+            }
+            else if (text.equals("東部")) {
+                this.replyText(replyToken, getDgpaEastReportText());
+            }
+            else if (text.equals("離島")) {
+                this.replyText(replyToken, getDgpaReportText());
             }
         }
 
@@ -6319,7 +6347,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         public  void run() {
             System.out.println("Downliading Pexel target: " + target + " Page: " + page);
             
-            html = html.substring(html.indexOf("commentlist" ));
+            html = html.substring(html.indexOf("commentlist"));
             
             Pattern patternJpg = Pattern.compile("<img srcset=\".*?.jpg?");
             Pattern patternJpeg = Pattern.compile("<img srcset=\".*?.jpeg?");
@@ -6637,6 +6665,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     String mNewestEarthquakeTime = "";
     String mNewestEarthquakeReportText = "";
     String mNewestEarthquakeReportImage = "";
+
     private void checkEarthquakeReport() {
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -6705,6 +6734,122 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
+    String mNewestDgpaReportTime = "";
+    String mNewestDgpaReportText = "";
+    String mNorthAreaReportText = "";
+    String mMiddleAreaReportText = "";
+    String mSouthAreaReportText = "";
+    String mEastAreaReportText = "";
+    String mSeaAreaReportText = "";
+
+    public class NewestDgpaReportCheckThread extends Thread {
+        public void run(){
+            while (true) {
+                try {
+                    Thread.sleep(5000);
+                    checkNeedToWorkOrSchoolReport();
+                } catch (Exception e) {
+                    log.info("NewestEarthquakeTimeCheckThread e: " + e);
+                }
+            }
+            
+        }
+    }
+
+    private NewestDgpaReportCheckThread mNewestDgpaReportCheckThread = null;
+
+    private String getDgpaReportText() {
+        String result = mNewestDgpaReportTime + "\n";
+        result += mNorthAreaReportText + "\n";
+        result += mMiddleAreaReportText + "\n";
+        result += mSouthAreaReportText + "\n";
+        result += mEastAreaReportText + "\n";
+        result += mSeaAreaReportText;
+    }
+
+    private String getDgpaNorthReportText() {
+        String result = mNewestDgpaReportTime + "\n";
+        result += mNorthAreaReportText;
+    }
+
+    private String getDgpaMiddleReportText() {
+        String result = mNewestDgpaReportTime + "\n";
+        result += mMiddleAreaReportText;
+    }
+
+    private String getDgpaSouthReportText() {
+        String result = mNewestDgpaReportTime + "\n";
+        result += mSouthAreaReportText;
+    }
+
+    private String getDgpaEastReportText() {
+        String result = mNewestDgpaReportTime + "\n";
+        result += mEastAreaReportText;
+    }
+
+    private String getDgpaSeaReportText() {
+        String result = mNewestDgpaReportTime + "\n";
+        result += mSeaAreaReportText;
+    }
+
+    private void checkNeedToWorkOrSchoolReport() {
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet("https://www.dgpa.gov.tw");
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+            mNewestDgpaReportTime = strResult.substring(strResult.indexOf("更新時間："), strResult.length());
+            mNewestDgpaReportTime = mNewestDgpaReportTime.substring(0, mNewestDgpaReportTime.indexOf("<br/>"));
+            mNewestDgpaReportTime = mNewestDgpaReportTime.substring(0, mNewestDgpaReportTime.indexOf("\r"));
+            
+            log.info("Newest DGPA time: " + mNewestDgpaReportTime);
+            
+            String dgpaTableBody = strResult.substring(strResult.indexOf("<TBODY class=\"Table_Body\">"), strResult.length());
+
+            String northArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>北部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>中部地區</FONT>"));
+            String middleArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>中部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>南部地區</FONT>"));
+            String southArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>南部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>東部地區</FONT>"));
+            String eastArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>東部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>外島地區</FONT>"));
+            String seaArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>外島地區</FONT>")+17, dgpaTableBody.indexOf("偽造、變造本總處網頁發布不實訊息者"));
+
+            mNorthAreaReportText = "北部地區\n" + getDgpaTableElementString(northArea);
+            mMiddleAreaReportText = "中部地區\n" + getDgpaTableElementString(middleArea);
+            mSouthAreaReportText = "南部地區\n" + getDgpaTableElementString(southArea);
+            mEastAreaReportText = "東部地區\n" + getDgpaTableElementString(eastArea);
+            mSeaAreaReportText = "外島地區\n" + getDgpaTableElementString(seaArea);
+
+
+        } catch (Exception e) {
+            log.info("checkEarthquakeReport e: " + e);
+        }
+    }
+
+    private String getDgpaTableElementString(String text) {
+        String result = "";
+        while(text.indexOf("</TR>") > 0) {
+            String tempTrString = text.substring(0, text.indexOf("</TR>"));
+            result = tempTrString.substring(tempTrString.indexOf("<FONT>")+6, tempTrString.indexOf("</FONT>")) + " ";
+            tempTrString = tempTrString.substring(tempTrString.indexOf("</FONT>")+7, tempTrString.length());
+
+            while (tempTrString.indexOf("<FONT color=") > 0) {
+                tempTrString = tempTrString.substring(tempTrString.indexOf("<FONT color="), tempTrString.length());
+                if (tempTrString.startsWith("<FONT color=#FF0000 >") {
+                    result += EmojiUtils.emojify(":exclamation:");
+                    result += tempTrString.substring(tempTrString.indexOf("<FONT color=")+21, tempTrString.indexOf("</FONT>"));
+                    result += EmojiUtils.emojify(":exclamation:");
+                }
+                else {
+                    result += tempTrString.substring(tempTrString.indexOf("<FONT color=")+21, tempTrString.indexOf("</FONT>"));
+                }
+                tempTrString = tempTrString.substring(tempTrString.indexOf("</FONT>"), tempTrString.length());
+                result += "\n";
+            }
+            text = text.substring(text.indexOf("</TR>")+5, text.length());
+        }
+    }
+
     public class NewestIngressCheckThread extends Thread {
         public void run(){
             while (true) {
@@ -6714,7 +6859,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         notifyAllNeedIngressTwitterEventRoom();
                     }
                 } catch (Exception e) {
-                    log.info("NewestEarthquakeTimeCheckThread e: " + e);
+                    log.info("NewestIngressCheckThread e: " + e);
                 }
             }
         }
@@ -7102,6 +7247,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "+1, -1, +0.5\n";
         result += "截止\n";
         result += "X站? (X 限制為捷運站名\n";
+        result += "停班停課?\n";
         result += "我的LineId\n";
         result += "我的Line群組Id\n";
         result += "Ingress Twitter\n";
@@ -7111,12 +7257,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String result = "巫師功能指令集\n\n";
         result += "Ｘ金加隆？\n";
         result += "X等正氣求組\n";
+        result += "例如: 10等正氣求組\n";
         result += "X等魔動求組\n";
+        result += "例如: 8等魔動求組\n";
         result += "X等教授求組\n";
-        result += "取消登記\n";
-        result += "正氣求組清單\n";
-        result += "魔動求組清單\n";
-        result += "教授求組清單\n";
+        result += "例如: 7等教授求組\n";
+        result += "取消登記 或 取消\n";
+        result += "正氣求組清單 或 正氣?\n";
+        result += "魔動求組清單 或 魔動?\n";
+        result += "教授求組清單 或 教授?\n";
         return result;
     }
 }
