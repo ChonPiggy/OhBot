@@ -6824,9 +6824,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mSouthAreaReportText = EmojiUtils.emojify(":moyai:") + "南部地區\n" + getDgpaTableElementString(southArea);
             mEastAreaReportText = EmojiUtils.emojify(":moyai:") + "東部地區\n" + getDgpaTableElementString(eastArea);
             mSeaAreaReportText = EmojiUtils.emojify(":moyai:") + "外島地區\n" + getDgpaTableElementString(seaArea);
-            if (!mNewestDgpaReportTime.equals("") && !mNewestDgpaReportTime.equals(newestDgpaReportTime)) {
+            /*if (!mNewestDgpaReportTime.equals("") && !mNewestDgpaReportTime.equals(newestDgpaReportTime)) {
                 notifyAllNeedDgpaEventRoom();
-            }
+            }*/
             mNewestDgpaReportTime = newestDgpaReportTime;
 
         } catch (Exception e) {
