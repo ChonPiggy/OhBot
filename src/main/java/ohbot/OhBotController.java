@@ -1495,6 +1495,7 @@ public class OhBotController {
                     }
                     result = EmojiUtils.emojify(":office:") + result;
                 }
+                this.replyText(replyToken, result);
             }
         }
 
