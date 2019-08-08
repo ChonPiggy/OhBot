@@ -6835,7 +6835,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             while (tempTrString.indexOf("<FONT color=") > 0) {
                 tempTrString = tempTrString.substring(tempTrString.indexOf("<FONT color="), tempTrString.length());
-                if (tempTrString.startsWith("<FONT color=#FF0000 >") {
+                if (tempTrString.startsWith("<FONT color=#FF0000 >")) {
                     result += EmojiUtils.emojify(":exclamation:");
                     result += tempTrString.substring(tempTrString.indexOf("<FONT color=")+21, tempTrString.indexOf("</FONT>"));
                     result += EmojiUtils.emojify(":exclamation:");
