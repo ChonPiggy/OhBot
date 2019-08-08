@@ -6824,7 +6824,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("<br/>"));
             newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("\r"));
             
-            log.info("Newest DGPA time: " + newestDgpaReportTime);
+            //log.info("Newest DGPA time: " + newestDgpaReportTime);
             
             String dgpaTableBody = strResult.substring(strResult.indexOf("<TBODY class=\"Table_Body\">"), strResult.length());
 
@@ -6845,7 +6845,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mNewestDgpaReportTime = newestDgpaReportTime;
 
         } catch (Exception e) {
-            log.info("checkEarthquakeReport e: " + e);
+            log.info("checkNeedToWorkOrSchoolReport e: " + e);
         }
     }
 
