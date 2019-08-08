@@ -6820,11 +6820,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String eastArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>東部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>外島地區</FONT>"));
             String seaArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>外島地區</FONT>")+17, dgpaTableBody.indexOf("偽造、變造本總處網頁發布不實訊息者"));
 
-            mNorthAreaReportText = "北部地區\n" + getDgpaTableElementString(northArea);
-            mMiddleAreaReportText = "中部地區\n" + getDgpaTableElementString(middleArea);
-            mSouthAreaReportText = "南部地區\n" + getDgpaTableElementString(southArea);
-            mEastAreaReportText = "東部地區\n" + getDgpaTableElementString(eastArea);
-            mSeaAreaReportText = "外島地區\n" + getDgpaTableElementString(seaArea);
+            mNorthAreaReportText = EmojiUtils.emojify(":moyai:") + "北部地區\n" + getDgpaTableElementString(northArea);
+            mMiddleAreaReportText = EmojiUtils.emojify(":moyai:") + "中部地區\n" + getDgpaTableElementString(middleArea);
+            mSouthAreaReportText = EmojiUtils.emojify(":moyai:") + "南部地區\n" + getDgpaTableElementString(southArea);
+            mEastAreaReportText = EmojiUtils.emojify(":moyai:") + "東部地區\n" + getDgpaTableElementString(eastArea);
+            mSeaAreaReportText = EmojiUtils.emojify(":moyai:") + "外島地區\n" + getDgpaTableElementString(seaArea);
 
 
         } catch (Exception e) {
@@ -6836,7 +6836,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String result = "";
         while(text.indexOf("</TR>") > 0) {
             String tempTrString = text.substring(0, text.indexOf("</TR>"));
-            result = tempTrString.substring(tempTrString.indexOf("<FONT>")+6, tempTrString.indexOf("</FONT>")) + " ";
+            result = EmojiUtils.emojify(":office:") + tempTrString.substring(tempTrString.indexOf("<FONT>")+6, tempTrString.indexOf("</FONT>")) + " ";
             tempTrString = tempTrString.substring(tempTrString.indexOf("</FONT>")+7, tempTrString.length());
 
             while (tempTrString.indexOf("<FONT color=") > 0) {
@@ -6854,6 +6854,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             text = text.substring(text.indexOf("</TR>")+5, text.length());
         }
+        return result;
     }
 
     public class NewestIngressCheckThread extends Thread {
