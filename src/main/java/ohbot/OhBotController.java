@@ -3118,7 +3118,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
-                    strResult = strResult.substring(strResult.indexOf("<td>台幣換")+4, strResult.indexOf("</table>"); // cut table
+                    strResult = strResult.substring(strResult.indexOf("<td>台幣換")+4, strResult.indexOf("</table>")); // cut table
 
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length()); // move to first bank title
                     String result = "" + text + "買賣推薦 轉自 findrate.tw\n";
