@@ -3029,7 +3029,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void rate(String text, String replyToken) throws IOException {
         text = text.replace("匯率", "").replace("?", "").replace("？", "").trim();
         log.info(text);
-        
+
         String strResult = "";
         String country ="";
         try {
@@ -3138,7 +3138,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     this.replyText(replyToken, EmojiUtils.emojify(result));
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             this.replyText(replyToken, strResult);
             throw e;
         }
