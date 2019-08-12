@@ -3138,7 +3138,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
             }
         } catch (Exception e) {
-            this.replyText(replyToken, strResult);
+            //this.replyText(replyToken, strResult);
             throw e;
         }
     }
@@ -5105,23 +5105,20 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
 
                 CloseableHttpClient httpClient = HttpClients.createDefault();
-                String url="https://www.findrate.tw/"+country+"/";
+                String url="https://www.findrate.tw/"+country+"/?type="+country+"&order=in1";
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
                 //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-                HttpEntity httpEntity = response.getEntity();
+                HttpEntity httpEntity = response.getEntity();    
                 String tempParseNumber = "";
                 tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
-                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("<td>現鈔買入</td>"), tempParseNumber.length());
-                tempParseNumber = tempParseNumber.substring(0, tempParseNumber.indexOf("</tr>"));
+                
+                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("<td>台幣換")+4, tempParseNumber.indexOf("</table>")); // cut table    
+                tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("\">")+2, tempParseNumber.length());
+                tempParseNumber = tempParseNumber.substring(0, tempParseNumber.indexOf("</td>"));
                 
                 float rateNumber = 0f;
-                Pattern pattern = Pattern.compile("[\\d]{1,}\\.[\\d]{1,}");
-                Matcher matcher = pattern.matcher(tempParseNumber);
-                while(matcher.find()){
-                    tempParseNumber = matcher.group();
-                }
                 
                 try {
                     rateNumber = Float.parseFloat(tempParseNumber);
