@@ -3124,7 +3124,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length()); // move to first bank title
                     String result = "" + text + "買賣推薦 轉自 findrate.tw\n";
                     result += ":dollar:要買現鈔去 ";
-                    result += strResult.substring(strResult.indexOf("<td>"), strResult.indexOf("</td>")) + " :moneybag:\n"; // get buying bank
+                    result += strResult.substring(0, strResult.indexOf("</td>")) + " :moneybag:\n"; // get buying bank
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length()); //move to after first bank end
                     strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length()); // move to before buy rate
                     result += strResult.substring(0, strResult.indexOf("</td>")) + "\n"; // get buying rate
