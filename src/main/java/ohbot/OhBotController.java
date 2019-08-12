@@ -3091,27 +3091,27 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         break;
                     }
                     case "台幣": {
-                        text="TWD";
+                        country="TWD";
                         break;
                     }
                     case "鮭魚": {
-                        text="Salmon";
+                        country="Salmon";
                         break;
                     }
                     default:
                         text="";
 
                 }
-                if(text.equals("")){
+                if(country.equals("")){
                     strResult = "義大利?維大力? \n請輸入 這些幣別：\n美金 日圓 人民幣 歐元 \n港幣 英鎊 韓元 越南盾\n澳幣 泰銖 印尼盾 法郎\n披索 新幣";
                     this.replyText(replyToken, strResult);
-                } else if (text.equals("TWD")){
+                } else if (country.equals("TWD")){
                     this.replyText(replyToken, "現鈔賣出去巷口便利商店");
-                } else if (text.equals("Salmon")){
+                } else if (country.equals("Salmon")){
                     this.replyText(replyToken, "現鈔買入去爭鮮林森北店");
                 }else{
                     CloseableHttpClient httpClient = HttpClients.createDefault();
-                    String url="https://www.findrate.tw/"+JPY+"/?type="+JPY+"&order=in1";
+                    String url="https://www.findrate.tw/"+country+"/?type="+country+"&order=in1";
                     log.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
@@ -3134,7 +3134,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length()); // move to before buy rate
                     result += strResult.substring(0, strResult.indexOf("</td>")); // get selling rate
 
-                    this.replyText(replyToken, EmojiUtils.emojify("" + text + "買賣推薦:\n" + result));
+                    this.replyText(replyToken, EmojiUtils.emojify(result));
                 }
             }
         } catch (IOException e) {
