@@ -4670,6 +4670,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result_local_time = "";
             String result_remote_time = "";
             output = EntityUtils.toString(httpEntity, "utf-8");
+            
+            this.replyText(replyToken, output);
             //log.info("output: " + output);
             //result = output;
             result_title = output.substring(output.indexOf("<div class=\"Mv3Zsd vk_bk dDoNo\">   ") + 35, output.length());
