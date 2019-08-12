@@ -3111,22 +3111,30 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     this.replyText(replyToken, "現鈔買入去爭鮮林森北店");
                 }else{
                     CloseableHttpClient httpClient = HttpClients.createDefault();
-                    String url="https://www.findrate.tw/"+country+"/";
+                    String url="https://www.findrate.tw/"+JPY+"/?type="+JPY+"&order=in1";
                     log.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
-                    strResult = strResult.substring(strResult.indexOf("<td>現鈔買入</td>"), strResult.length());
-                    strResult = strResult.substring(0, strResult.indexOf("</table>"));
-                    strResult = strResult.replaceAll("</a></td>", ":moneybag:");
-                    strResult = strResult.replaceAll("<[^>]*>", "");
-                    strResult = strResult.replaceAll("[\\s]{1,}", "");
-                    strResult = strResult.replaceAll("現鈔賣出", "\n:money_with_wings:要賣現鈔去");
-                    strResult = strResult.replaceAll("現鈔買入", ":dollar:要買現鈔去");
+                    strResult = strResult.substring(strResult.indexOf("<td>台幣換")+4, strResult.indexOf("</table>"); // cut table
 
-                    this.replyText(replyToken, EmojiUtils.emojify("" + text + "買賣推薦:\n" + strResult));
+                    strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length()); // move to first bank title
+                    String result = "" + text + "買賣推薦 轉自 findrate.tw\n";
+                    result += ":dollar:要買現鈔去 ";
+                    result += strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>")) + " :moneybag:\n"; // get buying bank
+                    strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length()); //move to after first bank end
+                    strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length()); // move to before buy rate
+                    result += strResult.substring(0, strResult.indexOf("</td>")) + "\n"; // get buying rate
+
+                    result += ":money_with_wings:要賣現鈔去 ";
+                    strResult = strResult.substring(strResult.indexOf("換台幣</td>")+8, strResult.length()); //move to selling bank start
+                    result += strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>")) + " :moneybag:\n"; // get selling bank name
+                    strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length()); // move to before buy rate
+                    result += strResult.substring(0, strResult.indexOf("</td>")); // get selling rate
+
+                    this.replyText(replyToken, EmojiUtils.emojify("" + text + "買賣推薦:\n" + result));
                 }
             }
         } catch (IOException e) {
