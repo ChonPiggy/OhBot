@@ -4701,6 +4701,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (Exception e) {
             //log.info("" + e);
             e.printStackTrace();
+            this.replyText(replyToken, output);
         }
 
         if (result.equals("")) {
