@@ -6843,7 +6843,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mNewestDgpaReportTime = newestDgpaReportTime;
 
         } catch (Exception e) {
-            log.info("checkNeedToWorkOrSchoolReport e: " + e);
+            //log.info("checkNeedToWorkOrSchoolReport e: " + e);
         }
     }
 
