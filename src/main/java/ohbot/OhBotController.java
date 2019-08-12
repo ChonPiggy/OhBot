@@ -960,7 +960,7 @@ public class OhBotController {
         try {
             if (country != null) {
                 CloseableHttpClient httpClient = HttpClients.createDefault();
-                String url="http://m.findrate.tw/"+country+"/";
+                String url="https://www.findrate.tw/"+country+"/";
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
@@ -3111,7 +3111,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     this.replyText(replyToken, "現鈔買入去爭鮮林森北店");
                 }else{
                     CloseableHttpClient httpClient = HttpClients.createDefault();
-                    String url="http://m.findrate.tw/"+country+"/";
+                    String url="https://www.findrate.tw/"+country+"/";
                     log.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
@@ -5096,7 +5096,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
 
                 CloseableHttpClient httpClient = HttpClients.createDefault();
-                String url="http://m.findrate.tw/"+country+"/";
+                String url="https://www.findrate.tw/"+country+"/";
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
@@ -5343,7 +5343,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
 
                 CloseableHttpClient httpClient = HttpClients.createDefault();
-                String url="http://m.findrate.tw/"+country+"/";
+                String url="https://www.findrate.tw/"+country+"/";
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
@@ -5485,7 +5485,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
 
                 CloseableHttpClient httpClient = HttpClients.createDefault();
-                String url="http://m.findrate.tw/"+country+"/";
+                String url="https://www.findrate.tw/"+country+"/";
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
