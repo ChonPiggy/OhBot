@@ -3138,6 +3138,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
             }
         } catch (IOException e) {
+            this.replyText(replyToken, strResult);
             throw e;
         }
     }
