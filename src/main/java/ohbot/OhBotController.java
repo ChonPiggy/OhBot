@@ -40,6 +40,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.Iterator;
 import java.lang.reflect.Method;
 
+import org.apache.http.HttpHost;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
@@ -4650,9 +4652,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
         try {
             text = URLEncoder.encode(text, "UTF-8");
-            String url = "https://www.google.com/search?q=" + text + "+%E6%99%82%E5%B7%AE&oq=" + text + "+%E6%99%82%E5%B7%AE&aqs=chrome..69i57j0l5.5610j0j7&sourceid=chrome&ie=UTF-8";
+            String url = "http://www.google.com.tw/search?q="+text+"時差";
             log.info("JetLagUrl: " + url);
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpHost proxy = new HttpHost("113.254.114.24",8197);   // 元朗 proxy
+            httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,proxy);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36");
             httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
