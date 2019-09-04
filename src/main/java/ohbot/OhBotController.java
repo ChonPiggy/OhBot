@@ -5311,6 +5311,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     country="VND";
                     text = text.replace("越南盾","").trim();
                 }
+                else if (text.endsWith("澳幣")) {
+                    country="AUD";
+                    text = text.replace("澳幣","").trim();
+                }
                 else if (text.endsWith("泰銖")) {
                     country="THB";
                     text = text.replace("泰銖","").trim();
