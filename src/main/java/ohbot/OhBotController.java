@@ -4620,11 +4620,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     
     private void processPlusPlusAdd(String replyToken, String senderId, String userId, String text) {
         text = text.replace(" ", "").trim();
-        if (getUserDisplayName(userId).equals("")) {
-            this.replyText(replyToken, "請將 BOT 加為好友後方可使用此功能");
-            return;
-        }
+        
         if (mPlusPlusListMap.containsKey(senderId)) {
+            if (getUserDisplayName(userId).equals("")) {
+                this.replyText(replyToken, "請將 BOT 加為好友後方可使用此功能");
+                return;
+            }
             if (text.equals("+0.5")||text.equals("+1")||text.equals("-1")) {
                 PlusPlusList sl = mPlusPlusListMap.get(senderId);
                 if (text.equals("-1")) {
@@ -4641,7 +4642,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
         else {
-            this.replyText(replyToken, "此群組尚未開啟加加表單");
+            //this.replyText(replyToken, "此群組尚未開啟加加表單");
         }
     }
 
@@ -6090,7 +6091,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             log.info("getInstagramImageUrl:" + url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
-            httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            //httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
             httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
             httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
             httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
