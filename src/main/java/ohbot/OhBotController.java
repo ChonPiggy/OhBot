@@ -6092,7 +6092,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
             //httpGet.addHeader("Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
-            httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            httpGet.setHeader("Accept","text/html");
             httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
             httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
             httpGet.setHeader("Cache-Control", "max-age=0");
