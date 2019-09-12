@@ -6222,7 +6222,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 result = result.substring(0, result.length()-2);
                 log.info("Piggy Check IG " + target + " jpg img_link: " + result);
                 if (result.contains("\\u0026")) {
-                    result.replace("\\u0026","&");
+                    result = result.replace("\\u0026","&");
                     log.info("Piggy Check IG " + target + " jpg after replace & img_link: " + result);
                 }
                 tempIgList.add(result);
