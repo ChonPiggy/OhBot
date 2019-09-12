@@ -101,7 +101,7 @@ public class OhBotController {
     private ArrayList<String> mEatWhatArray = new ArrayList<String>();
     private List<String> mJanDanGirlList = new ArrayList<String> ();
 
-    /*private List<String> mUserAgentList = new ArrayList<String> (Arrays.asList(
+    private List<String> mUserAgentList = new ArrayList<String> (Arrays.asList(
         "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20130406 Firefox/23.0",
         "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0",
         "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/533+ (KHTML, like Gecko) Element Browser 5.0",
@@ -111,8 +111,8 @@ public class OhBotController {
         "Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25",
         "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1468.0 Safari/537.36",
         "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0; TheWorld)",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36"));*/
-    private List<String> mUserAgentList = new ArrayList<String> (Arrays.asList("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"));
+        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36"));
+    
     private List<String> mDefaultRandamLocationTitleList = Arrays.asList("正在吃飯", "正在洗澡", "死了", "正在散步", "正在合照", "正在做羞羞的事", "正在慢跑", "正在睡覺");
     private List<String> mDefaultRandamLocationAddressList = Arrays.asList("某個路邊", "某個下水溝", "某顆樹上", "某人家裡", "某個機場跑道上", "某個商店街", "某間公司");
     private List<String> mDefaultRockPaperScissors = Arrays.asList("剪刀", "石頭", "布");
