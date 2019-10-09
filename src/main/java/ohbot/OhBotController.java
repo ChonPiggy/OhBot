@@ -1321,6 +1321,11 @@ public class OhBotController {
             exchangeFromGoldGalleon(text, replyToken);
         }
 
+        if (text.endsWith("CMU?") || text.endsWith("CMU？") || text.endsWith("cmu?") || text.endsWith("cmu？")
+             || text.endsWith("ＣＭＵ?") || text.endsWith("ＣＵＭ？")) {
+            exchangeFromIngressCMU(text, replyToken);
+        }
+
         if ((text.contains("台幣換算") || text.contains("台幣換算")||text.contains("臺幣換算") || text.contains("臺幣換算")) &&
             (text.endsWith("?") || text.endsWith("？"))) {
             exchangeFromTwd(text, replyToken);
@@ -5264,6 +5269,31 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             strResult += " +2100 黃金組大概 $" + (int)(inputNumber * goldGallenRate4) + "\n";
             strResult += " +5400 黃金組大概 $" + (int)(inputNumber * goldGallenRate5) + "\n";
             strResult += "+12000 黃金組大概 $" + (int)(inputNumber * goldGallenRate6) + "\n";
+            strResult += "謝謝各位乾爹/乾娘" + EmojiUtils.emojify(":heart:");
+            this.replyText(replyToken, strResult);
+        }
+        catch(java.lang.NumberFormatException e1) {
+            return;
+        }
+    }
+
+    private void exchangeFromIngressCMU(String text, String replyToken) throws IOException {
+        text = text.replace("CMU", "").replace("cmu", "").replace("ＣＭＵ", "").replace("?", "").replace("？", "").trim();
+        try {
+            int inputNumber = Integer.parseInt(text);
+            double cmuRate1 = 0.028;     // 2500   CMU  $70
+            double cmuRate2 = 0.0242857; // 7000   CMU  $170
+            double cmuRate3 = 0.022;     // 15000  CMU  $330
+            double cmuRate4 = 0.0209375; // 32000  CMU  $670
+            double cmuRate5 = 0.0187778; // 90000  CMU  $1690
+            double cmuRate6 = 0.01645;   // 200000 CMU  $3290
+            String strResult = inputNumber + "Ingress CMU 換算台幣:\n";
+            strResult += "  2,500 CMU 組大概 $" + (int)(inputNumber * cmuRate1) + "\n";
+            strResult += "  7,000 CMU 組大概 $" + (int)(inputNumber * cmuRate2) + "\n";
+            strResult += " 15,000 CMU 組大概 $" + (int)(inputNumber * cmuRate3) + "\n";
+            strResult += " 32,000 CMU 組大概 $" + (int)(inputNumber * cmuRate4) + "\n";
+            strResult += " 90,000 CMU 組大概 $" + (int)(inputNumber * cmuRate5) + "\n";
+            strResult += "200,000 CMU 組大概 $" + (int)(inputNumber * cmuRate6) + "\n";
             strResult += "謝謝各位乾爹/乾娘" + EmojiUtils.emojify(":heart:");
             this.replyText(replyToken, strResult);
         }
