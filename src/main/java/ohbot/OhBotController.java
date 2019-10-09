@@ -5287,7 +5287,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             double cmuRate4 = 0.0209375; // 32000  CMU  $670
             double cmuRate5 = 0.0187778; // 90000  CMU  $1690
             double cmuRate6 = 0.01645;   // 200000 CMU  $3290
-            String strResult = inputNumber + "Ingress CMU 換算台幣:\n";
+            String strResult = inputNumber + " Ingress CMU 換算台幣:\n";
             strResult += "  2,500 CMU 組大概 $" + (int)(inputNumber * cmuRate1) + "\n";
             strResult += "  7,000 CMU 組大概 $" + (int)(inputNumber * cmuRate2) + "\n";
             strResult += " 15,000 CMU 組大概 $" + (int)(inputNumber * cmuRate3) + "\n";
