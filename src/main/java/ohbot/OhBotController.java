@@ -3377,7 +3377,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             result = EntityUtils.toString(httpEntity, "utf-8");
             result = result.substring(result.indexOf("<h2 style=\""), result.length());
-            result = result.substring(result.indexOf("px;\">"), result.indexOf("</h2>"));
+            result = result.substring(result.indexOf("px;\">")+5, result.indexOf("</h2>"));
             
             String string_result = text + " 的平假名是 " + result;
 
@@ -3403,7 +3403,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             result = EntityUtils.toString(httpEntity, "utf-8");
             result = result.substring(result.indexOf("<h2 style=\""), result.length());
-            result = result.substring(result.indexOf("px;\">"), result.indexOf("</h2>"));
+            result = result.substring(result.indexOf("px;\">")+5, result.indexOf("</h2>"));
             
             String string_result = text + " 的片假名是 " + result;
 
@@ -3428,7 +3428,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             result = EntityUtils.toString(httpEntity, "utf-8");
             result = result.substring(result.indexOf("<h2 style=\""), result.length());
-            result = result.substring(result.indexOf("px;\">"), result.indexOf("</h2>"));
+            result = result.substring(result.indexOf("px;\">")+5, result.indexOf("</h2>"));
             
             String string_result = text + " 的羅馬拼音是 " + result;
 
