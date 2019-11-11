@@ -3366,7 +3366,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace("的平假名", "").replace("的平假名是", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            String url="view-source:https://tw.saymynamae.com/" + text + "-to-hiragana";
+            String url="https://tw.saymynamae.com/" + text + "-to-hiragana";
             log.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
@@ -3392,7 +3392,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace("的片假名", "").replace("的片假名是", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            String url="view-source:https://tw.saymynamae.com/" + text + "-to-katakana";
+            String url="https://tw.saymynamae.com/" + text + "-to-katakana";
             log.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
@@ -3417,7 +3417,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace("的羅馬拼音", "").replace("的羅馬拼音是", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            String url="view-source:https://tw.saymynamae.com/" + text + "-to-romaji";
+            String url="https://tw.saymynamae.com/" + text + "-to-romaji";
             log.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
