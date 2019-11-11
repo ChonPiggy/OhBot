@@ -1520,15 +1520,15 @@ public class OhBotController {
         // Japanese name translator
 
         if (text.endsWith("的平假名?") || text.endsWith("的平假名？") || text.endsWith("的平假名是?") || text.endsWith("的平假名是？")) {
-            japaneseNameToHiragana(text);
+            japaneseNameToHiragana(replyToken, text);
         }
 
         if (text.endsWith("的片假名?") || text.endsWith("的片假名？") || text.endsWith("的片假名是?") || text.endsWith("的片假名是？")) {
-            japaneseNameToKatakana(text);
+            japaneseNameToKatakana(replyToken, text);
         }
 
         if (text.endsWith("的羅馬拼音?") || text.endsWith("的羅馬拼音？") || text.endsWith("的羅馬拼音是?") || text.endsWith("的羅馬拼音是？")) {
-            japaneseNameToRomaji(text);
+            japaneseNameToRomaji(replyToken, text);
         }
 
         if (text.startsWith("PgCommand設定MD地圖:")) {
@@ -3362,7 +3362,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void japaneseNameToHiragana(String text) {
+    private void japaneseNameToHiragana(String replyToken, String text) {
         text = text.replace("的平假名", "").replace("的平假名是", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -3388,7 +3388,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
     
-    private void japaneseNameToKatakana(String text) {
+    private void japaneseNameToKatakana(String replyToken, String text) {
         text = text.replace("的片假名", "").replace("的片假名是", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -3413,7 +3413,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             throw e2;
         }
     }
-    private void japaneseNameToRomaji(String text) {
+    private void japaneseNameToRomaji(String replyToken, String text) {
         text = text.replace("的羅馬拼音", "").replace("的羅馬拼音是", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
