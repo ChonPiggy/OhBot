@@ -3363,7 +3363,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void japaneseNameToHiragana(String replyToken, String text) throws IOException {
-        text = text.replace("的平假名", "").replace("的平假名是", "").replace("？", "").replace("?", "").trim();
+        text = text.replace("的平假名是", "").replace("的平假名", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://tw.saymynamae.com/" + text + "-to-hiragana";
@@ -3389,7 +3389,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     private void japaneseNameToKatakana(String replyToken, String text) throws IOException {
-        text = text.replace("的片假名", "").replace("的片假名是", "").replace("？", "").replace("?", "").trim();
+        text = text.replace("的片假名是", "").replace("的片假名", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://tw.saymynamae.com/" + text + "-to-katakana";
@@ -3414,7 +3414,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
     private void japaneseNameToRomaji(String replyToken, String text) throws IOException {
-        text = text.replace("的羅馬拼音", "").replace("的羅馬拼音是", "").replace("？", "").replace("?", "").trim();
+        text = text.replace("的羅馬拼音是", "").replace("的羅馬拼音", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://tw.saymynamae.com/" + text + "-to-romaji";
