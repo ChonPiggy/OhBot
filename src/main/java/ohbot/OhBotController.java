@@ -1517,6 +1517,20 @@ public class OhBotController {
             amazonJpSearch(replyToken, text);
         }
 
+        // Japanese name translator
+
+        if (text.endsWith("的平假名?") || text.endsWith("的平假名？") || text.endsWith("的平假名是?") || text.endsWith("的平假名是？")) {
+            japaneseNameToHiragana(text);
+        }
+
+        if (text.endsWith("的片假名?") || text.endsWith("的片假名？") || text.endsWith("的片假名是?") || text.endsWith("的片假名是？")) {
+            japaneseNameToKatakana(text);
+        }
+
+        if (text.endsWith("的羅馬拼音?") || text.endsWith("的羅馬拼音？") || text.endsWith("的羅馬拼音是?") || text.endsWith("的羅馬拼音是？")) {
+            japaneseNameToRomaji(text);
+        }
+
         if (text.startsWith("PgCommand設定MD地圖:")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
             text = text.replace("PgCommand設定MD地圖:", "").trim();
@@ -3344,6 +3358,83 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         }catch (IOException e2) {
             this.replyText(replyToken, "搜索大失敗");
+            throw e2;
+        }
+    }
+
+    private void japaneseNameToHiragana(String text) {
+        text = text.replace("的平假名", "").replace("的平假名是", "").replace("？", "").replace("?", "").trim();
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="view-source:https://tw.saymynamae.com/" + text + "-to-hiragana";
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String result = "";
+
+            result = EntityUtils.toString(httpEntity, "utf-8");
+            result = result.substring(result.indexOf("<h2 style=\""), result.length());
+            result = result.substring(result.indexOf("px;\">"), result.indexOf("</h2>"));
+            
+            String string_result = text + " 的平假名是 " + result;
+
+            this.replyText(replyToken, string_result);
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+    
+    private void japaneseNameToKatakana(String text) {
+        text = text.replace("的片假名", "").replace("的片假名是", "").replace("？", "").replace("?", "").trim();
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="view-source:https://tw.saymynamae.com/" + text + "-to-katakana";
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String result = "";
+
+            result = EntityUtils.toString(httpEntity, "utf-8");
+            result = result.substring(result.indexOf("<h2 style=\""), result.length());
+            result = result.substring(result.indexOf("px;\">"), result.indexOf("</h2>"));
+            
+            String string_result = text + " 的片假名是 " + result;
+
+            this.replyText(replyToken, string_result);
+
+        }catch (IOException e2) {
+            throw e2;
+        }
+    }
+    private void japaneseNameToRomaji(String text) {
+        text = text.replace("的羅馬拼音", "").replace("的羅馬拼音是", "").replace("？", "").replace("?", "").trim();
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="view-source:https://tw.saymynamae.com/" + text + "-to-romaji";
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+
+            String result = "";
+
+            result = EntityUtils.toString(httpEntity, "utf-8");
+            result = result.substring(result.indexOf("<h2 style=\""), result.length());
+            result = result.substring(result.indexOf("px;\">"), result.indexOf("</h2>"));
+            
+            String string_result = text + " 的羅馬拼音是 " + result;
+
+            this.replyText(replyToken, string_result);
+
+        }catch (IOException e2) {
             throw e2;
         }
     }
@@ -7314,13 +7405,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "民國XX幾歲?\n";
         result += "XX幾台?\n";
         result += "開表單：XXX\n";
-        result += "查表單\n";
-        result += "登記：XXX\n";
-        result += "收單\n";
-        result += "XXX要的加加\n";
-        result += "有誰加加\n";
-        result += "+1, -1, +0.5\n";
-        result += "截止\n";
+        result += "XX的平假名?\n";
+        result += "XX的片假名?\n";
+        result += "XX的羅馬拼音?\n";
         result += "X站? (X 限制為捷運站名\n";
         result += "北部停班停課?\n";
         result += "中部停班停課?\n";
