@@ -3362,7 +3362,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void japaneseNameToHiragana(String replyToken, String text) {
+    private void japaneseNameToHiragana(String replyToken, String text) throws IOException {
         text = text.replace("的平假名", "").replace("的平假名是", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -3388,7 +3388,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
     
-    private void japaneseNameToKatakana(String replyToken, String text) {
+    private void japaneseNameToKatakana(String replyToken, String text) throws IOException {
         text = text.replace("的片假名", "").replace("的片假名是", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -3413,7 +3413,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             throw e2;
         }
     }
-    private void japaneseNameToRomaji(String replyToken, String text) {
+    private void japaneseNameToRomaji(String replyToken, String text) throws IOException {
         text = text.replace("的羅馬拼音", "").replace("的羅馬拼音是", "").replace("？", "").replace("?", "").trim();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
