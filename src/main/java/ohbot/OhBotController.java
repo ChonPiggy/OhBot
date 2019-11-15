@@ -154,6 +154,7 @@ public class OhBotController {
     private String IMAGE_WILL_YOU_COME = "https://i.imgur.com/11cUbVH.jpg";
     private String IMAGE_YOU_ARE_PERVERT = "https://i.imgur.com/dRJinz7.jpg";
     private String IMAGE_GPNUDD = "https://i.imgur.com/0Kr7J44.jpg";
+    private String IMAGE_BE_A_GOOD_MAN = "https://i.imgur.com/Hy74quj.jpg";
 
     private List<String> mIWillBeLateList = new ArrayList<String> (
         Arrays.asList("https://i.imgur.com/0cNbr9c.jpg",
@@ -1383,6 +1384,14 @@ public class OhBotController {
 
         if (text.contains("熊貓")) {
             replyImageTaiwanBearAndPanda(replyToken);
+        }
+
+        if (text.contains("會來嗎")) {
+            replyImageWillYouCome(replyToken);
+        }
+
+        if (text.contains("今天") && text.contains("當") && text.contains("好人")) {
+            replyImageBeAGoodMand(replyToken);
         }
 
         if (text.contains("我") && text.contains("老婆")) {
@@ -4357,6 +4366,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void replyImageTaiwanBearAndPanda(String replyToken) throws IOException {
         String source = IMAGE_PANDA;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyImageWillYouCome(String replyToken) throws IOException {
+        String source = IMAGE_WILL_YOU_COME;
+        this.replyImage(replyToken, source, source);
+    }
+
+    private void replyImageBeAGoodMand(String replyToken) throws IOException {
+        String source = IMAGE_BE_A_GOOD_MAN;
         this.replyImage(replyToken, source, source);
     }
 
