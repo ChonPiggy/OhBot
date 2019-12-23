@@ -2613,7 +2613,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = EntityUtils.toString(httpEntity, "big5");
                     strResult = strResult.substring(strResult.indexOf("今日運勢</li>")+9, strResult.length());
                     // Then get daily date
-                    String date = strResult.substring(strResult.indexOf("<li>"), strResult.indexOf("</li>"));
+                    String date = strResult.substring(strResult.indexOf("<li>")+4, strResult.indexOf("</li>"));
                     // Then get daily sentense
                     strResult = strResult.substring(strResult.indexOf("<article>")+9, strResult.indexOf("</article>"));
                     strResult = strResult.trim();
