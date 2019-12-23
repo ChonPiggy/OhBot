@@ -2544,56 +2544,53 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String strResult;
                 String url ="";
                 switch (text) {
-                    case "牡羊": {
-                        target="白羊";
-                        break;
-                    }
+                    case "牡羊": 
                     case "白羊": {
-                        target="白羊";
+                        target="Aries";
                         break;
                     }
                     case "金牛": {
-                        target=text;
+                        target="Taurus";
                         break;
                     }
                     case "雙子": {
-                        target=text;
+                        target="Gemini";
                         break;
                     }
                     case "巨蟹": {
-                        target=text;
+                        target="Cancer";
                         break;
                     }
                     case "獅子": {
-                        target=text;
+                        target="Leo";
                         break;
                     }
                     case "處女": {
-                        target=text;
+                        target="Virgo";
                         break;
                     }
                     case "天秤": {
-                        target=text;
+                        target="Libra";
                         break;
                     }
                     case "天蠍": {
-                        target=text;
+                        target="Scorpio";
                         break;
                     }
                     case "射手": {
-                        target=text;
+                        target="Sagittarius";
                         break;
                     }
                     case "魔羯": {
-                        target=text;
+                        target="Capricorn";
                         break;
                     }
                     case "水瓶": {
-                        target=text;
+                        target="Aquarius";
                         break;
                     }
                     case "雙魚": {
-                        target=text;
+                        target="Pisces";
                         break;
                     }
                     default:
@@ -2607,34 +2604,25 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                     // Get daily website address first.
                     CloseableHttpClient httpClient = HttpClients.createDefault();
-                    url = "http://www.astroinfo.com.tw/";
+                    url = "http://www.daily-zodiac.com/mobile/zodiac/" + target;
                     log.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "big5");
-                    strResult = strResult.substring(strResult.indexOf("每日運勢"), strResult.length());
-                    strResult = strResult.substring(strResult.indexOf("<a href=\"/")+10, strResult.length());
-                    strResult = strResult.substring(0, strResult.indexOf("\"><img typeof=\""));
-
-                    String dailyAddress = "http://www.astroinfo.com.tw/" + strResult;
-
-                    log.info("DailyHoroscope: " + dailyAddress);
-
+                    strResult = strResult.substring(strResult.indexOf("今日運勢<\/li>")+9, strResult.length());
+                    // Then get daily date
+                    String date = strResult.substring(strResult.indexOf("<li>"), strResult.indexOf("<\/li>"));
                     // Then get daily sentense
-                    httpClient = HttpClients.createDefault();
-                    url = dailyAddress;
-
-                    httpget = new HttpGet(url);
-                    response = httpClient.execute(httpget);
-                    //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
-                    httpEntity = response.getEntity();
-                    strResult = EntityUtils.toString(httpEntity, "big5");
-                    strResult = strResult.substring(strResult.indexOf(target)+36, strResult.length());
-                    strResult = strResult.substring(0, strResult.indexOf("</p>"));
+                    String strResult = strResult.substring(strResult.indexOf("<article>")+9, strResult.indexOf("<\/article>"));
+                    strResult = strResult.trim();
                     
-                    this.replyText(replyToken, "唐綺陽占星幫 每日運勢 " + target + "座\n" + strResult);
+                    log.info("strResult: " + strResult);
+
+                    
+                    
+                    this.replyText(replyToken, date +"\n唐綺陽占星幫 每日運勢 " + text + "座\n" + strResult);
 
                 }
             }
