@@ -2615,7 +2615,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     // Then get daily date
                     String date = strResult.substring(strResult.indexOf("<li>"), strResult.indexOf("</li>"));
                     // Then get daily sentense
-                    String strResult = strResult.substring(strResult.indexOf("<article>")+9, strResult.indexOf("</article>"));
+                    strResult = strResult.substring(strResult.indexOf("<article>")+9, strResult.indexOf("</article>"));
                     strResult = strResult.trim();
                     
                     log.info("strResult: " + strResult);
