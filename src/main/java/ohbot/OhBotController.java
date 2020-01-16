@@ -1474,7 +1474,7 @@ public class OhBotController {
                 this.replyText(replyToken, url);
             }
             else {
-                this.replyText(replyToken, "沒有這個站.");
+                //this.replyText(replyToken, "沒有這個站.");
             }
         }
 
@@ -3906,7 +3906,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, "此帳號未公開");
         }
         if (url.equals("")) {
-            this.replyText(replyToken, "沒有這個 TAG");
+            //this.replyText(replyToken, "沒有這個 TAG");
         }
 
         if (url.indexOf("http:") >= 0) {
