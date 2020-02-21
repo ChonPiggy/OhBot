@@ -5,10 +5,10 @@ import java.util.HashMap;
 public class CoronaVirusInfo {
 
       private int mRate = 0;
-      private String mCountry = "";
-      private String mConfirm = 0;
-      private String mDead = 0;
-      private String mHeal = 0;
+      private String mCountry = "N/A";
+      private String mConfirm = "?";
+      private String mDead = "?";
+      private String mHeal = "?";
 
       private CoronaVirusInfo(String country, String confirm, String dead, String heal) {
             mCountry = country;
