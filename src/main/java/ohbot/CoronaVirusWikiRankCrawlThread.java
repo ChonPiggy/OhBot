@@ -108,14 +108,14 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     checkCoronaVirusWiki();
                 }
             } catch (Exception e) {
-                log.info("CoronaVirusWikiRankCrawlThread e: " + e);
+                //log.info("CoronaVirusWikiRankCrawlThread e: " + e);
             }
         }
     }
 
     private void checkCoronaVirusWiki() {
         isUpdating = true;
-        log.info("checkCoronaVirusWiki update started.");
+        //log.info("checkCoronaVirusWiki update started.");
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpget = new HttpGet("https://zh.wikipedia.org/wiki/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E7%96%AB%E6%83%85");
@@ -125,7 +125,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
 
             // Catch update time
             String temp = strResult.substring(strResult.indexOf("截至"), strResult.length());
-            mUpdateTime = temp.substring(0, strResult.indexOf(日)+1);
+            mUpdateTime = temp.substring(0, strResult.indexOf("日")+1);
 
             while (strResult.contains("<td><span class=\"flagicon\">")) {
                 String country = "";
@@ -157,9 +157,9 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             }
 
         } catch (Exception e) {
-            log.info("checkCoronaVirusWiki e: " + e);
+            //log.info("checkCoronaVirusWiki e: " + e);
         }
-        log.info("checkCoronaVirusWiki update finished.");
+        //log.info("checkCoronaVirusWiki update finished.");
         isUpdating = false;
     }
 
