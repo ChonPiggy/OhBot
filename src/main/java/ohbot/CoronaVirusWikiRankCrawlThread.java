@@ -91,7 +91,7 @@ import java.security.NoSuchAlgorithmException;
 import java.net.*;
 import java.lang.Integer;
 
-public class CoronaVirusWikiRankCrawlThread {
+public class CoronaVirusWikiRankCrawlThread extends Thread {
     private boolean isUpdating = false;
 
     private List<CoronaVirusInfo> mCVIList = new ArrayList<CoronaVirusInfo> ();
