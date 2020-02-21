@@ -182,7 +182,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             result = EmojiUtils.emojify(":warning:") + "中國肺炎全球傷亡人數" + EmojiUtils.emojify(":warning:") + "\n" + mUpdateTime + "\n";
             for (CoronaVirusInfo info : mCVIList) {
                 if (info.getCountry().equals("臺灣")) {
-                    result += EmojiUtils.emojify("taiwan")
+                    result += EmojiUtils.emojify("taiwan");
                 }
                 result += (info + "\n");
             }
