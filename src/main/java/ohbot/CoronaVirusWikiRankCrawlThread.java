@@ -185,6 +185,9 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     result += EmojiUtils.emojify(":exclamation:");
                 }
                 result += (info + "\n");
+                if (info.getCountry().equals("臺灣")) {
+                    result += EmojiUtils.emojify(":exclamation:");
+                }
             }
         }
         return result;
