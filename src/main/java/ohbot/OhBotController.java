@@ -258,6 +258,8 @@ public class OhBotController {
     private HashMap<String, String> mWhoImPickRandomGirlMap = new HashMap<>(); // userId, webLink
     private HashMap<String, String> mWhoTheyPickRandomGirlMap = new HashMap<>(); // senderId, webLink
     private HashMap<String, Integer> mTokyoHotRandomGirlLimitationList = new HashMap<>(); // userId, count
+
+    private CoronaVirusWikiRankCrawlThread mCoronaVirusWikiRankCrawlThread = null;
     
     private HashMap<String, SheetList> mSheetListMap = new HashMap<>(); 
     private class SheetList {
@@ -1102,6 +1104,11 @@ public class OhBotController {
             mNewestDgpaReportCheckThread.start();
         }
 
+        if (mCoronaVirusWikiRankCrawlThread == null) {
+            mCoronaVirusWikiRankCrawlThread = new CoronaVirusWikiRankCrawlThread();
+            mCoronaVirusWikiRankCrawlThread.start();
+        }
+
         /*if (mIngressCheckThread == null) {
             mIngressCheckThread = new NewestIngressCheckThread();
             mIngressCheckThread.start();
@@ -1520,6 +1527,10 @@ public class OhBotController {
             text = text.replace("？", "").replace("?", "").trim();
             text = text.replace("時差", "").replace(" ", "");
             processJetLag(replyToken, text);
+        }
+
+        if (text.contains("武漢肺炎")) {
+            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList());
         }
 
         if (text.startsWith("AmazonJp:")) {
