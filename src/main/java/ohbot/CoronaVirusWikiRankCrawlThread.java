@@ -179,7 +179,7 @@ public class CoronaVirusWikiRankCrawlThread {
         synchronized (lock) {
             String result = EmojiUtils.emojify(":warning:") + "中國武漢肺炎全球傷亡人數" + EmojiUtils.emojify(":warning:") + "\n\n";
             for (CoronaVirusInfo info : mCVIList) {
-                result += (info + "\n")
+                result += (info + "\n");
             }
             result += mUpdateTime;
         }
