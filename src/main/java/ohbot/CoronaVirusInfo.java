@@ -10,7 +10,7 @@ public class CoronaVirusInfo {
       private String mDead = "?";
       private String mHeal = "?";
 
-      private CoronaVirusInfo(String country, String confirm, String dead, String heal) {
+      public CoronaVirusInfo(String country, String confirm, String dead, String heal) {
             mCountry = country;
             mConfirm = confirm;
             mDead = dead;
