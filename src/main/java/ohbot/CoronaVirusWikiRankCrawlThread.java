@@ -136,7 +136,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 // get country
                 strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">"), strResult.length());
                 strResult = strResult.substring(strResult.indexOf("title=\"")+7, strResult.length());
-                country = strResult.substring(0, strResult.indexOf("\"><img alt"));
+                country = strResult.substring(0, strResult.indexOf("\">"));
 
                 // get confirm
                 strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
@@ -178,7 +178,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
     public String dumpList() {
         String result = "N/A";
         synchronized (lock) {
-            result = EmojiUtils.emojify(":warning:") + "中國武漢肺炎全球傷亡人數" + EmojiUtils.emojify(":warning:") + "\n\n";
+            result = EmojiUtils.emojify(":warning:") + "中國肺炎全球傷亡人數" + EmojiUtils.emojify(":warning:") + "\n\n";
             for (CoronaVirusInfo info : mCVIList) {
                 result += (info + "\n");
             }
