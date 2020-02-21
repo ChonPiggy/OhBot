@@ -115,6 +115,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
 
     private void checkCoronaVirusWiki() {
         isUpdating = true;
+        clearList();
         //log.info("checkCoronaVirusWiki update started.");
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -125,7 +126,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
 
             // Catch update time
             String temp = strResult.substring(strResult.indexOf("截至"), strResult.length());
-            mUpdateTime = "\n" + temp.substring(0, strResult.indexOf("<span"));
+            mUpdateTime = temp.substring(0, strResult.indexOf("<span"));
 
             while (strResult.contains("<td><span class=\"flagicon\">")) {
                 String country = "";
@@ -178,11 +179,10 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
     public String dumpList() {
         String result = "N/A";
         synchronized (lock) {
-            result = EmojiUtils.emojify(":warning:") + "中國肺炎全球傷亡人數" + EmojiUtils.emojify(":warning:") + "\n\n";
+            result = EmojiUtils.emojify(":warning:") + "中國肺炎全球傷亡人數" + EmojiUtils.emojify(":warning:") + "\n" + mUpdateTime + "\n";
             for (CoronaVirusInfo info : mCVIList) {
                 result += (info + "\n");
             }
-            result += mUpdateTime;
         }
         return result;
     }
