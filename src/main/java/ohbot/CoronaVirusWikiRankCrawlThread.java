@@ -183,10 +183,12 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             for (CoronaVirusInfo info : mCVIList) {
                 if (info.getCountry().equals("臺灣")) {
                     result += EmojiUtils.emojify(":exclamation:");
-                }
-                result += (info + "\n");
-                if (info.getCountry().equals("臺灣")) {
+                    result += info;
                     result += EmojiUtils.emojify(":exclamation:");
+                    result += "\n";
+                }
+                else {
+                    result += (info + "\n");
                 }
             }
         }
