@@ -126,7 +126,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
 
             // Catch update time
             String temp = strResult.substring(strResult.indexOf("截至"), strResult.length());
-            mUpdateTime = temp.substring(0, temp.indexOf("<span"));
+            mUpdateTime = temp.substring(0, temp.indexOf("日")+1);
 
             while (strResult.contains("<td><span class=\"flagicon\">")) {
                 String country = "";
