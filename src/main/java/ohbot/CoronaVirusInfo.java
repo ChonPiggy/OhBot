@@ -1,6 +1,7 @@
 package ohbot;
 
 import java.util.HashMap;
+import emoji4j.EmojiUtils;
 
 public class CoronaVirusInfo {
 
@@ -34,6 +35,6 @@ public class CoronaVirusInfo {
       }
 
       public String toString() {
-            return mCountry + " 確: " + mConfirm + " 死: " + mDead + " 癒: " + mHeal;
+            return mCountry + " " + EmojiUtils.emojify(":bomb:") + " " + mConfirm + " " + EmojiUtils.emojify(":skull:") + " " + mDead;
       }
 }

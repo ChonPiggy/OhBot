@@ -1529,7 +1529,7 @@ public class OhBotController {
             processJetLag(replyToken, text);
         }
 
-        if (text.contains("武漢肺炎") || text.contains("中國肺炎")) {
+        if (text.equals("武漢肺炎") || text.equals("中國肺炎")) {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList());
         }
 
