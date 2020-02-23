@@ -180,7 +180,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
         String result = "N/A";
         synchronized (lock) {
             //result = EmojiUtils.emojify(":warning:") + "中國肺炎全球傷亡人數" + EmojiUtils.emojify(":warning:") + "\n" + mUpdateTime + "\n";
-            result = EmojiUtils.emojify(":warning:") + "中國肺炎全球傷亡" + EmojiUtils.emojify(":warning:") + "\n\n";
+            result = EmojiUtils.emojify(":warning:") + "中國肺炎全球傷亡" + EmojiUtils.emojify(":warning:") + "\n";
             for (CoronaVirusInfo info : mCVIList) {
                 if (info.getCountry().equals("臺灣")) {
                     result += EmojiUtils.emojify(":exclamation:");

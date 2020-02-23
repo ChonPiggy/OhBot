@@ -35,6 +35,6 @@ public class CoronaVirusInfo {
       }
 
       public String toString() {
-            return mCountry + " " + EmojiUtils.emojify(":bomb:") + " " + mConfirm + " " + EmojiUtils.emojify(":skull:") + " " + mDead;
+            return mCountry + " " + EmojiUtils.emojify(":bomb:") + mConfirm +  EmojiUtils.emojify(":skull:") + mDead + EmojiUtils.emojify(":pill:") + mHeal;;
       }
 }
