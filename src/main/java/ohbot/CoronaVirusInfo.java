@@ -12,7 +12,13 @@ public class CoronaVirusInfo {
       private String mHeal = "?";
 
       public CoronaVirusInfo(String country, String confirm, String dead, String heal) {
-            mCountry = country;
+            if (mCountry.equals("阿拉伯联合酋长国")) {
+                  mCountry = "阿拉伯";
+            }
+            else {
+                  mCountry = country;      
+            }
+            
             mConfirm = confirm;
             mDead = dead;
             mHeal = heal;
@@ -35,6 +41,6 @@ public class CoronaVirusInfo {
       }
 
       public String toString() {
-            return mCountry + " " + EmojiUtils.emojify(":bomb:") + mConfirm +  EmojiUtils.emojify(":skull:") + mDead + EmojiUtils.emojify(":pill:") + mHeal;;
+            return mCountry + " " + EmojiUtils.emojify(":bomb:") + " " + mConfirm + " " + EmojiUtils.emojify(":skull:") + " " + mDead;
       }
 }
