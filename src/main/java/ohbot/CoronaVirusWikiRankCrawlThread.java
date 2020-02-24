@@ -168,8 +168,8 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     confirm = "0";
                 } else if (strResult.startsWith("<td align=\"right\">")) {
                     strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
+                    confirm = strResult.substring(0,strResult.indexOf("\n</td>"));
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
-                    confirm = "0";
                 }
                 else {
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
@@ -186,8 +186,8 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     dead = "0";
                 } else if (strResult.startsWith("<td align=\"right\">")) {
                     strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
+                    dead = strResult.substring(0,strResult.indexOf("\n</td>"));
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
-                    dead = "0";
                 }
                 else {
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
@@ -203,8 +203,8 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     heal = "0";
                 } else if (strResult.startsWith("<td align=\"right\">")) {
                     strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
+                    heal = strResult.substring(0,strResult.indexOf("\n</td>"));
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
-                    heal = "0";
                 }
                 else {
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
