@@ -135,11 +135,11 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 String heal = "";
 
                 // get country
-                /*if (strResult.contains("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"")) {
+                if (strResult.indexOf("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"") < strResult.indexOf("<td><span class=\"flagicon\">")) {
                     strResult = strResult.substring(strResult.indexOf("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"")+50, strResult.length());
                     country = "鑽石公主號";
                 }
-                else {*/
+                else {
                     
 
                     strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">")+25, strResult.length());
