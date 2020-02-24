@@ -140,8 +140,15 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     country = "鑽石公主號";
                 }
                 else {
+                    // catch country part
                     strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">"), strResult.length());
-                    strResult = strResult.substring(strResult.indexOf("title=\"")+7, strResult.length());
+                    if (strResult.contains("href=\"/wiki/")) {
+                        strResult = strResult.substring(strResult.indexOf("href=\"/wiki/")+12, strResult.length());
+                    }
+                    if (strResult.contains("href=\"/w/")) {
+                        strResult = strResult.substring(strResult.indexOf("href=\"/w/")+9, strResult.length());
+                    }                    
+                    strResult = strResult.substring(strResult.indexOf("\" title=\"")+9, strResult.length());
                     strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
                     country = strResult.substring(0, strResult.indexOf("</a>"));
                 }
