@@ -152,7 +152,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     if (temp.contains("href=\"/wiki/")) {
                         temp = temp.substring(temp.indexOf("href=\"/wiki/")+12, temp.length());
                     }
-                    if (temp.contains("href=\"/w/")) {
+                    else if (temp.contains("href=\"/w/")) {
                         temp = temp.substring(temp.indexOf("href=\"/w/")+9, temp.length());
                     }                    
                     temp = temp.substring(temp.indexOf("\" title=\"")+9, temp.length());
