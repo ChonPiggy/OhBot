@@ -142,12 +142,12 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 else {*/
                     
 
-                    strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">")+27, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">")+25, strResult.length());
 
                     // catch country part
                     temp = strResult.substring(0, strResult.indexOf("</td>"));
 
-                    strResult = strResult.substring(strResult.indexOf("</td>\n")+5, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
 
                     if (temp.contains("href=\"/wiki/")) {
                         temp = temp.substring(temp.indexOf("href=\"/wiki/")+12, temp.length());
@@ -163,13 +163,18 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 // get confirm
                 if (strResult.startsWith("<td style=\"color:gray;\">0")) {
                     strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
-                    strResult = strResult.substring(strResult.indexOf("</td>\n")+5, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    confirm = "0";
+                }
+                } else if (strResult.startsWith("<td align=\"right\">")) {
+                    strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                     confirm = "0";
                 }
                 else {
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
                     confirm = strResult.substring(0, strResult.indexOf("\n</td>"));
-                    strResult = strResult.substring(strResult.indexOf("</td>\n")+5, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                 }
                 
 
@@ -177,26 +182,35 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 // get dead
                 if (strResult.startsWith("<td style=\"color:gray;\">0")) {
                     strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
-                    strResult = strResult.substring(strResult.indexOf("</td>\n")+5, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    dead = "0";
+                } else if (strResult.startsWith("<td align=\"right\">")) {
+                    strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                     dead = "0";
                 }
                 else {
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
                     dead = strResult.substring(0, strResult.indexOf("\n</td>"));
-                    strResult = strResult.substring(strResult.indexOf("</td>\n")+5, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                 }
 
 
                 // get heal
                 if (strResult.startsWith("<td style=\"color:gray;\">0")) {
                     strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
-                    strResult = strResult.substring(strResult.indexOf("</td>\n")+5, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    heal = "0";
+                }
+                } else if (strResult.startsWith("<td align=\"right\">")) {
+                    strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                     heal = "0";
                 }
                 else {
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
                     heal = strResult.substring(0, strResult.indexOf("\n</td>"));
-                    strResult = strResult.substring(strResult.indexOf("</td>\n")+5, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                 }
 
                 addCVI(country, confirm, dead, heal);
