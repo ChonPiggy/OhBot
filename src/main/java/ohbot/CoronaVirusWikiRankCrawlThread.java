@@ -155,9 +155,10 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     else if (temp.contains("href=\"/w/")) {
                         temp = temp.substring(temp.indexOf("href=\"/w/")+9, temp.length());
                     }                    
-                    temp = temp.substring(temp.indexOf("\" title=\"")+9, temp.length());
+                    /*temp = temp.substring(temp.indexOf("\" title=\"")+9, temp.length());
                     temp = temp.substring(temp.indexOf("\">")+2, temp.length());
-                    country = temp.substring(0, temp.indexOf("</a>"));
+                    country = temp.substring(0, temp.indexOf("</a>"));*/
+                    country = temp.substring(temp.indexOf("\" title=\""), temp.indexOf("\">"));
                 /*}*/
 
                 // get confirm
