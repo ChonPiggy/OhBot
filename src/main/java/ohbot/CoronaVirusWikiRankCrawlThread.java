@@ -151,7 +151,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     strResult = strResult.substring(strResult.indexOf("\" title=\"")+9, strResult.length());
                     strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
                     country = strResult.substring(0, strResult.indexOf("</a>"));
-                }
+                /*}*/
 
                 // get confirm
                 if (strResult.contains("<td style=\"color:gray;\">0")) {
@@ -188,7 +188,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
 
                 addCVI(country, confirm, dead, heal);
 
-            /*}*/
+            }
 
         } catch (Exception e) {
             //log.info("checkCoronaVirusWiki e: " + e);
