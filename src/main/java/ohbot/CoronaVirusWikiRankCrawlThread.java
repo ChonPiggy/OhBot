@@ -149,7 +149,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 // get confirm
                 if (strResult.contains("<td style=\"color:gray;\">0")) {
                     strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
-                    confirm = 0;
+                    confirm = "0";
                 }
                 else {
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
@@ -161,7 +161,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 // get dead
                 if (strResult.contains("<td style=\"color:gray;\">0")) {
                     strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
-                    dead = 0;
+                    dead = "0";
                 }
                 else {
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
@@ -172,7 +172,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 // get heal
                 if (strResult.contains("<td style=\"color:gray;\">0")) {
                     strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
-                    heal = 0;
+                    heal = "0";
                 }
                 else {
                     strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
