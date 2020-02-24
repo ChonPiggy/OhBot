@@ -119,7 +119,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
         //log.info("checkCoronaVirusWiki update started.");
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpget = new HttpGet("https://zh.wikipedia.org/wiki/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E7%96%AB%E6%83%85");
+            HttpGet httpget = new HttpGet("https://zh.wikipedia.org/zh-tw/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E7%96%AB%E6%83%85");
             CloseableHttpResponse response = httpClient.execute(httpget);
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
@@ -135,23 +135,49 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 String heal = "";
 
                 // get country
-                strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">"), strResult.length());
-                strResult = strResult.substring(strResult.indexOf("title=\"")+7, strResult.length());
-                country = strResult.substring(0, strResult.indexOf("\">"));
+                if (strResult.contains("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"")) {
+                    strResult = strResult.substring(strResult.indexOf("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"")+50, strResult.length());
+                    country = "鑽石公主號";
+                }
+                else {
+                    strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">"), strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("title=\"")+7, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
+                    country = strResult.substring(0, strResult.indexOf("</a>"));
+                }
 
                 // get confirm
-                strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
-                confirm = strResult.substring(0, strResult.indexOf("\n</td>"));
+                if (strResult.contains("<td style=\"color:gray;\">0")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
+                    confirm = 0;
+                }
+                else {
+                    strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
+                    confirm = strResult.substring(0, strResult.indexOf("\n</td>"));    
+                }
+                
 
 
                 // get dead
-                strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
-                dead = strResult.substring(0, strResult.indexOf("\n</td>"));
+                if (strResult.contains("<td style=\"color:gray;\">0")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
+                    dead = 0;
+                }
+                else {
+                    strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
+                    dead = strResult.substring(0, strResult.indexOf("\n</td>"));    
+                }
 
 
                 // get heal
-                strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
-                heal = strResult.substring(0, strResult.indexOf("\n</td>"));
+                if (strResult.contains("<td style=\"color:gray;\">0")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
+                    heal = 0;
+                }
+                else {
+                    strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
+                    heal = strResult.substring(0, strResult.indexOf("\n</td>"));    
+                }
 
                 addCVI(country, confirm, dead, heal);
 
