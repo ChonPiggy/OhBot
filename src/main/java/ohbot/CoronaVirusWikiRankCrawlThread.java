@@ -141,16 +141,18 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 }
                 else {*/
                     // catch country part
-                    strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">"), strResult.length());
-                    if (strResult.contains("href=\"/wiki/")) {
-                        strResult = strResult.substring(strResult.indexOf("href=\"/wiki/")+12, strResult.length());
+
+                    strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">")+27, strResult.length());
+                    temp = strResult.substring(strResult.indexOf(0, strResult.indexOf("</td>"));
+                    if (temp.contains("href=\"/wiki/")) {
+                        temp = temp.substring(temp.indexOf("href=\"/wiki/")+12, temp.length());
                     }
-                    if (strResult.contains("href=\"/w/")) {
-                        strResult = strResult.substring(strResult.indexOf("href=\"/w/")+9, strResult.length());
+                    if (temp.contains("href=\"/w/")) {
+                        temp = temp.substring(temp.indexOf("href=\"/w/")+9, temp.length());
                     }                    
-                    strResult = strResult.substring(strResult.indexOf("\" title=\"")+9, strResult.length());
-                    strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
-                    country = strResult.substring(0, strResult.indexOf("</a>"));
+                    temp = temp.substring(temp.indexOf("\" title=\"")+9, temp.length());
+                    temp = temp.substring(temp.indexOf("\">")+2, temp.length());
+                    country = temp.substring(0, temp.indexOf("</a>"));
                 /*}*/
 
                 // get confirm
