@@ -143,7 +143,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     // catch country part
 
                     strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">")+27, strResult.length());
-                    temp = strResult.substring(strResult.indexOf(0, strResult.indexOf("</td>"));
+                    temp = strResult.substring(strResult.indexOf(0, strResult.indexOf("</td>")));
                     if (temp.contains("href=\"/wiki/")) {
                         temp = temp.substring(temp.indexOf("href=\"/wiki/")+12, temp.length());
                     }
