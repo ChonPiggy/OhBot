@@ -212,7 +212,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     heal = strResult.substring(0, strResult.indexOf("\n</td>"));
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                 }
-                strResult = strResult.substring(strResult.indexOf("</tr>\n")+6, strResult.length());
+                strResult = strResult.substring(strResult.indexOf("<tr>\n")+5, strResult.length());
                 addCVI(country, confirm, dead, heal);
 
             }
