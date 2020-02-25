@@ -136,7 +136,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
 
                 // get country
                 if (strResult.contains("<a href=\"/wiki/File:Cruise_ship_side_view.png\"") && strResult.indexOf("<a href=\"/wiki/File:Cruise_ship_side_view.png\"") >= 0 && (strResult.indexOf("<a href=\"/wiki/File:Cruise_ship_side_view.png\"") < strResult.indexOf("<td><span class=\">"))) {
-                    strResult = strResult.substring(strResult.indexOf("<a href=\"/wiki/File:Cruise_ship_side_view.png\"")+50, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("<a href=\"/wiki/File:Cruise_ship_side_view.png\"")+46, strResult.length());
                     country = "鑽石公主號";
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                 }
