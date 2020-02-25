@@ -128,22 +128,22 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             String temp = strResult.substring(strResult.indexOf("截至"), strResult.length());
             mUpdateTime = temp.substring(0, temp.indexOf("日")+1);
 
-            while (strResult.contains("<td><span class=\"flagicon\">")) {
+            while (strResult.contains("<td><span class=\"")) {
                 String country = "";
                 String confirm = "";
                 String dead = "";
                 String heal = "";
 
                 // get country
-                if (strResult.contains("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"") && strResult.indexOf("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"") >= 0 && (strResult.indexOf("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"") < strResult.indexOf("<td><span class=\"flagicon\">"))) {
-                    strResult = strResult.substring(strResult.indexOf("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"")+50, strResult.length());
+                if (strResult.contains("<a href=\"/wiki/File:Cruise_ship_side_view.png\"") && strResult.indexOf("<a href=\"/wiki/File:Cruise_ship_side_view.png\"") >= 0 && (strResult.indexOf("<a href=\"/wiki/File:Cruise_ship_side_view.png\"") < strResult.indexOf("<td><span class=\">"))) {
+                    strResult = strResult.substring(strResult.indexOf("<a href=\"/wiki/File:Cruise_ship_side_view.png\"")+50, strResult.length());
                     country = "鑽石公主號";
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                 }
                 else {
                     
 
-                    strResult = strResult.substring(strResult.indexOf("<td><span class=\"flagicon\">")+25, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("<td><span class=\"")+17, strResult.length());
 
                     // catch country part
                     temp = strResult.substring(0, strResult.indexOf("</td>"));
