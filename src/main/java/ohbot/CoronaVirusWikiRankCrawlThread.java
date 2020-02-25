@@ -135,12 +135,12 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 String heal = "";
 
                 // get country
-                /*if (strResult.contains("<a href=\"/wiki/File:Cruise_ship_side_view.png\"") && strResult.indexOf("<a href=\"/wiki/File:Cruise_ship_side_view.png\"") >= 0 && (strResult.indexOf("<a href=\"/wiki/File:Cruise_ship_side_view.png\"") < strResult.indexOf("<td><span class=\">"))) {
-                    strResult = strResult.substring(strResult.indexOf("<a href=\"/wiki/File:Cruise_ship_side_view.png\"")+46, strResult.length());
+                if (strResult.startsWith("<td><span class=\"nowrap\"><a href=\"/wiki/File:Cruise_ship_side_view.png\"")) {
+                    strResult = strResult.substring(strResult.indexOf("<td><span class=\"nowrap\"><a href=\"/wiki/File:Cruise_ship_side_view.png\"")+71 strResult.length());
                     country = "鑽石公主號";
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                 }
-                else {*/
+                else {
                     
 
                     strResult = strResult.substring(strResult.indexOf("<td><span class=\"")+17, strResult.length());
@@ -160,7 +160,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     temp = temp.substring(temp.indexOf("\">")+2, temp.length());
                     country = temp.substring(0, temp.indexOf("</a>"));*/
                     country = temp.substring(temp.indexOf("\" title=\"")+9, temp.indexOf("\">"));
-                //}
+                }
 
                 // get confirm
                 if (strResult.startsWith("<td style=\"color:gray;\">0")) {
@@ -212,7 +212,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     heal = strResult.substring(0, strResult.indexOf("\n</td>"));
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                 }
-
+                strResult = strResult.substring(strResult.indexOf("</tr>\n")+6, strResult.length());
                 addCVI(country, confirm, dead, heal);
 
             }
