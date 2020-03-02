@@ -167,6 +167,10 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                     confirm = "0";
+                } else if (strResult.startsWith("<td style=\"color:gray;\">1")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">1")+25, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    heal = "1";
                 } else if (strResult.startsWith("<td align=\"right\">")) {
                     strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
                     confirm = strResult.substring(0,strResult.indexOf("\n</td>"));
@@ -185,6 +189,10 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                     dead = "0";
+                } else if (strResult.startsWith("<td style=\"color:gray;\">1")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">1")+25, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    heal = "1";
                 } else if (strResult.startsWith("<td align=\"right\">")) {
                     strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
                     dead = strResult.substring(0,strResult.indexOf("\n</td>"));
