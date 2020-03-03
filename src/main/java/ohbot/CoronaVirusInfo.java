@@ -83,7 +83,7 @@ public class CoronaVirusInfo {
                   return "瘟疫大陸\n" + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + "\n" + EmojiUtils.emojify(":skull:") + " " + getDead();
             }
             String result = mCountry + " " + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + " " + EmojiUtils.emojify(":skull:") + " " + getDead();;
-            if (result.length() > 16) {
+            if (result.length() > 17) {
                   result = mCountry + "\n" + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + "\n" + EmojiUtils.emojify(":skull:") + " " + getDead();
             }
             return result;
