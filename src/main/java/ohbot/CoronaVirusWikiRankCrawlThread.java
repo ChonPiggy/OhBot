@@ -225,7 +225,24 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
                 }
                 strResult = strResult.substring(strResult.indexOf("<tr>\n")+5, strResult.length());
-                addCVI(country, confirm, dead, heal);
+
+
+                int confirmInt = -1;
+                int deadInt = -1;
+                int healInt = -1;
+                try {
+                    confirmInt = Integer.parseInt(confirm));
+                } catch (java.lang.NumberFormatException e) {
+                }
+                try {
+                    deadInt = Integer.parseInt(dead));
+                } catch (java.lang.NumberFormatException e) {
+                }
+                try {
+                    healInt = Integer.parseInt(heal));
+                } catch (java.lang.NumberFormatException e) {
+                }
+                addCVI(country, confirmInt, deadInt, healInt);
 
             }
 
@@ -242,7 +259,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
         }
     }
 
-    private void addCVI(String country, String confirm, String dead, String heal) {
+    private void addCVI(String country, int confirm, int dead, int heal) {
         synchronized (lock) {
             mCVIList.add(new CoronaVirusInfo(country, confirm, dead, heal));
         }
