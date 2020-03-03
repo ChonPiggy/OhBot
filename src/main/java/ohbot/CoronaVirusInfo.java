@@ -75,7 +75,7 @@ public class CoronaVirusInfo {
             if (data < ori) {
                return "" + data + "(-" + (ori - data) + ")";
             }
-            return "???"
+            return "???";
       }
 
       public String toString() {
