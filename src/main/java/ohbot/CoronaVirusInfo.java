@@ -42,7 +42,7 @@ public class CoronaVirusInfo {
       }
 
       public String getConfirm() {
-            int oriConfirm = -1
+            int oriConfirm = -1;
             if (mOrignalConfirmDataMap.containsKey(mCountry)) {
                   oriConfirm = mOrignalConfirmDataMap.get(mCountry);
             }
@@ -50,7 +50,7 @@ public class CoronaVirusInfo {
       }
 
       public String getDead() {
-            int oriDead = -1
+            int oriDead = -1;
             if (mOrignalDeadDataMap.containsKey(mCountry)) {
                   oriDead = mOrignalDeadDataMap.get(mCountry);
             }
@@ -58,7 +58,7 @@ public class CoronaVirusInfo {
       }
 
       public String getHeal() {
-            int oriHeal = -1
+            int oriHeal = -1;
             if (mOrignalHealDataMap.containsKey(mCountry)) {
                   oriHeal = mOrignalHealDataMap.get(mCountry);
             }
