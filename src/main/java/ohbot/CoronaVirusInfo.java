@@ -7,9 +7,9 @@ public class CoronaVirusInfo {
 
       private int mRate = 0;
       private String mCountry = "N/A";
-      private int mConfirm = "?";
-      private int mDead = "?";
-      private int mHeal = "?";
+      private int mConfirm = -1;
+      private int mDead = -1;
+      private int mHeal = -1;
       static private HashMap<String, Integer> mOrignalConfirmDataMap = new HashMap<>(); // country, confirm
       static private HashMap<String, Integer> mOrignalDeadDataMap = new HashMap<>(); // country, dead
       static private HashMap<String, Integer> mOrignalHealDataMap = new HashMap<>(); // country, heal
