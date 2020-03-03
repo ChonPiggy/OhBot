@@ -228,18 +228,18 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
 
 
                 int confirmInt = -1;
-                int deadInt = -1;
-                int healInt = -1;
+                int deadInt = -2;
+                int healInt = -3;
                 try {
-                    confirmInt = Integer.parseInt(confirm);
+                    confirmInt = Integer.parseInt(confirm.trim());
                 } catch (java.lang.NumberFormatException e) {
                 }
                 try {
-                    deadInt = Integer.parseInt(dead);
+                    deadInt = Integer.parseInt(dead.trim());
                 } catch (java.lang.NumberFormatException e) {
                 }
                 try {
-                    healInt = Integer.parseInt(heal);
+                    healInt = Integer.parseInt(heal.trim());
                 } catch (java.lang.NumberFormatException e) {
                 }
                 addCVI(country, confirmInt, deadInt, healInt);

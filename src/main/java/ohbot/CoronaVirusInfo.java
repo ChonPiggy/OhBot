@@ -7,9 +7,9 @@ public class CoronaVirusInfo {
 
       private int mRate = 0;
       private String mCountry = "N/A";
-      private int mConfirm = -1;
-      private int mDead = -1;
-      private int mHeal = -1;
+      private int mConfirm = -4;
+      private int mDead = -5;
+      private int mHeal = -6;
       static private HashMap<String, Integer> mOrignalConfirmDataMap = new HashMap<>(); // country, confirm
       static private HashMap<String, Integer> mOrignalDeadDataMap = new HashMap<>(); // country, dead
       static private HashMap<String, Integer> mOrignalHealDataMap = new HashMap<>(); // country, heal
@@ -42,7 +42,7 @@ public class CoronaVirusInfo {
       }
 
       public String getConfirm() {
-            int oriConfirm = -1;
+            int oriConfirm = -7;
             if (mOrignalConfirmDataMap.containsKey(mCountry)) {
                   oriConfirm = mOrignalConfirmDataMap.get(mCountry);
             }
@@ -50,7 +50,7 @@ public class CoronaVirusInfo {
       }
 
       public String getDead() {
-            int oriDead = -1;
+            int oriDead = -8;
             if (mOrignalDeadDataMap.containsKey(mCountry)) {
                   oriDead = mOrignalDeadDataMap.get(mCountry);
             }
@@ -58,7 +58,7 @@ public class CoronaVirusInfo {
       }
 
       public String getHeal() {
-            int oriHeal = -1;
+            int oriHeal = -9;
             if (mOrignalHealDataMap.containsKey(mCountry)) {
                   oriHeal = mOrignalHealDataMap.get(mCountry);
             }
@@ -66,7 +66,7 @@ public class CoronaVirusInfo {
       }
 
       private String getFormatNumberString(int ori, int data) {
-            if (ori == -1 || ori == data) {
+            if (ori < 0 || ori == data) {
                   return "" + data;
             }
             if (data > ori) {
