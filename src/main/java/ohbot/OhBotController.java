@@ -1530,7 +1530,19 @@ public class OhBotController {
         }
 
         if (text.equals("武漢肺炎") || text.equals("中國肺炎")) {
-            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList());
+            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEAFULT));
+        }
+
+        if (text.equals("武漢肺炎確診") || text.equals("中國肺炎確診")) {
+            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_CONFIRM));
+        }
+
+        if (text.equals("武漢肺炎死亡") || text.equals("中國肺炎死亡")) {
+            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEAD));
+        }
+
+        if (text.equals("武漢肺炎痊癒") || text.equals("中國肺炎痊癒")) {
+            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_HEAL));
         }
 
         if (text.startsWith("AmazonJp:")) {

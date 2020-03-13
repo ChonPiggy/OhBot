@@ -265,25 +265,50 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
         }
     }
 
-    public String dumpList() {
+    /*
+     *   Type DEFAULT, include confirm and dead.
+     *   Other type include sprecific type context.
+    */
+    public String dumpList(int type) {
         String result = "N/A";
         synchronized (lock) {
+            String stringType = "傷亡";
+            switch (type) {
+                case CoronaVirusInfo.TYPE_CONFIRM:
+                    stringType = "確診";
+                    break;
+                case CoronaVirusInfo.TYPE_DEAD:
+                    stringType = "死亡";
+                    break;
+                case CoronaVirusInfo.TYPE_HEAL:
+                    stringType = "痊癒";
+                    break;    
+            }
             //result = EmojiUtils.emojify(":warning:") + "中國肺炎全球傷亡人數" + EmojiUtils.emojify(":warning:") + "\n" + mUpdateTime + "\n";
-            result = EmojiUtils.emojify(":warning:") + "中國肺炎全球傷亡" + EmojiUtils.emojify(":warning:") + "\n";
+            result = EmojiUtils.emojify(":warning:") + "中國肺炎全球" + stringType + EmojiUtils.emojify(":warning:") + "\n";
             for (CoronaVirusInfo info : mCVIList) {
                 if (info.getCountry().equals("臺灣")) {
                     result += EmojiUtils.emojify(":exclamation:");
-                    result += info;
+                }
+                switch (type) {
+                    case CoronaVirusInfo.TYPE_CONFIRM:
+                    case CoronaVirusInfo.TYPE_DEAD:
+                    case CoronaVirusInfo.TYPE_HEAL:
+                        result += info.toString(type);
+                        break;
+                    default:
+                        result += info;
+                        break;
+                }
+                if (info.getCountry().equals("臺灣")) {
                     result += EmojiUtils.emojify(":exclamation:");
-                    result += "\n";
                 }
-                else {
-                    result += (info + "\n");
-                }
+                result += "\n";
             }
             result+=mUpdateTime;
         }
         return result;
     }
+
 }
 

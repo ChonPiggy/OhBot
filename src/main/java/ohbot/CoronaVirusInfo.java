@@ -10,6 +10,10 @@ public class CoronaVirusInfo {
       private int mConfirm = -4;
       private int mDead = -5;
       private int mHeal = -6;
+      public static final int TYPE_DEFAULT = 0;
+      public static final int TYPE_CONFIRM = 1;
+      public static final int TYPE_DEAD = 2;
+      public static final int TYPE_HEAL = 3;
       static private HashMap<String, Integer> mOrignalConfirmDataMap = new HashMap<>(); // country, confirm
       static private HashMap<String, Integer> mOrignalDeadDataMap = new HashMap<>(); // country, dead
       static private HashMap<String, Integer> mOrignalHealDataMap = new HashMap<>(); // country, heal
@@ -17,6 +21,10 @@ public class CoronaVirusInfo {
       public CoronaVirusInfo(String country, int confirm, int dead, int heal) {
             if (country.equals("阿拉伯聯合大公國")) {
                   mCountry = "阿聯";
+            } else if (country.equals("中華民國")) {
+                  mCountry = "臺灣";
+            } else if (country.equals("台灣")) {
+                  mCountry = "臺灣";
             }
             else {
                   mCountry = country;      
@@ -88,4 +96,32 @@ public class CoronaVirusInfo {
             }
             return result;
       }
+
+        public String toString(int type) {
+            String emojiString = "";
+            String number = "";
+            switch (type) {
+                case CoronaVirusInfo.TYPE_CONFIRM:
+                    emojiString = ":bomb:";
+                    number = getConfirm();
+                    break;
+                case CoronaVirusInfo.TYPE_DEAD:
+                    emojiString = ":skull:";
+                    number = getDead();
+                  break;
+                case CoronaVirusInfo.TYPE_HEAL:
+                    emojiString = ":pill:";
+                    number = getHeal();
+                    break;
+                default:
+                    result += info;
+                    break;
+            }
+            String result = (mCountry.equals("中國大陸") ? "瘟疫大陸" : mCountry) + 
+                            (result.length() > 16 ? "\n" : " ") + 
+                            EmojiUtils.emojify(emojiString) + " " + number;
+            
+            return result;
+      }
+
 }
