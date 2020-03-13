@@ -100,6 +100,7 @@ public class CoronaVirusInfo {
         public String toString(int type) {
             String emojiString = "";
             String number = "";
+            String result = "???";
             switch (type) {
                 case CoronaVirusInfo.TYPE_CONFIRM:
                     emojiString = ":bomb:";
@@ -114,10 +115,9 @@ public class CoronaVirusInfo {
                     number = getHeal();
                     break;
                 default:
-                    result += info;
-                    break;
+                    return "";
             }
-            String result = (mCountry.equals("中國大陸") ? "瘟疫大陸" : mCountry) + 
+            result = (mCountry.equals("中國大陸") ? "瘟疫大陸" : mCountry) + 
                             (result.length() > 16 ? "\n" : " ") + 
                             EmojiUtils.emojify(emojiString) + " " + number;
             
