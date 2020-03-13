@@ -1530,7 +1530,7 @@ public class OhBotController {
         }
 
         if (text.equals("武漢肺炎") || text.equals("中國肺炎")) {
-            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEAFULT));
+            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEFAULT));
         }
 
         if (text.equals("武漢肺炎確診") || text.equals("中國肺炎確診")) {
