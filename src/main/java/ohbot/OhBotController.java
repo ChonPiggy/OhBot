@@ -1825,11 +1825,11 @@ public class OhBotController {
             }
         }
 
-        if (text.contains("ok") && text.contains("好")||
+        if (text.length() < 8 && (text.contains("ok") && text.contains("好")||
             text.contains("OK") && text.contains("好")||
             text.contains("Ok") && text.contains("好")||
             text.contains("ＯＫ") && text.contains("好")||
-            text.contains("幹妳娘")||text.contains("幹您娘")||text.contains("幹你娘")) {
+            text.contains("幹妳娘")||text.contains("幹您娘")||text.contains("幹你娘"))) {
             replyOkFineImage(replyToken);
         }
 
