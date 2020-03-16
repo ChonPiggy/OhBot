@@ -128,6 +128,124 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             String temp = strResult.substring(strResult.indexOf("截至"), strResult.length());
             mUpdateTime = temp.substring(0, temp.indexOf("日")+1);
 
+            while (strResult.contains("<td><a href=\"/wiki/File:Flag_of")) {
+                String country = "";
+                String confirm = "";
+                String dead = "";
+                String heal = "";
+
+                // get country
+                if (strResult.startsWith("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"")) {
+                    strResult = strResult.substring(strResult.indexOf("<td><a href=\"/wiki/File:Cruise_ship_side_view.png\"")+50, strResult.length());
+                    country = "鑽石公主號";
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                }
+                else {
+                    
+
+                    strResult = strResult.substring(strResult.indexOf("<td><a href=\"/wiki/File:Flag_of")+32, strResult.length());
+
+                    // catch country part
+                    temp = strResult.substring(0, strResult.indexOf("</td>"));
+
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+
+                    if (temp.contains("href=\"/wiki/")) {
+                        temp = temp.substring(temp.indexOf("href=\"/wiki/")+12, temp.length());
+                    }
+                    else if (temp.contains("href=\"/w/")) {
+                        temp = temp.substring(temp.indexOf("href=\"/w/")+9, temp.length());
+                    }                    
+                    /*temp = temp.substring(temp.indexOf("\" title=\"")+9, temp.length());
+                    temp = temp.substring(temp.indexOf("\">")+2, temp.length());
+                    country = temp.substring(0, temp.indexOf("</a>"));*/
+                    country = temp.substring(temp.indexOf("\" title=\"")+9, temp.indexOf("\">"));
+                }
+
+                // get confirm
+                if (strResult.startsWith("<td style=\"color:gray;\">0")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    confirm = "0";
+                } else if (strResult.startsWith("<td style=\"color:gray;\">1")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">1")+25, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    heal = "1";
+                } else if (strResult.startsWith("<td align=\"right\">")) {
+                    strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
+                    confirm = strResult.substring(0,strResult.indexOf("\n</td>"));
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                }
+                else {
+                    strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
+                    confirm = strResult.substring(0, strResult.indexOf("\n</td>"));
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                }
+                
+
+
+                // get dead
+                if (strResult.startsWith("<td style=\"color:gray;\">0")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    dead = "0";
+                } else if (strResult.startsWith("<td style=\"color:gray;\">1")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">1")+25, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    heal = "1";
+                } else if (strResult.startsWith("<td align=\"right\">")) {
+                    strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
+                    dead = strResult.substring(0,strResult.indexOf("\n</td>"));
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                }
+                else {
+                    strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
+                    dead = strResult.substring(0, strResult.indexOf("\n</td>"));
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                }
+
+
+                // get heal
+                if (strResult.startsWith("<td style=\"color:gray;\">0")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">0")+25, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    heal = "0";
+                } else if (strResult.startsWith("<td style=\"color:gray;\">1")) {
+                    strResult = strResult.substring(strResult.indexOf("<td style=\"color:gray;\">1")+25, strResult.length());
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                    heal = "1";
+                } else if (strResult.startsWith("<td align=\"right\">")) {
+                    strResult = strResult.substring(strResult.indexOf("<td align=\"right\">")+18, strResult.length());
+                    heal = strResult.substring(0,strResult.indexOf("\n</td>"));
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                }
+                else {
+                    strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
+                    heal = strResult.substring(0, strResult.indexOf("\n</td>"));
+                    strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
+                }
+                strResult = strResult.substring(strResult.indexOf("<tr>\n")+5, strResult.length());
+
+
+                int confirmInt = -1;
+                int deadInt = -2;
+                int healInt = -3;
+                try {
+                    confirmInt = Integer.parseInt(confirm.replace(",", "").trim());
+                } catch (java.lang.NumberFormatException e) {
+                }
+                try {
+                    deadInt = Integer.parseInt(dead.replace(",", "").trim());
+                } catch (java.lang.NumberFormatException e) {
+                }
+                try {
+                    healInt = Integer.parseInt(heal.replace(",", "").trim());
+                } catch (java.lang.NumberFormatException e) {
+                }
+                addCVI(country, confirmInt, deadInt, healInt);
+
+            }
+
             while (strResult.contains("<td><span class=\"")) {
                 String country = "";
                 String confirm = "";
