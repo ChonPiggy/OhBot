@@ -103,10 +103,10 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(120000); // 2 mins
                 if (!isUpdating) {
                     checkCoronaVirusWiki();
                 }
+                Thread.sleep(120000); // 2 mins                
             } catch (Exception e) {
                 //log.info("CoronaVirusWikiRankCrawlThread e: " + e);
             }

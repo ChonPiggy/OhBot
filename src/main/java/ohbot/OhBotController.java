@@ -1528,24 +1528,19 @@ public class OhBotController {
             text = text.replace("時差", "").replace(" ", "");
             processJetLag(replyToken, text);
         }
-
         if (text.equals("武漢肺炎") || text.equals("中國肺炎")) {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEFAULT));
         }
-
-        if (text.equals("武漢肺炎確診") || text.equals("中國肺炎確診")) {
+        else if (text.equals("武漢肺炎確診") || text.equals("中國肺炎確診")) {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_CONFIRM));
         }
-
-        if (text.equals("武漢肺炎死亡") || text.equals("中國肺炎死亡")) {
+        else if (text.equals("武漢肺炎死亡") || text.equals("中國肺炎死亡")) {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEAD));
         }
-
-        if (text.equals("武漢肺炎痊癒") || text.equals("中國肺炎痊癒")) {
+        else if (text.equals("武漢肺炎痊癒") || text.equals("中國肺炎痊癒")) {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_HEAL));
         }
-
-        if (text.startsWith("武漢肺炎") && text.length() < 20) {
+        else if (text.startsWith("武漢肺炎") && text.length() < 20) {
             String country = text.replace("武漢肺炎", "").trim();
             if (country.equals("台灣")) {
                 country = "臺灣";
@@ -1555,7 +1550,9 @@ public class OhBotController {
                 this.replyText(replyToken, result);
             }
             else {
-                this.replyText(replyToken, country + " 並不存在或者名稱不完全正確");
+                if (!text.equals("武漢肺炎") || !text.equals("中國肺炎")) {
+                    this.replyText(replyToken, country + " 並不存在或者名稱不完全正確");
+                }
             }
         }
 
