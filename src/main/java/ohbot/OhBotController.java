@@ -1550,7 +1550,7 @@ public class OhBotController {
                 this.replyText(replyToken, result);
             }
             else {
-                if (!text.equals("武漢肺炎") || !text.equals("中國肺炎")) {
+                if ((!text.equals("武漢肺炎") || !text.equals("中國肺炎")) && text.length() > 2) {
                     this.replyText(replyToken, country + " 並不存在或者名稱不完全正確");
                 }
             }
