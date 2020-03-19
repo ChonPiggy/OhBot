@@ -97,6 +97,13 @@ public class CoronaVirusInfo {
             return result;
       }
 
+      public String getDetailString() {
+            String result = mCountry + "\n" + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + "\n" + 
+                      EmojiUtils.emojify(":skull:") + " " + getDead() + "\n" + 
+                      EmojiUtils.emojify(":pill:") + " " + getHeal();
+            return result;
+      }
+
         public String toString(int type) {
             String emojiString = "";
             String number = "";

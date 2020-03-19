@@ -1545,6 +1545,20 @@ public class OhBotController {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_HEAL));
         }
 
+        if (text.startsWith("武漢肺炎") && text.length() < 20) {
+            String country = text.replace("武漢肺炎", "").trim();
+            if (country.equals("台灣")) {
+                country = "臺灣";
+            }
+            String result = mCoronaVirusWikiRankCrawlThread.getCountryDetail(country);
+            if (result != null) {
+                this.replyText(replyToken, result);
+            }
+            else {
+                this.replyText(replyToken, country + " 並不存在或者名稱不完全正確");
+            }
+        }
+
         if (text.startsWith("AmazonJp:")) {
             amazonJpSearch(replyToken, text);
         }
