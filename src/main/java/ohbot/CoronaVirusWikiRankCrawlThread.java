@@ -146,24 +146,26 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                         strResult = strResult.substring(strResult.indexOf("<td><span class=\"")+17, strResult.length());
                     }
                     else {
-                        strResult = strResult.substring(strResult.indexOf("<td><a href=\"/wiki/File:Flag_of")+32, strResult.length());
+                        strResult = strResult.substring(strResult.indexOf("<td><a href=\"/wiki/File:Flag_of")+31, strResult.length());
                     }
                     // catch country part
                     temp = strResult.substring(0, strResult.indexOf("</td>"));
 
                     strResult = strResult.substring(strResult.indexOf("</td>\n")+6, strResult.length());
-                    
+
+                    if (temp.contains("href=\"/wiki/")) {
+                        temp = temp.substring(temp.indexOf("href=\"/wiki/")+12, temp.length());
+                    }
+                    else if (temp.contains("href=\"/w/")) {
+                        temp = temp.substring(temp.indexOf("href=\"/w/")+9, temp.length());
+                    }   
+                        
                     if (temp.length() - (temp.indexOf("</a>")+4) > 2) {
                         temp = temp.substring(temp.indexOf("</a>")+4, temp.length());
                         country = temp.replace("\n","").replace(" ","").trim();
                     }
                     else {
-                        if (temp.contains("href=\"/wiki/")) {
-                            temp = temp.substring(temp.indexOf("href=\"/wiki/")+12, temp.length());
-                        }
-                        else if (temp.contains("href=\"/w/")) {
-                            temp = temp.substring(temp.indexOf("href=\"/w/")+9, temp.length());
-                        }                    
+                                         
                         /*temp = temp.substring(temp.indexOf("\" title=\"")+9, temp.length());
                         temp = temp.substring(temp.indexOf("\">")+2, temp.length());
                         country = temp.substring(0, temp.indexOf("</a>"));*/
