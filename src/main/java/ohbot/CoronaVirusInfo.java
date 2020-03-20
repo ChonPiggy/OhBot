@@ -5,7 +5,7 @@ import emoji4j.EmojiUtils;
 
 public class CoronaVirusInfo {
 
-      private int mRate = 0;
+      private int mRank = -1;
       private String mCountry = "N/A";
       private int mConfirm = -4;
       private int mDead = -5;
@@ -18,7 +18,7 @@ public class CoronaVirusInfo {
       static private HashMap<String, Integer> mOrignalDeadDataMap = new HashMap<>(); // country, dead
       static private HashMap<String, Integer> mOrignalHealDataMap = new HashMap<>(); // country, heal
 
-      public CoronaVirusInfo(String country, int confirm, int dead, int heal) {
+      public CoronaVirusInfo(int rank, String country, int confirm, int dead, int heal) {
             if (country.equals("阿拉伯聯合大公國")) {
                   mCountry = "阿聯";
             } else if (country.equals("中華民國")) {
@@ -39,7 +39,7 @@ public class CoronaVirusInfo {
             if (!mOrignalHealDataMap.containsKey(mCountry)) {
                   mOrignalHealDataMap.put(mCountry, heal);
             }
-            
+            mRank = rank;
             mConfirm = confirm;
             mDead = dead;
             mHeal = heal;
@@ -98,7 +98,7 @@ public class CoronaVirusInfo {
       }
 
       public String getDetailString() {
-            String result = mCountry + "\n" + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + "\n" + 
+            String result = mCountry + " #" + mRank + "\n" + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + "\n" + 
                       EmojiUtils.emojify(":skull:") + " " + getDead() + "\n" + 
                       EmojiUtils.emojify(":pill:") + " " + getHeal();
             return result;

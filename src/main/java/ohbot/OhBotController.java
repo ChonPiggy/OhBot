@@ -1529,21 +1529,68 @@ public class OhBotController {
             processJetLag(replyToken, text);
         }
         if (text.equals("武漢肺炎") || text.equals("中國肺炎")) {
-            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEFAULT));
+            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEFAULT, -1));
         }
         else if (text.equals("武漢肺炎確診") || text.equals("中國肺炎確診")) {
-            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_CONFIRM));
+            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_CONFIRM, -1));
         }
         else if (text.equals("武漢肺炎死亡") || text.equals("中國肺炎死亡")) {
-            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEAD));
+            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEAD, -1));
         }
         else if (text.equals("武漢肺炎痊癒") || text.equals("中國肺炎痊癒")) {
-            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_HEAL));
+            this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_HEAL, -1));
+        }
+        else if (text.startsWith("武漢肺炎前") || text.startsWith("中國肺炎前")) {
+            text = text.replace("武漢肺炎前", "").replace("中國肺炎前", "").replace(" ", "").trim();
+            int number = -1;
+            try {
+                number = Integer.parseInt(text);
+            } catch (java.lang.NumberFormatException e) {
+            }
+            if (number > 0) {
+                this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEFAULT, number));
+            }
+        }
+        else if (text.startsWith("武漢肺炎確診前") || text.startsWith("中國肺炎確診前")) {
+            text = text.replace("武漢肺炎前", "").replace("中國肺炎前", "").replace(" ", "").trim();
+            int number = -1;
+            try {
+                number = Integer.parseInt(text);
+            } catch (java.lang.NumberFormatException e) {
+            }
+            if (number > 0) {
+                this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_CONFIRM, number));
+            }
+        }
+        else if (text.startsWith("武漢肺炎死亡前") || text.startsWith("中國肺炎死亡前")) {
+            text = text.replace("武漢肺炎前", "").replace("中國肺炎前", "").replace(" ", "").trim();
+            int number = -1;
+            try {
+                number = Integer.parseInt(text);
+            } catch (java.lang.NumberFormatException e) {
+            }
+            if (number > 0) {
+                this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEAD, number));
+            }
+        }
+        else if (text.startsWith("武漢肺炎痊癒前") || text.startsWith("中國肺炎痊癒前")) {
+            text = text.replace("武漢肺炎前", "").replace("中國肺炎前", "").replace(" ", "").trim();
+            int number = -1;
+            try {
+                number = Integer.parseInt(text);
+            } catch (java.lang.NumberFormatException e) {
+            }
+            if (number > 0) {
+                this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_HEAL, number));
+            }
         }
         else if (text.startsWith("武漢肺炎") && text.length() < 20) {
             String country = text.replace("武漢肺炎", "").trim();
             if (country.equals("台灣")) {
                 country = "臺灣";
+            }
+            if (country.equals("瘟疫大陸")||country.equals("426")||country.equals("阿六仔")||country.equals("啊六仔")) {
+                country = "中國大陸";
             }
             String result = mCoronaVirusWikiRankCrawlThread.getCountryDetail(country);
             if (result != null) {

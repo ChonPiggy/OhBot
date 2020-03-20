@@ -99,6 +99,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
     private byte[] lock = new byte[0];
 
     private String mUpdateTime = "";
+    private int mRank = 1;
 
     public void run() {
         while (true) {
@@ -274,21 +275,25 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
     private void clearList() {
         synchronized (lock) {
             mCVIList.clear();
+            mRank = 1;
         }
     }
 
     private void addCVI(String country, int confirm, int dead, int heal) {
         synchronized (lock) {
-            mCVIList.add(new CoronaVirusInfo(country, confirm, dead, heal));
+            mCVIList.add(new CoronaVirusInfo(mRank, country, confirm, dead, heal));
+            mRank++;
         }
     }
 
     /**
      *   Type DEFAULT, include confirm and dead.
      *   Other type include sprecific type context.
+     *   Dump start with #1 and end with range if range greater than 0.
      */
-    public String dumpList(int type) {
+    public String dumpList(int type, int range) {
         String result = "N/A";
+        int count = 1;
         synchronized (lock) {
             String stringType = "傷亡";
             switch (type) {
@@ -322,6 +327,11 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                     result += EmojiUtils.emojify(":exclamation:");
                 }
                 result += "\n";
+                if (range > 0 && range == count) {
+                    break;
+                }
+
+                count++;
             }
             result+=mUpdateTime;
         }
