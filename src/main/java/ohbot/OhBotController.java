@@ -1552,7 +1552,7 @@ public class OhBotController {
             }
         }
         else if (text.startsWith("武漢肺炎確診前") || text.startsWith("中國肺炎確診前")) {
-            text = text.replace("武漢肺炎前", "").replace("中國肺炎前", "").replace(" ", "").trim();
+            text = text.replace("武漢肺炎確診前", "").replace("中國肺炎確診前", "").replace(" ", "").trim();
             int number = -1;
             try {
                 number = Integer.parseInt(text);
@@ -1563,7 +1563,7 @@ public class OhBotController {
             }
         }
         else if (text.startsWith("武漢肺炎死亡前") || text.startsWith("中國肺炎死亡前")) {
-            text = text.replace("武漢肺炎前", "").replace("中國肺炎前", "").replace(" ", "").trim();
+            text = text.replace("武漢肺炎死亡前", "").replace("中國肺炎死亡前", "").replace(" ", "").trim();
             int number = -1;
             try {
                 number = Integer.parseInt(text);
@@ -1574,7 +1574,7 @@ public class OhBotController {
             }
         }
         else if (text.startsWith("武漢肺炎痊癒前") || text.startsWith("中國肺炎痊癒前")) {
-            text = text.replace("武漢肺炎前", "").replace("中國肺炎前", "").replace(" ", "").trim();
+            text = text.replace("武漢肺炎痊癒前", "").replace("中國肺炎痊癒前", "").replace(" ", "").trim();
             int number = -1;
             try {
                 number = Integer.parseInt(text);

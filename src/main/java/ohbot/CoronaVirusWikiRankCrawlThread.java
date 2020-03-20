@@ -333,7 +333,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
 
                 count++;
             }
-            result+=mUpdateTime;
+            //result+=mUpdateTime;
         }
         return result;
     }
