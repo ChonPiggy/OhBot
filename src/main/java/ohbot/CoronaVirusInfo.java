@@ -54,7 +54,7 @@ public class CoronaVirusInfo {
             if (mOrignalConfirmDataMap.containsKey(mCountry)) {
                   oriConfirm = mOrignalConfirmDataMap.get(mCountry);
             }
-            return getFormatNumberString(CoronaVirusInfo.TYPE_CONFIRM, -1, oriConfirm, mConfirm);
+            return getFormatNumberString(CoronaVirusInfo.TYPE_CONFIRM, -1, mConfirm);
       }
 
       public String getDead() {
@@ -66,7 +66,7 @@ public class CoronaVirusInfo {
             if (mOrignalDeadDataMap.containsKey(mCountry)) {
                   oriDead = mOrignalDeadDataMap.get(mCountry);
             }
-            return getFormatNumberString(CoronaVirusInfo.TYPE_DEAD, oriConfirm, oriDead, mDead);
+            return getFormatNumberString(CoronaVirusInfo.TYPE_DEAD, oriDead, mDead);
       }
 
       public String getHeal() {
@@ -78,10 +78,10 @@ public class CoronaVirusInfo {
             if (mOrignalHealDataMap.containsKey(mCountry)) {
                   oriHeal = mOrignalHealDataMap.get(mCountry);
             }
-            return getFormatNumberString(CoronaVirusInfo.TYPE_HEAL, oriConfirm, oriHeal, mHeal);
+            return getFormatNumberString(CoronaVirusInfo.TYPE_HEAL, oriHeal, mHeal);
       }
 
-      private String getFormatNumberString(int type, int confirm, int ori, int data) {
+      private String getFormatNumberString(int type int ori, int data) {
             switch (type) {
                 case CoronaVirusInfo.TYPE_CONFIRM:
                     if (ori < 0 || ori == data) {
@@ -97,13 +97,13 @@ public class CoronaVirusInfo {
                 case CoronaVirusInfo.TYPE_DEAD:
                 case CoronaVirusInfo.TYPE_HEAL:
                     if (ori < 0 || ori == data) {
-                          return "" + data + getPercentageString(confirm, data);
+                          return "" + data + getPercentageString(data);
                     }
                     if (data > ori) {
-                       return "" + data + "(+" + (data - ori) + ")" + getPercentageString(confirm, data);
+                       return "" + data + "(+" + (data - ori) + ")" + getPercentageString(data);
                     }
                     if (data < ori) {
-                       return "" + data + "(-" + (ori - data) + ")" + getPercentageString(confirm, data);
+                       return "" + data + "(-" + (ori - data) + ")" + getPercentageString(data);
                     }
                     break;
                 default:
@@ -112,16 +112,16 @@ public class CoronaVirusInfo {
             return "???";
       }
 
-    private String getPercentageString(int confirm, int data) {
+    private String getPercentageString(int data) {
         String resultString = "";
-        double dConfirm = (double)confirm;
+        double dConfirm = (double)mConfirm;
         double dData = (double)data;
         double dResult = dData / dConfirm;
         int result = (int)(dResult * 1000);
         if (data == 0) {
             resultString = "[0%]";
         }
-        else if (confirm == 0) {
+        else if (confirm <= 0) {
         }
         else if ((int)result == 0) {
             resultString = "[<0.1%]";
@@ -129,6 +129,7 @@ public class CoronaVirusInfo {
         else if (result > 0){
             resultString = "["+ (double)((double)result / 10.0)+"%]";
         }
+
         if (resultString.endsWith(".0%]")) {
             resultString = resultString.substring(0, resultString.length()-4) + "%]";
         }
