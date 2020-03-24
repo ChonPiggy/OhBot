@@ -122,6 +122,7 @@ public class CoronaVirusInfo {
             resultString = "[0%]";
         }
         else if (mConfirm <= 0) {
+            resultString = "[???]";
         }
         else if ((int)result == 0) {
             resultString = "[<0.1%]";
@@ -133,7 +134,7 @@ public class CoronaVirusInfo {
         if (resultString.endsWith(".0%]")) {
             resultString = resultString.substring(0, resultString.length()-4) + "%]";
         }
-        return "";
+        return "??";
     }
 
       public String toString() {
