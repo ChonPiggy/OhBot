@@ -109,6 +109,7 @@ public class CoronaVirusInfo {
                 default:
                     return "???";
             }
+            return "???";
       }
 
     private String getPercentageString(int confirm, int data) {
