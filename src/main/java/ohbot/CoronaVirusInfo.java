@@ -134,7 +134,7 @@ public class CoronaVirusInfo {
         if (resultString.endsWith(".0%]")) {
             resultString = resultString.substring(0, resultString.length()-4) + "%]";
         }
-        return "??";
+        return resultString;
     }
 
       public String toString() {
