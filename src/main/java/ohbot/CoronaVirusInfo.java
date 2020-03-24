@@ -81,7 +81,7 @@ public class CoronaVirusInfo {
             return getFormatNumberString(CoronaVirusInfo.TYPE_HEAL, oriHeal, mHeal);
       }
 
-      private String getFormatNumberString(int type int ori, int data) {
+      private String getFormatNumberString(int type, int ori, int data) {
             switch (type) {
                 case CoronaVirusInfo.TYPE_CONFIRM:
                     if (ori < 0 || ori == data) {
