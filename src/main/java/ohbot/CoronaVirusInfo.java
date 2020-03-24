@@ -54,37 +54,85 @@ public class CoronaVirusInfo {
             if (mOrignalConfirmDataMap.containsKey(mCountry)) {
                   oriConfirm = mOrignalConfirmDataMap.get(mCountry);
             }
-            return getFormatNumberString(oriConfirm, mConfirm);
+            return getFormatNumberString(CoronaVirusInfo.TYPE_CONFIRM, -1, oriConfirm, mConfirm);
       }
 
       public String getDead() {
             int oriDead = -8;
+            int oriConfirm = -7;
+            if (mOrignalConfirmDataMap.containsKey(mCountry)) {
+                  oriConfirm = mOrignalConfirmDataMap.get(mCountry);
+            }
             if (mOrignalDeadDataMap.containsKey(mCountry)) {
                   oriDead = mOrignalDeadDataMap.get(mCountry);
             }
-            return getFormatNumberString(oriDead, mDead);
+            return getFormatNumberString(CoronaVirusInfo.TYPE_DEAD, oriConfirm, oriDead, mDead);
       }
 
       public String getHeal() {
             int oriHeal = -9;
+            int oriConfirm = -7;
+            if (mOrignalConfirmDataMap.containsKey(mCountry)) {
+                  oriConfirm = mOrignalConfirmDataMap.get(mCountry);
+            }
             if (mOrignalHealDataMap.containsKey(mCountry)) {
                   oriHeal = mOrignalHealDataMap.get(mCountry);
             }
-            return getFormatNumberString(oriHeal, mHeal);
+            return getFormatNumberString(CoronaVirusInfo.TYPE_HEAL, oriConfirm, oriHeal, mHeal);
       }
 
-      private String getFormatNumberString(int ori, int data) {
-            if (ori < 0 || ori == data) {
-                  return "" + data;
+      private String getFormatNumberString(int type, int confirm, int ori, int data) {
+            switch (type) {
+                case CoronaVirusInfo.TYPE_CONFIRM:
+                    if (ori < 0 || ori == data) {
+                          return "" + data;
+                    }
+                    if (data > ori) {
+                       return "" + data + "(+" + (data - ori) + ")";
+                    }
+                    if (data < ori) {
+                       return "" + data + "(-" + (ori - data) + ")";
+                    }
+                    break;
+                case CoronaVirusInfo.TYPE_DEAD:
+                case CoronaVirusInfo.TYPE_HEAL:
+                    if (ori < 0 || ori == data) {
+                          return "" + data + getPercentageString(confirm, data);
+                    }
+                    if (data > ori) {
+                       return "" + data + "(+" + (data - ori) + ")" + getPercentageString(confirm, data);
+                    }
+                    if (data < ori) {
+                       return "" + data + "(-" + (ori - data) + ")" + getPercentageString(confirm, data);
+                    }
+                    break;
+                default:
+                    return "???";
             }
-            if (data > ori) {
-               return "" + data + "(+" + (data - ori) + ")";
-            }
-            if (data < ori) {
-               return "" + data + "(-" + (ori - data) + ")";
-            }
-            return "???";
       }
+
+    private String getPercentageString(int confirm, int data) {
+        String resultString = "";
+        double dConfirm = (double)confirm;
+        double dData = (double)data;
+        double dResult = dData / dConfirm;
+        int result = (int)(dResult * 1000);
+        if (data == 0) {
+            resultString = "[0%]";
+        }
+        else if (confirm == 0) {
+        }
+        else if ((int)result == 0) {
+            resultString = "[<0.1%]";
+        }
+        else if (result > 0){
+            resultString = "["+ (double)((double)result / 10.0)+"%]";
+        }
+        if (resultString.endsWith(".0%]")) {
+            resultString = resultString.substring(0, resultString.length()-4) + "%]";
+        }
+        return "";
+    }
 
       public String toString() {
             if (mCountry.equals("中國大陸")) {
