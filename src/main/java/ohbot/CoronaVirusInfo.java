@@ -121,7 +121,7 @@ public class CoronaVirusInfo {
         if (data == 0) {
             resultString = "[0%]";
         }
-        else if (confirm <= 0) {
+        else if (mConfirm <= 0) {
         }
         else if ((int)result == 0) {
             resultString = "[<0.1%]";
