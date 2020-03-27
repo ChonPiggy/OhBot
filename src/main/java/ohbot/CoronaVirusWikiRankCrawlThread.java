@@ -95,6 +95,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
     private boolean isUpdating = false;
 
     private List<CoronaVirusInfo> mCVIList = new ArrayList<CoronaVirusInfo> ();
+    private List<CoronaVirusInfo> mTempCVIList = new ArrayList<CoronaVirusInfo> ();
 
     private byte[] lock = new byte[0];
 
@@ -107,7 +108,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
                 if (!isUpdating) {
                     checkCoronaVirusWiki();
                 }
-                Thread.sleep(120000); // 2 mins                
+                Thread.sleep(60000); // 1 mins                
             } catch (Exception e) {
                 //log.info("CoronaVirusWikiRankCrawlThread e: " + e);
             }
@@ -116,7 +117,6 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
 
     private void checkCoronaVirusWiki() {
         isUpdating = true;
-        clearList();
         //log.info("checkCoronaVirusWiki update started.");
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -269,19 +269,24 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             //log.info("checkCoronaVirusWiki e: " + e);
         }
         //log.info("checkCoronaVirusWiki update finished.");
+        updateList();
         isUpdating = false;
     }
 
-    private void clearList() {
+    private void updateList() {
         synchronized (lock) {
-            mCVIList.clear();
+            List<CoronaVirusInfo> tempList = mCVIList;
+            mCVIList = mTempCVIList;
+            tempList.clear();
+            tempList = null;
+            mTempCVIList = new ArrayList<CoronaVirusInfo> ();
             mRank = 1;
         }
     }
 
     private void addCVI(String country, int confirm, int dead, int heal) {
         synchronized (lock) {
-            mCVIList.add(new CoronaVirusInfo(mRank, country, confirm, dead, heal));
+            mTempCVIList.add(new CoronaVirusInfo(mRank, country, confirm, dead, heal));
             mRank++;
         }
     }

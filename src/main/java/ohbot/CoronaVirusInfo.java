@@ -54,7 +54,7 @@ public class CoronaVirusInfo {
             if (mOrignalConfirmDataMap.containsKey(mCountry)) {
                   oriConfirm = mOrignalConfirmDataMap.get(mCountry);
             }
-            return getFormatNumberString(CoronaVirusInfo.TYPE_CONFIRM, -1, mConfirm);
+            return getFormatNumberString(CoronaVirusInfo.TYPE_CONFIRM, oriConfirm, mConfirm);
       }
 
       public String getDead() {
