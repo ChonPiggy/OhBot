@@ -1120,6 +1120,9 @@ public class OhBotController {
         }
         // log.info("senderId: " + senderId);
         // log.info("userId: " + userId);
+
+        boolean isFromGroup = false;
+        boolean isFromRoom = false;
         if (UserSource.class.isInstance(source)) {
             // log.info("UserSource.class");
             // log.info("userId: " + userId);
@@ -1129,6 +1132,7 @@ public class OhBotController {
             //String roomId = source.getSenderId();
             // log.info("roomId: " + roomId);
             // log.info("userId: " + userId);
+            isFromRoom = true;
         }
         if (GroupSource.class.isInstance(source)) {
             // log.info("GroupSource.class");
@@ -1136,6 +1140,7 @@ public class OhBotController {
             // log.info("groupId: " + groupId);
             // log.info("senderId: " + senderId);
             // log.info("userId: " + userId);
+            isFromGroup = true;
         }
         if (UnknownSource.class.isInstance(source)) {
             log.info("UnknownSource.class");
@@ -1147,6 +1152,15 @@ public class OhBotController {
         }
 
         checkNeedTotallyBullyReply(userId, replyToken);
+
+        if (text.contans("奴隸") && text.contains("滾")) {
+            if (isFromGroup) {
+                leaveGroup(replyToken, source.getGroupId());
+            }
+            if (isFromRoom) {
+                leaveRoom(replyToken, source.getSenderId());
+            }
+        }
 
 
         if (text.equals("強制清除巫師求組清單") && userId.equals(USER_ID_PIGGY)) {
@@ -2040,6 +2054,28 @@ public class OhBotController {
                 .replyMessage(new ReplyMessage(replyToken, messages));
         //log.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
         
+    }
+
+    private void leaveGroup(@NonNull String replyToken, @NonNull String groupId) {
+
+        final BotApiResponse botApiResponse;
+        try {
+            botApiResponse = lineMessagingClient.leaveGroup(groupId).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    private void leaveRoom(@NonNull String replyToken, @NonNull String roomId) {
+        
+        final BotApiResponse botApiResponse;
+        try {
+            botApiResponse = lineMessagingClient.leaveRoom(roomId).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return;
+        }
     }
 
     private UserProfileResponse getUserProfile(@NonNull String userId) {
@@ -7446,6 +7482,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return result;
         }
 
+        result += "奴隸滾\n";
         result += "Ｘ天氣？（Ｘ需為地區\n";
         result += "Ｘ氣象？（Ｘ需為地區\n";
         result += "Ｘ座？（Ｘ需為星座\n";
