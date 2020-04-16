@@ -1153,12 +1153,12 @@ public class OhBotController {
 
         checkNeedTotallyBullyReply(userId, replyToken);
 
-        if (text.contans("奴隸") && text.contains("滾")) {
+        if (text.contains("奴隸") && text.contains("滾")) {
             if (isFromGroup) {
-                leaveGroup(replyToken, source.getGroupId());
+                leaveGroup(replyToken, senderId);
             }
             if (isFromRoom) {
-                leaveRoom(replyToken, source.getSenderId());
+                leaveRoom(replyToken, senderId);
             }
         }
 
@@ -2061,7 +2061,7 @@ public class OhBotController {
         final BotApiResponse botApiResponse;
         try {
             botApiResponse = lineMessagingClient.leaveGroup(groupId).get();
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
@@ -2072,7 +2072,7 @@ public class OhBotController {
         final BotApiResponse botApiResponse;
         try {
             botApiResponse = lineMessagingClient.leaveRoom(roomId).get();
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
