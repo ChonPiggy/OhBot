@@ -160,21 +160,21 @@ public class WorldCountryPeopleCountCrawl {
                 strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
                 
                 // get people count
-                people = strResult.substring(strResult.indexOf(0, strResult.indexOf("</td>")));
+                people = strResult.substring(0, strResult.indexOf("</td>"));
 
                 // next
                 strResult = strResult.substring(strResult.indexOf("</td>")+5, strResult.length());
                 strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
 
                 // get update date
-                date = strResult.substring(strResult.indexOf(0, strResult.indexOf("</td>")));
+                date = strResult.substring(0, strResult.indexOf("</td>"));
 
                 // next
                 strResult = strResult.substring(strResult.indexOf("</td>")+5, strResult.length());
                 strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
 
                 // get percentage
-                percentage = strResult.substring(strResult.indexOf(0, strResult.indexOf("</td>")));
+                percentage = strResult.substring(0, strResult.indexOf("</td>"));
 
 
                 addWCPI(sRank, country, people, date, percentage);
