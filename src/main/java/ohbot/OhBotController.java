@@ -1603,7 +1603,7 @@ public class OhBotController {
                 this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_HEAL, number));
             }
         }
-        else if (text.startsWith("武漢肺炎") && text.length() < 20) {
+        else if ((text.startsWith("武漢肺炎") || text.startsWith("武肺"))&& text.length() < 20) {
             String country = text.replace("武漢肺炎", "").trim();
             if (country.equals("台灣")) {
                 country = "臺灣";
