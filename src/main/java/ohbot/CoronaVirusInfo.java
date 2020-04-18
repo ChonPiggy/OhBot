@@ -100,7 +100,6 @@ public class CoronaVirusInfo {
                       return result + getPeoplePercentageString(people, data);
                     }
                     return result;
-                    break;
                 case CoronaVirusInfo.TYPE_DEAD:
                 case CoronaVirusInfo.TYPE_HEAL:
                     if (ori < 0 || ori == data) {
