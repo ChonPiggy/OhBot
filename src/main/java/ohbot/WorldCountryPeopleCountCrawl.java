@@ -192,7 +192,7 @@ public class WorldCountryPeopleCountCrawl {
                 public void run(){
                     updateList();
                 }
-            }
+            };
             t.start();
         }
     }
@@ -213,7 +213,7 @@ public class WorldCountryPeopleCountCrawl {
 
     private static void addWCPI(int rank, String country, String people, String date, String percentage) {
         synchronized (lock) {
-            WorldCountryPeopleInfo info = new WorldCountryPeopleInfo(rank, country, people, date, percentage)
+            WorldCountryPeopleInfo info = new WorldCountryPeopleInfo(rank, country, people, date, percentage);
             sTempWCPIList.add(info);
             sCountryPeopleCountMap.put(info.getCountry(), info.getPeople());
             sCountryPeopleInfoMap.put(info);

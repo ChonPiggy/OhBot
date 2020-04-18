@@ -1624,9 +1624,9 @@ public class OhBotController {
 
         if (text.endsWith("人口?") || text.endsWith("人口？")) {
             String country = text.replace("人口").replace("？").replace("?").replace(" ").replace(" ").trim();
-            WorldCountryPeopleInfo result = WorldCountryPeopleCountCrawl.getCountryPeopleInfo();
-            if (resu;t != null) {
-                this.replyText(replyToken, "" + result);
+            WorldCountryPeopleInfo info = WorldCountryPeopleCountCrawl.getCountryPeopleInfo();
+            if (info != null) {
+                this.replyText(replyToken, "" + info);
             }
             else {
                 notifyMessage(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "人口查詢失敗!\n錯誤字串: " + text, replyToken);

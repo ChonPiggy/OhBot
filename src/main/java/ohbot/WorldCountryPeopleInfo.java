@@ -57,10 +57,19 @@ public class WorldCountryPeopleInfo {
     }
 
     public String toString() {
-        String result = "國家: " + getCountry() + " #" + getRank() + "\n" +
+        String result = "";
+        if (getCountry().equals("世界")) {
+            result = "全球\n" +
             "人口: " + getPeopleString() + "\n" +
             "更新日期: " + getUpdateDate() + "\n" +
-            "佔世界比: " + getPercentage() + "\n" +
+            "佔世界比: " + getPercentage();
+        }
+        else {
+            result = "國家: " + getCountry() + " #" + getRank() + "\n" +
+                "人口: " + getPeopleString() + "\n" +
+                "更新日期: " + getUpdateDate() + "\n" +
+                "佔世界比: " + getPercentage();
+        }
         return result;
     }
 
