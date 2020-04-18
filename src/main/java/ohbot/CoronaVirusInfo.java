@@ -120,7 +120,6 @@ public class CoronaVirusInfo {
       }
 
     private String getPeoplePercentageString(int all, int data) {
-      String resultString = "";
       double dResult = (double)data / (double)all;
       double result = (double)(dResult * 100.0);
       String resultString = "" + result;
