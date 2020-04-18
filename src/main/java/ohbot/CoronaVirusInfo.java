@@ -82,17 +82,24 @@ public class CoronaVirusInfo {
       }
 
       private String getFormatNumberString(int type, int ori, int data) {
+            String result = "";
             switch (type) {
                 case CoronaVirusInfo.TYPE_CONFIRM:
+                    
                     if (ori < 0 || ori == data) {
-                          return "" + data;
+                          result = "" + data;
                     }
                     if (data > ori) {
-                       return "" + data + "(+" + (data - ori) + ")";
+                       result = "" + data + "(+" + (data - ori) + ")";
                     }
                     if (data < ori) {
-                       return "" + data + "(-" + (ori - data) + ")";
+                       result = "" + data + "(-" + (ori - data) + ")";
                     }
+                    int people = WorldCountryPeopleCountCrawl.getCountryPeopleCount(mCountry);
+                    if (people > 0) {
+                      return result + getPeoplePercentageString(people, data);
+                    }
+                    return result;
                     break;
                 case CoronaVirusInfo.TYPE_DEAD:
                 case CoronaVirusInfo.TYPE_HEAL:
@@ -112,6 +119,12 @@ public class CoronaVirusInfo {
             return "???";
       }
 
+    private String getPeoplePercentageString(int all, int data) {
+      String resultString = "";
+      double dResult = dData / dConfirm;
+      double result = (double)(dResult * 100.0);
+      return "["+result+"%]";
+    }
     private String getPercentageString(int data) {
         String resultString = "";
         double dConfirm = (double)mConfirm;

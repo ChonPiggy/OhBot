@@ -234,6 +234,7 @@ public class WorldCountryPeopleCountCrawl {
     }
 
     public static int getCountryPeopleCount(String country) {
+        country = transferCountryName(country);
         synchronized (lock) {
             if (sCountryPeopleCountMap.containsKey(country)) {
                 return sCountryPeopleCountMap.get(country);
@@ -243,12 +244,26 @@ public class WorldCountryPeopleCountCrawl {
     }
 
     public static WorldCountryPeopleInfo getCountryPeopleInfo(String country) {
+        country = transferCountryName(country);
         synchronized (lock) {
             if (sCountryPeopleInfoMap.containsKey(country)) {
                 return sCountryPeopleInfoMap.get(country);
             }
         }
         return null;
+    }
+
+    private static transferCountryName(String country) {
+        if (country.equals("台灣")||country.equals("臺灣")||country.equals("中華民國")) {
+            return "臺灣";
+        } else if (country.equals("中華人民共和國")||
+            country.equals("中國")||
+            country.equals("中國大陸")||
+            country.equals("瘟疫大陸")||
+            country.equals("大陸")) {
+            return "中國大陸";
+        }
+        return country;
     }
 
 }
