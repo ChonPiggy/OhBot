@@ -182,7 +182,7 @@ public class WorldCountryPeopleCountCrawl {
 
         } catch (Exception e) {
             System.out.println("checkWorldPeopleCountFromWiki e: " + e);
-            System.out.println("checkWorldPeopleCountFromWiki strResult: " + strResult);
+            System.out.println("checkWorldPeopleCountFromWiki strResult: " + strResult.substring(0,100));
             e.printStackTrace();
         }
         //log.info("checkCoronaVirusWiki update finished.");
