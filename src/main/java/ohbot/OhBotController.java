@@ -1046,7 +1046,7 @@ public class OhBotController {
             sendPttOver18Checker();
             isPttOver18Sended = true;
         }*/
-        if(isAdminUserId(userId, replyToken)) {
+        if(isAdminUserId(userId)) {
             if (text.equals("PgCommand開啟全功能")) {
                 isDisableBot = false;
                 this.replyText(replyToken, "好的 ＰＧ 大人");
