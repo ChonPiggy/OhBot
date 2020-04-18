@@ -178,7 +178,8 @@ public class WorldCountryPeopleCountCrawl {
             }
 
         } catch (Exception e) {
-            System.out.println("checkCoronaVirusWiki e: " + e);
+            System.out.println("checkWorldPeopleCountFromWiki e: " + e);
+            e.printStackTrace();
         }
         //log.info("checkCoronaVirusWiki update finished.");
         isUpdating = false;
