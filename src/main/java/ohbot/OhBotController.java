@@ -1623,8 +1623,8 @@ public class OhBotController {
         }
 
         if (text.endsWith("人口?") || text.endsWith("人口？")) {
-            String country = text.replace("人口").replace("？").replace("?").replace(" ").replace(" ").trim();
-            WorldCountryPeopleInfo info = WorldCountryPeopleCountCrawl.getCountryPeopleInfo();
+            String country = text.replace("人口", "").replace("？", "").replace("?", "").replace(" ", "").replace(" ", "").trim();
+            WorldCountryPeopleInfo info = WorldCountryPeopleCountCrawl.getCountryPeopleInfo(country);
             if (info != null) {
                 this.replyText(replyToken, "" + info);
             }

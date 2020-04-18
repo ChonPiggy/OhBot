@@ -97,16 +97,12 @@ public class WorldCountryPeopleCountCrawl {
 
     private static List<WorldCountryPeopleInfo> sWCPIList = new ArrayList<WorldCountryPeopleInfo> ();
     private static List<WorldCountryPeopleInfo> sTempWCPIList = new ArrayList<WorldCountryPeopleInfo> ();
-    private static HashMap<String, int> sCountryPeopleCountMap = new HashMap<>(); // country, people
+    private static HashMap<String, Integer> sCountryPeopleCountMap = new HashMap<>(); // country, people
     private static HashMap<String, WorldCountryPeopleInfo> sCountryPeopleInfoMap = new HashMap<>(); // country, people
 
     private static byte[] lock = new byte[0];
 
     private static int sRank = 0;
-
-    static WorldCountryPeopleCountCrawl() {
-        
-    }
 
     public static void init() {
         if (!isInited) {
@@ -216,7 +212,7 @@ public class WorldCountryPeopleCountCrawl {
             WorldCountryPeopleInfo info = new WorldCountryPeopleInfo(rank, country, people, date, percentage);
             sTempWCPIList.add(info);
             sCountryPeopleCountMap.put(info.getCountry(), info.getPeople());
-            sCountryPeopleInfoMap.put(info);
+            sCountryPeopleInfoMap.put(info.getCountry(), info);
             sRank++;
         }
     }

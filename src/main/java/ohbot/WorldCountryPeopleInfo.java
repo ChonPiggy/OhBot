@@ -7,9 +7,9 @@ public class WorldCountryPeopleInfo {
 
       private int mRank = -1;
       private String mCountry = "N/A";
-      private String mPeople = -2;
-      private String mUpdateDate = -3;
-      private String mPercentage = -4;
+      private String mPeople = "";
+      private String mUpdateDate = "";
+      private String mPercentage = "";
 
     public WorldCountryPeopleInfo(int rank, String country, String people, String date, String percentage) {
             if (country.equals("台灣")||country.equals("臺灣")||country.equals("中華民國")) {
@@ -44,7 +44,7 @@ public class WorldCountryPeopleInfo {
         return mPeople;
     }
 
-    public String getRank() {
+    public int getRank() {
         return mRank;
     }
 
