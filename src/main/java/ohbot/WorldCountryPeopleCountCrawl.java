@@ -124,9 +124,7 @@ public class WorldCountryPeopleCountCrawl {
 
             strResult = strResult.substring(strResult.indexOf("<td align=\"left\"><b>世界</b></td>")+32, strResult.length());
 
-            String country = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
-
-            strResult = strResult.substring(strResult.indexOf("</td>")+5, strResult.length());
+            String country = "世界";
 
             String people = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
 
@@ -140,7 +138,7 @@ public class WorldCountryPeopleCountCrawl {
 
             strResult = strResult.substring(strResult.indexOf("</td>")+5, strResult.length());
 
-            addWCPI(sRank, "世界", people, date, percentage);
+            addWCPI(sRank, country, people, date, percentage);
 
 
 

@@ -7545,7 +7545,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "年號:X (X 限制為兩個字\n";
         result += "XX幾歲?\n";
         result += "民國XX幾歲?\n";
-        result += "XX幾台?\n";
+        result += "XX幾台?(麻將)\n";
+        result += "XX人口？(國家)\n";
         result += "開表單：XXX\n";
         result += "XX的平假名?\n";
         result += "XX的片假名?\n";
