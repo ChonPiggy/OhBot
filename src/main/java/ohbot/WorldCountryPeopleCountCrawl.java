@@ -115,6 +115,7 @@ public class WorldCountryPeopleCountCrawl {
         isUpdating = true;
         //log.info("checkCoronaVirusWiki update started.");
         try {
+            System.out.println("Start update world people count from wiki.");
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpget = new HttpGet("https://zh.wikipedia.org/zh-tw/%E5%90%84%E5%9B%BD%E5%AE%B6%E5%92%8C%E5%9C%B0%E5%8C%BA%E4%BA%BA%E5%8F%A3%E5%88%97%E8%A1%A8");
             CloseableHttpResponse response = httpClient.execute(httpget);
@@ -140,6 +141,8 @@ public class WorldCountryPeopleCountCrawl {
             strResult = strResult.substring(strResult.indexOf("</td>")+5, strResult.length());
 
             addWCPI(sRank, "世界", people, date, percentage);
+
+
 
             while (strResult.contains("<td align=\"left\">")) {
 
@@ -175,7 +178,7 @@ public class WorldCountryPeopleCountCrawl {
             }
 
         } catch (Exception e) {
-            //log.info("checkCoronaVirusWiki e: " + e);
+            System.out.println("checkCoronaVirusWiki e: " + e);
         }
         //log.info("checkCoronaVirusWiki update finished.");
         isUpdating = false;
@@ -214,6 +217,7 @@ public class WorldCountryPeopleCountCrawl {
             sCountryPeopleCountMap.put(info.getCountry(), info.getPeople());
             sCountryPeopleInfoMap.put(info.getCountry(), info);
             sRank++;
+            System.out.println("Update WCPI: " + info.getCountry());
         }
     }
 
