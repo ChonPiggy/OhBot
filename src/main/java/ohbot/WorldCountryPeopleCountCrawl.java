@@ -151,25 +151,29 @@ public class WorldCountryPeopleCountCrawl {
 
                 // get country
                 strResult = strResult.substring(strResult.indexOf("<td align=\"left\">")+17, strResult.length());
-                country = strResult.substring(strResult.indexOf("\" title=\"")+9, strResult.indexOf("\">"));
+                strResult = strResult.substring(strResult.indexOf("\" title=\"")+9, strResult.length());
+                country = strResult.substring(0, strResult.indexOf("\">"));
 
                 // next
-                strResult = strResult.substring(strResult.indexOf("\" title=\"")+9, strResult.length());
+                strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
+                strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
                 
                 // get people count
-                people = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
+                people = strResult.substring(strResult.indexOf(0, strResult.indexOf("</td>"));
 
                 // next
                 strResult = strResult.substring(strResult.indexOf("</td>")+5, strResult.length());
+                strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
 
                 // get update date
-                date = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
+                date = strResult.substring(strResult.indexOf(0, strResult.indexOf("</td>"));
 
                 // next
                 strResult = strResult.substring(strResult.indexOf("</td>")+5, strResult.length());
+                strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
 
                 // get percentage
-                percentage = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
+                percentage = strResult.substring(strResult.indexOf(0, strResult.indexOf("</td>"));
 
 
                 addWCPI(sRank, country, people, date, percentage);
