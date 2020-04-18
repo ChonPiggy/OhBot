@@ -114,13 +114,14 @@ public class WorldCountryPeopleCountCrawl {
     private static void checkWorldPeopleCountFromWiki() {
         isUpdating = true;
         //log.info("checkCoronaVirusWiki update started.");
+        String strResult = "";
         try {
             System.out.println("Start update world people count from wiki.");
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpget = new HttpGet("https://zh.wikipedia.org/zh-tw/%E5%90%84%E5%9B%BD%E5%AE%B6%E5%92%8C%E5%9C%B0%E5%8C%BA%E4%BA%BA%E5%8F%A3%E5%88%97%E8%A1%A8");
             CloseableHttpResponse response = httpClient.execute(httpget);
             HttpEntity httpEntity = response.getEntity();
-            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+            strResult = EntityUtils.toString(httpEntity, "utf-8");
 
             strResult = strResult.substring(strResult.indexOf("<td align=\"left\"><b>世界</b></td>")+32, strResult.length());
 
