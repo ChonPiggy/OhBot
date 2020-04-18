@@ -253,7 +253,7 @@ public class WorldCountryPeopleCountCrawl {
         return null;
     }
 
-    private static transferCountryName(String country) {
+    private static String transferCountryName(String country) {
         if (country.equals("台灣")||country.equals("臺灣")||country.equals("中華民國")) {
             return "臺灣";
         } else if (country.equals("中華人民共和國")||

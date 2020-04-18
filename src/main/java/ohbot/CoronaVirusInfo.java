@@ -123,7 +123,23 @@ public class CoronaVirusInfo {
       String resultString = "";
       double dResult = dData / dConfirm;
       double result = (double)(dResult * 100.0);
-      return "["+result+"%]";
+      String resultString = "" + result;
+      if(resultString.startsWith("0.")) {
+        // ex: 0.0123456 to 0.012
+        resultString = resultString.substring(0,5);
+        if (resultString.equals("0.000")) {
+          resultString = "<0.001";
+        }
+      }
+      else if (resultString.indexOf(".") == 1) {
+        // ex: 1.2345678 to 1.23
+        resultString = resultString.substring(0,4);
+      }
+      else if (resultString.indexOf(".") == 2) {
+        // ex: 12.345678 to 12.34
+        resultString = resultString.substring(0,5);
+      }
+      return "["+resultString+"%]";
     }
     private String getPercentageString(int data) {
         String resultString = "";
