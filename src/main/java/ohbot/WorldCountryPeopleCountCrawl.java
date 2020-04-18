@@ -222,7 +222,7 @@ public class WorldCountryPeopleCountCrawl {
             sCountryPeopleCountMap.put(info.getCountry(), info.getPeople());
             sCountryPeopleInfoMap.put(info.getCountry(), info);
             sRank++;
-            System.out.println("Update WCPI: " + info.getCountry());
+            //System.out.println("Update WCPI: " + info.getCountry());
         }
     }
 
