@@ -1034,6 +1034,9 @@ public class OhBotController {
 
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 
+        // Init check 
+        WorldCountryPeopleCountCrawl.init();
+        // Init check finished.
         String text = content.getText().trim();
         //log.info(text);
         Source source = event.getSource();
@@ -1043,15 +1046,17 @@ public class OhBotController {
             sendPttOver18Checker();
             isPttOver18Sended = true;
         }*/
-        if (text.equals("PgCommand開啟全功能")) {
-            isDisableBot = false;
-            this.replyText(replyToken, "好的 ＰＧ 大人");
-            return;
-        }
-        else if (text.equals("PgCommand關閉全功能")) {
-            isDisableBot = true;
-            this.replyText(replyToken, "好的 ＰＧ 大人");
-            return;
+        if(isAdminUserId(userId, replyToken)) {
+            if (text.equals("PgCommand開啟全功能")) {
+                isDisableBot = false;
+                this.replyText(replyToken, "好的 ＰＧ 大人");
+                return;
+            }
+            else if (text.equals("PgCommand關閉全功能")) {
+                isDisableBot = true;
+                this.replyText(replyToken, "好的 ＰＧ 大人");
+                return;
+            }
         }
 
         if (isDisableBot && !isAdminUserId(userId)) {
@@ -1542,16 +1547,16 @@ public class OhBotController {
             text = text.replace("時差", "").replace(" ", "");
             processJetLag(replyToken, text);
         }
-        if (text.equals("武漢肺炎") || text.equals("中國肺炎")) {
+        if (text.equals("武漢肺炎") || text.equals("中國肺炎") || text.equals("中肺") || text.equals("武肺")) {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEFAULT, -1));
         }
-        else if (text.equals("武漢肺炎確診") || text.equals("中國肺炎確診")) {
+        else if (text.equals("武漢肺炎確診") || text.equals("中國肺炎確診") || text.equals("武肺確診") || text.equals("中肺確診")) {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_CONFIRM, -1));
         }
-        else if (text.equals("武漢肺炎死亡") || text.equals("中國肺炎死亡")) {
+        else if (text.equals("武漢肺炎死亡") || text.equals("中國肺炎死亡") || text.equals("武肺死亡") || text.equals("中肺死亡")) {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEAD, -1));
         }
-        else if (text.equals("武漢肺炎痊癒") || text.equals("中國肺炎痊癒")) {
+        else if (text.equals("武漢肺炎痊癒") || text.equals("中國肺炎痊癒") || text.equals("武肺痊癒") || text.equals("中肺痊癒")) {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_HEAL, -1));
         }
         else if (text.startsWith("武漢肺炎前") || text.startsWith("中國肺炎前")) {
@@ -1617,6 +1622,18 @@ public class OhBotController {
             }
         }
 
+        if (text.endsWith("人口?") || text.endsWith("人口？")) {
+            String country = text.replace("人口").replace("？").replace("?").replace(" ").replace(" ").trim();
+            WorldCountryPeopleInfo result = WorldCountryPeopleCountCrawl.getCountryPeopleInfo();
+            if (resu;t != null) {
+                this.replyText(replyToken, "" + result);
+            }
+            else {
+                notifyMessage(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "人口查詢失敗!\n錯誤字串: " + text, replyToken);
+            }
+            
+        }
+
         if (text.startsWith("AmazonJp:")) {
             amazonJpSearch(replyToken, text);
         }
@@ -1655,12 +1672,12 @@ public class OhBotController {
 
         if (text.startsWith("PgCommandNotifyMessage:")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
-            notifyMessage(text, replyToken);
+            notifyMessage(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, text, replyToken);
         }
 
         if (text.startsWith("PgCommandNotifyImage:")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
-            notifyImage(text, replyToken);
+            notifyImage(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM , text, replyToken);
         }
         
         if (text.startsWith("PgCommand新增吃什麼:")) {
@@ -4339,10 +4356,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private String LINE_NOTIFY_TOKEN_INGRESS_ROOM_COMPLICATE = "Fo4mDtJlPr0Di9BTYD8eMuVWrvKjIZ0GgwyL39UeihM";
     private String LINE_NOTIFY_TOKEN_CHONPIGGY = "nOevfG97usKCBxO02FVFm0VZr32vx2d6yx76HosZAKQ";
 
-    private void notifyMessage(String text, String replyToken) throws IOException {
+    private void notifyMessage(String room, String text, String replyToken) throws IOException {
         text = text.replace("PgCommandNotifyMessage:", "");
 
-        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, text)) {
+        if (LineNotify.callEvent(room, text)) {
             if (!replyToken.equals("")) {
                 this.replyText(replyToken, "文字發送成功");
             }
@@ -4354,10 +4371,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }
 
-    private void notifyImage(String image, String replyToken) throws IOException {
+    private void notifyImage(String room, String image, String replyToken) throws IOException {
         image = image.replace("PgCommandNotifyImage:", "");
 
-        if (LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, " ", image)) {
+        if (LineNotify.callEvent(room, " ", image)) {
             this.replyText(replyToken, "圖片發送成功");
         }
         else {
