@@ -153,10 +153,11 @@ public class WorldCountryPeopleCountCrawl {
                 // get country
                 strResult = strResult.substring(strResult.indexOf("<td align=\"left\">")+17, strResult.length());
                 strResult = strResult.substring(strResult.indexOf("\" title=\"")+9, strResult.length());
-                country = strResult.substring(0, strResult.indexOf("\">"));
+                strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
+                country = strResult.substring(0, strResult.indexOf("</a>"));
 
                 // next
-                strResult = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
+                strResult = strResult.substring(strResult.indexOf("</a>")+4, strResult.length());
                 strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
                 
                 // get people count
@@ -254,7 +255,7 @@ public class WorldCountryPeopleCountCrawl {
     }
 
     private static String transferCountryName(String country) {
-        if (country.equals("台灣")||country.equals("臺灣")||country.equals("中華民國")) {
+        if (country.equals("台灣")||country.equals("中華民國")) {
             return "臺灣";
         } else if (country.equals("中華人民共和國")||
             country.equals("中國")||
@@ -262,6 +263,9 @@ public class WorldCountryPeopleCountCrawl {
             country.equals("瘟疫大陸")||
             country.equals("大陸")) {
             return "中國大陸";
+        } else if (country.equals("南韓")||
+            country.equals("大韓民國")) {
+            return "韓國";
         }
         return country;
     }

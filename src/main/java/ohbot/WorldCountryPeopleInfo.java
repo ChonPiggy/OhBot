@@ -16,6 +16,10 @@ public class WorldCountryPeopleInfo {
                   mCountry = "臺灣";
             } else if (country.equals("中華人民共和國")) {
                   mCountry = "中國大陸";
+            } else if (country.equals("大韓民國")) {
+                  mCountry = "韓國";
+            } else if (country.equals("朝鮮民主主義人民共和國")) {
+                  mCountry = "北韓";
             }
             else {
                   mCountry = country;
