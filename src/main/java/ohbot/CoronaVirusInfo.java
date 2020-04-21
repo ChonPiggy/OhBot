@@ -122,7 +122,7 @@ public class CoronaVirusInfo {
       double dResult = (double)data / (double)all;
       double result = (double)(dResult * 100.0);
       String resultString = "" + result;
-      if(resultString.startsWith("0.")) {
+      /*if(resultString.startsWith("0.")) {
         // ex: 0.0123456 to 0.012
         resultString = resultString.substring(0,5);
         if (resultString.equals("0.000")) {
@@ -140,7 +140,7 @@ public class CoronaVirusInfo {
 
       while (resultString.contains(".")&&resultString.endsWith("0")) {
         resultString = resultString.substring(0,resultString.length()-1);
-      }
+      }*/
       return "["+resultString+"%]";
     }
     private String getPercentageString(int data) {

@@ -99,7 +99,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
     private byte[] lock = new byte[0];
 
     private String mUpdateTime = "";
-    private int mRank = 1;
+    private int mRank = 0; // rank 0 is world
 
     public void run() {
         while (true) {
@@ -127,6 +127,34 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             // Catch update time
             String temp = strResult.substring(strResult.indexOf("截至"), strResult.length());
             mUpdateTime = temp.substring(0, temp.indexOf("日")+1);
+            // get world wide count
+            if (strResult.contains("\" title=\"世界\">") {
+                strResult = strResult.substring(strResult.indexOf("\" title=\"世界\">")+13, strResult.length());
+                strResult = strResult.substring(strResult.indexOf("<th style=\"text-align:center;\">")+31, strResult.length());
+                String confirm = strResult.substring(0, strResult.indexOf("\n</th>"));
+                strResult = strResult.substring(strResult.indexOf("<th style=\"text-align:center;\">")+31, strResult.length());
+                String dead = strResult.substring(0, strResult.indexOf("\n</th>"));
+                strResult = strResult.substring(strResult.indexOf("<th style=\"text-align:center;\">")+31, strResult.length());
+                String heal = strResult.substring(0, strResult.indexOf("\n</th>"));
+                int confirmInt = -1;
+                int deadInt = -2;
+                int healInt = -3;
+                try {
+                    confirmInt = Integer.parseInt(confirm.replace(",", "").trim());
+                } catch (java.lang.NumberFormatException e) {
+                }
+                try {
+                    deadInt = Integer.parseInt(dead.replace(",", "").trim());
+                } catch (java.lang.NumberFormatException e) {
+                }
+                try {
+                    healInt = Integer.parseInt(heal.replace(",", "").trim());
+                } catch (java.lang.NumberFormatException e) {
+                }
+                addCVI("世界", confirmInt, deadInt, healInt);
+            }
+            
+            mRank = 1;
 
             while (strResult.contains("<td><a href=\"/wiki/File:Flag_of") || strResult.contains("<td><span class=\"")) {
                 String country = "";
@@ -279,7 +307,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             tempList.clear();
             tempList = null;
             mTempCVIList = new ArrayList<CoronaVirusInfo> ();
-            mRank = 1;
+            mRank = 0; // rank 0 is world
         }
     }
 
