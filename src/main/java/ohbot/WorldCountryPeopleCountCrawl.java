@@ -97,7 +97,7 @@ public class WorldCountryPeopleCountCrawl {
 
     private static List<WorldCountryPeopleInfo> sWCPIList = new ArrayList<WorldCountryPeopleInfo> ();
     private static List<WorldCountryPeopleInfo> sTempWCPIList = new ArrayList<WorldCountryPeopleInfo> ();
-    private static HashMap<String, Integer> sCountryPeopleCountMap = new HashMap<>(); // country, people
+    private static HashMap<String, Double> sCountryPeopleCountMap = new HashMap<>(); // country, people
     private static HashMap<String, WorldCountryPeopleInfo> sCountryPeopleInfoMap = new HashMap<>(); // country, people
 
     private static byte[] lock = new byte[0];
@@ -234,7 +234,7 @@ public class WorldCountryPeopleCountCrawl {
         return result;
     }
 
-    public static int getCountryPeopleCount(String country) {
+    public static double getCountryPeopleCount(String country) {
         country = transferCountryName(country);
         synchronized (lock) {
             if (sCountryPeopleCountMap.containsKey(country)) {

@@ -35,11 +35,12 @@ public class WorldCountryPeopleInfo {
         return mCountry;
     }
 
-    public int getPeople() {
+    public double getPeople() {
         int result = -1;
         try {
-            result = Integer.parseInt(mPeople.replace(",", "").trim());
+            result = Double.parseInt(mPeople.replace(",", "").trim());
         } catch (java.lang.NumberFormatException e) {
+            e.printStackTrace();
         }
         return result;
     }

@@ -97,7 +97,7 @@ public class CoronaVirusInfo {
                     if (data < ori) {
                        result = "" + data + "(-" + (ori - data) + ")";
                     }
-                    int people = WorldCountryPeopleCountCrawl.getCountryPeopleCount(mCountry);
+                    double people = WorldCountryPeopleCountCrawl.getCountryPeopleCount(mCountry);
                     System.out.println("country: " + mCountry + " people: " + people);
                     if (people > 0) {
                       return result + getPeoplePercentageString(people, data);
@@ -121,7 +121,7 @@ public class CoronaVirusInfo {
             return "???";
       }
 
-    private String getPeoplePercentageString(int all, int data) {
+    private String getPeoplePercentageString(double all, int data) {
         double dResult = (double)data / (double)all;
         double result = (double)(dResult * 100.0);
         String resultString = (new BigDecimal("" + result)).toPlainString();;

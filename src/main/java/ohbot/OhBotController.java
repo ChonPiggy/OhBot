@@ -4642,6 +4642,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
+                    result = result.replace("</a>","");
                     result = result.replace("http:","https:");
                     result = result.replace("imgur.com","i.imgur.com");
                     result = result + ".jpg";
