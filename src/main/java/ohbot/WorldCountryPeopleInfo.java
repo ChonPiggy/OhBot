@@ -36,7 +36,7 @@ public class WorldCountryPeopleInfo {
     }
 
     public double getPeople() {
-        int result = -1;
+        double result = -1;
         try {
             result = Double.parseDouble(mPeople.replace(",", "").trim());
         } catch (java.lang.NumberFormatException e) {
