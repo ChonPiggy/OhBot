@@ -98,6 +98,7 @@ public class CoronaVirusInfo {
                        result = "" + data + "(-" + (ori - data) + ")";
                     }
                     int people = WorldCountryPeopleCountCrawl.getCountryPeopleCount(mCountry);
+                    System.out.println("country: " + mCountry + " people: " + people);
                     if (people > 0) {
                       return result + getPeoplePercentageString(people, data);
                     }
@@ -140,8 +141,6 @@ public class CoronaVirusInfo {
             // ex: 12.345678 to 12.34
             resultString = resultString.substring(0,5);
         }
-    
-      
 
         while (resultString.contains(".")&&resultString.endsWith("0")) {
             resultString = resultString.substring(0,resultString.length()-1);
