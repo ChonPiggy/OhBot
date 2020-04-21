@@ -128,7 +128,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             String temp = strResult.substring(strResult.indexOf("截至"), strResult.length());
             mUpdateTime = temp.substring(0, temp.indexOf("日")+1);
             // get world wide count
-            if (strResult.contains("\" title=\"世界\">") {
+            if (strResult.contains("\" title=\"世界\">")) {
                 strResult = strResult.substring(strResult.indexOf("\" title=\"世界\">")+13, strResult.length());
                 strResult = strResult.substring(strResult.indexOf("<th style=\"text-align:center;\">")+31, strResult.length());
                 String confirm = strResult.substring(0, strResult.indexOf("\n</th>"));
