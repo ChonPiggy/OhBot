@@ -1611,6 +1611,9 @@ public class OhBotController {
             if (country.equals("瘟疫大陸")||country.equals("426")||country.equals("阿六仔")||country.equals("啊六仔")) {
                 country = "中國大陸";
             }
+            if (country.equals("全球")) {
+                country = "世界";
+            }
             String result = mCoronaVirusWikiRankCrawlThread.getCountryDetail(country);
             if (result != null) {
                 this.replyText(replyToken, result);
