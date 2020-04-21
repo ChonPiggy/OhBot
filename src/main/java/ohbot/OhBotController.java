@@ -1605,7 +1605,7 @@ public class OhBotController {
         }
         else if ((text.startsWith("武漢肺炎") || text.startsWith("武肺"))&& text.length() < 20) {
             String country = text.replace("武漢肺炎", "").trim();
-            if (country.equals("台灣")) {
+            if (country.equals("台灣")||country.equals("中華民國")) {
                 country = "臺灣";
             }
             if (country.equals("瘟疫大陸")||country.equals("426")||country.equals("阿六仔")||country.equals("啊六仔")) {
