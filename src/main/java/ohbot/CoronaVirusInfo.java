@@ -2,6 +2,8 @@ package ohbot;
 
 import java.util.HashMap;
 import emoji4j.EmojiUtils;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class CoronaVirusInfo {
 
@@ -119,29 +121,32 @@ public class CoronaVirusInfo {
       }
 
     private String getPeoplePercentageString(int all, int data) {
-      double dResult = (double)data / (double)all;
-      double result = (double)(dResult * 100.0);
-      String resultString = "" + result;
-      /*if(resultString.startsWith("0.")) {
-        // ex: 0.0123456 to 0.012
-        resultString = resultString.substring(0,5);
-        if (resultString.equals("0.000")) {
-          resultString = "<0.001";
+        double dResult = (double)data / (double)all;
+        double result = (double)(dResult * 100.0);
+        String resultString = (new BigDecimal("" + result)).toPlainString();;
+        
+        if(resultString.startsWith("0.")) {
+            // ex: 0.0123456 to 0.012
+            resultString = resultString.substring(0,5);
+            if (resultString.equals("0.000")) {
+                resultString = "<0.001";
+            }    
         }
-      }
-      else if (resultString.indexOf(".") == 1) {
-        // ex: 1.2345678 to 1.23
-        resultString = resultString.substring(0,4);
-      }
-      else if (resultString.indexOf(".") == 2) {
-        // ex: 12.345678 to 12.34
-        resultString = resultString.substring(0,5);
-      }
+        else if (resultString.indexOf(".") == 1) {
+            // ex: 1.2345678 to 1.23
+            resultString = resultString.substring(0,4);
+        }
+        else if (resultString.indexOf(".") == 2) {
+            // ex: 12.345678 to 12.34
+            resultString = resultString.substring(0,5);
+        }
+    
+      
 
-      while (resultString.contains(".")&&resultString.endsWith("0")) {
-        resultString = resultString.substring(0,resultString.length()-1);
-      }*/
-      return "["+resultString+"%]";
+        while (resultString.contains(".")&&resultString.endsWith("0")) {
+            resultString = resultString.substring(0,resultString.length()-1);
+        }
+        return "["+resultString+"%]";
     }
     private String getPercentageString(int data) {
         String resultString = "";
@@ -170,11 +175,11 @@ public class CoronaVirusInfo {
 
       public String toString() {
             if (mCountry.equals("中國大陸")) {
-                  return "瘟疫大陸\n" + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + "\n" + EmojiUtils.emojify(":skull:") + " " + getDead();
+                return "瘟疫大陸\n" + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + "\n" + EmojiUtils.emojify(":skull:") + " " + getDead();
             }
             String result = mCountry + " " + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + " " + EmojiUtils.emojify(":skull:") + " " + getDead();;
             if (result.length() > 17) {
-                  result = mCountry + "\n" + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + "\n" + EmojiUtils.emojify(":skull:") + " " + getDead();
+                result = mCountry + "\n" + EmojiUtils.emojify(":bomb:") + " " + getConfirm() + "\n" + EmojiUtils.emojify(":skull:") + " " + getDead();
             }
             return result;
       }
