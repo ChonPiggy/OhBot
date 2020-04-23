@@ -56,6 +56,9 @@ public class CoronaVirusInfo {
             if (mOrignalConfirmDataMap.containsKey(mCountry)) {
                   oriConfirm = mOrignalConfirmDataMap.get(mCountry);
             }
+            if (mConfirm < 0) {
+              return "拒絕提供";
+            }
             return getFormatNumberString(CoronaVirusInfo.TYPE_CONFIRM, oriConfirm, mConfirm);
       }
 
@@ -67,6 +70,9 @@ public class CoronaVirusInfo {
             }
             if (mOrignalDeadDataMap.containsKey(mCountry)) {
                   oriDead = mOrignalDeadDataMap.get(mCountry);
+            }
+            if (mDead < 0) {
+              return "拒絕提供";
             }
             return getFormatNumberString(CoronaVirusInfo.TYPE_DEAD, oriDead, mDead);
       }
