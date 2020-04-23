@@ -9,9 +9,9 @@ public class CoronaVirusInfo {
 
       private int mRank = -1;
       private String mCountry = "N/A";
-      private int mConfirm = -4;
-      private int mDead = -5;
-      private int mHeal = -6;
+      private int mConfirm = -1;
+      private int mDead = -1;
+      private int mHeal = -1;
       public static final int TYPE_DEFAULT = 0;
       public static final int TYPE_CONFIRM = 1;
       public static final int TYPE_DEAD = 2;
@@ -79,6 +79,9 @@ public class CoronaVirusInfo {
             }
             if (mOrignalHealDataMap.containsKey(mCountry)) {
                   oriHeal = mOrignalHealDataMap.get(mCountry);
+            }
+            if (mHeal < 0) {
+              return "拒絕提供";
             }
             return getFormatNumberString(CoronaVirusInfo.TYPE_HEAL, oriHeal, mHeal);
       }
