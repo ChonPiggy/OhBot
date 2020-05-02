@@ -1895,7 +1895,8 @@ public class OhBotController {
             return;
         }
         
-        if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")||text.contains("EG")) {
+        if (text.contains("Eg")||text.contains("eg")||text.contains("egef")||text.contains("女流氓")||text.contains("蕭婆")||text.contains("EG")
+            ||text.contains("一姊")||text.contains("一姐")||text.contains("婷婷")) {
             if (isEgKeywordEnable) {
                 keywordImage("EG",replyToken);
             }
