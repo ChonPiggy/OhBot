@@ -1608,7 +1608,7 @@ public class OhBotController {
             if (country.equals("台灣")||country.equals("中華民國")) {
                 country = "臺灣";
             }
-            if (country.equals("瘟疫大陸")||country.equals("426")||country.equals("阿六仔")||country.equals("啊六仔")) {
+            if (country.equals("瘟疫大陸")||country.equals("中國")||country.equals("大陸")||country.equals("426")||country.equals("阿六仔")||country.equals("啊六仔")) {
                 country = "中國大陸";
             }
             if (country.equals("全球")) {
@@ -5020,7 +5020,20 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             source = IMAGE_GPNUDD;
         }
         if (text.equals("EG")) {
-            List<String> mEgDevilImgurLinkList = Arrays.asList("https://i.imgur.com/6qN9GI1.jpg", "https://i.imgur.com/qHbEBjN.jpg", "https://i.imgur.com/NFbnbSs.jpg", "https://i.imgur.com/68KRiAj.jpg", "https://i.imgur.com/dHEEBcU.jpg", "https://i.imgur.com/OMqBsOl.jpg", "https://i.imgur.com/JBuBhqr.jpg", "https://i.imgur.com/O5o7tD3.jpg", "https://i.imgur.com/PYZ4v9V.jpg", "https://i.imgur.com/GRD3yXF.jpg");
+            //List<String> mEgDevilImgurLinkList = Arrays.asList("https://i.imgur.com/6qN9GI1.jpg", "https://i.imgur.com/qHbEBjN.jpg", "https://i.imgur.com/NFbnbSs.jpg", "https://i.imgur.com/68KRiAj.jpg", "https://i.imgur.com/dHEEBcU.jpg", "https://i.imgur.com/OMqBsOl.jpg", "https://i.imgur.com/JBuBhqr.jpg", "https://i.imgur.com/O5o7tD3.jpg", "https://i.imgur.com/PYZ4v9V.jpg", "https://i.imgur.com/GRD3yXF.jpg");
+            List<String> mEgDevilImgurLinkList = Arrays.asList("https://i.imgur.com/6qN9GI1.jpg", 
+                "https://i.imgur.com/Vr2TgNk.jpg", 
+                "https://i.imgur.com/eKa5nvK.jpg", 
+                "https://i.imgur.com/fAT6i90.jpg", 
+                "https://i.imgur.com/ojXWlEF.jpg", 
+                "https://i.imgur.com/MODtrta.jpg", 
+                "https://i.imgur.com/MquMx2y.jpg", 
+                "https://i.imgur.com/NZx5qOk.jpg", 
+                "https://i.imgur.com/1GuQBD7.jpg", 
+                "https://i.imgur.com/TaQ4WcZ.jpg", 
+                "https://i.imgur.com/6IO0KZH.jpg", 
+                "https://i.imgur.com/xNnLjyW.jpg", 
+                "https://i.imgur.com/MIQ4FL7.jpg");
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mEgDevilImgurLinkList.size());
             int random_result = randomGenerator.nextInt(30);
