@@ -5174,6 +5174,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void getHtml(String replyToken, String url) {
         String result = "";
         try {
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(mUserAgentList.size());
             CloseableHttpClient httpClient = HttpClients.createDefault();
             log.info("getHtml:" + url);
             HttpGet httpGet = new HttpGet(url);
