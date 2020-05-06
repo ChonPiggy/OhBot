@@ -7538,7 +7538,39 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity httpEntity = response.getEntity();
 
-            result = EntityUtils.toString(httpEntity, "utf-8");
+            String data = EntityUtils.toString(httpEntity, "utf-8");
+            data = data.replace("{","").replace("}","").replace("\"0\":").trim();
+
+            String confirm = data.substring(data.indexOf("\"確診\":")+5, data.indexOf(","));
+            data = data.substring(data.indexOf(",")+1, data.length());
+
+            String heal = data.substring(data.indexOf("\"解除隔離\":")+7, data.indexOf(","));
+            data = data.substring(data.indexOf(",")+1, data.length());
+
+            String dead = data.substring(data.indexOf("\"死亡\":")+5, data.indexOf(","));
+            data = data.substring(data.indexOf(",")+1, data.length());
+
+            String inspection = data.substring(data.indexOf("\"送驗\":")+5, data.indexOf(","));
+            data = data.substring(data.indexOf(",")+1, data.length());
+
+            String exclude = data.substring(data.indexOf("\"排除(新)\":")+8, data.indexOf(","));
+            data = data.substring(data.indexOf(",")+1, data.length());
+
+            String yesterday_confirm = data.substring(data.indexOf("\"昨日確診\":")+7, data.indexOf(","));
+            data = data.substring(data.indexOf(",")+1, data.length());
+
+            String yesterday_exclude = data.substring(data.indexOf("\"昨日排除\":")+7, data.indexOf(","));
+            data = data.substring(data.indexOf(",")+1, data.length());
+
+            String yesterday_inspection = data.substring(data.indexOf("\"昨日送驗\":")+7, data.length());
+            result += "確診: "+confirm+"\n";
+            result += "解除隔離: "+heal+"\n";
+            result += "死亡: "+dead+"\n";
+            result += "送驗: "+inspection+"\n";
+            result += "排除: "+exclude+"\n";
+            result += "昨日確診: "+yesterday_confirm+"\n";
+            result += "昨日排除: "+yesterday_exclude+"\n";
+            result += "昨日送驗: "+yesterday_inspection;
 
         } catch (Exception e) {
         }
