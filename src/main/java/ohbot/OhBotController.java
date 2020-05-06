@@ -7515,6 +7515,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return result;
     }
 
+    int origin_confirm = -1;
+    int origin_heal = -1;
+    int origin_dead = -1;
+    int origin_inspection = -1;
+    int origin_exclude = -1;
     private String getChinaVirusTaiwanData() {
         String result = "";
         String url = "https://covid19dashboard.cdc.gov.tw/dash3";
@@ -7543,43 +7548,82 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String data = EntityUtils.toString(httpEntity, "utf-8");
             data = data.replace("{","").replace("}","").replace("\"0\":", "").trim();
 
-            String confirm = data.substring(data.indexOf("\"確診\":")+5, data.indexOf(",\""));
+            String confirmString = data.substring(data.indexOf("\"確診\":")+5, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
 
-            String heal = data.substring(data.indexOf("\"解除隔離\":")+7, data.indexOf(",\""));
+            String healString = data.substring(data.indexOf("\"解除隔離\":")+7, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
 
-            String dead = data.substring(data.indexOf("\"死亡\":")+5, data.indexOf(",\""));
+            String deadString = data.substring(data.indexOf("\"死亡\":")+5, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
 
-            String inspection = data.substring(data.indexOf("\"送驗\":")+5, data.indexOf(",\""));
+            String inspectionString = data.substring(data.indexOf("\"送驗\":")+5, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
 
-            String exclude = data.substring(data.indexOf("\"排除(新)\":")+8, data.indexOf(",\""));
+            String excludeString = data.substring(data.indexOf("\"排除(新)\":")+8, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
 
-            String yesterday_confirm = data.substring(data.indexOf("\"昨日確診\":")+7, data.indexOf(",\""));
+            String yesterday_confirmString = data.substring(data.indexOf("\"昨日確診\":")+7, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
 
-            String yesterday_exclude = data.substring(data.indexOf("\"昨日排除\":")+7, data.indexOf(",\""));
+            String yesterday_excludeString = data.substring(data.indexOf("\"昨日排除\":")+7, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
 
-            String yesterday_inspection = data.substring(data.indexOf("\"昨日送驗\":")+7, data.length());
-            
-            confirm = confirm.replace("\"", "");
-            heal = heal.replace("\"", "");
-            dead = dead.replace("\"", "");
-            inspection = inspection.replace("\"", "");
-            exclude = exclude.replace("\"", "");
-            yesterday_confirm = yesterday_confirm.replace("\"", "");
-            yesterday_exclude = yesterday_exclude.replace("\"", "");
-            yesterday_inspection = yesterday_inspection.replace("\"", "");
+            String yesterday_inspectionString = data.substring(data.indexOf("\"昨日送驗\":")+7, data.length());
 
-            result += "確診: "+confirm+"\n";
-            result += "解除隔離: "+heal+"\n";
-            result += "死亡: "+dead+"\n";
-            result += "送驗: "+inspection+"\n";
-            result += "排除: "+exclude+"\n";
+            confirmString = confirmString.replace("\"", "").replace(",", "");
+            healString = healString.replace("\"", "").replace(",", "");
+            deadString = deadString.replace("\"", "").replace(",", "");
+            inspectionString = inspectionString.replace("\"", "").replace(",", "");
+            excludeString = excludeString.replace("\"", "").replace(",", "");
+            yesterday_confirmString = yesterday_confirmString.replace("\"", "").replace(",", "");
+            yesterday_excludeString = yesterday_excludeString.replace("\"", "").replace(",", "");
+            yesterday_inspectionString = yesterday_inspectionString.replace("\"", "").replace(",", "");
+
+            int confirm = -1;
+            int heal = -1;
+            int dead = -1;
+            int inspection = -1;
+            int exclude = -1;
+            int yesterday_confirm = -1;
+            int yesterday_exclude = -1;
+            int yesterday_inspection = -1;
+
+            try {
+                confirm = Integer.parseInt(confirmString);
+                heal = Integer.parseInt(healString);
+                dead = Integer.parseInt(deadString);
+                inspection = Integer.parseInt(inspectionString);
+                exclude = Integer.parseInt(excludeString);
+                yesterday_confirm = Integer.parseInt(yesterday_confirmString);
+                yesterday_exclude = Integer.parseInt(yesterday_excludeString);
+                yesterday_inspection = Integer.parseInt(yesterday_inspectionString);
+
+            } catch (java.lang.NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+            if (origin_confirm = -1) {
+                origin_confirm = confirm;
+            }
+            if (origin_heal = -1) {
+                origin_heal = heal;
+            }
+            if (origin_dead = -1) {
+                origin_dead = dead;
+            }
+            if (origin_inspection = -1) {
+                origin_inspection = inspection;
+            }
+            if (origin_exclude = -1) {
+                origin_exclude = exclude;
+            }
+
+            result += "確診: " + confirm + (origin_confirm>0&&origin_confirm!=confirm? ("(" + confirm-origin_confirm + ")" ): "") + "\n";
+            result += "解除隔離: "+heal+(origin_heal>0&&origin_heal!=heal? ("(" + heal-origin_heal + ")" ): "") + "\n";
+            result += "死亡: "+dead+(origin_dead>0&&origin_dead!=dead? ("(" + dead-origin_dead + ")" ): "") + "\n";
+            result += "送驗: "+inspection+(origin_inspection>0&&origin_inspection!=inspection? ("(" + inspection-origin_inspection + ")" ): "") + "\n";
+            result += "排除: "+exclude+(origin_exclude>0&&origin_exclude!=exclude? ("(" + exclude-origin_exclude + ")" ): "") + "\n";
             result += "昨日確診: "+yesterday_confirm+"\n";
             result += "昨日排除: "+yesterday_exclude+"\n";
             result += "昨日送驗: "+yesterday_inspection;
