@@ -7539,7 +7539,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
 
             String data = EntityUtils.toString(httpEntity, "utf-8");
-            data = data.replace("{","").replace("}","").replace("\"0\":").trim();
+            data = data.replace("{","").replace("}","").replace("\"0\":", "").trim();
 
             String confirm = data.substring(data.indexOf("\"確診\":")+5, data.indexOf(","));
             data = data.substring(data.indexOf(",")+1, data.length());
