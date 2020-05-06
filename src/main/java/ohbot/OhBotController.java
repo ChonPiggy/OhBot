@@ -1614,6 +1614,12 @@ public class OhBotController {
             if (country.equals("全球")) {
                 country = "世界";
             }
+            if (country.equals("臺灣")) {
+                String result = "";
+                result = getChinaVirusTaiwanData();
+                this.replyText(replyToken, result);
+                return;
+            }
             String result = mCoronaVirusWikiRankCrawlThread.getCountryDetail(country);
             if (result != null) {
                 this.replyText(replyToken, result);
@@ -7503,6 +7509,38 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 result += "-----\n";
             }
             level--;
+        }
+        return result;
+    }
+
+    private String getChinaVirusTaiwanData() {
+        String result = "";
+        String url = "https://covid19dashboard.cdc.gov.tw/dash3";
+        try {
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(mUserAgentList.size());
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            log.info("getChinaVirusTaiwanData:" + url);
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
+            //httpGet.addHeader("Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            httpGet.setHeader("Accept","application/json, text/plain, */*");
+            httpGet.setHeader("Origin","https://www.cdc.gov.tw");
+            httpGet.setHeader("Sec-Fetch-Site","same-site");
+            httpGet.setHeader("Sec-Fetch-Mode","cors");
+            httpGet.setHeader("Sec-Fetch-Dest","empty");
+            httpGet.setHeader("Referer", "https://www.cdc.gov.tw/");
+            httpGet.setHeader("Accept-Encoding", "gzip, deflate, br");
+            httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7");
+            httpGet.setHeader("Connection", "keep-alive");
+            httpGet.setHeader("DNT", "1");
+
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity httpEntity = response.getEntity();
+
+            result = EntityUtils.toString(httpEntity, "utf-8");
+
+        } catch (Exception e) {
         }
         return result;
     }
