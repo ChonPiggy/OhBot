@@ -7540,29 +7540,38 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String data = EntityUtils.toString(httpEntity, "utf-8");
             data = data.replace("{","").replace("}","").replace("\"0\":", "").trim();
+            System.out.println(data);
 
             String confirm = data.substring(data.indexOf("\"確診\":")+5, data.indexOf(","));
             data = data.substring(data.indexOf(",")+1, data.length());
+            System.out.println(data);
 
             String heal = data.substring(data.indexOf("\"解除隔離\":")+7, data.indexOf(","));
             data = data.substring(data.indexOf(",")+1, data.length());
+            System.out.println(data);
 
             String dead = data.substring(data.indexOf("\"死亡\":")+5, data.indexOf(","));
             data = data.substring(data.indexOf(",")+1, data.length());
+            System.out.println(data);
 
             String inspection = data.substring(data.indexOf("\"送驗\":")+5, data.indexOf(","));
             data = data.substring(data.indexOf(",")+1, data.length());
+            System.out.println(data);
 
             String exclude = data.substring(data.indexOf("\"排除(新)\":")+8, data.indexOf(","));
             data = data.substring(data.indexOf(",")+1, data.length());
+            System.out.println(data);
 
             String yesterday_confirm = data.substring(data.indexOf("\"昨日確診\":")+7, data.indexOf(","));
             data = data.substring(data.indexOf(",")+1, data.length());
+            System.out.println(data);
 
             String yesterday_exclude = data.substring(data.indexOf("\"昨日排除\":")+7, data.indexOf(","));
             data = data.substring(data.indexOf(",")+1, data.length());
+            System.out.println(data);
 
             String yesterday_inspection = data.substring(data.indexOf("\"昨日送驗\":")+7, data.length());
+            System.out.println(data);
             result += "確診: "+confirm+"\n";
             result += "解除隔離: "+heal+"\n";
             result += "死亡: "+dead+"\n";
@@ -7573,6 +7582,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += "昨日送驗: "+yesterday_inspection;
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }
