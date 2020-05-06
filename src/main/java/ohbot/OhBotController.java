@@ -7542,32 +7542,32 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             data = data.replace("{","").replace("}","").replace("\"0\":", "").trim();
             System.out.println(data);
 
-            String confirm = data.substring(data.indexOf("\"確診\":")+5, data.indexOf(","));
-            data = data.substring(data.indexOf(",")+1, data.length());
+            String confirm = data.substring(data.indexOf("\"確診\":")+5, data.indexOf(",\""));
+            data = data.substring(data.indexOf(",\"")+1, data.length());
             System.out.println(data);
 
-            String heal = data.substring(data.indexOf("\"解除隔離\":")+7, data.indexOf(","));
-            data = data.substring(data.indexOf(",")+1, data.length());
+            String heal = data.substring(data.indexOf("\"解除隔離\":")+7, data.indexOf(",\""));
+            data = data.substring(data.indexOf(",\"")+1, data.length());
             System.out.println(data);
 
-            String dead = data.substring(data.indexOf("\"死亡\":")+5, data.indexOf(","));
-            data = data.substring(data.indexOf(",")+1, data.length());
+            String dead = data.substring(data.indexOf("\"死亡\":")+5, data.indexOf(",\""));
+            data = data.substring(data.indexOf(",\"")+1, data.length());
             System.out.println(data);
 
-            String inspection = data.substring(data.indexOf("\"送驗\":")+5, data.indexOf(","));
-            data = data.substring(data.indexOf(",")+1, data.length());
+            String inspection = data.substring(data.indexOf("\"送驗\":")+5, data.indexOf(",\""));
+            data = data.substring(data.indexOf(",\"")+1, data.length());
             System.out.println(data);
 
-            String exclude = data.substring(data.indexOf("\"排除(新)\":")+8, data.indexOf(","));
-            data = data.substring(data.indexOf(",")+1, data.length());
+            String exclude = data.substring(data.indexOf("\"排除(新)\":")+8, data.indexOf(",\""));
+            data = data.substring(data.indexOf(",\"")+1, data.length());
             System.out.println(data);
 
-            String yesterday_confirm = data.substring(data.indexOf("\"昨日確診\":")+7, data.indexOf(","));
-            data = data.substring(data.indexOf(",")+1, data.length());
+            String yesterday_confirm = data.substring(data.indexOf("\"昨日確診\":")+7, data.indexOf(",\""));
+            data = data.substring(data.indexOf(",\"")+1, data.length());
             System.out.println(data);
 
-            String yesterday_exclude = data.substring(data.indexOf("\"昨日排除\":")+7, data.indexOf(","));
-            data = data.substring(data.indexOf(",")+1, data.length());
+            String yesterday_exclude = data.substring(data.indexOf("\"昨日排除\":")+7, data.indexOf(",\""));
+            data = data.substring(data.indexOf(",\"")+1, data.length());
             System.out.println(data);
 
             String yesterday_inspection = data.substring(data.indexOf("\"昨日送驗\":")+7, data.length());
