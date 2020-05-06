@@ -5192,7 +5192,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         } catch (Exception e) {
         }
-        if (!result.equals("") {
+        if (!result.equals("")) {
             this.replyText(replyToken, result);
         }
         else {
