@@ -7603,27 +7603,27 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 e.printStackTrace();
             }
 
-            if (origin_confirm = -1) {
+            if (origin_confirm == -1) {
                 origin_confirm = confirm;
             }
-            if (origin_heal = -1) {
+            if (origin_heal == -1) {
                 origin_heal = heal;
             }
-            if (origin_dead = -1) {
+            if (origin_dead == -1) {
                 origin_dead = dead;
             }
-            if (origin_inspection = -1) {
+            if (origin_inspection == -1) {
                 origin_inspection = inspection;
             }
-            if (origin_exclude = -1) {
+            if (origin_exclude == -1) {
                 origin_exclude = exclude;
             }
 
-            result += "確診: " + confirm + (origin_confirm>0&&origin_confirm!=confirm? ("(" + confirm-origin_confirm + ")" ): "") + "\n";
-            result += "解除隔離: "+heal+(origin_heal>0&&origin_heal!=heal? ("(" + heal-origin_heal + ")" ): "") + "\n";
-            result += "死亡: "+dead+(origin_dead>0&&origin_dead!=dead? ("(" + dead-origin_dead + ")" ): "") + "\n";
-            result += "送驗: "+inspection+(origin_inspection>0&&origin_inspection!=inspection? ("(" + inspection-origin_inspection + ")" ): "") + "\n";
-            result += "排除: "+exclude+(origin_exclude>0&&origin_exclude!=exclude? ("(" + exclude-origin_exclude + ")" ): "") + "\n";
+            result += "確診: " + confirm + (origin_confirm>0&&origin_confirm!=confirm? ("(" + (confirm-origin_confirm) + ")" ): "") + "\n";
+            result += "解除隔離: "+heal+(origin_heal>0&&origin_heal!=heal? ("(" + (heal-origin_heal) + ")" ): "") + "\n";
+            result += "死亡: "+dead+(origin_dead>0&&origin_dead!=dead? ("(" + (dead-origin_dead) + ")" ): "") + "\n";
+            result += "送驗: "+inspection+(origin_inspection>0&&origin_inspection!=inspection? ("(" + (inspection-origin_inspection) + ")" ): "") + "\n";
+            result += "排除: "+exclude+(origin_exclude>0&&origin_exclude!=exclude? ("(" + (exclude-origin_exclude) + ")" ): "") + "\n";
             result += "昨日確診: "+yesterday_confirm+"\n";
             result += "昨日排除: "+yesterday_exclude+"\n";
             result += "昨日送驗: "+yesterday_inspection;
