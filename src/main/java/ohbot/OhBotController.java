@@ -1806,6 +1806,12 @@ public class OhBotController {
             forceStopRPS(replyToken);
         }
 
+        if (text.startsWith("PgCommandGetHtml:")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            text = text.replace("PgCommandGetHtml:", "");
+            getHtml(replyToken, text);
+        }
+
         /*if (text.equals("PgCommand開始偵測ID")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
             startUserIdDetectMode(senderId, replyToken);
@@ -5163,6 +5169,35 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String result = mDefaultRockPaperScissors.get(random_num);
 
         this.replyText(replyToken, "" + getUserDisplayName(userId) + " 出了 " + result);
+    }
+
+    private void getHtml(String replyToken, String url) {
+        String result = "";
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            log.info("getHtml:" + url);
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
+            //httpGet.addHeader("Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            httpGet.setHeader("Accept","text/html");
+            httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+            httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+            httpGet.setHeader("Cache-Control", "max-age=0");
+            httpGet.setHeader("Connection", "keep-alive");
+
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity httpEntity = response.getEntity();
+
+            result = EntityUtils.toString(httpEntity, "utf-8");
+
+        } catch (Exception e) {
+        }
+        if (!result.equals("") {
+            this.replyText(replyToken, result);
+        }
+        else {
+            this.replyText(replyToken, "ＰＧ大人 getHtml fail.");
+        }
     }
 
     private void startRandomSort(String userId, String senderId, String replyToken) {
