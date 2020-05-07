@@ -1126,11 +1126,13 @@ public class OhBotController {
         // log.info("senderId: " + senderId);
         // log.info("userId: " + userId);
 
+        boolean isFromPrivate = false;
         boolean isFromGroup = false;
         boolean isFromRoom = false;
         if (UserSource.class.isInstance(source)) {
             // log.info("UserSource.class");
             // log.info("userId: " + userId);
+            isFromPrivate = true;
         }
         if (RoomSource.class.isInstance(source)) {
             // log.info("RoomSource.class");
@@ -1451,6 +1453,18 @@ public class OhBotController {
         if ((text.startsWith("他") || text.startsWith("她")|| text.startsWith("牠")|| text.startsWith("它")|| text.startsWith("祂")) && text.contains("抽了誰")) {
             whoTheyPickRandomPttBeautyGirlMap(senderId, replyToken);
         }
+
+        // MOZE
+
+        if (isFromPrivate && (text.startsWith("記帳")||text.startsWith("記賬"))) {
+            text = text.substring(2,text.length());
+            String result = generateMozeUrlScheme(text);
+            if (!result.equals("")) {
+                this.replyText(replyText, result);
+            }
+        }
+
+        // MOZE end
 
         // Sheet Feature 
 
@@ -3610,6 +3624,46 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         else {
             this.replyText(replyToken, "這群組還沒人抽過唷");
         }
+    }
+
+    private String generateMozeUrlScheme(String text) {
+        String result = "";
+        if (text.contains("我從")&&text.contains("花")&&text.contains("買")) {
+            // 我從錢包花500買午餐
+            String amount = ""; // 500
+            String account = ""; // 錢包
+            String subcategory = ""; // 午餐
+            try {
+                amount = text.substring(text.indexOf("花"),text.indexOf("買"));
+                account = text.substring(text.indexOf("我從"),text.indexOf("花"));
+                subcategory = text.substring(text.indexOf("買"),text.length());
+            } catch (Exception e) {
+                return "";
+            }
+
+            result = "moze3://expense?amount="+amount+"&account="+account+"&subcategory="+subcategory;
+        }
+        else if (text.contains("我從")&&text.contains("轉")&&text.contains("到")) {
+            // 我從錢包轉50到悠遊卡做儲值用
+            String sourceAmount = ""; // 50
+            String targetAmount = ""; // 50
+            String sourceAccount = ""; // 錢包
+            String targetAccount = ""; // 悠遊卡
+            String subcategory = ""; // 儲值
+            try {
+                sourceAmount = text.substring(text.indexOf("轉"),text.indexOf("到"));
+                targetAmount = text.substring(text.indexOf("轉"),text.indexOf("到"));
+                sourceAccount = text.substring(text.indexOf("我從"),text.indexOf("轉"));
+                sourceAccount = text.substring(text.indexOf("到"),text.indexOf("做"));
+                subcategory = text.substring(text.indexOf("做"),text.indexOf("用"));
+
+            } catch (Exception e) {
+                return "";
+            }
+
+            result = "moze3://transfer?sourceAmount="+sourceAmount+"&targetAmount="+targetAmount+"&sourceAccount="+sourceAccount+"&targetAccount="+targetAccount+"&&subcategory="+subcategory;
+        }        
+        return result;
     }
 
     private void replyTextHowOld(String replyToken, String text) {
