@@ -1460,7 +1460,7 @@ public class OhBotController {
             text = text.substring(2,text.length());
             String result = generateMozeUrlScheme(text);
             if (!result.equals("")) {
-                this.replyText(replyText, result);
+                this.replyText(replyToken, result);
             }
         }
 
@@ -3654,7 +3654,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 sourceAmount = text.substring(text.indexOf("轉"),text.indexOf("到"));
                 targetAmount = text.substring(text.indexOf("轉"),text.indexOf("到"));
                 sourceAccount = text.substring(text.indexOf("我從"),text.indexOf("轉"));
-                sourceAccount = text.substring(text.indexOf("到"),text.indexOf("做"));
+                targetAccount = text.substring(text.indexOf("到"),text.indexOf("做"));
                 subcategory = text.substring(text.indexOf("做"),text.indexOf("用"));
 
             } catch (Exception e) {
