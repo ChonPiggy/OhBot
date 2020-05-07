@@ -7675,9 +7675,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             result += "資料來源:衛福部疾管署\n\n";
             result += EmojiUtils.emojify(":bomb:") + "確診: " + confirm + (origin_confirm>0&&origin_confirm!=confirm? ("(+" + (confirm-origin_confirm) + ")" ): "") + "\n";
-            result += EmojiUtils.emojify(":pill:") + "解除隔離: "+heal+(origin_heal>0&&origin_heal!=heal? ("(+" + (heal-origin_heal) + ")" ): "") + "\n";
+            result += EmojiUtils.emojify(":pill:") + "痊癒: "+heal+(origin_heal>0&&origin_heal!=heal? ("(+" + (heal-origin_heal) + ")" ): "") + "\n";
+            result += EmojiUtils.emojify(":syringe:") + "治療中: "+ (confirm-heal-dead) + "\n";
             result += EmojiUtils.emojify(":skull:") + "死亡: "+dead+(origin_dead>0&&origin_dead!=dead? ("(+" + (dead-origin_dead) + ")" ): "") + "\n";
+
+            result +="\n";
+
             result += EmojiUtils.emojify(":microscope:") + "送驗: "+inspection+(origin_inspection>0&&origin_inspection!=inspection? ("(+" + (inspection-origin_inspection) + ")" ): "") + "\n";
+            result += EmojiUtils.emojify(":mag:") + "檢驗中: "+ (inspection-exclude) + "\n";
             result += EmojiUtils.emojify(":ok_hand:") + "排除: "+exclude+(origin_exclude>0&&origin_exclude!=exclude? ("(+" + (exclude-origin_exclude) + ")" ): "") + "\n";
             
             result +="\n";
