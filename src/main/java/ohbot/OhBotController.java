@@ -3634,9 +3634,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String account = ""; // 錢包
             String subcategory = ""; // 午餐
             try {
-                amount = text.substring(text.indexOf("花"),text.indexOf("買"));
-                account = text.substring(text.indexOf("我從"),text.indexOf("花"));
-                subcategory = text.substring(text.indexOf("買"),text.length());
+                amount = text.substring(text.indexOf("花")+1,text.indexOf("買"));
+                account = text.substring(text.indexOf("我從")+2,text.indexOf("花"));
+                subcategory = text.substring(text.indexOf("買")+1,text.length());
             } catch (Exception e) {
                 return "";
             }
@@ -3651,11 +3651,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String targetAccount = ""; // 悠遊卡
             String subcategory = ""; // 儲值
             try {
-                sourceAmount = text.substring(text.indexOf("轉"),text.indexOf("到"));
-                targetAmount = text.substring(text.indexOf("轉"),text.indexOf("到"));
-                sourceAccount = text.substring(text.indexOf("我從"),text.indexOf("轉"));
-                targetAccount = text.substring(text.indexOf("到"),text.indexOf("做"));
-                subcategory = text.substring(text.indexOf("做"),text.indexOf("用"));
+                sourceAmount = text.substring(text.indexOf("轉")+1,text.indexOf("到"));
+                targetAmount = text.substring(text.indexOf("轉")+1,text.indexOf("到"));
+                sourceAccount = text.substring(text.indexOf("我從")+2,text.indexOf("轉"));
+                targetAccount = text.substring(text.indexOf("到")+1,text.indexOf("做"));
+                subcategory = text.substring(text.indexOf("做")+1,text.indexOf("用"));
 
             } catch (Exception e) {
                 return "";
