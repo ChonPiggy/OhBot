@@ -239,6 +239,7 @@ public class OhBotController {
     private String GROUP_ID_BOT_HELL = "C3691a96649f0d57c367eedb2c7f0e161";
     private String GROUP_ID_TOTYO_HOT = "C08a844342f10681cd7750d26974c5da8";
     private String GROUP_ID_INGRESS_EAT = "C0eb3ba0c74a0295aecde593c9bdc4fa3";
+    private String GROUP_ID_INGRESS_FITNESS_2020 = "C1cc5b5d48eff907dd6e62bf8911bb4e1";
     
     private String mRandomFootIgTargetString = "美食";
     private String mTotallyBullyUserId = USER_ID_CATHY;
@@ -1657,6 +1658,20 @@ public class OhBotController {
                 notifyMessage(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "人口查詢失敗!\n錯誤字串: " + text, replyToken);
             }
             
+        }
+
+        if (text.equals("體脂總表")||text.equals("體脂圖表")) {
+            if (senderId.equals(GROUP_ID_INGRESS_FITNESS_2020)) {
+                String googleShareSheetsBodyFat = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgKam2fMmTXepu9Bd2aV5BmS7fNIxzwicP2uuDwxY5wnTcGXSI-8INZBA11_Tzb7NtOFMIX5bA1P5C/pubchart?oid=1886194158&format=image";
+                this.replyImage(replyToken, googleShareSheetsBodyFat, googleShareSheetsBodyFat);
+            }
+        }
+
+        if (text.equals("體重總表")||text.equals("體重圖表")) {
+            if (senderId.equals(GROUP_ID_INGRESS_FITNESS_2020)) {
+                String googleShareSheetsWeight = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgKam2fMmTXepu9Bd2aV5BmS7fNIxzwicP2uuDwxY5wnTcGXSI-8INZBA11_Tzb7NtOFMIX5bA1P5C/pubchart?oid=569446092&format=image";
+                this.replyImage(replyToken, googleShareSheetsWeight, googleShareSheetsWeight);
+            }
         }
 
         if (text.startsWith("AmazonJp:")) {
