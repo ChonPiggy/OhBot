@@ -1661,14 +1661,14 @@ public class OhBotController {
         }
 
         if (text.equals("體脂總表")||text.equals("體脂圖表")) {
-            if (senderId.equals(GROUP_ID_INGRESS_FITNESS_2020)) {
+            if (senderId.equals(GROUP_ID_INGRESS_FITNESS_2020)||userId.equals(USER_ID_PIGGY)) {
                 String googleShareSheetsBodyFat = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgKam2fMmTXepu9Bd2aV5BmS7fNIxzwicP2uuDwxY5wnTcGXSI-8INZBA11_Tzb7NtOFMIX5bA1P5C/pubchart?oid=1886194158&format=image";
                 this.replyImage(replyToken, googleShareSheetsBodyFat, googleShareSheetsBodyFat);
             }
         }
 
         if (text.equals("體重總表")||text.equals("體重圖表")) {
-            if (senderId.equals(GROUP_ID_INGRESS_FITNESS_2020)) {
+            if (senderId.equals(GROUP_ID_INGRESS_FITNESS_2020)||userId.equals(USER_ID_PIGGY)) {
                 String googleShareSheetsWeight = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgKam2fMmTXepu9Bd2aV5BmS7fNIxzwicP2uuDwxY5wnTcGXSI-8INZBA11_Tzb7NtOFMIX5bA1P5C/pubchart?oid=569446092&format=image";
                 this.replyImage(replyToken, googleShareSheetsWeight, googleShareSheetsWeight);
             }
