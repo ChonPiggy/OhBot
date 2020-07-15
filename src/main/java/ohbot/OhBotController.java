@@ -1906,6 +1906,12 @@ public class OhBotController {
             this.replyText(replyToken, mNewestEarthquakeReportText);
         }
 
+        // China media alert
+        if (text.contains("http") && text.contains("ltn.com.tw")) {
+            // 自由時報
+            this.replyText(replyToken, "親中媒體警示:\n----------\n"+text);
+        }
+
         /*if ((text.contains("Ingress") || text.contains("ingress")) &&
             (text.contains("Twitter") || text.contains("twitter"))) {
             this.replyText(replyToken, getIngressNewestTwitter());
