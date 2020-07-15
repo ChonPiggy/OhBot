@@ -1907,9 +1907,20 @@ public class OhBotController {
         }
 
         // China media alert
-        if (text.contains("http") && text.contains("ltn.com.tw")) {
-            // 自由時報
-            this.replyText(replyToken, "親中媒體警示:\n----------\n"+text);
+        if (text.contains("http") && text.contains("udn.com") && text.contains("news")) {
+            this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(聯合報系)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+        }
+        else if (text.contains("http") && text.contains("chinatimes.com")) {
+            this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(旺旺中時媒體集團)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+        }
+        else if (text.contains("http") && text.contains("new.ctv.com.tw")) {
+            this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(中國電視公司)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+        }
+        else if (text.contains("http") && text.contains("ctitv.com.tw")) {
+            this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(中天電視公司)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+        }
+        else if (text.contains("http") && text.contains("ccyp.com")) {
+            this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(中旺電視)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
         }
 
         /*if ((text.contains("Ingress") || text.contains("ingress")) &&
