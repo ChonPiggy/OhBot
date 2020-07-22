@@ -160,12 +160,11 @@ public class OhBotController {
         Arrays.asList("https://i.imgur.com/0cNbr9c.jpg",
                       "https://i.imgur.com/XBV3bP6.jpg"));
 
-    private String IMAGE_TAIWAN_WEATHER_CLOUD = "https://www.cwb.gov.tw/V7/observe/satellite/Data/cloud_weather.png";
-    private String IMAGE_TAIWAN_WEATHER_RAIN = "https://www.cwb.gov.tw/V7/observe/rainfall/Data/hk.jpg";
-    private String IMAGE_TAIWAN_WEATHER_INFRARED_CLOUD = "https://www.cwb.gov.tw/V7/observe/satellite/Data/s1p/s1p.jpg";
-    private String IMAGE_TAIWAN_WEATHER_RADAR_ECHO = "https://www.cwb.gov.tw/V7/observe/radar/Data/HD_Radar/CV1_1000.png";
-    private String IMAGE_TAIWAN_WEATHER_TEMPERATURE = "https://www.cwb.gov.tw/V7/observe/temperature/Data/temp.jpg";
-    private String IMAGE_TAIWAN_WEATHER_ULTRAVIOLET_LIGHT = "https://www.cwb.gov.tw/V7/observe/UVI/Data/UVI.png";
+    private String IMAGE_TAIWAN_WEATHER_CLOUD = "https://www.cwb.gov.tw/Data/satellite/LCC_IR1_CR_1000/LCC_IR1_CR_1000.jpg";
+    private String IMAGE_TAIWAN_WEATHER_RAIN = "https://www.cwb.gov.tw/Data/rainfall/QZJ.jpg";
+    private String IMAGE_TAIWAN_WEATHER_RADAR_ECHO = "https://www.cwb.gov.tw/Data/radar/CV1_TW_1000.png";
+    private String IMAGE_TAIWAN_WEATHER_TEMPERATURE = "https://www.cwb.gov.tw/Data/temperature/temp.jpg";
+    private String IMAGE_TAIWAN_WEATHER_ULTRAVIOLET_LIGHT = "hhttps://www.cwb.gov.tw/Data/UVI/UVI.png";
 
     private List<String> mQuestionMarkImageList = Arrays.asList("https://i.imgur.com/DaTZLOa.jpg",
                       "https://i.imgur.com/93xbOIq.jpg",
@@ -240,6 +239,7 @@ public class OhBotController {
     private String GROUP_ID_TOTYO_HOT = "C08a844342f10681cd7750d26974c5da8";
     private String GROUP_ID_INGRESS_EAT = "C0eb3ba0c74a0295aecde593c9bdc4fa3";
     private String GROUP_ID_INGRESS_FITNESS_2020 = "C1cc5b5d48eff907dd6e62bf8911bb4e1";
+    private String GROUP_ID_PUBLIC_ISSUES_NO_IDIOTS = "C9265f5f62fafcfd7fa4764a0047b6759";
     
     private String mRandomFootIgTargetString = "美食";
     private String mTotallyBullyUserId = USER_ID_CATHY;
@@ -1395,10 +1395,6 @@ public class OhBotController {
             replyTaiwanWeatherRainImage(replyToken);
         }
 
-        if (text.equals("紅外線雲圖?") || text.equals("紅外線雲圖？")) {
-            replyTaiwanWeatherInfraredCloudImage(replyToken);
-        }
-
         if (text.equals("雷達回波圖?") || text.equals("雷達回波圖？") || text.equals("雷達迴波圖?") || text.equals("雷達迴波圖？")) {
             replyTaiwanWeatherRadarEchoImage(replyToken);
         }
@@ -1907,20 +1903,22 @@ public class OhBotController {
         }
 
         // China media alert
-        if (text.contains("http") && text.contains("udn.com") && text.contains("news")) {
-            this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(聯合報系)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
-        }
-        else if (text.contains("http") && text.contains("chinatimes.com")) {
-            this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(旺旺集團)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
-        }
-        else if (text.contains("http") && text.contains("new.ctv.com.tw")) {
-            this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(中國電視)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
-        }
-        else if (text.contains("http") && text.contains("ctitv.com.tw")) {
-            this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(中天電視)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
-        }
-        else if (text.contains("http") && text.contains("ccyp.com")) {
-            this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(中旺電視)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+        if (senderId.equals(GROUP_ID_PUBLIC_ISSUES_NO_IDIOTS)) {
+            if (text.contains("http") && text.contains("udn.com") && text.contains("news")) {
+                this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(聯合報系)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+            }
+            else if (text.contains("http") && text.contains("chinatimes.com")) {
+                this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(旺旺集團)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+            }
+            else if (text.contains("http") && text.contains("new.ctv.com.tw")) {
+                this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(中國電視)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+            }
+            else if (text.contains("http") && text.contains("ctitv.com.tw")) {
+                this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(中天電視)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+            }
+            else if (text.contains("http") && text.contains("ccyp.com")) {
+                this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(中旺電視)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+            }
         }
 
         /*if ((text.contains("Ingress") || text.contains("ingress")) &&
@@ -4408,11 +4406,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void replyTaiwanWeatherRainImage(String replyToken) throws IOException {
         String source = IMAGE_TAIWAN_WEATHER_RAIN;
-        this.replyImage(replyToken, source, source);
-    }
-
-    private void replyTaiwanWeatherInfraredCloudImage(String replyToken) throws IOException {
-        String source = IMAGE_TAIWAN_WEATHER_INFRARED_CLOUD;
         this.replyImage(replyToken, source, source);
     }
 
@@ -7811,7 +7804,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "隨機排序抽\n";
         result += "天氣雲圖?\n";
         result += "累積雨量圖?\n";
-        result += "紅外線雲圖?\n";
         result += "雷達回波圖?\n";
         result += "溫度分佈圖?\n";
         result += "紫外線圖?\n";
