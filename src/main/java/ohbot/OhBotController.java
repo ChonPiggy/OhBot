@@ -1919,6 +1919,9 @@ public class OhBotController {
             else if (text.contains("http") && text.contains("ccyp.com")) {
                 this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"親中媒體警示(中旺電視)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
             }
+            else if (text.contains("http") && text.contains("weixin.qq")) {
+                this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"中國媒體警示(微信)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
+            }
         }
 
         /*if ((text.contains("Ingress") || text.contains("ingress")) &&
