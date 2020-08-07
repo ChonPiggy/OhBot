@@ -125,6 +125,7 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
             // Catch update time
+            String temp = strResult;
             /*String temp = strResult.substring(strResult.indexOf("截至"), strResult.length());
             mUpdateTime = temp.substring(0, temp.indexOf("日")+1);*/
             // get world wide count
