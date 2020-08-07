@@ -131,12 +131,18 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
             // get world wide count
             if (strResult.contains("\" title=\"世界\">")) {
                 strResult = strResult.substring(strResult.indexOf("\" title=\"世界\">")+13, strResult.length());
-                strResult = strResult.substring(strResult.indexOf("<th style=\"text-align:center;\">")+31, strResult.length());
+                /*strResult = strResult.substring(strResult.indexOf("<th style=\"text-align:center;\">")+31, strResult.length());
                 String confirm = strResult.substring(0, strResult.indexOf("\n</th>"));
                 strResult = strResult.substring(strResult.indexOf("<th style=\"text-align:center;\">")+31, strResult.length());
                 String dead = strResult.substring(0, strResult.indexOf("\n</th>"));
                 strResult = strResult.substring(strResult.indexOf("<th style=\"text-align:center;\">")+31, strResult.length());
-                String heal = strResult.substring(0, strResult.indexOf("\n</th>"));
+                String heal = strResult.substring(0, strResult.indexOf("\n</th>"));*/
+                strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
+                String confirm = strResult.substring(0, strResult.indexOf("\n</td>"));
+                strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
+                String dead = strResult.substring(0, strResult.indexOf("\n</td>"));
+                strResult = strResult.substring(strResult.indexOf("<td>")+4, strResult.length());
+                String heal = strResult.substring(0, strResult.indexOf("\n</td>"));
                 int confirmInt = -1;
                 int deadInt = -2;
                 int healInt = -3;
