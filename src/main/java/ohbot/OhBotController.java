@@ -2122,11 +2122,11 @@ public class OhBotController {
         return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), null));
     }
 
-    private void replyImageCarouselTemplate(@NonNull String replyToken, @NonNull List<ImageCarouselColumn> columns) {
+    private void replyImageCarouselTemplate(@NonNull String replyToken, String altText, @NonNull List<ImageCarouselColumn> columns) {
         if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
-        this.reply(replyToken, new TemplateMessage("PG soooo cute!", new ImageCarouselTemplate(columns)));
+        this.reply(replyToken, new TemplateMessage(altText, new ImageCarouselTemplate(columns)));
     }
 
     private void replyLocation(@NonNull String replyToken, @NonNull String title, @NonNull String address, double latitude, double longitude) {
@@ -3556,7 +3556,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 columnsList.add(getImageCarouselColumn(imgUrl, "PG Cute!", searchResultUrl));
             }
             if (maxCount>0) {
-                this.replyImageCarouselTemplate(replyToken, columnsList);    
+                this.replyImageCarouselTemplate(replyToken, "AmazonJp", columnsList);    
             }
             else {
                 this.replyText(replyToken, "搜索失敗");
@@ -4120,16 +4120,23 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         else {
         	List<ImageCarouselColumn> columnsList = new ArrayList<>();
         	int index = 0;
+        	int MAX_CAROUSEL_COLUMN = 8;
             while (index < result.getUrlList().size()) {
                 String searchResultUrl = result.getResultUrl();
                 String imgUrl = result.getUrlList().get(index);
                 PgLog.info("Piggy Check searchResultUrl: " + searchResultUrl);
                 PgLog.info("Piggy Check imgUrl: " + imgUrl);
+                if (imgUrl.endsWith(".gif")) {
+                	continue;
+                }
                 columnsList.add(getImageCarouselColumn(imgUrl, result.getDescribeString(), searchResultUrl));
                 index++;
+                if (index >= MAX_CAROUSEL_COLUMN) {
+                	break;
+                }
             }
 
-            this.replyImageCarouselTemplate(replyToken, columnsList);
+            this.replyImageCarouselTemplate(replyToken, result.getDescribeString(), columnsList);
         }
     }
 
