@@ -1025,12 +1025,12 @@ public class OhBotController {
         return strResult;
     }
 
-    @EventMapping
+    
     public void handleDefaultMessageEvent(Event event) {
         PgLog.info("Received message(Ignored): {}" + event);
     }
 
-    @EventMapping
+    
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws IOException {
     	PgLog.info("Piggy check handleTextMessageEvent: " + event);
         handleTextContent(event.getReplyToken(), event, event.getMessage());
@@ -2079,7 +2079,7 @@ public class OhBotController {
 
     }
 
-    @EventMapping
+    
     public void handlePostbackEvent(PostbackEvent event) throws IOException {
         PgLog.info("Got postBack event: {}" + event);
         String replyToken = event.getReplyToken();
