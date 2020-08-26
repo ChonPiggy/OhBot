@@ -97,6 +97,7 @@ import java.lang.Integer;
 /**
  * Created by lambertyang on 2017/1/13.
  */
+@LineMessageHandler
 @Slf4j
 @RestController
 public class OhBotController {
