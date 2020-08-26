@@ -2137,8 +2137,9 @@ public class OhBotController {
 
     private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
         //return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
-    	label = label.replace(" ", "");
+    	label = label.replace(" ", "").replace("　", "").trim();
     	if (label.length()>12) {
+    		// Image carouse column label length limit is 12.
     		label = label.substring(0, 12);
     	}
     	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), null));
@@ -6578,6 +6579,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     while(matcherJp.find()){
                         String result = matcherJp.group();
                         //PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                        result = result.replace("http:","https:");
                         if (resultImageList.indexOf(result) == -1) {
                         	resultImageList.add(result);
                         	//PgLog.info("Piggy Check Ptt Beauty Add!!");
