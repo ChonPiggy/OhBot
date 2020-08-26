@@ -27,10 +27,12 @@ repositories {
 }
 
 dependencies {
+	implementation project(':line-bot-spring-boot')
+    implementation "org.springframework.boot:spring-boot-starter-web"
     //compile 'com.linecorp.bot:line-bot-spring-boot:4.0.0'
-    compile 'org.springframework.boot:spring-boot-starter-web'
+    //compile 'org.springframework.boot:spring-boot-starter-web'
     //compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'org.springframework.boot:spring-boot-starter-logging'
+    //compile 'org.springframework.boot:spring-boot-starter-logging'
     compile 'com.google.api-client:google-api-client:1.23.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     compile 'com.google.apis:google-api-services-sheets:v4-rev508-1.23.0'
@@ -41,9 +43,9 @@ dependencies {
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
     compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '2.3.3.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.3.3.RELEASE'
-    compile group: 'com.linecorp.bot', name: 'line-bot-api-client', version: '4.0.0'
-    compile group: 'com.linecorp.bot', name: 'line-bot-model', version: '4.0.0'    
-    compile group: 'com.linecorp.bot', name: 'line-bot-spring-boot', version: '4.0.0'
+    //compile group: 'com.linecorp.bot', name: 'line-bot-api-client', version: '4.0.0'
+    //compile group: 'com.linecorp.bot', name: 'line-bot-model', version: '4.0.0'    
+    //compile group: 'com.linecorp.bot', name: 'line-bot-spring-boot', version: '4.0.0'
     testCompile 'junit:junit:4.11'
 }
 
