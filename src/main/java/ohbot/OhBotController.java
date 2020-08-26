@@ -20,6 +20,8 @@ import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.message.template.ImageCarouselColumn;
+import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 //import com.linecorp.bot.model.message.template.ImageCarouselColumn;
 //import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
@@ -35,6 +37,7 @@ import ohbot.aqiObj.Datum;
 import ohbot.stockObj.*;
 import ohbot.utils.PgLog;
 import ohbot.utils.Utils;
+
 import java.lang.reflect.*;
 
 import java.util.concurrent.CompletableFuture;
@@ -1012,12 +1015,12 @@ public class OhBotController {
         return strResult;
     }
 
-    public String getUserDisplayPicture(String userid) {
-        String strResult="";
+    public URI getUserDisplayPicture(String userid) {
+        URI strResult=null;
         
         UserProfileResponse userProfileResponse = getUserProfile(userid);
         if (userProfileResponse == null) {
-            return "";
+            return null;
         }
         strResult = userProfileResponse.getPictureUrl();
         
@@ -2106,11 +2109,18 @@ public class OhBotController {
         if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
+        this.reply(replyToken, new ImageMessage(URI.create(original), URI.create(preview)));
+    }
+    
+    private void replyImage(@NonNull String replyToken, @NonNull URI original, @NonNull URI preview) {
+        if (replyToken.isEmpty()) {
+            throw new IllegalArgumentException("replyToken must not be empty");
+        }
         this.reply(replyToken, new ImageMessage(original, preview));
     }
 
-    /*private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
-        return new ImageCarouselColumn(imageUrl, new URIAction(label, url));
+    private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
+        return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), null));
     }
 
     private void replyImageCarouselTemplate(@NonNull String replyToken, @NonNull List<ImageCarouselColumn> columns) {
@@ -2118,7 +2128,7 @@ public class OhBotController {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
         this.reply(replyToken, new TemplateMessage("PG soooo cute!", new ImageCarouselTemplate(columns)));
-    }*/
+    }
 
     private void replyLocation(@NonNull String replyToken, @NonNull String title, @NonNull String address, double latitude, double longitude) {
         if (replyToken.isEmpty()) {
@@ -3536,7 +3546,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             context = EntityUtils.toString(httpEntity, "utf-8");
 
             int maxCount = 0; // Max: 5
-            /*List<ImageCarouselColumn> columnsList = new ArrayList<>();
+            List<ImageCarouselColumn> columnsList = new ArrayList<>();
             while (maxCount<5 && context.indexOf("data-asin=\"")> 0) {
                 context = context.substring(context.indexOf("data-asin=\""), context.length());
                 context = context.substring(context.indexOf("href=\"https:")+6, context.length());
@@ -3551,7 +3561,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             else {
                 this.replyText(replyToken, "搜索失敗");
-            }*/
+            }
 
         }catch (IOException e2) {
             this.replyText(replyToken, "搜索大失敗");
@@ -4078,10 +4088,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        String url = getRandomPttBeautyImageUrl(userId, senderId, isHot);
+        List<String> urlList = getRandomPttBeautyImageUrl(userId, senderId, isHot);
 
-        PgLog.info("Piggy Check randomPttBeautyGirl: " + url);
-        if (url.equals("")) {
+        PgLog.info("Piggy Check randomPttBeautyGirl url list size: " + urlList.size());
+        /*if (url.equals("")) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
         }
@@ -4090,8 +4100,38 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
         if (url.indexOf("http:") >= 0) {
             url = url.replace("http", "https");
+        }*/
+        if (urlList.size() <= 0) {
+            this.replyText(replyToken, "PTT 表特版 parse 失敗");
+            return;
         }
-        this.replyImage(replyToken, url, url);
+        else if (urlList.size() == 1) {
+        	String url = "";
+        	if (urlList.get(0).endsWith(".gif")) {
+                this.replyText(replyToken, "Line 不能顯示 gif 直接貼: " + url);
+            }
+            if (urlList.get(0).indexOf("http:") >= 0) {
+            	url = urlList.get(0).replace("http", "https");
+            }
+            if (url.equals("")) {
+            	return;
+            }
+            this.replyImage(replyToken, url, url);
+        }
+        else {
+        	List<ImageCarouselColumn> columnsList = new ArrayList<>();
+        	int index = 0;
+            while (index < urlList.size()) {
+                String searchResultUrl = mWhoImPickRandomGirlMap.get(senderId);
+                String imgUrl = urlList.get(index);
+                PgLog.info("Piggy Check searchResultUrl: " + searchResultUrl);
+                PgLog.info("Piggy Check imgUrl: " + imgUrl);
+                columnsList.add(getImageCarouselColumn(imgUrl, "PG Cute!", searchResultUrl));
+                index++;
+            }
+
+            this.replyImageCarouselTemplate(replyToken, columnsList);
+        }
     }
 
 
@@ -5392,7 +5432,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void printUserDisplayPicture(String text, String replyToken) {
         text = text.replace("PgCommand使用者顯示圖片:", "");
-        String source = getUserDisplayPicture(text);
+        URI source = getUserDisplayPicture(text);
         this.replyImage(replyToken, source, source);
     }
 
@@ -5995,7 +6035,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void help(String text, String replyToken) throws IOException {
         String imageUrl = "https://p1.bqimg.com/524586/f7f88ef91547655cs.png";
-        ButtonsTemplate buttonsTemplate = new ButtonsTemplate(imageUrl,"安安","你好",
+        ButtonsTemplate buttonsTemplate = new ButtonsTemplate(URI.create(imageUrl),"安安","你好",
                 Arrays.asList(
                         new MessageAction("查個股股價","輸入 @2331? 或 @台積電?"),
                         new MessageAction("查加權上櫃指數","輸入 呆股?"),
@@ -6011,21 +6051,21 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String imageUrl = "https://p1.bqimg.com/524586/f7f88ef91547655cs.png";
         CarouselTemplate carouselTemplate = new CarouselTemplate(
                 Arrays.asList(
-                        new CarouselColumn(imageUrl, "安安", "你好",
+                        new CarouselColumn(URI.create(imageUrl), "安安", "你好",
                                            Arrays.asList(
                                                    new MessageAction("查個股股價", "查個股股價 輸入 @2331? 或 @台積電?"),
                                                    new MessageAction("查加權上櫃指數", "查加權上櫃指數 輸入 呆股?"),
                                                    new MessageAction("查匯率", "查匯率 輸入 美金匯率? 或 匯率? 檢視可查匯率")
                                            )
                         ),
-                        new CarouselColumn(imageUrl, "安安", "你好",
+                        new CarouselColumn(URI.create(imageUrl), "安安", "你好",
                                            Arrays.asList(
                                                    new MessageAction("查天氣", "查天氣　輸入 台北市天氣?"),
                                                    new MessageAction("查氣象", "查氣象　輸入 台北市氣象?"),
                                                    new MessageAction("查空氣品質", "查空氣品質　輸入 北部空氣?")
                                            )
                         ),
-                        new CarouselColumn(imageUrl, "安安", "你好",
+                        new CarouselColumn(URI.create(imageUrl), "安安", "你好",
                                            Arrays.asList(
                                                    new MessageAction("查油價", "查天氣　輸入 油價?"),
                                                    new MessageAction("查星座", "查氣象　輸入 天蠍座?"),
@@ -6275,7 +6315,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return "";
     }
 
-    private String getRandomPttBeautyImageUrl(String userId, String senderId, boolean isHot) {
+    private List<String> getRandomPttBeautyImageUrl(String userId, String senderId, boolean isHot) {
         try{
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -6470,7 +6510,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 
                 if (resultImageList.size() > 0) {
                     random_num = randomGenerator.nextInt(resultImageList.size());
-                    return resultImageList.get(random_num);
+                    //return resultImageList.get(random_num);
+                    return resultImageList;
                 }
                 else {
                     continue;
@@ -6479,14 +6520,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             if (result_url.equals("")) {
                 PgLog.info("Piggy Check Ptt Beauty parse fail");
-                return "";
+                return new ArrayList<String>();
             }
 
             
         }catch (Exception e) {
             e.printStackTrace();
         }
-        return "";//TODO
+        return new ArrayList<String>();//TODO
     }
 
     private String getInstagramImageUrl(String userId, String senderId, String target) {
