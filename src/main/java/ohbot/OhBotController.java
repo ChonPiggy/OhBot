@@ -6330,11 +6330,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	private List<String> urlList;
     	private String resultUrl;
     	private String describeString;
-    	private String title;
+    	private String titleString;
     	public PttBeautyGirl(List<String> list, String url, String title, String describe) {
     		urlList = list;
     		resultUrl = url;
     		describeString = describe;
+    		titleString = title;
     	}
     	
     	public List<String> getUrlList() {
@@ -6350,7 +6351,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	}
     	
     	public String getTitle() {
-    		return title;
+    		return titleString;
     	}
     }
 
