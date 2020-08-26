@@ -2120,7 +2120,8 @@ public class OhBotController {
     }
 
     private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
-        return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
+        //return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
+        return new ImageCarouselColumn(URI.create(imageUrl), null);
     }
 
     private void replyImageCarouselTemplate(@NonNull String replyToken, String altText, @NonNull List<ImageCarouselColumn> columns) {
