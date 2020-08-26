@@ -2141,7 +2141,7 @@ public class OhBotController {
     	if (label.length()>12) {
     		label = label.substring(0, 12);
     	}
-    	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), null));
+    	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
     }
 
     private void replyImageCarouselTemplate(@NonNull String replyToken, String altText, @NonNull List<ImageCarouselColumn> columns) {
@@ -4152,9 +4152,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	int count = 0;
     	int MAX_CAROUSEL_COLUMN = 9;
         while (index < girl.getUrlList().size()) {
-            PgLog.info("Piggy Check title: " + girl.getTitle());
+            /*PgLog.info("Piggy Check title: " + girl.getTitle());
             PgLog.info("Piggy Check searchResultUrl: " + girl.getResultUrl());
-            PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));
+            PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));*/
             if (!girl.getUrlList().get(index).endsWith(".gif")) {
             	columnsList.add(getImageCarouselColumn(girl.getUrlList().get(index), (girl.getTitle() + " " + girl.getRank()), girl.getResultUrl()));
                 count++;
@@ -6431,7 +6431,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 int random_num = randomGenerator.nextInt(maxPageInt-1500)+1500;
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
                 String target_url = "https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html";
-                PgLog.info("Piggy Check target PTT beauty list page: " + target_url);
+                //PgLog.info("Piggy Check target PTT beauty list page: " + target_url);
                 httpGet = new HttpGet(target_url);
                 httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484; over18=1" );
@@ -6564,7 +6564,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         	result = result.substring(0, result.indexOf("</a>"));
                         }
                         result = result + ".jpg";
-                        PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
+                        //PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
                         if (resultImageList.indexOf(result) == -1) {
                         	resultImageList.add(result);
                         	//PgLog.info("Piggy Check Ptt Beauty imgur Add!!");
@@ -6577,7 +6577,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     Matcher matcherJp = patternJp.matcher(result_image_image);
                     while(matcherJp.find()){
                         String result = matcherJp.group();
-                        PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                        //PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
                         if (resultImageList.indexOf(result) == -1) {
                         	resultImageList.add(result);
                         	//PgLog.info("Piggy Check Ptt Beauty Add!!");
