@@ -1,12 +1,13 @@
 group 'OhBot'
-version '1.0-SNAPSHOT'
+//version '1.0-SNAPSHOT'
+version 'Piggy_Test_1.0'
 
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.3.RELEASE")
     }
 }
 
