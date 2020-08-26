@@ -158,7 +158,7 @@ public class OhBotController {
     private String IMAGE_YOU_ARE_PERVERT = "https://i.imgur.com/dRJinz7.jpg";
     private String IMAGE_GPNUDD = "https://i.imgur.com/0Kr7J44.jpg";
     private String IMAGE_BE_A_GOOD_MAN = "https://i.imgur.com/Hy74quj.jpg";
-    private boolean mIsSingleRandomGirl = true;
+    private boolean mIsSingleRandomGirl = false;
 
     private List<String> mIWillBeLateList = new ArrayList<String> (
         Arrays.asList("https://i.imgur.com/0cNbr9c.jpg",
@@ -260,8 +260,8 @@ public class OhBotController {
 
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
     private List<String> mWizardGroupList = new ArrayList<String> (); // senderId
-    private HashMap<String, String> mWhoImPickRandomGirlMap = new HashMap<>(); // userId, webLink
-    private HashMap<String, String> mWhoTheyPickRandomGirlMap = new HashMap<>(); // senderId, webLink
+    private HashMap<String, PttBeautyGirl> mWhoImPickRandomGirlMap = new HashMap<>(); // userId, webLink
+    private HashMap<String, PttBeautyGirl> mWhoTheyPickRandomGirlMap = new HashMap<>(); // senderId, webLink
     private HashMap<String, Integer> mTokyoHotRandomGirlLimitationList = new HashMap<>(); // userId, count
 
     private CoronaVirusWikiRankCrawlThread mCoronaVirusWikiRankCrawlThread = null;
@@ -3663,7 +3663,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void whoImPickRandomPttBeautyGirlMap(String userId, String replyToken) {
         if (mWhoImPickRandomGirlMap.containsKey(userId)) {
-            this.replyText(replyToken, mWhoImPickRandomGirlMap.get(userId));
+            //this.replyText(replyToken, mWhoImPickRandomGirlMap.get(userId));
+        	processReplyPttBeautyGirl(replyToken, mWhoImPickRandomGirlMap.get(userId));
         }
         else {
             if (isAdminUserId(userId)) {
@@ -3678,7 +3679,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void whoTheyPickRandomPttBeautyGirlMap(String senderId, String replyToken) {
         if (mWhoTheyPickRandomGirlMap.containsKey(senderId)) {
-            this.replyText(replyToken, mWhoTheyPickRandomGirlMap.get(senderId));
+            //this.replyText(replyToken, mWhoTheyPickRandomGirlMap.get(senderId));
+        	processReplyPttBeautyGirl(replyToken, mWhoTheyPickRandomGirlMap.get(senderId));
         }
         else {
             this.replyText(replyToken, "這群組還沒人抽過唷");
@@ -4134,26 +4136,30 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyImage(replyToken, url, url);
         }
         else {
-        	List<ImageCarouselColumn> columnsList = new ArrayList<>();
-        	int index = 0;
-        	int count = 0;
-        	int MAX_CAROUSEL_COLUMN = 9;
-            while (index < result.getUrlList().size()) {
-                /*PgLog.info("Piggy Check title: " + result.getTitle());
-                PgLog.info("Piggy Check searchResultUrl: " + result.getResultUrl());
-                PgLog.info("Piggy Check imgUrl: " + result.getUrlList().get(index));*/
-                if (!result.getUrlList().get(index).endsWith(".gif")) {
-                	columnsList.add(getImageCarouselColumn(result.getUrlList().get(index), result.getTitle(), result.getResultUrl()));
-                    count++;
-                }
-                index++;
-                if (count > MAX_CAROUSEL_COLUMN) {
-                	break;
-                }
-            }
-
-            this.replyImageCarouselTemplate(replyToken, result.getDescribeString(), columnsList);
+        	processReplyPttBeautyGirl(replyToken, result);
         }
+    }
+    
+    private void processReplyPttBeautyGirl(String replyToken, PttBeautyGirl girl) {
+    	List<ImageCarouselColumn> columnsList = new ArrayList<>();
+    	int index = 0;
+    	int count = 0;
+    	int MAX_CAROUSEL_COLUMN = 9;
+        while (index < girl.getUrlList().size()) {
+            /*PgLog.info("Piggy Check title: " + result.getTitle());
+            PgLog.info("Piggy Check searchResultUrl: " + result.getResultUrl());
+            PgLog.info("Piggy Check imgUrl: " + result.getUrlList().get(index));*/
+            if (!girl.getUrlList().get(index).endsWith(".gif")) {
+            	columnsList.add(getImageCarouselColumn(girl.getUrlList().get(index), (girl.getTitle() + girl.getRank()), girl.getResultUrl()));
+                count++;
+            }
+            index++;
+            if (count > MAX_CAROUSEL_COLUMN) {
+            	break;
+            }
+        }
+
+        this.replyImageCarouselTemplate(replyToken, girl.getDescribeString(), columnsList);
     }
 
 
@@ -6342,11 +6348,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	private String resultUrl;
     	private String describeString;
     	private String titleString;
-    	public PttBeautyGirl(List<String> list, String url, String title, String describe) {
+    	private String rankString;
+    	public PttBeautyGirl(List<String> list, String url, String title, String describe, String rank) {
     		urlList = list;
     		resultUrl = url;
     		describeString = describe;
     		titleString = title;
+    		rankString = rank;
     	}
     	
     	public List<String> getUrlList() {
@@ -6363,6 +6371,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	
     	public String getTitle() {
     		return titleString;
+    	}
+    	
+    	public String getRank() {
+    		return rankString;
     	}
     }
 
@@ -6401,7 +6413,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }catch(java.lang.NumberFormatException e1) {
                 PgLog.info("NumberFormatException " + e1);
             }
-            PgLog.info("Piggy Check maxPageInt: " + maxPageInt);
+            //PgLog.info("Piggy Check maxPageInt: " + maxPageInt);
             
             String result_url = "";
             int tryCount = 10;
@@ -6413,7 +6425,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 int random_num = randomGenerator.nextInt(maxPageInt-1500)+1500;
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
                 String target_url = "https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html";
-                PgLog.info("Piggy Check target PTT beauty list page: " + target_url);
+                //PgLog.info("Piggy Check target PTT beauty list page: " + target_url);
                 httpGet = new HttpGet(target_url);
                 httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484; over18=1" );
@@ -6507,11 +6519,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 // Process result save to history table
                 PgLog.info("Piggy Check result_url: " + result_url);
+                String rank = (numberCount.equals("爆") ? "爆" : (numberCount + "推"));
+                String historyString = resultTitle + "\n\n" + result_url + " " + rank;
 
-                String historyString = resultTitle + "\n\n" + result_url + " " + (numberCount.equals("爆") ? "爆" : (numberCount + "推"));
-
-                mWhoImPickRandomGirlMap.put(userId, historyString);
-                mWhoTheyPickRandomGirlMap.put(senderId, historyString);
 
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
 
@@ -6573,7 +6583,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 if (resultImageList.size() > 0) {
                     //random_num = randomGenerator.nextInt(resultImageList.size());
                     //return resultImageList.get(random_num);
-                    return new PttBeautyGirl(resultImageList, result_url, resultTitle, historyString);
+                	PttBeautyGirl girl = new PttBeautyGirl(resultImageList, result_url, resultTitle, historyString, rank);
+                    mWhoImPickRandomGirlMap.put(userId, girl);
+                    mWhoTheyPickRandomGirlMap.put(senderId, girl);
+                    return girl;
                 }
                 else {
                     continue;
@@ -6604,11 +6617,18 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
             //httpGet.addHeader("Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
+            httpGet.addHeader("Cookie","ig_did=D45DC129-A40D-4D95-A4AC-174BF54CEEA3; mid=XxVmGQAEAAF9tNYLvLQIVIPl_D-O; csrftoken=BQOSjekM3X65ZZpGkmPDy3TgsPIIXEQS; ds_user_id=408814719; sessionid=408814719%3A3MedSzsyp4lGUt%3A4; shbid=15807; shbts=1598417659.60127; rur=VLL; urlgen=\"{}:1kAxZO:cPqNn67DQjd-ohreHqMB3D81ML8");
             httpGet.setHeader("Accept","text/html");
             httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
             httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
             httpGet.setHeader("Cache-Control", "max-age=0");
             httpGet.setHeader("Connection", "keep-alive");
+            httpGet.setHeader("Dnt", "1");
+            httpGet.setHeader("Sec-Fetch-Dest", "1");
+            httpGet.setHeader("Sec-Fetch-Mode", "navigate");
+            httpGet.setHeader("Sec-Fetch-Site", "document");
+            httpGet.setHeader("Sec-Fetch-User", "?1");
+            httpGet.setHeader("Upgrade-Insecure-Requests", "same-origin");
 
 
             CloseableHttpResponse response = httpClient.execute(httpGet);
@@ -6666,8 +6686,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String ig_url = "https://www.instagram.com/p/" + tempIgList.get(random_num);
                 String like_count = tempIgLikeCountList.get(random_num);
                 PgLog.info("Piggy Check ig_url: " + ig_url);
-                mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
-                mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
+                /*mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
+                mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));*/
                 return result_url;
             }
             else {
@@ -6756,8 +6776,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String ig_url = "https://www.instagram.com/p/" + tempIgList.get(random_num);
                 String like_count = tempIgLikeCountList.get(random_num);
                 PgLog.info("Piggy Check ig_url: " + ig_url);
-                mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
-                mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
+                /*mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
+                mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));*/
                 return result_url;
             }
             else {
