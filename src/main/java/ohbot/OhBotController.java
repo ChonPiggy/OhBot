@@ -68,7 +68,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -1164,6 +1164,10 @@ public class OhBotController {
         }
 
         checkNeedTotallyBullyReply(userId, replyToken);
+        
+        if (text.equals("PgCommand測試") && userId.equals(USER_ID_PIGGY)) {
+        	test(replyToken);
+        }
 
         if (text.contains("奴隸") && text.contains("滾")) {
             if (isFromGroup) {
@@ -6523,8 +6527,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     Matcher matcherJp = patternJp.matcher(result_image_image);
                     while(matcherJp.find()){
                         String result = matcherJp.group();
+                        PgLog.info("Piggy Check Ptt Beauty result: " + result);
                         result = result.replace("http:","https:");
                         result = result.replace("imgur.com","i.imgur.com");
+                        if (result.contains("</a>")) {
+                        	result = result.substring(0, result.indexOf("</a>"));
+                        }
                         result = result + ".jpg";
                         resultImageList.add(result);
                         PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
@@ -7924,5 +7932,35 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         result += "魔動求組清單 或 魔動?\n";
         result += "教授求組清單 或 教授?\n";
         return result;
+    }
+    
+    void test(String replyToken) {
+    	URI imageUrl = createUri("/static/buttons/1040.jpg");
+        ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(
+                Arrays.asList(
+                        new ImageCarouselColumn(imageUrl,
+                                                new URIAction("Goto line.me",
+                                                              URI.create("https://line.me"), null)
+                        ),
+                        new ImageCarouselColumn(imageUrl,
+                                                new MessageAction("Say message",
+                                                                  "Rice=米")
+                        ),
+                        new ImageCarouselColumn(imageUrl,
+                                                new PostbackAction("言 hello2",
+                                                                   "hello こんにちは",
+                                                                   "hello こんにちは")
+                        )
+                ));
+        TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text",
+                                                              imageCarouselTemplate);
+        this.reply(replyToken, templateMessage);
+    }
+    
+    private static URI createUri(String path) {
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                                          .scheme("https")
+                                          .path(path).build()
+                                          .toUri();
     }
 }
