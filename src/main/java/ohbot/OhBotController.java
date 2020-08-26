@@ -2124,7 +2124,8 @@ public class OhBotController {
     }
 
     private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
-        return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
+        //return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
+    	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), null));
     }
 
     private void replyImageCarouselTemplate(@NonNull String replyToken, String altText, @NonNull List<ImageCarouselColumn> columns) {
@@ -4128,9 +4129,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         	int count = 0;
         	int MAX_CAROUSEL_COLUMN = 9;
             while (index < result.getUrlList().size()) {
-                PgLog.info("Piggy Check title: " + result.getTitle());
+                /*PgLog.info("Piggy Check title: " + result.getTitle());
                 PgLog.info("Piggy Check searchResultUrl: " + result.getResultUrl());
-                PgLog.info("Piggy Check imgUrl: " + result.getUrlList().get(index));
+                PgLog.info("Piggy Check imgUrl: " + result.getUrlList().get(index));*/
                 if (!result.getUrlList().get(index).endsWith(".gif")) {
                 	columnsList.add(getImageCarouselColumn(result.getUrlList().get(index), result.getTitle(), result.getResultUrl()));
                     count++;
@@ -6530,17 +6531,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     Matcher matcherJp = patternJp.matcher(result_image_image);
                     while(matcherJp.find()){
                         String result = matcherJp.group();
-                        PgLog.info("Piggy Check Ptt Beauty result: " + result);
+                        //PgLog.info("Piggy Check Ptt Beauty result: " + result);
                         result = result.replace("http:","https:");
                         result = result.replace("imgur.com","i.imgur.com");
                         if (result.contains("</a>")) {
                         	result = result.substring(0, result.indexOf("</a>"));
                         }
                         result = result + ".jpg";
-                        PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
+                        //PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
                         if (resultImageList.indexOf(result) == -1) {
                         	resultImageList.add(result);
-                        	PgLog.info("Piggy Check Ptt Beauty imgur Add!!");
+                        	//PgLog.info("Piggy Check Ptt Beauty imgur Add!!");
                         }
                         
                     }
@@ -6550,10 +6551,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     Matcher matcherJp = patternJp.matcher(result_image_image);
                     while(matcherJp.find()){
                         String result = matcherJp.group();
-                        PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                        //PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
                         if (resultImageList.indexOf(result) == -1) {
                         	resultImageList.add(result);
-                        	PgLog.info("Piggy Check Ptt Beauty Add!!");
+                        	//PgLog.info("Piggy Check Ptt Beauty Add!!");
                         }
                     }
                 }
