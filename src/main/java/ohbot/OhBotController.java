@@ -4127,7 +4127,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         	List<ImageCarouselColumn> columnsList = new ArrayList<>();
         	int index = 0;
         	int count = 0;
-        	int MAX_CAROUSEL_COLUMN = 2;
+        	int MAX_CAROUSEL_COLUMN = 9;
             while (index < result.getUrlList().size()) {
                 /*PgLog.info("Piggy Check title: " + result.getTitle());
                 PgLog.info("Piggy Check searchResultUrl: " + result.getResultUrl());
