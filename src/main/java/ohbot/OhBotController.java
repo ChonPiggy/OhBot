@@ -4087,9 +4087,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        List<String> urlList = getRandomPttBeautyImageUrl(userId, senderId, isHot);
+        PttBeautyGirl result = getRandomPttBeautyImageUrl(userId, senderId, isHot);
 
-        PgLog.info("Piggy Check randomPttBeautyGirl url list size: " + urlList.size());
+        PgLog.info("Piggy Check randomPttBeautyGirl url list size: " + result.getUrlList().size());
         /*if (url.equals("")) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
@@ -4100,17 +4100,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (url.indexOf("http:") >= 0) {
             url = url.replace("http", "https");
         }*/
-        if (urlList.size() <= 0) {
+        if (result.getUrlList().size() <= 0) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
         }
-        else if (urlList.size() == 1) {
+        else if (result.getUrlList().size() == 1) {
         	String url = "";
-        	if (urlList.get(0).endsWith(".gif")) {
+        	if (result.getUrlList().get(0).endsWith(".gif")) {
                 this.replyText(replyToken, "Line 不能顯示 gif 直接貼: " + url);
             }
-            if (urlList.get(0).indexOf("http:") >= 0) {
-            	url = urlList.get(0).replace("http", "https");
+            if (result.getUrlList().get(0).indexOf("http:") >= 0) {
+            	url = result.getUrlList().get(0).replace("http", "https");
             }
             if (url.equals("")) {
             	return;
@@ -4120,12 +4120,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         else {
         	List<ImageCarouselColumn> columnsList = new ArrayList<>();
         	int index = 0;
-            while (index < urlList.size()) {
-                String searchResultUrl = mWhoImPickRandomGirlMap.get(senderId);
-                String imgUrl = urlList.get(index);
+            while (index < result.getUrlList().size()) {
+                String searchResultUrl = result.getResultUrl();
+                String imgUrl = result.getUrlList().get(index);
                 PgLog.info("Piggy Check searchResultUrl: " + searchResultUrl);
                 PgLog.info("Piggy Check imgUrl: " + imgUrl);
-                columnsList.add(getImageCarouselColumn(imgUrl, "PG Cute!", searchResultUrl));
+                columnsList.add(getImageCarouselColumn(imgUrl, result.getDescribeString(), searchResultUrl));
                 index++;
             }
 
@@ -6313,8 +6313,31 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
         return "";
     }
+    
+    class PttBeautyGirl extends Object{
+    	private List<String> urlList;
+    	private String resultUrl;
+    	private String describeString;
+    	public PttBeautyGirl(List<String> list, String url, String describe) {
+    		urlList = list;
+    		resultUrl = url;
+    		describeString = describe;
+    	}
+    	
+    	public List<String> getUrlList() {
+    		return urlList;
+    	}
+    	
+    	public String getResultUrl() {
+    		return resultUrl;
+    	}
+    	
+    	public String getDescribeString() {
+    		return describeString;
+    	}
+    }
 
-    private List<String> getRandomPttBeautyImageUrl(String userId, String senderId, boolean isHot) {
+    private PttBeautyGirl getRandomPttBeautyImageUrl(String userId, String senderId, boolean isHot) {
         try{
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -6510,7 +6533,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 if (resultImageList.size() > 0) {
                     random_num = randomGenerator.nextInt(resultImageList.size());
                     //return resultImageList.get(random_num);
-                    return resultImageList;
+                    return new PttBeautyGirl(resultImageList, result_url, historyString);
                 }
                 else {
                     continue;
@@ -6519,14 +6542,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             if (result_url.equals("")) {
                 PgLog.info("Piggy Check Ptt Beauty parse fail");
-                return new ArrayList<String>();
+                return null;
             }
 
             
         }catch (Exception e) {
             e.printStackTrace();
         }
-        return new ArrayList<String>();//TODO
+        return null;//TODO
     }
 
     private String getInstagramImageUrl(String userId, String senderId, String target) {
