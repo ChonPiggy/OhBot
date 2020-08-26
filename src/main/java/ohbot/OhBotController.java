@@ -2137,6 +2137,7 @@ public class OhBotController {
 
     private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
         //return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
+    	label = label.replace(" ", "");
     	if (label.length()>12) {
     		label = label.substring(0, 12);
     	}
