@@ -6537,10 +6537,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         	result = result.substring(0, result.indexOf("</a>"));
                         }
                         result = result + ".jpg";
-                        if (!resultImageList.contains(result)) {
-                        	resultImageList.add(result);
-                        }
                         PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
+                        if (resultImageList.indexOf(result) == -1) {
+                        	resultImageList.add(result);
+                        	PgLog.info("Piggy Check Ptt Beauty imgur Add!!");
+                        }
+                        
                     }
                 }
                 else {
@@ -6548,10 +6550,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     Matcher matcherJp = patternJp.matcher(result_image_image);
                     while(matcherJp.find()){
                         String result = matcherJp.group();
-                        if (!resultImageList.contains(result)) {
-                        	resultImageList.add(result);
-                        }
                         PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                        if (resultImageList.indexOf(result) == -1) {
+                        	resultImageList.add(result);
+                        	PgLog.info("Piggy Check Ptt Beauty Add!!");
+                        }
                     }
                 }
 
