@@ -27,8 +27,6 @@ import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.model.event.source.*;
-import com.linecorp.bot.spring.boot.annotation.EventMapping;
-import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import emoji4j.EmojiUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -97,7 +95,6 @@ import java.lang.Integer;
 /**
  * Created by lambertyang on 2017/1/13.
  */
-@LineMessageHandler
 @Slf4j
 @RestController
 public class OhBotController {
@@ -1027,12 +1024,10 @@ public class OhBotController {
         return strResult;
     }
 
-    @EventMapping
     public void handleDefaultMessageEvent(Event event) {
         PgLog.info("Received message(Ignored): {}" + event);
     }
 
-    @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws IOException {
         handleTextContent(event.getReplyToken(), event, event.getMessage());
     }
@@ -2080,7 +2075,6 @@ public class OhBotController {
 
     }
 
-    @EventMapping
     public void handlePostbackEvent(PostbackEvent event) throws IOException {
         PgLog.info("Got postBack event: {}" + event);
         String replyToken = event.getReplyToken();
