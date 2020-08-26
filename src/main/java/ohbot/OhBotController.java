@@ -1030,12 +1030,12 @@ public class OhBotController {
 
     @EventMapping
     public void handleDefaultMessageEvent(Event event) {
-        PgLog.info("Received message(Ignored): {}" + event);
+        PgLog.info("Received default message(Ignored): {}" + event);
     }
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws IOException {
-    	PgLog.info("Piggy check handleTextMessageEvent: " + event);
+    	//PgLog.info("Piggy check handleTextMessageEvent: " + event);
         handleTextContent(event.getReplyToken(), event, event.getMessage());
     }
 
@@ -2141,7 +2141,7 @@ public class OhBotController {
     	if (label.length()>12) {
     		label = label.substring(0, 12);
     	}
-    	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
+    	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), null));
     }
 
     private void replyImageCarouselTemplate(@NonNull String replyToken, String altText, @NonNull List<ImageCarouselColumn> columns) {
@@ -4151,10 +4151,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	int index = 0;
     	int count = 0;
     	int MAX_CAROUSEL_COLUMN = 9;
+        PgLog.info("Piggy Check title: " + girl.getTitle());
+        PgLog.info("Piggy Check searchResultUrl: " + girl.getResultUrl());
         while (index < girl.getUrlList().size()) {
-            /*PgLog.info("Piggy Check title: " + girl.getTitle());
-            PgLog.info("Piggy Check searchResultUrl: " + girl.getResultUrl());
-            PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));*/
+            PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));
             if (!girl.getUrlList().get(index).endsWith(".gif")) {
             	columnsList.add(getImageCarouselColumn(girl.getUrlList().get(index), (girl.getTitle() + " " + girl.getRank()), girl.getResultUrl()));
                 count++;
