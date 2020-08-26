@@ -4125,16 +4125,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         else {
         	List<ImageCarouselColumn> columnsList = new ArrayList<>();
         	int index = 0;
+        	int count = 0;
         	int MAX_CAROUSEL_COLUMN = 9;
             while (index < result.getUrlList().size()) {
                 PgLog.info("Piggy Check searchResultUrl: " + result.getResultUrl());
                 PgLog.info("Piggy Check imgUrl: " + result.getUrlList().get(index));
-                if (result.getUrlList().get(index).endsWith(".gif")) {
-                	continue;
+                if (!result.getUrlList().get(index).endsWith(".gif")) {
+                	columnsList.add(getImageCarouselColumn(result.getUrlList().get(index), result.getTitle(), result.getResultUrl()));
+                    count++;
                 }
-                columnsList.add(getImageCarouselColumn(result.getUrlList().get(index), result.getTitle(), result.getResultUrl()));
                 index++;
-                if (index > MAX_CAROUSEL_COLUMN) {
+                if (count > MAX_CAROUSEL_COLUMN) {
                 	break;
                 }
             }
