@@ -1032,6 +1032,7 @@ public class OhBotController {
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws IOException {
+    	PgLog.info("Piggy check handleTextMessageEvent: " + event);
         handleTextContent(event.getReplyToken(), event, event.getMessage());
     }
 
