@@ -2125,7 +2125,7 @@ public class OhBotController {
 
     private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
         //return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
-    	return new ImageCarouselColumn(createUri(imageUrl), new URIAction(label, URI.create(url), null));
+    	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), null));
     }
 
     private void replyImageCarouselTemplate(@NonNull String replyToken, String altText, @NonNull List<ImageCarouselColumn> columns) {
@@ -4127,7 +4127,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         	List<ImageCarouselColumn> columnsList = new ArrayList<>();
         	int index = 0;
         	int count = 0;
-        	int MAX_CAROUSEL_COLUMN = 9;
+        	int MAX_CAROUSEL_COLUMN = 2;
             while (index < result.getUrlList().size()) {
                 /*PgLog.info("Piggy Check title: " + result.getTitle());
                 PgLog.info("Piggy Check searchResultUrl: " + result.getResultUrl());
@@ -7946,7 +7946,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     void test(String replyToken) {
-    	URI imageUrl = createUri("/static/buttons/1040.jpg");
+    	URI imageUrl = createUri("/i.imgur.com/guYQMo8.jpg");
         ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(
                 Arrays.asList(
                         new ImageCarouselColumn(imageUrl,
