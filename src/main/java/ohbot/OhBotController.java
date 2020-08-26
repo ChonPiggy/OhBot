@@ -2125,7 +2125,7 @@ public class OhBotController {
 
     private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
         //return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
-    	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), null));
+    	return new ImageCarouselColumn(createUri(imageUrl), new URIAction(label, URI.create(url), null));
     }
 
     private void replyImageCarouselTemplate(@NonNull String replyToken, String altText, @NonNull List<ImageCarouselColumn> columns) {
@@ -7970,7 +7970,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     
     private static URI createUri(String path) {
         return ServletUriComponentsBuilder.fromCurrentContextPath()
-                                          .scheme("https")
                                           .path(path).build()
                                           .toUri();
     }
