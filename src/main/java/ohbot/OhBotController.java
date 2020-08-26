@@ -33,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 import ohbot.aqiObj.AqiResult;
 import ohbot.aqiObj.Datum;
 import ohbot.stockObj.*;
+import ohbot.utils.PgLog;
 import ohbot.utils.Utils;
 import java.lang.reflect.*;
 
@@ -612,7 +613,7 @@ public class OhBotController {
 
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="http://mis.twse.com.tw/stock/index.jsp";
-                log.info(url);
+                PgLog.info(url);
                 HttpGet httpget = new HttpGet(url);
                 httpget.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
                 httpget.setHeader("Accept-Encoding","gzip, deflate, sdch");
@@ -624,13 +625,13 @@ public class OhBotController {
                 httpget.setHeader("User-Agent",
                                   "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 url = "http://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=" + companyType + "_" + stock +
                       ".tw&_=" + Instant.now().toEpochMilli();
-                log.info(url);
+                PgLog.info(url);
                 httpget = new HttpGet(url);
                 response = httpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = "";
 
@@ -719,7 +720,7 @@ public class OhBotController {
                 DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
                 defaultHttpClient = (DefaultHttpClient) WebClientDevWrapper.wrapClient(defaultHttpClient);
                 String url="https://tw.screener.finance.yahoo.net/screener/ws?f=j&ShowID="+stock;
-                log.info(url);
+                PgLog.info(url);
                 HttpGet httpget = new HttpGet(url);
                 httpget.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
                 httpget.setHeader("Accept-Encoding","gzip, deflate, sdch");
@@ -730,7 +731,7 @@ public class OhBotController {
                 httpget.setHeader("User-Agent",
                                   "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
                 CloseableHttpResponse response = defaultHttpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = "";
 
@@ -738,7 +739,7 @@ public class OhBotController {
                 Screener screener = gson.fromJson(EntityUtils.toString(httpEntity, "utf-8"),Screener.class);
                 url="https://news.money-link.com.tw/yahoo/0061_"+stock+".html";
                 httpget = new HttpGet(url);
-                log.info(url);
+                PgLog.info(url);
                 httpget.setHeader("Accept",
                                   "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
                 httpget.setHeader("Accept-Encoding","gzip, deflate, sdch, br");
@@ -750,7 +751,7 @@ public class OhBotController {
                 httpget.setHeader("User-Agent",
                                   "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36");
                 response = defaultHttpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 httpEntity = response.getEntity();
                 Header[] ss = response.getAllHeaders();
                 for(Header header:ss){
@@ -834,7 +835,7 @@ public class OhBotController {
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = "http://www.tse.com.tw/api/get.php?method=home_summary";
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             httpget.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
             httpget.setHeader("Accept-Encoding", "gzip, deflate, sdch");
@@ -846,7 +847,7 @@ public class OhBotController {
             httpget.setHeader("User-Agent",
                               "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             Gson gson = new GsonBuilder().create();
             strResult = EntityUtils.toString(response.getEntity(), "utf-8");
             TseStock tseStock = gson.fromJson(strResult, TseStock.class);
@@ -863,10 +864,10 @@ public class OhBotController {
             if (start != null) {
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="http://tw.xingbar.com/cgi-bin/v5starfate2?fate=1&type="+start;
-                log.info(url);
+                PgLog.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = EntityUtils.toString(httpEntity, "big5");
                 strResult = strResult.substring(strResult.indexOf("<div id=\"date\">"), strResult.length());
@@ -888,10 +889,10 @@ public class OhBotController {
         try {
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="http://taiwanoil.org/z.php?z=oiltw";
-                log.info(url);
+                PgLog.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = EntityUtils.toString(httpEntity, "utf-8");
                 strResult = strResult.substring(strResult.indexOf("<table"), strResult.length());
@@ -912,7 +913,7 @@ public class OhBotController {
             if (area != null) {
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="http://taqm.epa.gov.tw/taqm/aqs.ashx?lang=tw&act=aqi-epa";
-                log.info(url);
+                PgLog.info(url);
                 HttpGet httpget = new HttpGet(url);
                 httpget.setHeader("Host","taqm.epa.gov.tw");
                 httpget.setHeader("Connection","keep-alive");
@@ -938,7 +939,7 @@ public class OhBotController {
                 strResult = "";
                 for (Datum datums : areaData) {
                     String aqiStyle = datums.getAQI();
-                    log.info(aqiStyle);
+                    PgLog.info(aqiStyle);
                     if (Integer.parseInt(aqiStyle) <= 50) {
                         aqiStyle = "良好";
                     } else if (Integer.parseInt(aqiStyle) >= 51 && Integer.parseInt(aqiStyle) <= 100) {
@@ -968,10 +969,10 @@ public class OhBotController {
             if (country != null) {
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="https://www.findrate.tw/"+country+"/";
-                log.info(url);
+                PgLog.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = EntityUtils.toString(httpEntity, "utf-8");
                 strResult = strResult.substring(strResult.indexOf("<td>現鈔買入</td>"), strResult.length());
@@ -1025,7 +1026,7 @@ public class OhBotController {
 
     @EventMapping
     public void handleDefaultMessageEvent(Event event) {
-        log.info("Received message(Ignored): {}", event);
+        PgLog.info("Received message(Ignored): {}" + event);
     }
 
     @EventMapping
@@ -1039,7 +1040,7 @@ public class OhBotController {
         WorldCountryPeopleCountCrawl.init();
         // Init check finished.
         String text = content.getText().trim();
-        //log.info(text);
+        //PgLog.info(text);
         Source source = event.getSource();
         String senderId = source.getSenderId();
         String userId = source.getUserId();
@@ -1063,7 +1064,7 @@ public class OhBotController {
         if (isDisableBot && !isAdminUserId(userId)) {
             return;
         }
-        log.info("source: " + source + " name: " + getUserDisplayName(userId) + " text: " + text);
+        PgLog.info("source: " + source + " name: " + getUserDisplayName(userId) + " text: " + text);
 
         // BD feature
         if (mIsBdAdFeatureEnable) {
@@ -1124,34 +1125,34 @@ public class OhBotController {
         if (replyUserId(userId, senderId, replyToken)) {
             return;
         }
-        // log.info("senderId: " + senderId);
-        // log.info("userId: " + userId);
+        // PgLog.info("senderId: " + senderId);
+        // PgLog.info("userId: " + userId);
 
         boolean isFromPrivate = false;
         boolean isFromGroup = false;
         boolean isFromRoom = false;
         if (UserSource.class.isInstance(source)) {
-            // log.info("UserSource.class");
-            // log.info("userId: " + userId);
+            // PgLog.info("UserSource.class");
+            // PgLog.info("userId: " + userId);
             isFromPrivate = true;
         }
         if (RoomSource.class.isInstance(source)) {
-            // log.info("RoomSource.class");
+            // PgLog.info("RoomSource.class");
             //String roomId = source.getSenderId();
-            // log.info("roomId: " + roomId);
-            // log.info("userId: " + userId);
+            // PgLog.info("roomId: " + roomId);
+            // PgLog.info("userId: " + userId);
             isFromRoom = true;
         }
         if (GroupSource.class.isInstance(source)) {
-            // log.info("GroupSource.class");
+            // PgLog.info("GroupSource.class");
             //String groupId = source.getGroupId();
-            // log.info("groupId: " + groupId);
-            // log.info("senderId: " + senderId);
-            // log.info("userId: " + userId);
+            // PgLog.info("groupId: " + groupId);
+            // PgLog.info("senderId: " + senderId);
+            // PgLog.info("userId: " + userId);
             isFromGroup = true;
         }
         if (UnknownSource.class.isInstance(source)) {
-            log.info("UnknownSource.class");
+            PgLog.info("UnknownSource.class");
         }
 
         if (mJanDanGirlList.size() == 0 && !mIsStartJandanStarted) {
@@ -2078,7 +2079,7 @@ public class OhBotController {
 
     @EventMapping
     public void handlePostbackEvent(PostbackEvent event) throws IOException {
-        log.info("Got postBack event: {}", event);
+        PgLog.info("Got postBack event: {}" + event);
         String replyToken = event.getReplyToken();
         String data = event.getPostbackContent().getData();
         switch (data) {
@@ -2134,7 +2135,7 @@ public class OhBotController {
         
         CompletableFuture<BotApiResponse> apiResponse = lineMessagingClient
                 .replyMessage(new ReplyMessage(replyToken, messages));
-        //log.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
+        //PgLog.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
         
     }
 
@@ -2164,10 +2165,10 @@ public class OhBotController {
         try {
             CompletableFuture<UserProfileResponse> response = lineMessagingClient
                     .getProfile(userId);
-                    //log.info("Piggy Check response: " + response);
+                    //PgLog.info("Piggy Check response: " + response);
             return response.get();//TODO
         }catch (Exception e) {
-            log.info("Exception: " + e);
+            PgLog.info("Exception: " + e);
         }
         return null;
     }
@@ -2219,7 +2220,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 sr.register(new Scheme("https", ssf, 443));
                 return new DefaultHttpClient(ccm, base.getParams());
             } catch (Exception ex) {
-                log.error("Error in wrapClient : " + ex.toString());
+                PgLog.error("Error in wrapClient : " + ex.toString());
                 return null;
             }
         }
@@ -2227,7 +2228,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private boolean weatherResult(String text, String replyToken) throws IOException {
         text = text.replace("天氣", "").replace("?", "").replace("？", "").replace("臺", "台").trim();
-        log.info("weatherResult: " + text);
+        PgLog.info("weatherResult: " + text);
         boolean isHaveResult = true;
         try {
             if (text.length() <= 3) {
@@ -2376,7 +2377,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     }
                     default: {
                         strResult = "義大利?維大力? \nSorry 我不知道" + text + "是哪裡...";
-                        log.info("weatherResult default: " + text);
+                        PgLog.info("weatherResult default: " + text);
                         return false;
                     }
                 }
@@ -2385,7 +2386,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 this.replyText(replyToken, strResult);
 
             } else {
-                log.info("weatherResult length: " + text.length());
+                PgLog.info("weatherResult length: " + text.length());
                 return false;
             }
         } catch (IOException e) {
@@ -2396,7 +2397,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private boolean worldWeatherResult(String text, String replyToken) throws IOException {
         text = text.replace("天氣", "").replace("?", "").replace("？", "").replace("臺", "台").trim();
-        log.info(text);
+        PgLog.info(text);
 
         HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V7/forecast/world/world_aa.htm");
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -2409,7 +2410,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         if (!strResult.contains(text)) {
             strResult = "義大利?維大力? \nSorry 我不知道" + text + "是哪裡...";
-            log.info("worldWeatherResult default: " + text);
+            PgLog.info("worldWeatherResult default: " + text);
             this.replyText(replyToken, strResult);
             return false;
         }
@@ -2460,7 +2461,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void weatherResult2(String text, String replyToken) throws IOException {
         text = text.replace("氣象", "").replace("?", "").replace("？", "").replace("臺", "台").trim();
-        log.info(text);
+        PgLog.info(text);
         try {
             if (text.length() <= 3) {
                 String strResult;
@@ -2607,10 +2608,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String strResult = "";
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = "http://taiwanoil.org/";
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             strResult = EntityUtils.toString(httpEntity, "utf-8");
             strResult = strResult.substring(strResult.indexOf("<td valign=top align=center>"), strResult.length());
@@ -2637,7 +2638,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void star(String text, String replyToken) throws IOException {
         text = text.replace("座", "").replace("?", "").replace("？", "").trim();
-        log.info(text);
+        PgLog.info(text);
         try {
             if (text.length() == 2) {
                 String strResult;
@@ -2701,10 +2702,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }else{
                     CloseableHttpClient httpClient = HttpClients.createDefault();
                     url = "http://tw.xingbar.com/cgi-bin/v5starfate2?fate=1&type=" + url;
-                    log.info(url);
+                    PgLog.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
-                    //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "big5");
                     strResult = strResult.substring(strResult.indexOf("<div id=\"date\">"), strResult.length());
@@ -2736,7 +2737,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void dailyHoroscope(String text, String replyToken) throws IOException {
         text = text.replace("座運勢", "").replace("?", "").replace("？", "").trim();
-        log.info(text);
+        PgLog.info(text);
         String target = "";
         try {
             if (text.length() == 2) {
@@ -2804,10 +2805,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     // Get daily website address first.
                     CloseableHttpClient httpClient = HttpClients.createDefault();
                     url = "http://www.daily-zodiac.com/mobile/zodiac/" + target;
-                    log.info(url);
+                    PgLog.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
-                    //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "big5");
                     strResult = strResult.substring(strResult.indexOf("今日運勢</li>")+9, strResult.length());
@@ -2817,7 +2818,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     strResult = strResult.substring(strResult.indexOf("<article>")+9, strResult.indexOf("</article>"));
                     strResult = strResult.trim();
                     
-                    log.info("strResult: " + strResult);
+                    PgLog.info("strResult: " + strResult);
 
                     
                     
@@ -2873,7 +2874,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String strResult;
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="http://mis.twse.com.tw/stock/index.jsp";
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             httpget.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
             httpget.setHeader("Accept-Encoding","gzip, deflate, sdch");
@@ -2885,13 +2886,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpget.setHeader("User-Agent",
                               "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             url = "http://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=" + companyType + "_" + text + ".tw&_=" +
                   Instant.now().toEpochMilli();
-            log.info(url);
+            PgLog.info(url);
             httpget = new HttpGet(url);
             response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             strResult = "";
 
@@ -2982,7 +2983,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
             defaultHttpClient = (DefaultHttpClient) WebClientDevWrapper.wrapClient(defaultHttpClient);
             String url="https://tw.screener.finance.yahoo.net/screener/ws?f=j&ShowID="+text;
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             httpget.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
             httpget.setHeader("Accept-Encoding","gzip, deflate, sdch");
@@ -2993,7 +2994,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpget.setHeader("User-Agent",
                               "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
             CloseableHttpResponse response = defaultHttpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             String strResult = "";
             Gson gson = new GsonBuilder().create();
@@ -3002,7 +3003,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 //            url="https://news.money-link.com.tw/yahoo/0061_"+text+".html";
 //            httpget = new HttpGet(url);
-//            log.info(url);
+//            PgLog.info(url);
 //            httpget.setHeader("Accept",
 //                              "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
 //            httpget.setHeader("Accept-Encoding","gzip, deflate, sdch, br");
@@ -3014,7 +3015,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 //            httpget.setHeader("User-Agent",
 //                              "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36");
 //            response = defaultHttpClient.execute(httpget);
-//            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+//            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
 //            httpEntity = response.getEntity();
 //            InputStream inputStream = httpEntity.getContent();
 //            Header[] headers = response.getAllHeaders();
@@ -3099,7 +3100,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void aqiResult(String text, String replyToken) throws IOException {
         text = text.replace("空氣", "").replace("?", "").replace("？", "").trim();
-        log.info(text);
+        PgLog.info(text);
         try {
             if (text.length() <= 3) {
                 String strResult = "";
@@ -3151,7 +3152,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }else{
                     CloseableHttpClient httpClient = HttpClients.createDefault();
                     String url="http://taqm.epa.gov.tw/taqm/aqs.ashx?lang=tw&act=aqi-epa";
-                    log.info(url);
+                    PgLog.info(url);
                     HttpGet httpget = new HttpGet(url);
                     httpget.setHeader("Host","taqm.epa.gov.tw");
                     httpget.setHeader("Connection","keep-alive");
@@ -3180,7 +3181,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                             if (Objects.equals(aqiStyle, "")) {
                                 aqiStyle = "999";
                             }
-                            log.info(datums.getSitename()+" "+datums.getAQI());
+                            PgLog.info(datums.getSitename()+" "+datums.getAQI());
                             if (Integer.parseInt(aqiStyle) <= 50) {
                                 aqiStyle = ":blush: " +"良好";
                             } else if (Integer.parseInt(aqiStyle) >= 51 && Integer.parseInt(aqiStyle) <= 100) {
@@ -3210,7 +3211,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                             if (Objects.equals(aqiStyle, "")) {
                                 aqiStyle = "999";
                             }
-                            log.info(datums.getSitename()+" "+datums.getAQI());
+                            PgLog.info(datums.getSitename()+" "+datums.getAQI());
                             if (Integer.parseInt(aqiStyle) <= 50) {
                                 aqiStyle = ":blush: " +"良好";
                             } else if (Integer.parseInt(aqiStyle) >= 51 && Integer.parseInt(aqiStyle) <= 100) {
@@ -3246,7 +3247,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void rate(String text, String replyToken) throws IOException {
         text = text.replace("匯率", "").replace("?", "").replace("？", "").trim();
-        log.info(text);
+        PgLog.info(text);
 
         String strResult = "";
         String country ="";
@@ -3331,10 +3332,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }else{
                     CloseableHttpClient httpClient = HttpClients.createDefault();
                     String url="https://www.findrate.tw/"+country+"/?type="+country+"&order=in1";
-                    log.info(url);
+                    PgLog.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
-                    //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     strResult = strResult.substring(strResult.indexOf("<td>台幣換")+4, strResult.indexOf("</table>")); // cut table
@@ -3370,10 +3371,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url= beautyLink;
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String targetUrl = "";
@@ -3382,10 +3383,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             targetUrl = targetUrl.substring(targetUrl.indexOf("<h2><a href=\"https://tw.appledaily.com/headline/daily/")+13, targetUrl.length());
             targetUrl = targetUrl.substring(0, targetUrl.indexOf("\" target=\"_blank\">"));
 
-            log.info(targetUrl);
+            PgLog.info(targetUrl);
             httpget = new HttpGet(targetUrl);
             response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             httpEntity = response.getEntity();
 
             String dumpSource = "";
@@ -3394,7 +3395,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             dumpSource = dumpSource.substring(dumpSource.indexOf("\"thumbnailUrl\": \"")+17, dumpSource.length());
             dumpSource = dumpSource.substring(0, dumpSource.indexOf("\","));
                         
-            log.info("Piggy Check dailyBeauty image: " + dumpSource);
+            PgLog.info("Piggy Check dailyBeauty image: " + dumpSource);
             //this.replyText(replyToken, dumpSource);
 
             this.replyImage(replyToken, dumpSource, dumpSource);
@@ -3416,10 +3417,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url= beautyLink;
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String dumpSource = "";
@@ -3433,7 +3434,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 dumpSource = dumpSource.replace("ab.unayung.cc", "unayung.cc");
             }
                         
-            log.info("Piggy Check dailyBeauty image: " + dumpSource);
+            PgLog.info("Piggy Check dailyBeauty image: " + dumpSource);
             //this.replyText(replyToken, dumpSource);
 
             this.replyImage(replyToken, dumpSource, dumpSource);
@@ -3453,10 +3454,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url= beautyLink;
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String dumpSource = "";
@@ -3495,10 +3496,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="http://www.appledaily.com.tw/index/dailyquote/";
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String daySentence = "";
@@ -3524,10 +3525,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://www.amazon.co.jp/s/ref=nb_sb_noss?__mk_ja_JP=カタカナ&url=search-alias%3Daps&field-keywords="+text;
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String context = "";
@@ -3541,8 +3542,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 context = context.substring(context.indexOf("href=\"https:")+6, context.length());
                 String searchResultUrl = context.substring(0, context.indexOf("\"><img"));
                 String imgUrl = context.substring(context.indexOf("<img src=\"")+10, context.indexOf("\" srcset="));
-                log.info("Piggy Check searchResultUrl: " + searchResultUrl);
-                log.info("Piggy Check imgUrl: " + imgUrl);
+                PgLog.info("Piggy Check searchResultUrl: " + searchResultUrl);
+                PgLog.info("Piggy Check imgUrl: " + imgUrl);
                 columnsList.add(getImageCarouselColumn(imgUrl, "PG Cute!", searchResultUrl));
             }
             if (maxCount>0) {
@@ -3563,10 +3564,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://tw.saymynamae.com/" + text + "-to-hiragana";
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String result = "";
@@ -3589,10 +3590,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://tw.saymynamae.com/" + text + "-to-katakana";
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String result = "";
@@ -3614,10 +3615,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://tw.saymynamae.com/" + text + "-to-romaji";
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String result = "";
@@ -4079,7 +4080,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         String url = getRandomPttBeautyImageUrl(userId, senderId, isHot);
 
-        log.info("Piggy Check randomPttBeautyGirl: " + url);
+        PgLog.info("Piggy Check randomPttBeautyGirl: " + url);
         if (url.equals("")) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
@@ -4095,14 +4096,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
     private void randomGirl(String text, String replyToken) throws IOException {
-        log.info("Piggy Check randomGirl: " + text);
+        PgLog.info("Piggy Check randomGirl: " + text);
         try {
             if (mJanDanGirlList.size() > 0) {
                 Random randomGenerator = new Random();
                 int index = randomGenerator.nextInt(mJanDanGirlList.size());
                 String item = mJanDanGirlList.get(index);
                 item = item.replace("http", "https");
-                log.info("Piggy Check item: " + item);
+                PgLog.info("Piggy Check item: " + item);
                 this.replyImage(replyToken, item, item);
                 // this.replyText(replyToken, item);
             }
@@ -4113,7 +4114,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (IndexOutOfBoundsException e2) {
             throw e2;
         }
-        log.info("Piggy Check 6");
+        PgLog.info("Piggy Check 6");
     }
 
     private void instagramTarget(String userId, String senderId, String text, String replyToken, boolean isHot, boolean isPerson) throws IOException {
@@ -4253,7 +4254,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             decimal += random;
         }
         double result = Double.parseDouble(decimal);
-        log.info("getRandomLatitude: " + result);
+        PgLog.info("getRandomLatitude: " + result);
         return result;
     }
 
@@ -4269,7 +4270,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             decimal += random;
         }
         double result = Double.parseDouble(decimal);
-        log.info("getRandomLongitude: " + result);
+        PgLog.info("getRandomLongitude: " + result);
         return result;
     }
 
@@ -4692,7 +4693,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             int statusCode = connection.getResponseCode();
 
-            log.info("sendPttOver18Checker statusCode: " + statusCode);
+            PgLog.info("sendPttOver18Checker statusCode: " + statusCode);
 
             connection.disconnect();
         } catch (Exception e) {
@@ -4703,7 +4704,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void processRandomeGetImage(String replyToken, String text) throws IOException {
-        log.info("processRandomeGetImage: " + text);
+        PgLog.info("processRandomeGetImage: " + text);
         text = text.replace("隨機取圖:", "");
         if (!text.startsWith("http")) {
             return;
@@ -4730,14 +4731,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
-            log.info("Piggy Check result_image_image: |" + result_image_image +"|");
+            PgLog.info("Piggy Check result_image_image: |" + result_image_image +"|");
             List<String> resultImageList = new ArrayList<String> ();
             if (result_image_image.indexOf("http://imgur.com/") > 0) {
-                log.info("Website contains imgur url.");
+                PgLog.info("Website contains imgur url.");
                 Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
@@ -4747,11 +4748,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("imgur.com","i.imgur.com");
                     result = result + ".jpg";
                     resultImageList.add(result);
-                    //log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
+                    //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
             else if (result_image_image.indexOf("http://i.imgur.com/") > 0) {
-                log.info("Website contains i.imgur url.");
+                PgLog.info("Website contains i.imgur url.");
                 Pattern patternJp = Pattern.compile("http:\\/\\/i.imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
@@ -4759,17 +4760,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("http:","https:");
                     result = result + ".jpg";
                     resultImageList.add(result);
-                    //log.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
+                    //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
             else {
-                log.info("Website don't have imgur url.");
+                PgLog.info("Website don't have imgur url.");
                 Pattern patternJp = Pattern.compile("(http|ftp|https):\\/\\/([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:\\/~+#-]*[\\w@?^=%&\\/~+#-])?.(jpeg|jpg)");
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
                     resultImageList.add(result);
-                    //log.info("Piggy Check get image from website url: " + url + " img_link: " + result);
+                    //PgLog.info("Piggy Check get image from website url: " + url + " img_link: " + result);
                 }
             }
 
@@ -4778,19 +4779,19 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 int random_num = randomGenerator.nextInt(resultImageList.size());
                 String result = resultImageList.get(random_num);
                 if (result == null || result.equals("")) {
-                    log.info("Piggy Check get image from website parse fail");
+                    PgLog.info("Piggy Check get image from website parse fail");
                 }
                 else {
-                    log.info("Piggy Check get image from website result: " + result);
+                    PgLog.info("Piggy Check get image from website result: " + result);
                 }
                 if (result.indexOf("http:") >= 0) {
                     result = result.replace("http", "https");
                 }
-                log.info("result image: " + result);
+                PgLog.info("result image: " + result);
                 this.replyImage(replyToken, result, result);
             }
             else {
-                log.info("resultImageList.size() = 0");
+                PgLog.info("resultImageList.size() = 0");
             }
             
         }catch (Exception e) {
@@ -4808,7 +4809,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return;
         }
         String result = LinHoImageHelper.getImageUrl(text);
-        log.info("Piggy Check processLinHoImage: " + result);
+        PgLog.info("Piggy Check processLinHoImage: " + result);
         if (result != null && result.length() == 64) {
             this.replyImage(replyToken, result, result);
         }
@@ -4993,7 +4994,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             text = URLEncoder.encode(text, "UTF-8");
             String url = "http://www.google.com.tw/search?q="+text+"時差";
-            log.info("JetLagUrl: " + url);
+            PgLog.info("JetLagUrl: " + url);
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpHost proxy = new HttpHost("113.254.114.24",8197);   // 元朗 proxy
             httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,proxy);
@@ -5012,7 +5013,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             output = EntityUtils.toString(httpEntity, "utf-8");
             
             this.replyText(replyToken, output);
-            //log.info("output: " + output);
+            //PgLog.info("output: " + output);
             //result = output;
             result_title = output.substring(output.indexOf("<div class=\"Mv3Zsd vk_bk dDoNo\">   ") + 35, output.length());
             // Copy
@@ -5020,28 +5021,28 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result_remote_time = result_title;
             // Copy end
             result_title = result_title.substring(0, result_title.indexOf("    </div>"));
-            log.info("result_title: " + result_title);
+            PgLog.info("result_title: " + result_title);
             result_title = result_title.replace("台北市內湖區港墘里", "台灣的時間");
-            log.info("result_title: " + result_title);
+            PgLog.info("result_title: " + result_title);
 
             result_local_time = result_local_time.substring(result_local_time.indexOf("<span class=\"KfQeJ\">") + 20, result_local_time.indexOf("</b> 是"));
             result_local_time = result_local_time.replace("</span><b>", " ");
-            log.info("result_local_time: " + result_local_time);
+            PgLog.info("result_local_time: " + result_local_time);
             result_local_time = "台灣 " + result_local_time;
-            log.info("result_local_time: " + result_local_time);
+            PgLog.info("result_local_time: " + result_local_time);
 
             result_remote_time = result_remote_time.substring(result_remote_time.indexOf("class=\"DcFqyf\"><span class=\"fJY1Ee\">") + 36, result_remote_time.length());
             String result_remote_time_temp_remote_name = result_remote_time.substring(0, result_remote_time.indexOf("</span>的"));
-            log.info("result_remote_time_temp_remote_name: " + result_remote_time_temp_remote_name);
+            PgLog.info("result_remote_time_temp_remote_name: " + result_remote_time_temp_remote_name);
             result_remote_time = result_remote_time.substring(result_remote_time.indexOf("</span>的<span class=\"KfQeJ\">") + 28, result_remote_time.indexOf("</b></div>"));
-            log.info("result_remote_time: " + result_remote_time);
+            PgLog.info("result_remote_time: " + result_remote_time);
             result_remote_time = result_remote_time.replace("</span><b>", " ");
-            log.info("result_remote_time: " + result_remote_time);
+            PgLog.info("result_remote_time: " + result_remote_time);
 
             result = result_title + "\n" + result_local_time + "\n是\n" + result_remote_time;
 
         }catch (Exception e) {
-            //log.info("" + e);
+            //PgLog.info("" + e);
             e.printStackTrace();
             this.replyText(replyToken, output);
         }
@@ -5267,7 +5268,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mUserAgentList.size());
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            log.info("getHtml:" + url);
+            PgLog.info("getHtml:" + url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
             //httpGet.addHeader("Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
@@ -5497,10 +5498,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="https://www.findrate.tw/"+country+"/?type="+country+"&order=in1";
-                log.info(url);
+                PgLog.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 String tempParseNumber = "";
                 tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
@@ -5535,7 +5536,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void exchangeBitcon(String text, String replyToken) throws IOException {
         text = text.replace("比特幣換算", "").replace("?", "").replace("？", "").trim();
-        log.info(text);
+        PgLog.info(text);
         try {
             String strResult = text;    
             String country ="";
@@ -5576,7 +5577,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             }
 
-            log.info("country: " + country);
+            PgLog.info("country: " + country);
             if(country.equals("")){
                 strResult = "義大利?維大力? \n請輸入 這些幣別：\n人民幣 盧比 日圓 台幣\n歐元 美金 英鎊";
                 this.replyText(replyToken, strResult);
@@ -5587,17 +5588,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="https://zt.coinmill.com/BTC_" + country + ".html?BTC=1";
 
-                log.info(url);
+                PgLog.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 String tempParseNumber = "";
                 tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
                 tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("<div id=\"currencyBox1\">"), tempParseNumber.length());
                 tempParseNumber = tempParseNumber.substring(tempParseNumber.indexOf("value=\"")+7, tempParseNumber.indexOf("\">\n<a"));
                 
-                log.info(tempParseNumber);
+                PgLog.info(tempParseNumber);
 
                 float rateNumber = 0f;
                 // Pattern pattern = Pattern.compile("[\\d]{1,}\\.[\\d]{1,}");
@@ -5624,7 +5625,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             
         } catch (IOException e) {
-            log.info(e.toString());
+            PgLog.info(e.toString());
             throw e;
         }
     }
@@ -5681,7 +5682,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void exchangeToTwd(String text, String replyToken) throws IOException {
         text = text.replace("換算台幣", "").replace("換算臺幣", "").replace("?", "").replace("？", "").trim();
-        log.info(text);
+        PgLog.info(text);
         try {
             String strResult = text;    
             String country ="";
@@ -5770,10 +5771,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="https://www.findrate.tw/"+country+"/?type="+country+"&order=in1";
-                log.info(url);
+                PgLog.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 String tempParseNumber = "";
                 tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
@@ -5808,7 +5809,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         private void exchangeFromTwd(String text, String replyToken) throws IOException {
         text = text.replace("台幣換算", "").replace("臺幣換算", "").replace("?", "").replace("？", "").trim();
-        log.info(text);
+        PgLog.info(text);
         try {
             String strResult = text;    
             String country = "";
@@ -5908,10 +5909,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String url="https://www.findrate.tw/"+country+"/?type="+country+"&order=in1";
-                log.info(url);
+                PgLog.info(url);
                 HttpGet httpget = new HttpGet(url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 String tempParseNumber = "";
                 tempParseNumber = EntityUtils.toString(httpEntity, "utf-8");
@@ -5946,12 +5947,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void tse(String text, String replyToken) throws IOException {
-        log.info(text);
+        PgLog.info(text);
         String strResult = "";
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url = "http://www.tse.com.tw/api/get.php?method=home_summary";
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
             httpget.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
             httpget.setHeader("Accept-Encoding", "gzip, deflate, sdch");
@@ -5963,7 +5964,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpget.setHeader("User-Agent",
                               "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
             CloseableHttpResponse response = httpClient.execute(httpget);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             Gson gson = new GsonBuilder().create();
             String content = EntityUtils.toString(response.getEntity(), "utf-8");
             TseStock tseStock = gson.fromJson(content, TseStock.class);
@@ -6041,7 +6042,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="http://jandan.net/ooxx";
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
@@ -6052,7 +6053,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 e.printStackTrace();
             }
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String maxPage = "";
@@ -6067,7 +6068,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             jsPath = "http:" + jsPath;
             
-            //log.info("Piggy Check js path: " + jsPath);
+            //PgLog.info("Piggy Check js path: " + jsPath);
 
             httpGet = new HttpGet(jsPath);
             httpGet.addHeader( "User-Agent","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" );
@@ -6079,18 +6080,18 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
             response = httpClient.execute(httpGet);
-            ////log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            ////PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             httpEntity = response.getEntity();
 
             String js_response = EntityUtils.toString(httpEntity, "utf-8");
 
-            //log.info("Piggy Check js_response: " + js_response);
+            //PgLog.info("Piggy Check js_response: " + js_response);
 
             String js_x = js_response.substring(js_response.indexOf("f.remove();var c=")+17, js_response.length());
             js_x = js_x.substring(js_x.indexOf("(e,\"")+4, js_x.length());
             js_x = js_x.substring(0, js_x.indexOf("\");"));
 
-            log.info("Piggy Check js_x: " + js_x);
+            PgLog.info("Piggy Check js_x: " + js_x);
 
             return decryptJanDanImagePath(input, js_x);
 
@@ -6103,7 +6104,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void startFetchJanDanGirlImages() {
         if (mIsStartJandanParsing) {
-            log.info("Piggy Check isStartJandanParsing");
+            PgLog.info("Piggy Check isStartJandanParsing");
             return;
         }
         else {
@@ -6124,15 +6125,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //     mJanDanMaxPage = Integer.parseInt(maxPage);
             // }
             // catch(java.lang.NumberFormatException e1) {
-            //     log.info("NumberFormatException " + e1);
+            //     PgLog.info("NumberFormatException " + e1);
             //     mIsStartJandanParsing = false;
             //     return;
             // }
 
-            //log.info("Piggy Check max page int: " + mJanDanMaxPage);
+            //PgLog.info("Piggy Check max page int: " + mJanDanMaxPage);
 
 
-            log.info("1秒後開始抓取煎蛋妹子圖...");
+            PgLog.info("1秒後開始抓取煎蛋妹子圖...");
             while(true) {
                 mJanDanProgressingPage++;
                 try {
@@ -6153,7 +6154,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             e2.printStackTrace();
         }
         mIsStartJandanParsing = false;
-        log.info("抓取煎蛋妹子圖 Finished.");
+        PgLog.info("抓取煎蛋妹子圖 Finished.");
     }
 
     private String getJanDanJsPath(String target) {
@@ -6173,13 +6174,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             CloseableHttpClient httpClient = HttpClients.createDefault();
             
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             
             String xml = EntityUtils.toString(httpEntity, "utf-8");
@@ -6187,13 +6188,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             xml = xml.substring(0, xml.indexOf("#comments\""));
 
 
-            log.info("Piggy Check next page string: " + xml);
+            PgLog.info("Piggy Check next page string: " + xml);
             return xml;
         
         } catch (Exception e) {
             e.printStackTrace();
         }
-        log.info("Piggy Check parse next page string fail.");
+        PgLog.info("Piggy Check parse next page string fail.");
         return "";
     }
 
@@ -6207,13 +6208,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 url += ("page-"+page);
             }
             
-            log.info(url);
+            PgLog.info(url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String jsPath = "";
@@ -6227,11 +6228,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 //     maxPageInt = Integer.parseInt(maxPage);
                 // }
                 // catch(java.lang.NumberFormatException e1) {
-                //     log.info("NumberFormatException " + e1);
+                //     PgLog.info("NumberFormatException " + e1);
                 //     mIsStartJandanParsing = false;
                 //     return;
                 // }
-                log.info("Piggy Check max page string: " + maxPage);
+                PgLog.info("Piggy Check max page string: " + maxPage);
                 return maxPage;
             }
             else if (target.equals("js")) {
@@ -6241,7 +6242,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
                 jsPath = jsPath.substring(0, jsPath.indexOf("\"></script>"));
                 jsPath = "http:" + jsPath;
-                log.info("Piggy Check js path: " + jsPath);
+                PgLog.info("Piggy Check js path: " + jsPath);
                 httpGet = new HttpGet(jsPath);
                 httpGet.addHeader( "User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36" );
                 httpGet.addHeader( "Accept","*/*" );
@@ -6252,20 +6253,20 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
                 response = httpClient.execute(httpGet);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 httpEntity = response.getEntity();
 
                 String js_response = EntityUtils.toString(httpEntity, "utf-8");
 
-                //log.info("Piggy Check js_response: " + js_response);
+                //PgLog.info("Piggy Check js_response: " + js_response);
 
                 String js_x = js_response.substring(js_response.indexOf("f.remove();var c=")+17, js_response.length());
-                //log.info("Piggy Check js_x1: " + js_x);
+                //PgLog.info("Piggy Check js_x1: " + js_x);
                 js_x = js_x.substring(js_x.indexOf("(e,\"")+4, js_x.length());
-                //log.info("Piggy Check js_x2: " + js_x);
+                //PgLog.info("Piggy Check js_x2: " + js_x);
                 js_x = js_x.substring(0, js_x.indexOf("\");"));
 
-                log.info("Piggy Check js_x: " + js_x);
+                PgLog.info("Piggy Check js_x: " + js_x);
                 return js_x;
             }
         } catch (Exception e) {
@@ -6294,7 +6295,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String maxPage = "";
@@ -6307,9 +6308,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             try {
                 maxPageInt = Integer.parseInt(maxPage);
             }catch(java.lang.NumberFormatException e1) {
-                log.info("NumberFormatException " + e1);
+                PgLog.info("NumberFormatException " + e1);
             }
-            log.info("Piggy Check maxPageInt: " + maxPageInt);
+            PgLog.info("Piggy Check maxPageInt: " + maxPageInt);
             
             String result_url = "";
             int tryCount = 10;
@@ -6321,7 +6322,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 int random_num = randomGenerator.nextInt(maxPageInt-1500)+1500;
                 random_agent_num = randomGenerator.nextInt(mUserAgentList.size());
                 String target_url = "https://www.ptt.cc/bbs/Beauty/index" + random_num + ".html";
-                log.info("Piggy Check target PTT beauty list page: " + target_url);
+                PgLog.info("Piggy Check target PTT beauty list page: " + target_url);
                 httpGet = new HttpGet(target_url);
                 httpGet.addHeader("User-Agent",mUserAgentList.get(random_agent_num));
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484; over18=1" );
@@ -6333,13 +6334,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
                 response = httpClient.execute(httpGet);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 httpEntity = response.getEntity();
 
                 result_url = EntityUtils.toString(httpEntity, "utf-8");
                 if (isHot) {
                     if (result_url.indexOf("hl f1\">爆</span>")<0) {
-                        log.info("Piggy Check can't find BURST in page: " + random_num);
+                        PgLog.info("Piggy Check can't find BURST in page: " + random_num);
                         result_url = "";
                         continue;
                     }
@@ -6374,7 +6375,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                                 resultNumberCountList.add(result);
                             }
                         } catch (java.lang.NumberFormatException e) {
-                            log.info("NumberFormatException: " + e);
+                            PgLog.info("NumberFormatException: " + e);
                             continue;
                         }
                     }
@@ -6414,7 +6415,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
 
                 // Process result save to history table
-                log.info("Piggy Check result_url: " + result_url);
+                PgLog.info("Piggy Check result_url: " + result_url);
 
                 String historyString = resultTitle + "\n\n" + result_url + " " + (numberCount.equals("爆") ? "爆" : (numberCount + "推"));
 
@@ -6435,7 +6436,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
                 response = httpClient.execute(httpGet);
-                //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 httpEntity = response.getEntity();
 
                 String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
@@ -6453,7 +6454,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         result = result.replace("imgur.com","i.imgur.com");
                         result = result + ".jpg";
                         resultImageList.add(result);
-                        log.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
+                        PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
                     }
                 }
                 else {
@@ -6462,7 +6463,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     while(matcherJp.find()){
                         String result = matcherJp.group();
                         resultImageList.add(result);
-                        //log.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                        //PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
                     }
                 }
 
@@ -6477,7 +6478,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             
             if (result_url.equals("")) {
-                log.info("Piggy Check Ptt Beauty parse fail");
+                PgLog.info("Piggy Check Ptt Beauty parse fail");
                 return "";
             }
 
@@ -6496,7 +6497,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://www.instagram.com/" + target + "/";
-            log.info("getInstagramImageUrl:" + url);
+            PgLog.info("getInstagramImageUrl:" + url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
             //httpGet.addHeader("Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
@@ -6516,7 +6517,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             html = EntityUtils.toString(httpEntity, "utf-8");
 
             if (!html.contains("display_url")) {
-                log.info("Piggy Check html: " + html);
+                PgLog.info("Piggy Check html: " + html);
                 return "N/A";
             }
 
@@ -6530,7 +6531,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result = matcher.group();
                 result = result.substring(14, result.length());
                 result = result.substring(0, result.length()-2);
-                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                //PgLog.info("Piggy Check IG " + target + " jpg img_link: " + result);
                 tempImgList.add(result);
             }
 
@@ -6541,7 +6542,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result = matcher.group();
                 result = result.substring(12, result.length());
                 result = result.substring(0, result.length()-2);
-                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                //PgLog.info("Piggy Check IG " + target + " jpg img_link: " + result);
                 tempIgList.add(result);
             }
 
@@ -6551,7 +6552,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result = matcher.group();
                 result = result.substring(24, result.length());
                 result = result.substring(0, result.length()-6);
-                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                //PgLog.info("Piggy Check IG " + target + " jpg img_link: " + result);
                 tempIgLikeCountList.add(result);
             }
 
@@ -6561,13 +6562,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result_url = tempImgList.get(random_num);
                 String ig_url = "https://www.instagram.com/p/" + tempIgList.get(random_num);
                 String like_count = tempIgLikeCountList.get(random_num);
-                log.info("Piggy Check ig_url: " + ig_url);
+                PgLog.info("Piggy Check ig_url: " + ig_url);
                 mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
                 mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
                 return result_url;
             }
             else {
-                log.info("Piggy Check parse IG fail!");
+                PgLog.info("Piggy Check parse IG fail!");
             }
             
         }catch (Exception e) {
@@ -6584,7 +6585,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://www.instagram.com/explore/tags/" + target + "/";
-            log.info("getRandomInstagramImageUrl:" + url);
+            PgLog.info("getRandomInstagramImageUrl:" + url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
@@ -6617,7 +6618,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result = matcher.group();
                 result = result.substring(14, result.length());
                 result = result.substring(0, result.length()-2);
-                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                //PgLog.info("Piggy Check IG " + target + " jpg img_link: " + result);
                 if (result.contains("\\u0026")) {
                     result = result.replace("\\u0026","&");
                 }
@@ -6641,7 +6642,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result = matcher.group();
                 result = result.substring(24, result.length());
                 result = result.substring(0, result.length()-6);
-                //log.info("Piggy Check IG " + target + " jpg img_link: " + result);
+                //PgLog.info("Piggy Check IG " + target + " jpg img_link: " + result);
                 tempIgLikeCountList.add(result);
             }
 
@@ -6651,13 +6652,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String result_url = tempImgList.get(random_num);
                 String ig_url = "https://www.instagram.com/p/" + tempIgList.get(random_num);
                 String like_count = tempIgLikeCountList.get(random_num);
-                log.info("Piggy Check ig_url: " + ig_url);
+                PgLog.info("Piggy Check ig_url: " + ig_url);
                 mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
                 mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
                 return result_url;
             }
             else {
-                log.info("Piggy Check parse IG fail!");
+                PgLog.info("Piggy Check parse IG fail!");
             }
             
         }catch (Exception e) {
@@ -6674,7 +6675,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://www.pexels.com/search/" + target;
-            log.info("getRandomPexelsImageUrl:" + url);
+            PgLog.info("getRandomPexelsImageUrl:" + url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
@@ -6686,7 +6687,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
             String maxPage = "";
@@ -6703,7 +6704,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             Matcher matcher = pattern.matcher(maxPage);
             while(matcher.find()){
                 maxPage = matcher.group();
-                //log.info("Piggy Check matcher: " + maxPage);
+                //PgLog.info("Piggy Check matcher: " + maxPage);
                 maxPage = maxPage.substring(5, maxPage.length());
                 maxPage = maxPage.substring(0, maxPage.indexOf("\">"));
             }
@@ -6712,9 +6713,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 maxPageInt = Integer.parseInt(maxPage);
             }
             catch(java.lang.NumberFormatException e1) {
-                log.info("NumberFormatException");
+                PgLog.info("NumberFormatException");
             }
-            log.info("Piggy Check maxPageInt: " + maxPageInt);
+            PgLog.info("Piggy Check maxPageInt: " + maxPageInt);
 
             if (maxPageInt > 0) {
                 random_num = randomGenerator.nextInt(maxPageInt);
@@ -6730,7 +6731,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
 
             response = httpClient.execute(httpGet);
-            //log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             httpEntity = response.getEntity();
             String html = EntityUtils.toString(httpEntity, "utf-8");
 
@@ -6743,7 +6744,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 result = result.substring(13, result.length());
                 result = result.substring(0, result.length()-3);
                 result = result.substring(0, result.indexOf("?"));
-                //log.info("Piggy Check Pexel " + target + " jpg img_link: " + result);
+                //PgLog.info("Piggy Check Pexel " + target + " jpg img_link: " + result);
                 tempList.add(result);
             }
 
@@ -6751,11 +6752,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 random_num = randomGenerator.nextInt(tempList.size());
 
                 String result_url = tempList.get(random_num);
-                log.info("Piggy Check result_url: " + result_url);
+                PgLog.info("Piggy Check result_url: " + result_url);
                 return result_url;
             }
             else {
-                log.info("Piggy Check parse fail!");
+                PgLog.info("Piggy Check parse fail!");
             }
             
             
@@ -6793,12 +6794,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             while(matcherJpg.find()){
                 String result = matcherJpg.group();
                 result = result.substring(13, result.length());
-                log.info("Piggy Check Pexel " + target + " img_link: " + result);
+                PgLog.info("Piggy Check Pexel " + target + " img_link: " + result);
             }
             while(matcherJpeg.find()){
                 String result = matcherJpeg.group();
                 result = result.substring(13, result.length());
-                log.info("Piggy Check Pexel " + target + " img_link: " + result);
+                PgLog.info("Piggy Check Pexel " + target + " img_link: " + result);
             }
         }
     }
@@ -6844,7 +6845,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
 
                 if (js_x.equals("")){
-                    log.info("Backup jandan js_x is null and parse js_x failed. Drop this page.");
+                    PgLog.info("Backup jandan js_x is null and parse js_x failed. Drop this page.");
                     return;
                 }
 
@@ -6855,17 +6856,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                     String result_final = decryptJanDanImagePath(result,js_x);
                     mJanDanParseCount++;
-                    // log.info("Piggy Check img_link: " + result_final);
+                    // PgLog.info("Piggy Check img_link: " + result_final);
                     result_final.replaceAll(" ", "");
                     if (!result_final.endsWith(".jpg")&&!result_final.endsWith(".png")&&!result_final.endsWith(".jpeg")&&!result_final.endsWith(".gif")){
-                        log.info("Parse error? result_final: " + result_final);
+                        PgLog.info("Parse error? result_final: " + result_final);
                         if (!mLastWorkableJsX.equals("")&&!js_x.equals(mLastWorkableJsX)) {
                             // Workaround, try last workable js_x and decrypt again.
-                            log.info("Try backup js_x: " + mLastWorkableJsX);
+                            PgLog.info("Try backup js_x: " + mLastWorkableJsX);
                             js_x = mLastWorkableJsX;
                             result_final = decryptJanDanImagePath(result,js_x);
                             if (!result_final.endsWith(".jpg")&&!result_final.endsWith(".png")&&!result_final.endsWith(".jpeg")&&!result_final.endsWith(".gif")){
-                                log.info("Still Parse error? result_final: " + result_final);
+                                PgLog.info("Still Parse error? result_final: " + result_final);
                                 mLastWorkableJsX = "";
                             }
                             else {
@@ -7029,21 +7030,21 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
     private void dumpClassMethod(Class c) {
         for (Method method : c.getDeclaredMethods()) {
-            log.info("Method name: " + method.getName());
+            PgLog.info("Method name: " + method.getName());
         }
     }
 
     private String getGroupSourcePrivateString(Source source, String name) {
-        log.info("getGroupSourcePrivateString: " + source + " name: " + name);
+        PgLog.info("getGroupSourcePrivateString: " + source + " name: " + name);
         try {
             Field field = GroupSource.class.getDeclaredField(name);
-            log.info("field: " + field);
+            PgLog.info("field: " + field);
             field.setAccessible(true);
             Object value = field.get((GroupSource)source);
-            log.info("value: " + value);
+            PgLog.info("value: " + value);
             return (String) value;
         } catch(Exception e) {
-            log.info("Exception: " + e);
+            PgLog.info("Exception: " + e);
             return "";
         }
     }
@@ -7055,7 +7056,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             Object value = field.get((UserSource)source);
             return (String) value;
         } catch(Exception e) {
-            log.info("Exception: " + e);
+            PgLog.info("Exception: " + e);
             return "";
         }
     }
@@ -7091,7 +7092,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     Thread.sleep(3000);
                     checkEarthquakeReport();
                 } catch (Exception e) {
-                    log.info("NewestEarthquakeTimeCheckThread e: " + e);
+                    PgLog.info("NewestEarthquakeTimeCheckThread e: " + e);
                 }
             }
             
@@ -7115,7 +7116,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (newestEarthquakeTime.contains("<i class=")) {
                 newestEarthquakeTime = newestEarthquakeTime.substring(0, newestEarthquakeTime.indexOf("<i class="));
             }
-            //log.info("Newest earth quake time: " + newestEarthquakeTime);
+            //PgLog.info("Newest earth quake time: " + newestEarthquakeTime);
             
             String targetReport = "https://www.cwb.gov.tw";
             targetReport += strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
@@ -7167,7 +7168,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mNewestEarthquakeTime = newestEarthquakeTime;
 
         } catch (Exception e) {
-            log.info("checkEarthquakeReport e: " + e);
+            PgLog.info("checkEarthquakeReport e: " + e);
         }
     }
 
@@ -7185,7 +7186,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     Thread.sleep(5000);
                     checkNeedToWorkOrSchoolReport();
                 } catch (Exception e) {
-                    log.info("NewestEarthquakeTimeCheckThread e: " + e);
+                    PgLog.info("NewestEarthquakeTimeCheckThread e: " + e);
                 }
             }
             
@@ -7246,7 +7247,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("<br/>"));
             newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("\r"));
             
-            //log.info("Newest DGPA time: " + newestDgpaReportTime);
+            //PgLog.info("Newest DGPA time: " + newestDgpaReportTime);
             
             String dgpaTableBody = strResult.substring(strResult.indexOf("<TBODY class=\"Table_Body\">"), strResult.length());
 
@@ -7267,7 +7268,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mNewestDgpaReportTime = newestDgpaReportTime;
 
         } catch (Exception e) {
-            //log.info("checkNeedToWorkOrSchoolReport e: " + e);
+            //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
         }
     }
 
@@ -7301,7 +7302,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         notifyAllNeedIngressTwitterEventRoom();
                     }
                 } catch (Exception e) {
-                    log.info("NewestIngressCheckThread e: " + e);
+                    PgLog.info("NewestIngressCheckThread e: " + e);
                 }
             }
         }
@@ -7329,7 +7330,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mNewestIngressTwitterTime = result;
             return isNeedUpdate;
         } catch (Exception e) {
-            log.info("checkEarthquakeReport e: " + e);
+            PgLog.info("checkEarthquakeReport e: " + e);
         }
         return false;
 
@@ -7344,7 +7345,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             mNewestIngressTwitterTime = strResult.substring(strResult.indexOf("data-time-ms=\"")+14,strResult.indexOf("data-time-ms=\"")+27);
             
-            log.info("Newest ingress twitter time: " + mNewestIngressTwitterTime);
+            PgLog.info("Newest ingress twitter time: " + mNewestIngressTwitterTime);
 
             strResult = strResult.substring(strResult.indexOf("<small class=\"time\">")+20,strResult.length());
 
@@ -7352,19 +7353,19 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String twitterUrl = "https://twitter.com" + strResult.substring(0, strResult.indexOf("\""));
 
-            log.info("Newest ingress twitter Url: " + twitterUrl);
+            PgLog.info("Newest ingress twitter Url: " + twitterUrl);
 
             strResult = strResult.substring(strResult.indexOf("title=\"")+7,strResult.length());
 
             String titleTime = strResult.substring(0, strResult.indexOf("\""));
 
-            log.info("Newest ingress twitter time: " + titleTime);
+            PgLog.info("Newest ingress twitter time: " + titleTime);
 
             strResult = strResult.substring(strResult.indexOf("data-aria-label-part=\"0\">")+25,strResult.length());
 
             String twitterContext = strResult.substring(0, strResult.indexOf("</p>"));
 
-            log.info("Newest ingress twitter context: " + twitterContext);
+            PgLog.info("Newest ingress twitter context: " + twitterContext);
 
             String result = "Ingress Newest Twitter\n";
 
@@ -7376,7 +7377,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
         } catch (Exception e) {
-            log.info("checkEarthquakeReport e: " + e);
+            PgLog.info("checkEarthquakeReport e: " + e);
         }
         return "抓取 Ingress Twitter 失敗";
     }
@@ -7609,7 +7610,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mUserAgentList.size());
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            log.info("getChinaVirusTaiwanData:" + url);
+            PgLog.info("getChinaVirusTaiwanData:" + url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
             //httpGet.addHeader("Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );

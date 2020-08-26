@@ -34,7 +34,7 @@ public class FileUtil {
             String line = null;
             while ((line = br.readLine()) != null) contents.add(line);
         } catch (Exception ex) {
-            log.error("Error in readTextFile : " + ex.toString());
+            PgLog.error("Error in readTextFile : " + ex.toString());
         } finally {
             ioClose(br);
         }
@@ -52,7 +52,7 @@ public class FileUtil {
                 Method m = o.getClass().getMethod("close");
                 m.invoke(o);
             } catch (Exception e) {
-                log.error("Error in ioClose : " + e.toString());
+            	PgLog.error("Error in ioClose : " + e.toString());
             }
         }
     }
