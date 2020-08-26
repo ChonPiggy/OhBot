@@ -158,6 +158,7 @@ public class OhBotController {
     private String IMAGE_YOU_ARE_PERVERT = "https://i.imgur.com/dRJinz7.jpg";
     private String IMAGE_GPNUDD = "https://i.imgur.com/0Kr7J44.jpg";
     private String IMAGE_BE_A_GOOD_MAN = "https://i.imgur.com/Hy74quj.jpg";
+    private boolean mIsSingleRandomGirl = true;
 
     private List<String> mIWillBeLateList = new ArrayList<String> (
         Arrays.asList("https://i.imgur.com/0cNbr9c.jpg",
@@ -1694,6 +1695,15 @@ public class OhBotController {
 
         if (text.endsWith("的羅馬拼音?") || text.endsWith("的羅馬拼音？") || text.endsWith("的羅馬拼音是?") || text.endsWith("的羅馬拼音是？")) {
             japaneseNameToRomaji(replyToken, text);
+        }
+        
+        if (text.startsWith("PgCommand抽單張")) {
+        	mIsSingleRandomGirl = true;
+            this.replyText(replyToken, "好的 PG 大人");
+        }
+        else if (text.startsWith("PgCommand抽多張")) {
+        	mIsSingleRandomGirl = false;
+            this.replyText(replyToken, "好的 PG 大人");
         }
 
         if (text.startsWith("PgCommand設定MD地圖:")) {
@@ -4110,7 +4120,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
         }
-        else if (result.getUrlList().size() == 1) {
+        else if (result.getUrlList().size() == 1 || mIsSingleRandomGirl) {
         	String url = "";
         	if (result.getUrlList().get(0).endsWith(".gif")) {
                 this.replyText(replyToken, "Line 不能顯示 gif 直接貼: " + url);
