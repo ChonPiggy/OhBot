@@ -6,6 +6,7 @@ import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.URIAction;
+import com.linecorp.bot.model.action.URIAction.AltUri;
 import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.Event;
@@ -2119,7 +2120,7 @@ public class OhBotController {
     }
 
     private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
-        return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), null));
+        return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
     }
 
     private void replyImageCarouselTemplate(@NonNull String replyToken, String altText, @NonNull List<ImageCarouselColumn> columns) {
@@ -4120,18 +4121,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         else {
         	List<ImageCarouselColumn> columnsList = new ArrayList<>();
         	int index = 0;
-        	int MAX_CAROUSEL_COLUMN = 8;
+        	int MAX_CAROUSEL_COLUMN = 4;
             while (index < result.getUrlList().size()) {
-                String searchResultUrl = result.getResultUrl();
-                String imgUrl = result.getUrlList().get(index);
-                PgLog.info("Piggy Check searchResultUrl: " + searchResultUrl);
-                PgLog.info("Piggy Check imgUrl: " + imgUrl);
-                if (imgUrl.endsWith(".gif")) {
+                PgLog.info("Piggy Check searchResultUrl: " + result.getResultUrl());
+                PgLog.info("Piggy Check imgUrl: " + result.getUrlList().get(index));
+                if (result.getUrlList().get(index).endsWith(".gif")) {
                 	continue;
                 }
-                columnsList.add(getImageCarouselColumn(imgUrl, result.getDescribeString(), searchResultUrl));
+                columnsList.add(getImageCarouselColumn(result.getUrlList().get(index), result.getTitle(), result.getResultUrl()));
                 index++;
-                if (index >= MAX_CAROUSEL_COLUMN) {
+                if (index > MAX_CAROUSEL_COLUMN) {
                 	break;
                 }
             }
@@ -6325,7 +6324,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	private List<String> urlList;
     	private String resultUrl;
     	private String describeString;
-    	public PttBeautyGirl(List<String> list, String url, String describe) {
+    	private String title;
+    	public PttBeautyGirl(List<String> list, String url, String title, String describe) {
     		urlList = list;
     		resultUrl = url;
     		describeString = describe;
@@ -6341,6 +6341,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	
     	public String getDescribeString() {
     		return describeString;
+    	}
+    	
+    	public String getTitle() {
+    		return title;
     	}
     }
 
@@ -6538,9 +6542,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 
                 if (resultImageList.size() > 0) {
-                    random_num = randomGenerator.nextInt(resultImageList.size());
+                    //random_num = randomGenerator.nextInt(resultImageList.size());
                     //return resultImageList.get(random_num);
-                    return new PttBeautyGirl(resultImageList, result_url, historyString);
+                    return new PttBeautyGirl(resultImageList, result_url, resultTitle, historyString);
                 }
                 else {
                     continue;
