@@ -4128,6 +4128,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         	int count = 0;
         	int MAX_CAROUSEL_COLUMN = 9;
             while (index < result.getUrlList().size()) {
+                PgLog.info("Piggy Check title: " + result.getTitle());
                 PgLog.info("Piggy Check searchResultUrl: " + result.getResultUrl());
                 PgLog.info("Piggy Check imgUrl: " + result.getUrlList().get(index));
                 if (!result.getUrlList().get(index).endsWith(".gif")) {
@@ -6535,7 +6536,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         	result = result.substring(0, result.indexOf("</a>"));
                         }
                         result = result + ".jpg";
-                        resultImageList.add(result);
+                        if (!resultImageList.contains(result)) {
+                        	resultImageList.add(result);
+                        }
                         PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
                     }
                 }
@@ -6544,7 +6547,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     Matcher matcherJp = patternJp.matcher(result_image_image);
                     while(matcherJp.find()){
                         String result = matcherJp.group();
-                        resultImageList.add(result);
+                        if (!resultImageList.contains(result)) {
+                        	resultImageList.add(result);
+                        }
                         PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
                     }
                 }
