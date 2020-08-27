@@ -268,7 +268,7 @@ public class OhBotController {
     private class PttBeautyHistory {
     	int ARRAY_MAX_ELEMENTS = 10;
     	ArrayList<PttBeautyGirl> history = new ArrayList<PttBeautyGirl>(ARRAY_MAX_ELEMENTS); // search page history
-    	int index = 0;
+    	int index = -1;
     	public void addHistory(PttBeautyGirl girl) {
     		if (index+1 == ARRAY_MAX_ELEMENTS) {
     			index = 0;
