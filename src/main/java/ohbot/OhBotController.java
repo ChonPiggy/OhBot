@@ -1288,20 +1288,39 @@ public class OhBotController {
             instagramTarget(userId, senderId, text, replyToken, false, true);
         }
         
-        if (text.equals("抽單張")) {
+        if (text.equals("設定抽單張")) {
         	mPttBeautySinglePicMap.put(userId, Boolean.valueOf(true));
             this.replyText(replyToken, "好的");
+            return;
         }
-        else if (text.equals("抽多張")) {
+        else if (text.equals("設定抽多張")) {
         	mPttBeautySinglePicMap.put(userId, Boolean.valueOf(false));
             this.replyText(replyToken, "好的");
+            return;
+        }
+        
+        if (text.equals("抽單張")) {
+        	randomPttBeautyGirl(userId, senderId, replyToken, false, SINGLE_PIC);
+            return;
+        }
+        else if (text.equals("抽多張")) {
+        	randomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
+            return;
+        }
+        else if (text.equals("爆抽單張")) {
+        	randomPttBeautyGirl(userId, senderId, replyToken, true, SINGLE_PIC);
+            return;
+        }
+        else if (text.equals("爆抽多張")) {
+        	randomPttBeautyGirl(userId, senderId, replyToken, true, MULTI_PIC);
+            return;
         }
 
         if ((text.startsWith("抽") || text.startsWith("熱抽") || text.startsWith("爆抽")) && text.length() > 1) {
             if(text.replace("抽", "").replace("爆", "").replace(" ", "").trim().equals("")) {
             	// Pic Source from PTT beauty
                 boolean isHot = text.startsWith("爆抽");
-                randomPttBeautyGirl(userId, senderId, replyToken, isHot);
+                randomPttBeautyGirl(userId, senderId, replyToken, isHot, 0);
             }
             else {
             	// Pic Source from IG
@@ -1318,7 +1337,7 @@ public class OhBotController {
             }
         }
         else if (text.equals("抽")) {
-            randomPttBeautyGirl(userId, senderId, replyToken, false);
+            randomPttBeautyGirl(userId, senderId, replyToken, false, 0);
             //randomGirl(text, replyToken);
         }
 
@@ -4085,8 +4104,23 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, result);
         }
     }
-
-    private void randomPttBeautyGirl(String userId, String senderId, String replyToken, boolean isHot) throws IOException {
+    
+    final int SINGLE_PIC = 1;
+    final int MULTI_PIC = 2;
+    private void randomPttBeautyGirl(String userId, String senderId, String replyToken, boolean isHot, int singlePicFlag) throws IOException {
+    	boolean isSinglePic = mPttBeautySinglePicMap.containsKey(userId) 
+        		? mPttBeautySinglePicMap.get(userId).booleanValue() 
+        		: false /*default false*/;
+        if (singlePicFlag > 0) {
+        	switch(singlePicFlag) {
+        	case SINGLE_PIC:
+        		isSinglePic = true;
+        		break;
+        	case MULTI_PIC:
+        		isSinglePic = false;
+        		break;
+        	}
+        }
         if (senderId.equals(GROUP_ID_CONNECTION)) {
             if(mConnectionGroupRandomGirlUserIdList.contains(userId)) {
                 this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
@@ -4128,9 +4162,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (url.indexOf("http:") >= 0) {
             url = url.replace("http", "https");
         }*/
-        boolean isSinglePic = mPttBeautySinglePicMap.containsKey(userId) 
-        		        		? mPttBeautySinglePicMap.get(userId).booleanValue() 
-        		        		: false /*default false*/;
+        
         if (result.getUrlList().size() <= 0) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
