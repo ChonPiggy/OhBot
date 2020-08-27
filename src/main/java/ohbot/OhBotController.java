@@ -269,29 +269,34 @@ public class OhBotController {
     	int ARRAY_MAX_ELEMENTS = 10;
     	ArrayList<PttBeautyGirl> history = new ArrayList<PttBeautyGirl>(ARRAY_MAX_ELEMENTS); // search page history
     	int index = -1;
+    	private byte[] lock = new byte[0];
     	public void addHistory(PttBeautyGirl girl) {
-    		if (index+1 == ARRAY_MAX_ELEMENTS) {
-    			index = 0;
-        		history.set(index, girl);
-    		}
-    		else {
-    			index++;
-    			history.add(girl);
+    		synchronized (lock) {
+	    		if (index+1 == ARRAY_MAX_ELEMENTS) {
+	    			index = 0;
+	        		history.set(index, girl);
+	    		}
+	    		else {
+	    			index++;
+	    			history.add(girl);
+	    		}
     		}
     	}
     	public List<PttBeautyGirl> getSearchHistoryList() {
-    		List<PttBeautyGirl> result = new ArrayList<PttBeautyGirl>();
-    		int count = history.size();
-    		int copyIndex = index;
-    		while (count > 0) {
-    			result.add(history.get(copyIndex));
-    			copyIndex--;
-    			if (copyIndex<0) {
-    				copyIndex = history.size()-1;
-    			}
-    			count--;
+    		synchronized (lock) {
+	    		List<PttBeautyGirl> result = new ArrayList<PttBeautyGirl>();
+	    		int count = history.size();
+	    		int copyIndex = index;
+	    		while (count > 0) {
+	    			result.add(history.get(copyIndex));
+	    			copyIndex--;
+	    			if (copyIndex<0) {
+	    				copyIndex = history.size()-1;
+	    			}
+	    			count--;
+	    		}
+	    		return result;
     		}
-    		return result;
     	}
     }
 
