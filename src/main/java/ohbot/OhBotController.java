@@ -261,9 +261,38 @@ public class OhBotController {
     private List<String> mConnectionGroupRandomGirlUserIdList = new ArrayList<String> ();
     private List<String> mWizardGroupList = new ArrayList<String> (); // senderId
     private HashMap<String, PttBeautyGirl> mWhoImPickRandomGirlMap = new HashMap<>(); // userId, webLink
-    private HashMap<String, PttBeautyGirl> mWhoTheyPickRandomGirlMap = new HashMap<>(); // senderId, webLink
+    private HashMap<String, PttBeautyHistory> mWhoTheyPickRandomGirlMap = new HashMap<>(); // senderId, webLink
     private HashMap<String, Integer> mTokyoHotRandomGirlLimitationList = new HashMap<>(); // userId, count
     private HashMap<String, Boolean> mPttBeautySinglePicMap = new HashMap<>(); // userId, boolean flag, default is false
+    
+    private class PttBeautyHistory {
+    	int ARRAY_MAX_ELEMENTS = 10;
+    	ArrayList<PttBeautyGirl> history = new ArrayList<PttBeautyGirl>(ARRAY_MAX_ELEMENTS); // search page history
+    	int index = 0;
+    	public void addHistory(PttBeautyGirl girl) {
+    		if (index+1 > ARRAY_MAX_ELEMENTS) {
+    			index = 0;
+    		}
+    		else {
+    			index++;
+    		}
+    		history.set(index, girl);
+    	}
+    	public List<PttBeautyGirl> getSearchHistoryList() {
+    		List<PttBeautyGirl> result = new ArrayList<PttBeautyGirl>();
+    		int count = history.size();
+    		int copyIndex = index;
+    		while (count > 0) {
+    			result.add(history.get(copyIndex));
+    			copyIndex++;
+    			if (copyIndex>ARRAY_MAX_ELEMENTS) {
+    				copyIndex = 0;
+    			}
+    			count--;
+    		}
+    		return result;
+    	}
+    }
 
     private CoronaVirusWikiRankCrawlThread mCoronaVirusWikiRankCrawlThread = null;
     
@@ -3709,7 +3738,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void whoTheyPickRandomPttBeautyGirlMap(String senderId, String replyToken) {
         if (mWhoTheyPickRandomGirlMap.containsKey(senderId)) {
             //this.replyText(replyToken, mWhoTheyPickRandomGirlMap.get(senderId));
-        	processReplyPttBeautyGirl(replyToken, mWhoTheyPickRandomGirlMap.get(senderId));
+        	processReplyPttBeautyGirlHistory(replyToken, mWhoTheyPickRandomGirlMap.get(senderId));
         }
         else {
             this.replyText(replyToken, "這群組還沒人抽過唷");
@@ -4186,6 +4215,29 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         else {
         	processReplyPttBeautyGirl(replyToken, result);
         }
+    }
+    
+    private void processReplyPttBeautyGirlHistory(String replyToken, PttBeautyHistory girlHistory) {
+    	List<ImageCarouselColumn> columnsList = new ArrayList<>();
+    	int index = 0;
+    	int count = 0;
+    	int MAX_CAROUSEL_COLUMN = 9;
+    	List<PttBeautyGirl> history = girlHistory.getSearchHistoryList();
+        for(int i=0;i<history.size();i++) {
+            PgLog.info("Piggy Check title: " + history.get(i).getTitle());
+            PgLog.info("Piggy Check searchResultUrl: " + history.get(i).getResultUrl());
+            PgLog.info("Piggy Check imgUrl: " + history.get(i).getUrlList().get(index));
+            if (!history.get(i).getUrlList().get(index).endsWith(".gif")) {
+            	columnsList.add(getImageCarouselColumn(history.get(i).getUrlList().get(0), (history.get(i).getTitle() + " " + history.get(i).getRank()), history.get(i).getResultUrl()));
+                count++;
+            }
+            index++;
+            if (count > MAX_CAROUSEL_COLUMN) {
+            	break;
+            }
+        }
+
+        this.replyImageCarouselTemplate(replyToken, "Ptt Beauty History", columnsList);
     }
     
     private void processReplyPttBeautyGirl(String replyToken, PttBeautyGirl girl) {
@@ -6634,7 +6686,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     //return resultImageList.get(random_num);
                 	PttBeautyGirl girl = new PttBeautyGirl(resultImageList, result_url, resultTitle, historyString, rank);
                     mWhoImPickRandomGirlMap.put(userId, girl);
-                    mWhoTheyPickRandomGirlMap.put(senderId, girl);
+                    if (!mWhoTheyPickRandomGirlMap.containsKey(senderId)) {
+                    	PttBeautyHistory history = new PttBeautyHistory();
+                    	history.addHistory(girl);
+                    	mWhoTheyPickRandomGirlMap.put(senderId, history);
+                    }
+                    else {
+                    	PttBeautyHistory history = mWhoTheyPickRandomGirlMap.get(senderId);
+                    	history.addHistory(girl);
+                    	mWhoTheyPickRandomGirlMap.put(senderId, history);
+                    }
                     return girl;
                 }
                 else {
