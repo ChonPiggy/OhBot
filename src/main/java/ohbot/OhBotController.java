@@ -272,10 +272,16 @@ public class OhBotController {
     	private byte[] lock = new byte[0];
     	public void addHistory(PttBeautyGirl girl) {
     		synchronized (lock) {
-	    		if (index+1 == ARRAY_MAX_ELEMENTS) {
-	    			index = 0;
-	        		history.set(index, girl);
-	    		}
+    			if (history.size() >= 10) {
+    				if (index+1 == ARRAY_MAX_ELEMENTS) {
+    	    			index = 0;
+    	        		history.set(index, girl);
+    	    		}
+    				else {
+    					index++;
+    					history.set(index, girl);
+    				}
+    			}	    		
 	    		else {
 	    			index++;
 	    			history.add(girl);
@@ -4233,8 +4239,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	List<PttBeautyGirl> history = girlHistory.getSearchHistoryList();
         for(int i=0;i<history.size();i++) {
             PgLog.info("Piggy Check title: " + history.get(i).getTitle());
-            PgLog.info("Piggy Check searchResultUrl: " + history.get(i).getResultUrl());
-            PgLog.info("Piggy Check imgUrl: " + history.get(i).getUrlList().get(0));
+            //PgLog.info("Piggy Check searchResultUrl: " + history.get(i).getResultUrl());
+            //PgLog.info("Piggy Check imgUrl: " + history.get(i).getUrlList().get(0));
             if (!history.get(i).getUrlList().get(0).endsWith(".gif")) {
             	columnsList.add(getImageCarouselColumn(history.get(i).getUrlList().get(0), (history.get(i).getTitle() + " " + history.get(i).getRank()), history.get(i).getResultUrl()));
                 count++;
@@ -4270,7 +4276,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         PgLog.info("Piggy Check title: " + girl.getTitle());
         PgLog.info("Piggy Check searchResultUrl: " + girl.getResultUrl());
         while (index < girl.getUrlList().size()) {
-            PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));
+            //PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));
             if (!girl.getUrlList().get(index).endsWith(".gif")) {
             	columnsList.add(getImageCarouselColumn(girl.getUrlList().get(index), (girl.getTitle() + " " + girl.getRank()), girl.getResultUrl()));
                 count++;
