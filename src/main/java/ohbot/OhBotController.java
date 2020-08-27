@@ -263,7 +263,7 @@ public class OhBotController {
     private HashMap<String, PttBeautyGirl> mWhoImPickRandomGirlMap = new HashMap<>(); // userId, webLink
     private HashMap<String, PttBeautyGirl> mWhoTheyPickRandomGirlMap = new HashMap<>(); // senderId, webLink
     private HashMap<String, Integer> mTokyoHotRandomGirlLimitationList = new HashMap<>(); // userId, count
-    private HashMap<String, Boolean> mPttBeautySinglePicMap = new HashMap<>(); // senderId, boolean flag, default is false
+    private HashMap<String, Boolean> mPttBeautySinglePicMap = new HashMap<>(); // userId, boolean flag, default is false
 
     private CoronaVirusWikiRankCrawlThread mCoronaVirusWikiRankCrawlThread = null;
     
@@ -1700,11 +1700,11 @@ public class OhBotController {
         }
         
         if (text.startsWith("抽單張")) {
-        	mPttBeautySinglePicMap.put(senderId, Boolean.valueOf(true));
+        	mPttBeautySinglePicMap.put(userId, Boolean.valueOf(true));
             this.replyText(replyToken, "好的");
         }
         else if (text.startsWith("抽多張")) {
-        	mPttBeautySinglePicMap.put(senderId, Boolean.valueOf(false));
+        	mPttBeautySinglePicMap.put(userId, Boolean.valueOf(false));
             this.replyText(replyToken, "好的");
         }
 
@@ -1912,6 +1912,7 @@ public class OhBotController {
 
         if (text.equals("我的Line群組Id")) {
             this.replyText(replyToken, "您的 Line Group Id 為: " + senderId);
+            
             return;
         }
 
@@ -4126,8 +4127,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             url = url.replace("http", "https");
         }*/
         boolean isSinglePic = mPttBeautySinglePicMap.containsKey(senderId) 
-        		        		? false /*default false*/ 
-        		        		: mPttBeautySinglePicMap.get(senderId).booleanValue();
+        		        		? mPttBeautySinglePicMap.get(senderId).booleanValue() 
+        		        		: false /*default false*/;
         if (result.getUrlList().size() <= 0) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
