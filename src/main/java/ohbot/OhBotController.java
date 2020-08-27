@@ -285,9 +285,9 @@ public class OhBotController {
     		int copyIndex = index;
     		while (count > 0) {
     			result.add(history.get(copyIndex));
-    			copyIndex++;
-    			if (copyIndex>ARRAY_MAX_ELEMENTS) {
-    				copyIndex = 0;
+    			copyIndex--;
+    			if (copyIndex==0) {
+    				copyIndex = history.size()-1;
     			}
     			count--;
     		}
