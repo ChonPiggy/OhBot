@@ -1287,13 +1287,24 @@ public class OhBotController {
             text = text.trim().replace("抽IG:", "").replace("抽Ig:", "").replace("抽ig:", "").replace(" ", "");
             instagramTarget(userId, senderId, text, replyToken, false, true);
         }
+        
+        if (text.equals("抽單張")) {
+        	mPttBeautySinglePicMap.put(userId, Boolean.valueOf(true));
+            this.replyText(replyToken, "好的");
+        }
+        else if (text.equals("抽多張")) {
+        	mPttBeautySinglePicMap.put(userId, Boolean.valueOf(false));
+            this.replyText(replyToken, "好的");
+        }
 
         if ((text.startsWith("抽") || text.startsWith("熱抽") || text.startsWith("爆抽")) && text.length() > 1) {
             if(text.replace("抽", "").replace("爆", "").replace(" ", "").trim().equals("")) {
+            	// Pic Source from PTT beauty
                 boolean isHot = text.startsWith("爆抽");
                 randomPttBeautyGirl(userId, senderId, replyToken, isHot);
             }
             else {
+            	// Pic Source from IG
                 boolean isHot = text.startsWith("熱抽");
                 text = text.trim().replace("熱抽", "").replace("抽", "").replace(" ", "");
 
@@ -1697,15 +1708,6 @@ public class OhBotController {
 
         if (text.endsWith("的羅馬拼音?") || text.endsWith("的羅馬拼音？") || text.endsWith("的羅馬拼音是?") || text.endsWith("的羅馬拼音是？")) {
             japaneseNameToRomaji(replyToken, text);
-        }
-        
-        if (text.startsWith("抽單張")) {
-        	mPttBeautySinglePicMap.put(userId, Boolean.valueOf(true));
-            this.replyText(replyToken, "好的");
-        }
-        else if (text.startsWith("抽多張")) {
-        	mPttBeautySinglePicMap.put(userId, Boolean.valueOf(false));
-            this.replyText(replyToken, "好的");
         }
 
         if (text.startsWith("PgCommand設定MD地圖:")) {
