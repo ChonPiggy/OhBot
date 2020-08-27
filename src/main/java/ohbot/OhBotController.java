@@ -286,7 +286,7 @@ public class OhBotController {
     		while (count > 0) {
     			result.add(history.get(copyIndex));
     			copyIndex--;
-    			if (copyIndex==-1) {
+    			if (copyIndex<0) {
     				copyIndex = history.size()-1;
     			}
     			count--;
@@ -1351,6 +1351,7 @@ public class OhBotController {
             	// Pic Source from PTT beauty
                 boolean isHot = text.startsWith("爆抽");
                 randomPttBeautyGirl(userId, senderId, replyToken, isHot, 0);
+                return;
             }
             else {
             	// Pic Source from IG
@@ -1358,6 +1359,7 @@ public class OhBotController {
                 text = text.trim().replace("熱抽", "").replace("抽", "").replace(" ", "");
 
                 instagramTarget(userId, senderId, text, replyToken, isHot, false);
+                return;
                 /*if (isStringIncludeChinese(text)) {
                     instagramTarget(text, replyToken);
                 }
@@ -1369,6 +1371,7 @@ public class OhBotController {
         else if (text.equals("抽")) {
             randomPttBeautyGirl(userId, senderId, replyToken, false, 0);
             //randomGirl(text, replyToken);
+            return;
         }
 
         if (text.endsWith("天氣?") || text.endsWith("天氣？")) {
@@ -4220,19 +4223,32 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     
     private void processReplyPttBeautyGirlHistory(String replyToken, PttBeautyHistory girlHistory) {
     	List<ImageCarouselColumn> columnsList = new ArrayList<>();
-    	int index = 0;
     	int count = 0;
     	int MAX_CAROUSEL_COLUMN = 9;
     	List<PttBeautyGirl> history = girlHistory.getSearchHistoryList();
         for(int i=0;i<history.size();i++) {
             PgLog.info("Piggy Check title: " + history.get(i).getTitle());
             PgLog.info("Piggy Check searchResultUrl: " + history.get(i).getResultUrl());
-            PgLog.info("Piggy Check imgUrl: " + history.get(i).getUrlList().get(index));
-            if (!history.get(i).getUrlList().get(index).endsWith(".gif")) {
+            PgLog.info("Piggy Check imgUrl: " + history.get(i).getUrlList().get(0));
+            if (!history.get(i).getUrlList().get(0).endsWith(".gif")) {
             	columnsList.add(getImageCarouselColumn(history.get(i).getUrlList().get(0), (history.get(i).getTitle() + " " + history.get(i).getRank()), history.get(i).getResultUrl()));
                 count++;
             }
-            index++;
+            else {
+            	try {
+            		int index = 1;
+            		while(true) {
+            			if (!history.get(i).getUrlList().get(index).endsWith(".gif")) {
+                        	columnsList.add(getImageCarouselColumn(history.get(i).getUrlList().get(index), (history.get(i).getTitle() + " " + history.get(i).getRank()), history.get(i).getResultUrl()));
+                            count++;
+                            break;
+                        }
+            			index++;
+            		}
+            	} catch (Exception e) {
+            		continue;
+            	}
+            }
             if (count > MAX_CAROUSEL_COLUMN) {
             	break;
             }
