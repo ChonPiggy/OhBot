@@ -4137,6 +4137,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (result.getUrlList().get(0).indexOf("http:") >= 0) {
             	url = result.getUrlList().get(0).replace("http", "https");
             }
+            else {
+            	url = result.getUrlList().get(0);
+            }
             if (url.equals("")) {
             	return;
             }
