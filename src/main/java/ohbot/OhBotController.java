@@ -270,13 +270,14 @@ public class OhBotController {
     	ArrayList<PttBeautyGirl> history = new ArrayList<PttBeautyGirl>(ARRAY_MAX_ELEMENTS); // search page history
     	int index = 0;
     	public void addHistory(PttBeautyGirl girl) {
-    		if (index+1 > ARRAY_MAX_ELEMENTS) {
+    		if (index+1 == ARRAY_MAX_ELEMENTS) {
     			index = 0;
+        		history.set(index, girl);
     		}
     		else {
     			index++;
+    			history.add(girl);
     		}
-    		history.set(index, girl);
     	}
     	public List<PttBeautyGirl> getSearchHistoryList() {
     		List<PttBeautyGirl> result = new ArrayList<PttBeautyGirl>();
