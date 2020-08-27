@@ -61,7 +61,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-
+import org.apache.tomcat.jni.Mmap;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 
@@ -159,7 +159,6 @@ public class OhBotController {
     private String IMAGE_YOU_ARE_PERVERT = "https://i.imgur.com/dRJinz7.jpg";
     private String IMAGE_GPNUDD = "https://i.imgur.com/0Kr7J44.jpg";
     private String IMAGE_BE_A_GOOD_MAN = "https://i.imgur.com/Hy74quj.jpg";
-    private boolean mIsSingleRandomGirl = false;
 
     private List<String> mIWillBeLateList = new ArrayList<String> (
         Arrays.asList("https://i.imgur.com/0cNbr9c.jpg",
@@ -264,6 +263,7 @@ public class OhBotController {
     private HashMap<String, PttBeautyGirl> mWhoImPickRandomGirlMap = new HashMap<>(); // userId, webLink
     private HashMap<String, PttBeautyGirl> mWhoTheyPickRandomGirlMap = new HashMap<>(); // senderId, webLink
     private HashMap<String, Integer> mTokyoHotRandomGirlLimitationList = new HashMap<>(); // userId, count
+    private HashMap<String, Boolean> mPttBeautySinglePicMap = new HashMap<>(); // senderId, boolean flag, default is false
 
     private CoronaVirusWikiRankCrawlThread mCoronaVirusWikiRankCrawlThread = null;
     
@@ -1699,13 +1699,13 @@ public class OhBotController {
             japaneseNameToRomaji(replyToken, text);
         }
         
-        if (text.startsWith("PgCommand抽單張")) {
-        	mIsSingleRandomGirl = true;
-            this.replyText(replyToken, "好的 PG 大人");
+        if (text.startsWith("抽單張")) {
+        	mPttBeautySinglePicMap.put(senderId, Boolean.valueOf(true));
+            this.replyText(replyToken, "好的");
         }
-        else if (text.startsWith("PgCommand抽多張")) {
-        	mIsSingleRandomGirl = false;
-            this.replyText(replyToken, "好的 PG 大人");
+        else if (text.startsWith("抽多張")) {
+        	mPttBeautySinglePicMap.put(senderId, Boolean.valueOf(false));
+            this.replyText(replyToken, "好的");
         }
 
         if (text.startsWith("PgCommand設定MD地圖:")) {
@@ -2142,7 +2142,7 @@ public class OhBotController {
     		// Image carouse column label length limit is 12.
     		label = label.substring(0, 12);
     	}
-    	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), null));
+    	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
     }
 
     private void replyImageCarouselTemplate(@NonNull String replyToken, String altText, @NonNull List<ImageCarouselColumn> columns) {
@@ -4125,11 +4125,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (url.indexOf("http:") >= 0) {
             url = url.replace("http", "https");
         }*/
+        boolean isSinglePic = mPttBeautySinglePicMap.containsKey(senderId) 
+        		        		? false /*default false*/ 
+        		        		: mPttBeautySinglePicMap.get(senderId).booleanValue();
         if (result.getUrlList().size() <= 0) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
         }
-        else if (result.getUrlList().size() == 1 || mIsSingleRandomGirl) {
+        else if (result.getUrlList().size() == 1 || isSinglePic) {
         	String url = "";
         	if (result.getUrlList().get(0).endsWith(".gif")) {
                 this.replyText(replyToken, "Line 不能顯示 gif 直接貼: " + url);
