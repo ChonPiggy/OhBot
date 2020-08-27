@@ -4128,8 +4128,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (url.indexOf("http:") >= 0) {
             url = url.replace("http", "https");
         }*/
-        boolean isSinglePic = mPttBeautySinglePicMap.containsKey(senderId) 
-        		        		? mPttBeautySinglePicMap.get(senderId).booleanValue() 
+        boolean isSinglePic = mPttBeautySinglePicMap.containsKey(userId) 
+        		        		? mPttBeautySinglePicMap.get(userId).booleanValue() 
         		        		: false /*default false*/;
         if (result.getUrlList().size() <= 0) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
