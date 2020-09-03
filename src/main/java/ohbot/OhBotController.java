@@ -5012,7 +5012,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 this.replyImage(replyToken, result, result);*/
 
                 processReplyImageCarouselTemplateFromStringList(replyToken, resultImageList, "隨機取圖", url);
-                this.replyImage(replyToken, result, result);
             }
             else {
                 PgLog.info("resultImageList.size() = 0");
