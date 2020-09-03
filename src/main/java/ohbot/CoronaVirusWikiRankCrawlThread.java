@@ -45,7 +45,8 @@ public class CoronaVirusWikiRankCrawlThread extends Thread {
         //log.info("checkCoronaVirusWiki update started.");
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpget = new HttpGet("https://zh.wikipedia.org/zh-tw/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E7%96%AB%E6%83%85");
+            //HttpGet httpget = new HttpGet("https://zh.wikipedia.org/zh-tw/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E7%96%AB%E6%83%85");
+            HttpGet httpget = new HttpGet("https://zh.wikipedia.org/wiki/2019%E5%86%A0%E7%8B%80%E7%97%85%E6%AF%92%E7%97%85%E5%85%A8%E7%90%83%E5%90%84%E5%9C%B0%E7%96%AB%E6%83%85");
             CloseableHttpResponse response = httpClient.execute(httpget);
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
