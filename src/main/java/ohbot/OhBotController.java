@@ -4268,11 +4268,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         this.replyImageCarouselTemplate(replyToken, "Ptt Beauty History", columnsList);
     }
     
+    final int MAX_CAROUSEL_COLUMN = 9;
+
     private void processReplyPttBeautyGirl(String replyToken, PttBeautyGirl girl) {
-    	List<ImageCarouselColumn> columnsList = new ArrayList<>();
-    	int index = 0;
-    	int count = 0;
-    	int MAX_CAROUSEL_COLUMN = 9;
+        List<ImageCarouselColumn> columnsList = new ArrayList<>();
+        int index = 0;
+        int count = 0;
         PgLog.info("Piggy Check title: " + girl.getTitle());
         PgLog.info("Piggy Check searchResultUrl: " + girl.getResultUrl());
         while (index < girl.getUrlList().size()) {
@@ -4288,6 +4289,30 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
 
         this.replyImageCarouselTemplate(replyToken, girl.getDescribeString(), columnsList);
+    }
+
+    private void processReplyImageCarouselTemplateFromStringList(String replyToken, List<String> list, String title, String url) {
+        List<ImageCarouselColumn> columnsList = new ArrayList<>();
+        int index = 0;
+        int count = 0;
+        
+        while (index < list.size()) {
+            //PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));
+            if (!list.get(index).endsWith(".gif")) {
+                String data = list.get(index);
+                if (data.indexOf("http:") >= 0) {
+                    data = data.replace("http", "https");
+                }
+                columnsList.add(getImageCarouselColumn(data, title, url));
+                count++;
+            }
+            index++;
+            if (count > MAX_CAROUSEL_COLUMN) {
+                break;
+            }
+        }
+
+        this.replyImageCarouselTemplate(replyToken, title, columnsList);
     }
 
 
@@ -4972,7 +4997,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             
             if (resultImageList.size() > 0) {
-                int random_num = randomGenerator.nextInt(resultImageList.size());
+                /*int random_num = randomGenerator.nextInt(resultImageList.size());
                 String result = resultImageList.get(random_num);
                 if (result == null || result.equals("")) {
                     PgLog.info("Piggy Check get image from website parse fail");
@@ -4984,6 +5009,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("http", "https");
                 }
                 PgLog.info("result image: " + result);
+                this.replyImage(replyToken, result, result);*/
+
+                processReplyImageCarouselTemplateFromStringList(replyToken, resultImageList, "隨機取圖", url);
                 this.replyImage(replyToken, result, result);
             }
             else {
