@@ -4968,7 +4968,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("http:","https:");
                     result = result.replace("imgur.com","i.imgur.com");
                     result = result + ".jpg";
-                    if (!resultImageList.contains(result)) {
+                    if (!resultImageList.contains(result)&&!result.contains("logo")) {
                         resultImageList.add(result);
                     }
                     //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
@@ -4982,7 +4982,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     String result = matcherJp.group();
                     result = result.replace("http:","https:");
                     result = result + ".jpg";
-                    if (!resultImageList.contains(result)) {
+                    if (!resultImageList.contains(result)&&!result.contains("logo")) {
                         resultImageList.add(result);
                     }
                     //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
@@ -4994,7 +4994,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 Matcher matcherJp = patternJp.matcher(result_image_image);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
-                    if (!resultImageList.contains(result)) {
+                    if (!resultImageList.contains(result)&&!result.contains("logo")) {
                         resultImageList.add(result);
                     }
                     //PgLog.info("Piggy Check get image from website url: " + url + " img_link: " + result);
@@ -6698,7 +6698,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
                 response = httpClient.execute(httpGet);
-                //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 httpEntity = response.getEntity();
 
                 String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
