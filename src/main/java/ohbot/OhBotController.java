@@ -76,7 +76,10 @@ import java.io.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -2062,6 +2065,23 @@ public class OhBotController {
         if (text.contains("凱西")||text.contains("牙醫")) {
             if (isCathyKeywordEnable) {
                 keywordImage("FattyCathy",replyToken);
+            }
+        }
+        
+        if (text.contains("凱西") || text.contains("多久") && (text.contains("出獄")||text.contains("畢業"))) {
+        	long timeMillis = getTimeInMillis(2021, 9, 1, 0, 0, 0);
+            Calendar current = Calendar.getInstance(TimeZone.getDefault());
+            current.setTimeInMillis(System.currentTimeMillis());
+     
+            Calendar date = Calendar.getInstance(TimeZone.getDefault());
+            date.setTimeInMillis(timeMillis);
+            long time = date.getTimeInMillis() - current.getTimeInMillis();
+            int day = Math.round(time / 1000 / 60 / 60 / 24);
+            if (day > 0) {
+            	this.replyText(replyToken, "還有 " + day + " 天.");
+            }
+            else {
+            	this.replyText(replyToken, "凱西已經畢業可以自己開診所囉");
             }
         }
 
@@ -8248,4 +8268,20 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                                           .path(path).build()
                                           .toUri();
     }
+    
+    public static TimeZone DEFAULT_SERVER_TIME_ZONE = TimeZone.getTimeZone("GMT+08:00");
+    public static long getTimeInMillis(int year, int month, int day, int hours, int minutes, int seconds) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(DEFAULT_SERVER_TIME_ZONE);
+        calendar.set(year, month - 1, day, hours, minutes, seconds);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        format.setTimeZone(DEFAULT_SERVER_TIME_ZONE);
+        try {
+            return format.parse(format.format(calendar.getTime())).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 }
