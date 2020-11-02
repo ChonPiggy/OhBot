@@ -2068,7 +2068,7 @@ public class OhBotController {
             }
         }
         
-        if (text.contains("凱西") || text.contains("多久") && (text.contains("出獄")||text.contains("畢業"))) {
+        if (text.contains("凱西") && text.contains("多久") && (text.contains("出獄")||text.contains("畢業"))) {
         	long timeMillis = getTimeInMillis(2021, 9, 1, 0, 0, 0);
             Calendar current = Calendar.getInstance(TimeZone.getDefault());
             current.setTimeInMillis(System.currentTimeMillis());
@@ -2078,7 +2078,7 @@ public class OhBotController {
             long time = date.getTimeInMillis() - current.getTimeInMillis();
             int day = Math.round(time / 1000 / 60 / 60 / 24);
             if (day > 0) {
-            	this.replyText(replyToken, "還有 " + day + " 天.");
+            	this.replyText(replyToken, "還有 " + day + " 天");
             }
             else {
             	this.replyText(replyToken, "凱西已經畢業可以自己開診所囉");
