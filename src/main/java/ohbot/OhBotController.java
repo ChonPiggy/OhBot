@@ -8338,10 +8338,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 		}
 		String result = "Unknown";
         if (biden > trump) {
-        	result = "270 to win.\n拜登: " + biden + "\n川普: " + trump + "\n未開:"+notYet;
+        	result = "270 to win.\n拜登: " + biden + "\n川普: " + trump + "\n未開: "+notYet;
         }
         else {
-        	result = "270 to win.\n川普: " + trump + "\n拜登: " + biden + "\n未開:"+notYet;
+        	result = "270 to win.\n川普: " + trump + "\n拜登: " + biden + "\n未開: "+notYet;
         }
         //PgLog.info("result: " + result);
         return result;
