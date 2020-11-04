@@ -8310,8 +8310,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         CloseableHttpResponse response;
         int biden = 0;
         int trump = 0;
-        int count = 0;
-        String resultData = "";
+        int notYet = 0;
 		try {
 			response = httpClient.execute(httpGet);
 			
@@ -8319,65 +8318,30 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
 	        HttpEntity httpEntity = response.getEntity();
 	
-	        resultData = EntityUtils.toString(httpEntity, "utf-8");
+	        String resultData = EntityUtils.toString(httpEntity, "utf-8");
 	        
-	        resultData = resultData.substring(resultData.indexOf("\"stateMeta\":"), resultData.indexOf("\"balanceVals\":"));
-	        while(resultData.contains("cands")) {
-	        	count++;
-	        	String temp = resultData.substring(resultData.indexOf("\"cands\":{\"")+10, resultData.indexOf("}},"));
-	        	//PgLog.info("temp:" + temp);
-	        	String firstPpl = temp.substring(0, temp.indexOf("\":"));
-	        	String firstVote = temp.substring(temp.indexOf("\":")+2, temp.indexOf(",\""));
-	        	String secondPart = temp.substring(temp.indexOf(",\"")+2, temp.length());
-	        	/*PgLog.info("secondPart:" + secondPart);
-	        	PgLog.info("firstPpl:" + firstPpl);
-	        	PgLog.info("firstVote:" + firstVote);*/
-	        	String secondPpl = secondPart.substring(0, secondPart.indexOf("\":"));
-	        	String secondVote = secondPart.substring(secondPart.indexOf("\":")+2, secondPart.length());
-	        	/*PgLog.info("secondPpl:" + secondPpl);
-	        	PgLog.info("secondVote:" + secondVote);*/
-	        	
-	        	int firstVoteNumber = -1;
-	        	int secondVoteNumber = -1;
-	            try {
-	            	firstVoteNumber = Integer.parseInt(firstVote);
-	            	secondVoteNumber = Integer.parseInt(secondVote);
-	            } catch (java.lang.NumberFormatException e) {
-	            }
-	            
-	            /*PgLog.info("firstVoteNumber:" + firstVoteNumber);
-	        	PgLog.info("secondVoteNumber:" + secondVoteNumber);*/
-	        	
-	        	if (firstPpl.equals("Trump")) {
-	        		trump += firstVoteNumber;
-	        	}
-	        	else if (firstPpl.equals("Biden")) {
-	        		biden += firstVoteNumber;
-	        	}
-	        	
-	        	if (secondPpl.equals("Trump")) {
-	        		trump += secondVoteNumber;
-	        	}
-	        	else if (secondPpl.equals("Biden")) {
-	        		biden += secondVoteNumber;
-	        	}
-	        	
-	        	resultData = resultData.substring(resultData.indexOf("\"cands\":")+8, resultData.length());
-	        	//return "firstVote: " + firstVote + "\nsecondVote: " + secondVote + "\nfirstPpl: " + firstPpl + "\nsecondPpl: " + secondPpl;
-	        }
+	        resultData = resultData.substring(resultData.indexOf("balanceVals"), resultData.length());
+	        String rWin = resultData.substring(resultData.indexOf("\"r_win\":")+8, resultData.indexOf(",\"d_win\":"));
+	        String dWin = resultData.substring(resultData.indexOf("\"d_win\":")+8, resultData.indexOf(",\"o_win\":"));
+	        String noResult = resultData.substring(resultData.indexOf("\"no_result\":")+12, resultData.indexOf(",\"r_gain\":"));
+            try {
+            	biden = Integer.parseInt(rWin);
+            	trump = Integer.parseInt(dWin);
+            	notYet = Integer.parseInt(noResult);
+            } catch (java.lang.NumberFormatException e) {
+            }
+	
+	        
 		} catch (Exception e) {
 			e.printStackTrace();
 			return e.getMessage();
 		}
-		if (resultData != null) {
-			return resultData;
-		}
 		String result = "Unknown";
         if (biden > trump) {
-        	result = "270 to win.\nBiden: " + biden + "\nTrump: " + trump + "\ncount:"+count;
+        	result = "270 to win.\n拜登: " + biden + "\n川普: " + trump + "\n未開:"+notYet;
         }
         else {
-        	result = "270 to win.\nTrump: " + trump + "\nBiden: " + biden + "\ncount:"+count;
+        	result = "270 to win.\n川普: " + trump + "\n拜登: " + biden + "\n未開:"+notYet;
         }
         //PgLog.info("result: " + result);
         return result;
