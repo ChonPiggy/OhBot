@@ -8310,6 +8310,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         CloseableHttpResponse response;
         int biden = 0;
         int trump = 0;
+        int count = 0;
 		try {
 			response = httpClient.execute(httpGet);
 			
@@ -8321,6 +8322,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        
 	        resultData = resultData.substring(resultData.indexOf("\"stateMeta\":"), resultData.indexOf("\"balanceVals\":"));
 	        while(resultData.contains("cands")) {
+	        	count++;
 	        	String temp = resultData.substring(resultData.indexOf("\"cands\":{\"")+10, resultData.indexOf("}},"));
 	        	//PgLog.info("temp:" + temp);
 	        	String firstPpl = temp.substring(0, temp.indexOf("\":"));
@@ -8367,10 +8369,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 		}
 		String result = "Unknown";
         if (biden > trump) {
-        	result = "270 to win.\nBiden: " + biden + "\nTrump: " + trump;
+        	result = "270 to win.\nBiden: " + biden + "\nTrump: " + trump + "\ncount:"+count;
         }
         else {
-        	result = "270 to win.\nTrump: " + trump + "\nBiden: " + biden;
+        	result = "270 to win.\nTrump: " + trump + "\nBiden: " + biden + "\ncount:"+count;
         }
         //PgLog.info("result: " + result);
         return result;
