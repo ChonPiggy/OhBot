@@ -8311,6 +8311,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int biden = 0;
         int trump = 0;
         int count = 0;
+        String resultData = "";
 		try {
 			response = httpClient.execute(httpGet);
 			
@@ -8318,7 +8319,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
 	        HttpEntity httpEntity = response.getEntity();
 	
-	        String resultData = EntityUtils.toString(httpEntity, "utf-8");
+	        resultData = EntityUtils.toString(httpEntity, "utf-8");
 	        
 	        resultData = resultData.substring(resultData.indexOf("\"stateMeta\":"), resultData.indexOf("\"balanceVals\":"));
 	        while(resultData.contains("cands")) {
@@ -8367,6 +8368,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 		} catch (Exception e) {
 			e.printStackTrace();
 			return e.getMessage();
+		}
+		if (resultData != null) {
+			return resultData;
 		}
 		String result = "Unknown";
         if (biden > trump) {
