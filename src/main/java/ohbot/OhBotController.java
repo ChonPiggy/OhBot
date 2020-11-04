@@ -8325,7 +8325,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        	PgLog.info("temp:" + temp);
 	        	String firstPpl = temp.substring(0, temp.indexOf("\":"));
 	        	String firstVote = temp.substring(temp.indexOf("\":"), temp.indexOf(",\""));
-	        	String secondPart = resultData.substring(temp.indexOf(",\"")+2, temp.length());
+	        	String secondPart = temp.substring(temp.indexOf(",\"")+2, temp.length());
 	        	PgLog.info("secondPart:" + secondPart);
 	        	PgLog.info("firstPpl:" + firstPpl);
 	        	PgLog.info("firstVote:" + firstVote);
