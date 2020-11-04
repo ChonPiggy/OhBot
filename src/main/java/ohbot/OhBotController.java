@@ -8357,13 +8357,18 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        		biden += secondVoteNumber;
 	        	}
 	        	
-	        	resultData = resultData.substring(resultData.indexOf("\"cands\":")+8, resultData.length()));
+	        	resultData = resultData.substring(resultData.indexOf("\"cands\":")+8, resultData.length());
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        
-        String result = "270 to win.\nBiden: " + biden + "\nTrump: " + trump;
+		String result = "Unknown";
+        if (biden > trump) {
+        	result = "270 to win.\nBiden: " + biden + "\nTrump: " + trump;
+        }
+        else {
+        	result = "270 to win.\nnTrump: " + trump + "\nBiden: " + biden;
+        }
         PgLog.info("result: " + result);
         return result;
     }
