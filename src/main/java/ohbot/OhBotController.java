@@ -8356,6 +8356,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        	else if (secondPpl.equals("Biden")) {
 	        		biden += secondVoteNumber;
 	        	}
+	        	
+	        	resultData = resultData.substring(resultData.indexOf("\"cands\":")+8, resultData.length()));
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
