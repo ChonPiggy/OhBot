@@ -8342,8 +8342,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	            } catch (java.lang.NumberFormatException e) {
 	            }
 	            
-	            PgLog.info("firstVoteNumber:" + firstVoteNumber);
-	        	PgLog.info("secondVoteNumber:" + secondVoteNumber);
+	            /*PgLog.info("firstVoteNumber:" + firstVoteNumber);
+	        	PgLog.info("secondVoteNumber:" + secondVoteNumber);*/
 	        	
 	        	if (firstPpl.equals("Trump")) {
 	        		trump += firstVoteNumber;
@@ -8360,6 +8360,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        	}
 	        	
 	        	resultData = resultData.substring(resultData.indexOf("\"cands\":")+8, resultData.length());
+	        	return "firstVote: " + firstVote + "\nsecondVote: " + secondVote + "\nfirstPpl: " + firstPpl + "\nsecondPpl: " + secondPpl;
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
