@@ -8295,7 +8295,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	String url = "https://graphics.thomsonreuters.com/2020-US-elex/20201103/20201103-summary_zh.json?cache=1604456972612";
         int random_num = randomGenerator.nextInt(mUserAgentList.size());
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        PgLog.info("getUSPresidentVoie2020:" + url);
+        //PgLog.info("getUSPresidentVoie2020:" + url);
         HttpGet httpGet = new HttpGet(url);
     	// Process get image from result url.
         httpGet = new HttpGet(url);
@@ -8322,17 +8322,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        resultData = resultData.substring(resultData.indexOf("\"stateMeta\":"), resultData.indexOf("\"balanceVals\":"));
 	        while(resultData.contains("cands")) {
 	        	String temp = resultData.substring(resultData.indexOf("\"cands\":{\"")+10, resultData.indexOf("}},"));
-	        	PgLog.info("temp:" + temp);
+	        	//PgLog.info("temp:" + temp);
 	        	String firstPpl = temp.substring(0, temp.indexOf("\":"));
 	        	String firstVote = temp.substring(temp.indexOf("\":"), temp.indexOf(",\""));
 	        	String secondPart = temp.substring(temp.indexOf(",\"")+2, temp.length());
-	        	PgLog.info("secondPart:" + secondPart);
+	        	/*PgLog.info("secondPart:" + secondPart);
 	        	PgLog.info("firstPpl:" + firstPpl);
-	        	PgLog.info("firstVote:" + firstVote);
+	        	PgLog.info("firstVote:" + firstVote);*/
 	        	String secondPpl = secondPart.substring(0, secondPart.indexOf("\":"));
 	        	String secondVote = secondPart.substring(secondPart.indexOf("\":"), secondPart.length());
-	        	PgLog.info("secondPpl:" + secondPpl);
-	        	PgLog.info("secondVote:" + secondVote);
+	        	/*PgLog.info("secondPpl:" + secondPpl);
+	        	PgLog.info("secondVote:" + secondVote);*/
 	        	
 	        	int firstVoteNumber = -1;
 	        	int secondVoteNumber = -1;
@@ -8360,10 +8360,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        	}
 	        	
 	        	resultData = resultData.substring(resultData.indexOf("\"cands\":")+8, resultData.length());
-	        	PgLog.info("resultData:" + resultData);
-	        	String result;
-	        	result = "temp:" + temp +"\nsecondPart: " + secondPart + "\nresultData: " + resultData;
-	        	return result;
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -8375,7 +8371,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         else {
         	result = "270 to win.\nnTrump: " + trump + "\nBiden: " + biden;
         }
-        PgLog.info("result: " + result);
+        //PgLog.info("result: " + result);
         return result;
     }
 
