@@ -8361,7 +8361,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        	
 	        	resultData = resultData.substring(resultData.indexOf("\"cands\":")+8, resultData.length());
 	        	PgLog.info("resultData:" + resultData);
-	        	break;
+	        	String result;
+	        	result = "temp:" + temp +"\nsecondPart: " + secondPart + "\nresultData: " + resultData;
+	        	return result;
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
