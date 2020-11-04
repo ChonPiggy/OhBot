@@ -8324,13 +8324,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        	String temp = resultData.substring(resultData.indexOf("\"cands\":{\"")+10, resultData.indexOf("}},"));
 	        	//PgLog.info("temp:" + temp);
 	        	String firstPpl = temp.substring(0, temp.indexOf("\":"));
-	        	String firstVote = temp.substring(temp.indexOf("\":"), temp.indexOf(",\""));
+	        	String firstVote = temp.substring(temp.indexOf("\":")+2, temp.indexOf(",\""));
 	        	String secondPart = temp.substring(temp.indexOf(",\"")+2, temp.length());
 	        	/*PgLog.info("secondPart:" + secondPart);
 	        	PgLog.info("firstPpl:" + firstPpl);
 	        	PgLog.info("firstVote:" + firstVote);*/
 	        	String secondPpl = secondPart.substring(0, secondPart.indexOf("\":"));
-	        	String secondVote = secondPart.substring(secondPart.indexOf("\":"), secondPart.length());
+	        	String secondVote = secondPart.substring(secondPart.indexOf("\":")+2, secondPart.length());
 	        	/*PgLog.info("secondPpl:" + secondPpl);
 	        	PgLog.info("secondVote:" + secondVote);*/
 	        	
@@ -8370,7 +8370,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         	result = "270 to win.\nBiden: " + biden + "\nTrump: " + trump;
         }
         else {
-        	result = "270 to win.\nnTrump: " + trump + "\nBiden: " + biden;
+        	result = "270 to win.\nTrump: " + trump + "\nBiden: " + biden;
         }
         //PgLog.info("result: " + result);
         return result;
