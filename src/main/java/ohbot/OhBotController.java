@@ -8325,8 +8325,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        String dWin = resultData.substring(resultData.indexOf("\"d_win\":")+8, resultData.indexOf(",\"o_win\":"));
 	        String noResult = resultData.substring(resultData.indexOf("\"no_result\":")+12, resultData.indexOf(",\"r_gain\":"));
             try {
-            	biden = Integer.parseInt(rWin);
-            	trump = Integer.parseInt(dWin);
+            	trump = Integer.parseInt(rWin);
+            	biden = Integer.parseInt(dWin);
             	notYet = Integer.parseInt(noResult);
             } catch (java.lang.NumberFormatException e) {
             }
