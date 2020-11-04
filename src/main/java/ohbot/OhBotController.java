@@ -2012,6 +2012,12 @@ public class OhBotController {
                 this.replyText(replyToken, EmojiUtils.emojify(":exclamation:")+"中國媒體警示(微信)"+EmojiUtils.emojify(":exclamation:")+"\n----------\n"+text);
             }
         }
+        
+        // Temp feature
+        
+        if (text.contains("美國總統大選")) {
+        	this.replyText(replyToken, getUSPresidentVoie2020());
+        }
 
         /*if ((text.contains("Ingress") || text.contains("ingress")) &&
             (text.contains("Twitter") || text.contains("twitter"))) {
@@ -8282,6 +8288,82 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             e.printStackTrace();
             return 0;
         }
+    }
+    
+    public String getUSPresidentVoie2020() {
+    	Random randomGenerator = new Random();
+    	String url = "https://graphics.thomsonreuters.com/2020-US-elex/20201103/20201103-summary_zh.json?cache=1604456972612";
+        int random_num = randomGenerator.nextInt(mUserAgentList.size());
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        PgLog.info("getUSPresidentVoie2020:" + url);
+        HttpGet httpGet = new HttpGet(url);
+    	// Process get image from result url.
+        httpGet = new HttpGet(url);
+        httpGet.addHeader("User-Agent",mUserAgentList.get(0));
+        httpGet.addHeader("Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484; over18=1");
+        httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        httpGet.setHeader("Accept-Encoding","gzip, deflate, sdch");
+        httpGet.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+        httpGet.setHeader("Cache-Control", "max-age=0");
+        httpGet.setHeader("Connection", "keep-alive");
+        
+        CloseableHttpResponse response;
+        int biden = 0;
+        int trump = 0;
+		try {
+			response = httpClient.execute(httpGet);
+			
+			
+	        //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
+	        HttpEntity httpEntity = response.getEntity();
+	
+	        String resultData = EntityUtils.toString(httpEntity, "utf-8");
+	        
+	        resultData = resultData.substring(resultData.indexOf("\"stateMeta\":"), resultData.indexOf("\"balanceVals\":"));
+	        while(resultData.contains("cands")) {
+	        	String temp = resultData.substring(resultData.indexOf("\"cands\":{\"")+10, resultData.indexOf("}},"));
+	        	String firstPpl = temp.substring(0, temp.indexOf("\":"));
+	        	String firstVote = temp.substring(temp.indexOf("\":"), temp.indexOf(",\""));
+	        	String secondPart = resultData.substring(temp.indexOf(",\"")+2, temp.length());
+	        	PgLog.info("firstPpl:" + firstPpl);
+	        	PgLog.info("firstVote:" + firstVote);
+	        	String secondPpl = secondPart.substring(0, secondPart.indexOf("\":"));
+	        	String secondVote = secondPart.substring(secondPart.indexOf("\":"), secondPart.length());
+	        	PgLog.info("secondPpl:" + secondPpl);
+	        	PgLog.info("secondVote:" + secondVote);
+	        	
+	        	int firstVoteNumber = -1;
+	        	int secondVoteNumber = -1;
+	            try {
+	            	firstVoteNumber = Integer.parseInt(firstVote);
+	            	secondVoteNumber = Integer.parseInt(secondVote);
+	            } catch (java.lang.NumberFormatException e) {
+	            }
+	            
+	            PgLog.info("firstVoteNumber:" + firstVoteNumber);
+	        	PgLog.info("secondVoteNumber:" + secondVoteNumber);
+	        	
+	        	if (firstPpl.equals("Trump")) {
+	        		trump += firstVoteNumber;
+	        	}
+	        	else if (firstPpl.equals("Biden")) {
+	        		biden += firstVoteNumber;
+	        	}
+	        	
+	        	if (secondPpl.equals("Trump")) {
+	        		trump += secondVoteNumber;
+	        	}
+	        	else if (secondPpl.equals("Biden")) {
+	        		biden += secondVoteNumber;
+	        	}
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
+        String result = "270 to win.\nBiden: " + biden + "\nTrump: " + trump;
+        PgLog.info("result: " + result);
+        return result;
     }
 
 }
