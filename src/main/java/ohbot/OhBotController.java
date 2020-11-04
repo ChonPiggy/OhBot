@@ -2015,7 +2015,7 @@ public class OhBotController {
         
         // Temp feature
         
-        if (text.contains("美國總統大選")) {
+        if (text.contains("美國總統大選")||text.contains("美國大選")||text.contains("美國總統")) {
         	this.replyText(replyToken, getUSPresidentVoie2020());
         }
 
@@ -8360,7 +8360,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        	}
 	        	
 	        	resultData = resultData.substring(resultData.indexOf("\"cands\":")+8, resultData.length());
-	        	return "firstVote: " + firstVote + "\nsecondVote: " + secondVote + "\nfirstPpl: " + firstPpl + "\nsecondPpl: " + secondPpl;
+	        	//return "firstVote: " + firstVote + "\nsecondVote: " + secondVote + "\nfirstPpl: " + firstPpl + "\nsecondPpl: " + secondPpl;
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
