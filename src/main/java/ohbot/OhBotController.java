@@ -8336,30 +8336,37 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 			e.printStackTrace();
 			return e.getMessage();
 		}
-		String result = "Unknown";
+		String result = "270 to win.\n";
 		String bidenString = "拜登: ";
-		String trumpString = "川普: ";
+		
+		bidenString+=biden;
+    	bidenString+=" ";
+    	if (270-biden > 0) {
+    		bidenString+="("+(270-biden)+" to win)";
+    	}
+    	else {
+    		bidenString+=EmojiUtils.emojify(":trophy:");
+    	}
+    	
+    	String trumpString = "川普: ";
+    	trumpString+=trump;
+    	trumpString+=" ";
+    	if (270-trump > 0) {
+    		trumpString+="("+(270-trump)+" to win)";
+    	}
+    	else {
+    		trumpString+=EmojiUtils.emojify(":trophy:");
+    	}
+    	
         if (biden > trump) {
-        	bidenString+=biden;
-        	bidenString+=" ";
-        	if (270-biden > 0) {
-        		bidenString+="("+(270-biden)+" to win)";
-        	}
-        	else {
-        		bidenString+=EmojiUtils.emojify(":trophy:");
-        	}
+        	result += (bidenString + "\n" + trumpString);
         }
         else {
-        	trumpString+=trump;
-        	trumpString+=" ";
-        	if (270-trump > 0) {
-        		trumpString+="("+(270-trump)+" to win)";
-        	}
-        	else {
-        		trumpString+=EmojiUtils.emojify(":trophy:");
-        	}
+        	result += (trumpString + "\n" + bidenString);
         }
+        result+="\n未開: " + notYet;
         //PgLog.info("result: " + result);
+        
         return result;
     }
 
