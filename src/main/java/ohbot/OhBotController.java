@@ -8366,6 +8366,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
+			return e.getMessage();
 		}
 		String result = "Unknown";
         if (biden > trump) {
