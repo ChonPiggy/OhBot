@@ -8322,9 +8322,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        resultData = resultData.substring(resultData.indexOf("\"stateMeta\":"), resultData.indexOf("\"balanceVals\":"));
 	        while(resultData.contains("cands")) {
 	        	String temp = resultData.substring(resultData.indexOf("\"cands\":{\"")+10, resultData.indexOf("}},"));
+	        	PgLog.info("temp:" + temp);
 	        	String firstPpl = temp.substring(0, temp.indexOf("\":"));
 	        	String firstVote = temp.substring(temp.indexOf("\":"), temp.indexOf(",\""));
 	        	String secondPart = resultData.substring(temp.indexOf(",\"")+2, temp.length());
+	        	PgLog.info("secondPart:" + secondPart);
 	        	PgLog.info("firstPpl:" + firstPpl);
 	        	PgLog.info("firstVote:" + firstVote);
 	        	String secondPpl = secondPart.substring(0, secondPart.indexOf("\":"));
@@ -8358,6 +8360,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 	        	}
 	        	
 	        	resultData = resultData.substring(resultData.indexOf("\"cands\":")+8, resultData.length());
+	        	PgLog.info("resultData:" + resultData);
+	        	break;
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
