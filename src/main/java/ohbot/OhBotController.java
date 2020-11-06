@@ -165,7 +165,17 @@ public class OhBotController {
 
     private List<String> mIWillBeLateList = new ArrayList<String> (
         Arrays.asList("https://i.imgur.com/0cNbr9c.jpg",
-                      "https://i.imgur.com/XBV3bP6.jpg"));
+                      "https://i.imgur.com/XBV3bP6.jpg",
+                      "https://i.imgur.com/HDFPfUW.jpg",
+                      "https://i.imgur.com/7vS3YdX.jpg",
+                      "https://i.imgur.com/AhR549C.jpg",
+                      "https://i.imgur.com/UqKK12E.jpg",
+                      "https://i.imgur.com/QFgag6a.jpg",
+                      "https://i.imgur.com/TDhfdjx.jpg",
+                      "https://i.imgur.com/UunjtJN.png",
+                      "https://i.imgur.com/goI7vj1.jpg",
+                      "https://i.imgur.com/aTZErIM.jpg",
+                      "https://i.imgur.com/eEq9MxU.jpg"));
 
     private String IMAGE_TAIWAN_WEATHER_CLOUD = "https://www.cwb.gov.tw/Data/satellite/LCC_IR1_CR_1000/LCC_IR1_CR_1000.jpg";
     private String IMAGE_TAIWAN_WEATHER_RAIN = "https://www.cwb.gov.tw/Data/rainfall/QZJ.jpg";
