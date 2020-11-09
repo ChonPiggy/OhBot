@@ -5800,8 +5800,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void exchangeBitcon(String text, String replyToken) throws IOException {
+    	String number = "";
+    	number = text.substring(0, text.indexOf("比特幣"));
         text = text.replace("比特幣換算", "").replace("?", "").replace("？", "").trim();
         PgLog.info(text);
+        int numberInterger = 1;
+        try {
+        	numberInterger = Integer.parseInt(number);
+        }
+        catch(java.lang.NumberFormatException e) {
+        }
         try {
             String strResult = text;    
             String country ="";
@@ -5880,8 +5888,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
 
                 if (rateNumber > 0) {
+                	if (numberInterger > 1) {
+                		strResult = "" + numberInterger + " 比特幣換算" + strResult + "大概 $" + (int)(rateNumber * numberInterger);
+                        this.replyText(replyToken, strResult);
+                        return;
+                	}
                     int numResult = (int) (rateNumber);
-                    strResult = "1比特幣換算" + strResult + "大概 $" + numResult;
+                    strResult = "1 比特幣換算" + strResult + "大概 $" + numResult;
                     this.replyText(replyToken, strResult);
                 }
                 else {
