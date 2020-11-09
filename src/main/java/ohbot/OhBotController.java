@@ -1437,7 +1437,7 @@ public class OhBotController {
             rate(text, replyToken);
         }
 
-        if (text.startsWith("比特幣換算") && (text.endsWith("？") || text.endsWith("?"))) {
+        if (text.contains("比特幣換算") && (text.endsWith("？") || text.endsWith("?"))) {
             exchangeBitcon(text, replyToken);
         }
 
