@@ -2085,7 +2085,7 @@ public class OhBotController {
         }
         
         if (text.contains("凱西") && text.contains("多久") && (text.contains("出獄")||text.contains("畢業"))) {
-        	long timeMillis = getTimeInMillis(2021, 9, 1, 0, 0, 0);
+        	long timeMillis = getTimeInMillis(2021, 10, 1, 0, 0, 0);
             Calendar current = Calendar.getInstance(TimeZone.getDefault());
             current.setTimeInMillis(System.currentTimeMillis());
      
