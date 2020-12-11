@@ -1225,21 +1225,9 @@ public class OhBotController {
         }
 
         checkNeedTotallyBullyReply(userId, replyToken);
-        String announeMessage = AnnouncementManager.processAnnounceMessage(senderId);
-        if (announeMessage != null) {
-        	if (announeMessage.startsWith("http") && 
-					(announeMessage.endsWith(".jpg") 
-							|| announeMessage.endsWith(".jpeg") 
-							|| announeMessage.endsWith(".png"))) {
-        		this.replyImage(replyToken, announeMessage, announeMessage);
-        		return;
-			}
-        	this.replyText(replyToken, announeMessage);
-        	return;
-        }
         
         if (text.startsWith("PgCommand發公告:")) {
-        	announeMessage = text.replace("PgCommand發公告:", "");
+        	String announeMessage = text.replace("PgCommand發公告:", "");
         	AnnouncementManager.announceNewMessage(announeMessage, false, 0);
         	this.replyText(replyToken, "好的PG大人, 設定公告: " + announeMessage);
         }
@@ -1252,6 +1240,19 @@ public class OhBotController {
         	else {
         		this.replyText(replyToken, "PG大人目前暫無公告");
         	}
+        }
+        
+        String announeMessage = AnnouncementManager.processAnnounceMessage(senderId);
+        if (announeMessage != null) {
+        	if (announeMessage.startsWith("http") && 
+					(announeMessage.endsWith(".jpg") 
+							|| announeMessage.endsWith(".jpeg") 
+							|| announeMessage.endsWith(".png"))) {
+        		this.replyImage(replyToken, announeMessage, announeMessage);
+        		return;
+			}
+        	this.replyText(replyToken, announeMessage);
+        	return;
         }
         
         if (text.startsWith("PgCommand測試:") && userId.equals(USER_ID_PIGGY)) {

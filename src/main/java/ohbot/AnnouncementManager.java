@@ -7,12 +7,12 @@ import java.util.TimeZone;
 
 public class AnnouncementManager {
 	
-	private static String sAnnounceMessage = "";
+	private static String sAnnounceMessage = null;
 	private static boolean sIsNeedExpired = false;
 	
 	private static class AnnounceGroup {
 		private String groupId = "";
-		private String announcedMessage = "";
+		private String announcedMessage = null;
 		private boolean isAnnounced = false;
 		private boolean isAnnounceImage = false;
 		
@@ -57,6 +57,9 @@ public class AnnouncementManager {
 	}
 	
 	public static String processAnnounceMessage(String groupId) {
+		if (1 > 0) {
+			return null;
+		}
 		if (sAnnounceMessage == null) {
 			return null;
 		}
