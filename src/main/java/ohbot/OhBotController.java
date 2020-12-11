@@ -7558,6 +7558,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             mNewestEarthquakeReportImage = "https://www.cwb.gov.tw";
             mNewestEarthquakeReportImage += tempContext;
+            PgLog.info("Piggy Check: maxLevel: " + maxLevel + " affectCount: " + affectCount);
             if (!mNewestEarthquakeTime.equals("") && !mNewestEarthquakeTime.equals(newestEarthquakeTime)) {
                 notifyAllNeedEarthquakeEventRoom();
             }
