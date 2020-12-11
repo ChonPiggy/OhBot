@@ -1224,6 +1224,23 @@ public class OhBotController {
         }
 
         checkNeedTotallyBullyReply(userId, replyToken);
+        String announeMessage = AnnouncementManager.processAnnounceMessage(senderId);
+        if (announeMessage != null) {
+        	if (announeMessage.startsWith("http") && 
+					(announeMessage.endsWith(".jpg") 
+							|| announeMessage.endsWith(".jpeg") 
+							|| announeMessage.endsWith(".png"))) {
+        		this.replyImage(replyToken, announeMessage, announeMessage);
+			}
+        	this.replyText(replyToken, announeMessage);
+        	return;
+        }
+        
+        if (text.startsWith("PgCommand發公告:")) {
+        	announeMessage = text.replace("PgCommand發公告:", "");
+        	AnnouncementManager.announceNewMessage(announeMessage, true, 1);
+        	this.replyText(replyToken, "好的PG大人, 設定公告: "+announeMessage);
+        }
         
         if (text.startsWith("PgCommand測試:") && userId.equals(USER_ID_PIGGY)) {
         	text = text.replace("PgCommand測試:", "");
@@ -8125,6 +8142,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += "PgCommand表特最小推數設定值\n";
             result += "PgCommand表特最小推數設定為X\n";
             result += "PgCommand最新地震報告圖網址\n";
+            result += "PgCommand發公告:XXX\n";
             return result;
         }
 
