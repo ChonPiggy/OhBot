@@ -60,6 +60,13 @@ public class AnnouncementManager {
 		return sAnnounceMessage;
 	}
 	
+	public static boolean isSameAnnounceMessage(String message) {
+		if (sAnnounceMessage == null) {
+			return false;
+		}
+		return message.equals(sAnnounceMessage);
+	}
+	
 	public static String processAnnounceMessage(String groupId) {
 		if (sAnnounceMessage == null) {
 			return null;
