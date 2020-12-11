@@ -1232,6 +1232,7 @@ public class OhBotController {
 							|| announeMessage.endsWith(".jpeg") 
 							|| announeMessage.endsWith(".png"))) {
         		this.replyImage(replyToken, announeMessage, announeMessage);
+        		return;
 			}
         	this.replyText(replyToken, announeMessage);
         	return;
@@ -1239,7 +1240,7 @@ public class OhBotController {
         
         if (text.startsWith("PgCommand發公告:")) {
         	announeMessage = text.replace("PgCommand發公告:", "");
-        	AnnouncementManager.announceNewMessage(announeMessage, true, 0);
+        	AnnouncementManager.announceNewMessage(announeMessage, false, 0);
         	this.replyText(replyToken, "好的PG大人, 設定公告: " + announeMessage);
         }
         
@@ -2026,10 +2027,10 @@ public class OhBotController {
             return;
         }
 
-        if (text.equals("最新地震報告圖")) {
+        if (text.equals("最新地震報告圖") || text.contains("地震報告圖")) {
             this.replyImage(replyToken, mNewestEarthquakeReportImage, mNewestEarthquakeReportImage);
         }
-        if (text.equals("最新地震報告")) {
+        if (text.equals("最新地震報告") || text.contains("地震報告")) {
             this.replyText(replyToken, mNewestEarthquakeReportText);
         }
 
@@ -7527,10 +7528,23 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n"; // Scale
             mNewestEarthquakeReportText += "\n各地震度級:\n";
             
+            int affectCount = 0;
+            int maxLevel = 0;
             while (tempContext.contains("href=\"#collapse")) {
+            	affectCount++;
                 tempContext = tempContext.substring(tempContext.indexOf("href=\"#collapse")+15, tempContext.length());
                 tempContext = tempContext.substring(tempContext.indexOf("\">")+2, tempContext.length());
-                mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</a>")) + "\n"; // Scale per location
+                String detailText = tempContext.substring(0, tempContext.indexOf("</a>"));
+                mNewestEarthquakeReportText +=  detailText + "\n"; // Scale per location
+                String numberString = detailText.substring(detailText.indexOf(" ")+1, detailText.indexOf("級"));
+                if (maxLevel == 0) {
+	                try {
+	                	maxLevel = Integer.parseInt(numberString);
+	                }
+	                catch(java.lang.NumberFormatException e1) {
+	                    PgLog.info("NumberFormatException e1: " + e1);
+	                }
+                }
             }
             if (tempContext.contains("\">詳細資料")) {
                 tempContext = tempContext.substring(tempContext.indexOf("\">詳細資料"), tempContext.length());
@@ -7548,6 +7562,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 notifyAllNeedEarthquakeEventRoom();
             }
             mNewestEarthquakeTime = newestEarthquakeTime;
+            if (affectCount >= 6 && maxLevel > 3) {
+            	// Notify all group when maxLevel over 4 and affect count over 6
+            	AnnouncementManager.announceNewMessage(mNewestEarthquakeReportImage, true, 30);
+            }
 
         } catch (Exception e) {
             PgLog.info("checkEarthquakeReport e: " + e);
