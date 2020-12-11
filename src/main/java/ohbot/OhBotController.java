@@ -7562,7 +7562,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 notifyAllNeedEarthquakeEventRoom();
             }
             mNewestEarthquakeTime = newestEarthquakeTime;
-            if (affectCount >= 6 && maxLevel > 3) {
+            if (affectCount >= 3 && maxLevel > 1) {
             	// Notify all group when maxLevel over 4 and affect count over 6
             	AnnouncementManager.announceNewMessage(mNewestEarthquakeReportImage, true, 30);
             }
