@@ -97,7 +97,6 @@ import java.security.NoSuchAlgorithmException;
 import java.net.*;
 import java.lang.Integer;
 
-import ohbot.AnnouncementManager;
 
 /**
  * Created by lambertyang on 2017/1/13.
