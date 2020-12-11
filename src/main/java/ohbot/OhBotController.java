@@ -7575,8 +7575,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
             }
             mNewestEarthquakeTime = newestEarthquakeTime;
-            
-
         } catch (Exception e) {
             PgLog.info("checkEarthquakeReport e: " + e);
         }
