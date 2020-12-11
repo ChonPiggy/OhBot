@@ -7563,17 +7563,19 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             mNewestEarthquakeReportImage = "https://www.cwb.gov.tw";
             mNewestEarthquakeReportImage += tempContext;
-            PgLog.info("Piggy Check: maxLevel: " + maxLevel + " affectCount: " + affectCount);
+            
             if (!mNewestEarthquakeTime.equals("") && !mNewestEarthquakeTime.equals(newestEarthquakeTime)) {
                 notifyAllNeedEarthquakeEventRoom();
+                PgLog.info("Piggy Check: maxLevel: " + maxLevel + " affectCount: " + affectCount);
+                if (affectCount >= 6 && maxLevel > 3) {
+                	// Notify all group when maxLevel over 4 and affect count over 6
+                	if (!AnnouncementManager.isSameAnnounceMessage(mNewestEarthquakeReportImage)) {
+                		AnnouncementManager.announceNewMessage(mNewestEarthquakeReportImage, true, 30);
+                	}
+                }
             }
             mNewestEarthquakeTime = newestEarthquakeTime;
-            if (affectCount >= 6 && maxLevel > 3) {
-            	// Notify all group when maxLevel over 4 and affect count over 6
-            	if (!AnnouncementManager.isSameAnnounceMessage(mNewestEarthquakeReportImage)) {
-            		AnnouncementManager.announceNewMessage(mNewestEarthquakeReportImage, true, 30);
-            	}
-            }
+            
 
         } catch (Exception e) {
             PgLog.info("checkEarthquakeReport e: " + e);
