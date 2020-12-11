@@ -162,9 +162,13 @@ public class OhBotController {
     private String IMAGE_YOU_ARE_PERVERT = "https://i.imgur.com/dRJinz7.jpg";
     private String IMAGE_GPNUDD = "https://i.imgur.com/0Kr7J44.jpg";
     private String IMAGE_BE_A_GOOD_MAN = "https://i.imgur.com/Hy74quj.jpg";
+    
+    private List<String> mEarthQuakeMeMeImgurLinkList = Arrays.asList("https://imgur.com/a/XzsZlid.jpg", 
+            "https://i.imgur.com/EqVvSJt.jpg", 
+            "https://i.imgur.com/8TwTZT1.jpg",
+            "https://imgur.com/XqUFKfr.jpg");
 
-    private List<String> mIWillBeLateList = new ArrayList<String> (
-        Arrays.asList("https://i.imgur.com/0cNbr9c.jpg",
+    private List<String> mIWillBeLateList = Arrays.asList("https://i.imgur.com/0cNbr9c.jpg",
                       "https://i.imgur.com/XBV3bP6.jpg",
                       "https://i.imgur.com/HDFPfUW.jpg",
                       "https://i.imgur.com/7vS3YdX.jpg",
@@ -175,7 +179,7 @@ public class OhBotController {
                       "https://i.imgur.com/UunjtJN.png",
                       "https://i.imgur.com/goI7vj1.jpg",
                       "https://i.imgur.com/aTZErIM.jpg",
-                      "https://i.imgur.com/eEq9MxU.jpg"));
+                      "https://i.imgur.com/eEq9MxU.jpg");
 
     private String IMAGE_TAIWAN_WEATHER_CLOUD = "https://www.cwb.gov.tw/Data/satellite/LCC_IR1_CR_1000/LCC_IR1_CR_1000.jpg";
     private String IMAGE_TAIWAN_WEATHER_RAIN = "https://www.cwb.gov.tw/Data/rainfall/QZJ.jpg";
@@ -2040,6 +2044,10 @@ public class OhBotController {
 
         if (text.equals("悲慘世界")) {
             keywordImage("TragicWorld",replyToken);
+        }
+        
+        if (text.equals("地震")) {
+            keywordImage("EarthQuakeSeek",replyToken);
         }
 
         if (text.equals("幹")||text.equals("操")||text.equals("雞掰")||text.equals("機掰")) {
@@ -5369,6 +5377,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     source = "https://i.imgur.com/BsavJHK.jpg";
                     break;
             }
+        }
+        if (text.equals("EarthQuakeSeek")) {
+        	source = getRandomSourceFromList(mEarthQuakeMeMeImgurLinkList);
         }
         if (text.equals("kofat")) {
             source = getRandomSourceFromList(mKofatCosplayImgurLinkList);
