@@ -32,15 +32,15 @@ public class AnnouncementManager {
 	}
 	
 	private static HashMap<String, AnnounceGroup> sAnnouncedGroups = new HashMap<>();
-	private static Calendar announceExpiredTime;
+	private static Calendar sAnnounceExpiredTime;
 	
 	// expired time with minute
 	public static void announceNewMessage(String message, boolean isNeedExpire, int expiredTime) {
 		sAnnouncedGroups.clear();
 		sAnnounceMessage = message;
 		if (isNeedExpire) {
-			announceExpiredTime = Calendar.getInstance(TimeZone.getDefault());
-			announceExpiredTime.setTimeInMillis(System.currentTimeMillis()+((expiredTime)*60*1000));
+			sAnnounceExpiredTime = Calendar.getInstance(TimeZone.getDefault());
+			sAnnounceExpiredTime.setTimeInMillis(System.currentTimeMillis()+((expiredTime)*60*1000));
 		}
 	}
 	
@@ -55,11 +55,15 @@ public class AnnouncementManager {
 		if (sAnnounceMessage == null) {
 			return null;
 		}
+		
 		if (!sAnnouncedGroups.containsKey(groupId)) {
 			// Need announce
-			Calendar current = Calendar.getInstance(TimeZone.getDefault());
-            current.setTimeInMillis(System.currentTimeMillis());
-			if (current.getTimeInMillis() - announceExpiredTime.getTimeInMillis() < 0) {
+			if (sAnnounceExpiredTime != null) {
+				Calendar current = Calendar.getInstance(TimeZone.getDefault());
+	            current.setTimeInMillis(System.currentTimeMillis());
+				if (current.getTimeInMillis() - sAnnounceExpiredTime.getTimeInMillis() > 0) {
+					return null;
+				}
 				// not expired, need announce if needed.
 				sAnnouncedGroups.put(groupId, new AnnounceGroup(groupId, sAnnounceMessage));
 				return sAnnounceMessage;
