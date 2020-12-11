@@ -56,10 +56,11 @@ public class AnnouncementManager {
 		
 	}
 	
+	public static String getAnnounceMessage() {
+		return sAnnounceMessage;
+	}
+	
 	public static String processAnnounceMessage(String groupId) {
-		if (1 > 0) {
-			return null;
-		}
 		if (sAnnounceMessage == null) {
 			return null;
 		}
