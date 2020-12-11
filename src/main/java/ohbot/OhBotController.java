@@ -2015,6 +2015,11 @@ public class OhBotController {
             if(!isAdminUserId(userId, replyToken)) {return;}
             this.replyText(replyToken, mNewestEarthquakeReportImage);
         }
+        
+        if (text.equals("PgCommand最新地震報告網址")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            this.replyText(replyToken, mNewestEarthquakeReportText);
+        }
 
         if (text.equals("我的LineId")) {
             this.replyText(replyToken, "您的 Line User Id 為: " + userId);
