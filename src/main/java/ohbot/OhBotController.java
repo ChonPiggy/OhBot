@@ -1245,7 +1245,7 @@ public class OhBotController {
         String announeMessage = AnnouncementManager.processAnnounceMessage(senderId);
         if (announeMessage != null) {
         	boolean isNormalImage = announeMessage.endsWith(".jpg")||announeMessage.endsWith(".jpeg")||announeMessage.endsWith(".png");
-        	boolean isEarthQuakeImage = announeMessage.contains(".png")&&announeMessage.endsWith("cwb")&&announeMessage.endsWith("earthquake");
+        	boolean isEarthQuakeImage = announeMessage.contains(".png")&&announeMessage.contains("cwb")&&announeMessage.contains("earthquake");
         	if (announeMessage.startsWith("http") && (isNormalImage || isEarthQuakeImage)) {
         		this.replyImage(replyToken, announeMessage, announeMessage);
         		return;
