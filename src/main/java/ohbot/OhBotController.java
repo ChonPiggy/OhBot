@@ -1239,7 +1239,12 @@ public class OhBotController {
         if (text.startsWith("PgCommand發公告:")) {
         	announeMessage = text.replace("PgCommand發公告:", "");
         	AnnouncementManager.announceNewMessage(announeMessage, true, 1);
-        	this.replyText(replyToken, "好的PG大人, 設定公告: "+announeMessage);
+        	this.replyText(replyToken, "好的PG大人, 設定公告: " + announeMessage);
+        }
+        
+        if (text.startsWith("PgCommand取消公告")) {
+        	String message = AnnouncementManager.removeAnnouncement();
+        	this.replyText(replyToken, "好的PG大人, 取消公告: " + message);
         }
         
         if (text.startsWith("PgCommand測試:") && userId.equals(USER_ID_PIGGY)) {
