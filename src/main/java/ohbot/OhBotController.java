@@ -2063,9 +2063,9 @@ public class OhBotController {
         
         // Temp feature
         
-        if (text.contains("美國總統大選")||text.contains("美國大選")||text.contains("美國總統")) {
+        /*if (text.contains("美國總統大選")||text.contains("美國大選")||text.contains("美國總統")) {
         	this.replyText(replyToken, getUSPresidentVoie2020());
-        }
+        }*/
 
         /*if ((text.contains("Ingress") || text.contains("ingress")) &&
             (text.contains("Twitter") || text.contains("twitter"))) {
