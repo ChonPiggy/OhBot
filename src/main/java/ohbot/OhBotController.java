@@ -40,7 +40,6 @@ import ohbot.utils.Utils;
 import java.lang.reflect.*;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.Iterator;
 import java.lang.reflect.Method;
 
 import org.apache.http.HttpHost;
@@ -84,14 +83,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
-import java.util.Date;
 import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
-import java.util.Random;
-
-import java.util.Base64;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.net.*;
@@ -4289,7 +4281,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;
         }
-        else if (result.getUrlList().size() == 1 || isSinglePic) {
+        /*else if (result.getUrlList().size() == 1 || isSinglePic) {
         	String url = "";
         	if (result.getUrlList().get(0).endsWith(".gif")) {
                 this.replyText(replyToken, "Line 不能顯示 gif 直接貼: " + url);
@@ -4304,7 +4296,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             	return;
             }
             this.replyImage(replyToken, url, url);
-        }
+        }*/
         else {
         	processReplyPttBeautyGirl(replyToken, result);
         }
@@ -4373,11 +4365,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         List<ImageCarouselColumn> columnsList = new ArrayList<>();
         int index = 0;
         int count = 0;
+        List<String> resultList = (List<String>) getRandomItemFromList(list, MAX_CAROUSEL_COLUMN);
         
-        while (index < list.size()) {
+        while (index < resultList.size()) {
             //PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));
-            if (!list.get(index).endsWith(".gif")) {
-                String data = list.get(index);
+            if (!resultList.get(index).endsWith(".gif")) {
+                String data = resultList.get(index);
                 if (data.indexOf("http:") >= 0) {
                     data = data.replace("http", "https");
                 }
@@ -5033,13 +5026,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
 
-            String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
-            PgLog.info("Piggy Check result_image_image: |" + result_image_image +"|");
+            String result_image_context = EntityUtils.toString(httpEntity, "utf-8");
+            //PgLog.info("Piggy Check result_image_image: |" + result_image_context +"|");
+            if (result_image_context.contains("<body")) {
+            	result_image_context = result_image_context.substring(result_image_context.indexOf("<body"), result_image_context.length());
+            }
             List<String> resultImageList = new ArrayList<String> ();
-            if (result_image_image.indexOf("http://imgur.com/") > 0) {
+            if (result_image_context.indexOf("http://imgur.com/") > 0) {
                 PgLog.info("Website contains imgur url.");
                 Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
-                Matcher matcherJp = patternJp.matcher(result_image_image);
+                Matcher matcherJp = patternJp.matcher(result_image_context);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
                     result = result.replace("</a>","");
@@ -5052,10 +5048,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
-            else if (result_image_image.indexOf("http://i.imgur.com/") > 0) {
+            else if (result_image_context.indexOf("http://i.imgur.com/") > 0) {
                 PgLog.info("Website contains i.imgur url.");
                 Pattern patternJp = Pattern.compile("http:\\/\\/i.imgur.com\\/.*");
-                Matcher matcherJp = patternJp.matcher(result_image_image);
+                Matcher matcherJp = patternJp.matcher(result_image_context);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
                     result = result.replace("http:","https:");
@@ -5069,7 +5065,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             else {
                 PgLog.info("Website don't have imgur url.");
                 Pattern patternJp = Pattern.compile("(http|ftp|https):\\/\\/([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:\\/~+#-]*[\\w@?^=%&\\/~+#-])?.(jpeg|jpg)");
-                Matcher matcherJp = patternJp.matcher(result_image_image);
+                Matcher matcherJp = patternJp.matcher(result_image_context);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
                     if (!resultImageList.contains(result)&&!result.contains("logo")) {
@@ -6616,6 +6612,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     		return urlList;
     	}
     	
+    	public List<String> getLimitedList(int max) {
+    		return (List<String>) getRandomItemFromList(urlList, max);
+    	}
+    	
     	public String getResultUrl() {
     		return resultUrl;
     	}
@@ -7571,6 +7571,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 	// Notify all group when maxLevel over 4 and affect count over 6
                 	if (!AnnouncementManager.isSameAnnounceMessage(mNewestEarthquakeReportImage)) {
                 		AnnouncementManager.announceNewMessage(mNewestEarthquakeReportImage, true, 30);
+                		LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "觸發通知所有群組地震訊息, 時間區間為 30 分鐘內");
                 	}
                 }
             }
@@ -8457,6 +8458,29 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         //PgLog.info("result: " + result);
         
         return result;
+    }
+    
+    List<?> getRandomItemFromList(List<? extends Object> list, int max) {
+    	if (list != null && list.size() <= max) {
+    		return list;
+    	}
+    	List<Object> resultList = new ArrayList<Object>(max);
+    	Set<Integer> pickedSet = new HashSet<Integer>();
+    	int count = 0;
+		Random randomGenerator = new Random();
+    	while(count < max) {
+            int random_num = randomGenerator.nextInt(max);
+            pickedSet.add(random_num);
+            count++;
+    	}
+    	
+    	Iterator iterator = pickedSet.iterator(); 
+        
+        while (iterator.hasNext()){
+        	resultList.add(list.get(((Integer)iterator.next()).intValue()));
+        }
+    	
+        return resultList;
     }
 
 }
