@@ -8470,8 +8470,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 		Random randomGenerator = new Random();
     	while(count < max) {
             int random_num = randomGenerator.nextInt(max);
-            pickedSet.add(random_num);
-            count++;
+            if (!pickedSet.contains(random_num)) {
+            	pickedSet.add(random_num);
+            	count++;
+            }
     	}
     	
     	Iterator iterator = pickedSet.iterator(); 
