@@ -1810,6 +1810,10 @@ public class OhBotController {
         if (text.endsWith("的羅馬拼音?") || text.endsWith("的羅馬拼音？") || text.endsWith("的羅馬拼音是?") || text.endsWith("的羅馬拼音是？")) {
             japaneseNameToRomaji(replyToken, text);
         }
+        
+        if (text.startsWith("http") && (text.endsWith(".png")||text.endsWith(".jpeg")||text.endsWith(".jpg"))) {
+        	this.replyImage(replyToken, text, text);
+        }
 
         if (text.startsWith("PgCommand設定MD地圖:")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
