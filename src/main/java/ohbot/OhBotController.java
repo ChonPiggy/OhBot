@@ -7069,8 +7069,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (tempImgList.size() > 0) {
             	
             	for (int i=0;i<tempImgList.size();i++) {
-                    String igUrl = "https://www.instagram.com/p/" + tempIgList.get(random_num);
-                    String likeCount = tempIgLikeCountList.get(random_num);
+                    String igUrl = "https://www.instagram.com/p/" + tempIgList.get(i);
+                    String likeCount = tempIgLikeCountList.get(i);
                     PgLog.info("Piggy Check ig_url: " + igUrl);
                     resultImgList.add(new InstagramItem(igUrl, likeCount));
             	}
