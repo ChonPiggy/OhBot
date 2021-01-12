@@ -2028,12 +2028,12 @@ public class OhBotController {
         	List<InstagramLocation> result = searchIgLocation(search, 10);
         	if (result != null) {
         		List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, result.get(0).getUrl(), true, false);
-        		List<String> resultList = new ArrayList<String>();
+        		List<ImageItem> resultList = new ArrayList<ImageItem>();
         		for(int i=0;i<igList.size();i++) {
-        			resultList.add(igList.get(i).getUrl());
+        			resultList.add(new ImageItem(igList.get(i).getLike(), igList.get(i).getImgUrl(), igList.get(i).getUrl()));
         		}
         		if (resultList.size() > 0) {
-        			processReplyImageCarouselTemplateFromStringList(replyToken, resultList, result.get(0).getTitle(), result.get(0).getUrl());
+        			processReplyImageCarouselTemplateFromStringList(replyToken, resultList);
         		}
         	}
         }
@@ -4385,21 +4385,40 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         this.replyImageCarouselTemplate(replyToken, girl.getDescribeString(), columnsList);
     }
-
-    private void processReplyImageCarouselTemplateFromStringList(String replyToken, List<String> list, String title, String url) {
+    
+    class ImageItem {
+    	String mTitle;
+    	String mUrl;
+    	String mImgUrl;
+    	public ImageItem(String title, String imgUrl, String url) {
+			mTitle = title;
+			mUrl = url;
+			mImgUrl = img;
+			if (mImgUrl.indexOf("http:") >= 0) {
+				mImgUrl = mImgUrl.replace("http", "https");
+            }
+		}
+    	public String getTitle() {
+    		return mTitle;
+    	}
+    	public String getUrl() {
+    		return mUrl;
+    	}
+    	public String getImgUrl() {
+    		return mImgUrl;
+    	}
+    }
+    private void processReplyImageCarouselTemplateFromStringList(String replyToken, List<ImageItem> imgs) {
         List<ImageCarouselColumn> columnsList = new ArrayList<>();
         int index = 0;
         int count = 0;
-        List<String> resultList = (List<String>) getRandomItemFromList(list, MAX_CAROUSEL_COLUMN);
+        List<ImageItem> resultList = (List<ImageItem>) getRandomItemFromList(imgs, MAX_CAROUSEL_COLUMN);
         
         while (index < resultList.size()) {
             //PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));
-            if (!resultList.get(index).endsWith(".gif")) {
-                String data = resultList.get(index);
-                if (data.indexOf("http:") >= 0) {
-                    data = data.replace("http", "https");
-                }
-                columnsList.add(getImageCarouselColumn(data, title, url));
+            if (!resultList.get(index).getImgUrl().endsWith(".gif")) {
+            	ImageItem item = resultList.get(index); 
+                columnsList.add(getImageCarouselColumn(item.getImgUrl(), item.getTitle(), item.getUrl()));
                 count++;
             }
             index++;
@@ -5056,19 +5075,21 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (result_image_context.contains("<body")) {
             	result_image_context = result_image_context.substring(result_image_context.indexOf("<body"), result_image_context.length());
             }
-            List<String> resultImageList = new ArrayList<String> ();
+            List<ImageItem> resultImageList = new ArrayList<ImageItem> ();
             if (result_image_context.indexOf("http://imgur.com/") > 0) {
                 PgLog.info("Website contains imgur url.");
                 Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_context);
                 while(matcherJp.find()){
+                	
                     String result = matcherJp.group();
                     result = result.replace("</a>","");
                     result = result.replace("http:","https:");
                     result = result.replace("imgur.com","i.imgur.com");
                     result = result + ".jpg";
+                    ImageItem item = new ImageItem("隨機取圖", result, url);
                     if (!resultImageList.contains(result)&&!result.contains("logo")) {
-                        resultImageList.add(result);
+                        resultImageList.add(item);
                     }
                     //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
@@ -5081,8 +5102,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     String result = matcherJp.group();
                     result = result.replace("http:","https:");
                     result = result + ".jpg";
+                    ImageItem item = new ImageItem("隨機取圖", result, url);
                     if (!resultImageList.contains(result)&&!result.contains("logo")) {
-                        resultImageList.add(result);
+                        resultImageList.add(item);
                     }
                     //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
@@ -5093,8 +5115,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 Matcher matcherJp = patternJp.matcher(result_image_context);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
+                    ImageItem item = new ImageItem("隨機取圖", result, url);
                     if (!resultImageList.contains(result)&&!result.contains("logo")) {
-                        resultImageList.add(result);
+                        resultImageList.add(item);
                     }
                     //PgLog.info("Piggy Check get image from website url: " + url + " img_link: " + result);
                 }
@@ -5116,7 +5139,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 PgLog.info("result image: " + result);
                 this.replyImage(replyToken, result, result);*/
 
-                processReplyImageCarouselTemplateFromStringList(replyToken, resultImageList, "隨機取圖", url);
+                processReplyImageCarouselTemplateFromStringList(replyToken, resultImageList);
             }
             else {
                 PgLog.info("resultImageList.size() = 0");
@@ -7097,12 +7120,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     class InstagramItem {
+    	String imgUrl;
     	String itemUrl;
     	String itemLikeCount;
-    	public InstagramItem(String url, String like) {
+    	public InstagramItem(String img, String url, String like) {
+    		imgUrl = img;
     		itemUrl = url;
     		itemLikeCount = like;
 		}
+    	public String getImgUrl() {
+    		return imgUrl;
+    	}
     	public String getUrl() {
     		return itemUrl;
     	}
