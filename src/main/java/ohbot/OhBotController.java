@@ -2033,7 +2033,7 @@ public class OhBotController {
         			resultList.add(new ImageItem(igList.get(i).getLike(), igList.get(i).getImgUrl(), igList.get(i).getUrl()));
         		}
         		if (resultList.size() > 0) {
-        			processReplyImageCarouselTemplateFromStringList(replyToken, resultList);
+        			processReplyImageCarouselTemplateFromStringList(replyToken, resultList, "IG 地點");
         		}
         	}
         }
@@ -4393,7 +4393,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	public ImageItem(String title, String imgUrl, String url) {
 			mTitle = title;
 			mUrl = url;
-			mImgUrl = img;
+			mImgUrl = imgUrl;
 			if (mImgUrl.indexOf("http:") >= 0) {
 				mImgUrl = mImgUrl.replace("http", "https");
             }
@@ -4408,7 +4408,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     		return mImgUrl;
     	}
     }
-    private void processReplyImageCarouselTemplateFromStringList(String replyToken, List<ImageItem> imgs) {
+    private void processReplyImageCarouselTemplateFromStringList(String replyToken, List<ImageItem> imgs, String title) {
         List<ImageCarouselColumn> columnsList = new ArrayList<>();
         int index = 0;
         int count = 0;
@@ -5139,7 +5139,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 PgLog.info("result image: " + result);
                 this.replyImage(replyToken, result, result);*/
 
-                processReplyImageCarouselTemplateFromStringList(replyToken, resultImageList);
+                processReplyImageCarouselTemplateFromStringList(replyToken, resultImageList, "隨機取圖");
             }
             else {
                 PgLog.info("resultImageList.size() = 0");
