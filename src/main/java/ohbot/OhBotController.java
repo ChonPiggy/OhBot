@@ -8528,7 +8528,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         //Exact terms
         for(long i = 1 ; i < numOfResults ; i+=10){
             list.setStart(i);
-            results.addAll(list.execute().getItems());
+            List<Result> temp = list.execute().getItems();
+            if (temp != null) {
+            	results.addAll(temp);
+            }
+            else {
+            	PgLog.info("Piggy Check result null");
+            	return null;
+            }
         }
         PgLog.info("Piggy Check result size" + results.size());
         for (int i=0;i<10;i++) {
