@@ -4420,6 +4420,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (!resultList.get(index).getImgUrl().endsWith(".gif")) {
             	ImageItem item = resultList.get(index); 
                 columnsList.add(getImageCarouselColumn(item.getImgUrl(), item.getTitle(), item.getUrl()));
+                PgLog.info("Piggy Check TitleUrl: " + item.getTitle());
+                PgLog.info("Piggy Check ImgUrl: " + item.getImgUrl());
+                PgLog.info("Piggy Check Url: " + item.getUrl());
                 count++;
             }
             index++;
@@ -7099,7 +7102,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             		String imgUrl = tempImgList.get(i);
                     String igUrl = "https://www.instagram.com/p/" + tempIgList.get(i);
                     String likeCount = tempIgLikeCountList.get(i);
-                    PgLog.info("Piggy Check imgUrl: " + imgUrl);
+                    //PgLog.info("Piggy Check imgUrl: " + imgUrl);
                     resultImgList.add(new InstagramItem(imgUrl, igUrl, likeCount));
             	}
             	
