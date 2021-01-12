@@ -2023,7 +2023,7 @@ public class OhBotController {
             this.replyText(replyToken, mNewestEarthquakeReportText);
         }
         
-        if (text.startsWith("GoogleSearch:")) {
+        if (text.startsWith("IgLocation:")) {
         	String search = text.replace("IgLocation:", "");
         	searchIgLocation(search, 10);
         }
