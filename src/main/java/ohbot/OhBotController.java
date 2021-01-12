@@ -89,6 +89,11 @@ import java.security.NoSuchAlgorithmException;
 import java.net.*;
 import java.lang.Integer;
 
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.customsearch.Customsearch;
+import com.google.api.services.customsearch.model.*;
+
 
 /**
  * Created by lambertyang on 2017/1/13.
@@ -2015,6 +2020,11 @@ public class OhBotController {
         if (text.equals("PgCommand最新地震報告網址")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
             this.replyText(replyToken, mNewestEarthquakeReportText);
+        }
+        
+        if (text.startsWith("GoogleSearch:")) {
+        	String search = text.replace("GoogleSearch:", "");
+        	googleSearch(search, 10);
         }
 
         if (text.equals("我的LineId")) {
@@ -8487,6 +8497,37 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     	
         return resultList;
+    }
+    
+    private Customsearch search;
+
+    public void initGoogleCSE() {
+    	if (search == null) {
+    		search = new Customsearch.Builder(new NetHttpTransport(), new JacksonFactory(), null)
+                .setApplicationName("PiggyTestGoogleSearch").build();
+    	}
+    }
+    
+    String API_KEY = "AIzaSyBWpknMcS02RhR42Gp5g7odK5hQLdJqK-A";
+    List<Result> googleSearch(String query, int numOfResults) throws IOException {
+    	initGoogleCSE();
+        List<Result> results = new ArrayList<Result>();
+        Customsearch.Cse.List list = search.cse().list(query);
+
+        list.setKey(API_KEY);
+
+        //Exact terms
+        for(long i = 1 ; i < numOfResults ; i+=10){
+            list.setStart(i);
+            results.addAll(list.execute().getItems());
+        }
+        PgLog.info("Piggy Check result size" + results.size());
+        for (int i=0;i<10;i++) {
+        	Result r = results.get(i);
+        	PgLog.info("Piggy Check : " + r.getFormattedUrl() + " | r: " + r);
+        }
+
+        return results;
     }
 
 }
