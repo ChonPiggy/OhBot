@@ -7049,6 +7049,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (isHot) {
                 html = html.substring(html.indexOf("edge_hashtag_to_top_posts"), html.length());
             }
+            if (isLocation) {
+            	html = html.substring(html.indexOf("edge_location_to_top_post"), html.length());
+            }
 
             List<String> tempImgList = new ArrayList<String> ();
             List<String> tempIgList = new ArrayList<String> ();
