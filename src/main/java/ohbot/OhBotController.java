@@ -2030,10 +2030,10 @@ public class OhBotController {
         		List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, result.get(0).getUrl(), true, false);
         		List<ImageItem> resultList = new ArrayList<ImageItem>();
         		for(int i=0;i<igList.size();i++) {
-        			resultList.add(new ImageItem(igList.get(i).getLike(), igList.get(i).getImgUrl(), igList.get(i).getUrl()));
+        			resultList.add(new ImageItem("Test", igList.get(i).getImgUrl(), igList.get(i).getUrl()));
         		}
         		if (resultList.size() > 0) {
-        			processReplyImageCarouselTemplateFromStringList(replyToken, resultList, "IG 地點");
+        			processReplyImageCarouselTemplateFromStringList(replyToken, resultList, search);
         		}
         	}
         }
