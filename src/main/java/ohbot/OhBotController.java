@@ -8513,7 +8513,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return new Customsearch(new NetHttpTransport(), new JacksonFactory(), null);
     }
     
-    String API_KEY = "AIzaSyDk6xa-B9hPv4tzLaFNg2ShaVZu0l_JT7c";
+    String API_KEY = "AIzaSyBWpknMcS02RhR42Gp5g7odK5hQLdJqK-A";
     String CX_INSTAGRAM_LOCATION = "e2c451811ef6e4847";
     List<Result> googleSearch(String query, int numOfResults) throws IOException {
     	initGoogleCSE();
