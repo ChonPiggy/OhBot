@@ -7092,10 +7092,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (tempImgList.size() > 0) {
             	
             	for (int i=0;i<tempImgList.size();i++) {
+            		String imgUrl = tempImgList.get(i);
                     String igUrl = "https://www.instagram.com/p/" + tempIgList.get(i);
                     String likeCount = tempIgLikeCountList.get(i);
-                    PgLog.info("Piggy Check ig_url: " + igUrl);
-                    resultImgList.add(new InstagramItem(igUrl, likeCount));
+                    PgLog.info("Piggy Check ig_url: " + imgUrl);
+                    resultImgList.add(new InstagramItem(imgUrl, igUrl, likeCount));
             	}
             	
                 /*random_num = randomGenerator.nextInt(tempImgList.size());
