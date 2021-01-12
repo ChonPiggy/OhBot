@@ -7095,7 +7095,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             		String imgUrl = tempImgList.get(i);
                     String igUrl = "https://www.instagram.com/p/" + tempIgList.get(i);
                     String likeCount = tempIgLikeCountList.get(i);
-                    PgLog.info("Piggy Check ig_url: " + imgUrl);
+                    PgLog.info("Piggy Check imgUrl: " + imgUrl);
                     resultImgList.add(new InstagramItem(imgUrl, igUrl, likeCount));
             	}
             	
