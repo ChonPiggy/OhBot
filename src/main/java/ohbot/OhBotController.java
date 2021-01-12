@@ -2043,6 +2043,18 @@ public class OhBotController {
         		}
         	}
         }
+        if (text.contains("www.instagram.com")&&text.contains("explore")&&text.contains("locations")) {
+        	List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, text, true, false);
+    		List<ImageItem> resultList = new ArrayList<ImageItem>();
+    		for(int i=0;i<igList.size();i++) {
+    			InstagramItem item = igList.get(i);
+    			resultList.add(new ImageItem(item.getLike()+EmojiUtils.emojify(":heart:"), item.getImgUrl(), item.getUrl()));
+    		}
+    		if (resultList.size() > 0) {
+    			processReplyImageCarouselTemplateFromStringList(replyToken, resultList, "偵測到IG地點自動觸發");
+    			return;
+    		}
+        }
 
         if (text.equals("我的LineId")) {
             this.replyText(replyToken, "您的 Line User Id 為: " + userId);
