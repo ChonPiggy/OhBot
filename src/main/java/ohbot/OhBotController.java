@@ -2026,6 +2026,7 @@ public class OhBotController {
         if (text.startsWith("IgLocation:")) {
         	String search = text.replace("IgLocation:", "");
         	List<InstagramLocation> result = searchIgLocation(search, 10);
+        	String title = result.get(0).getTitle();
         	if (result != null) {
         		List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, result.get(0).getUrl(), true, false);
         		List<ImageItem> resultList = new ArrayList<ImageItem>();
@@ -2034,7 +2035,7 @@ public class OhBotController {
         			resultList.add(new ImageItem(item.getLike()+EmojiUtils.emojify(":heart:"), item.getImgUrl(), item.getUrl()));
         		}
         		if (resultList.size() > 0) {
-        			processReplyImageCarouselTemplateFromStringList(replyToken, resultList, search);
+        			processReplyImageCarouselTemplateFromStringList(replyToken, resultList, title);
         		}
         	}
         }
@@ -4420,9 +4421,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (!resultList.get(index).getImgUrl().endsWith(".gif")) {
             	ImageItem item = resultList.get(index); 
                 columnsList.add(getImageCarouselColumn(item.getImgUrl(), item.getTitle(), item.getUrl()));
-                PgLog.info("Piggy Check TitleUrl: " + item.getTitle());
+                /*PgLog.info("Piggy Check TitleUrl: " + item.getTitle());
                 PgLog.info("Piggy Check ImgUrl: " + item.getImgUrl());
-                PgLog.info("Piggy Check Url: " + item.getUrl());
+                PgLog.info("Piggy Check Url: " + item.getUrl());*/
                 count++;
             }
             index++;
@@ -8593,6 +8594,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     
     String API_KEY = "AIzaSyBWpknMcS02RhR42Gp5g7odK5hQLdJqK-A";
     String CX_INSTAGRAM_LOCATION = "e2c451811ef6e4847";
+    
     List<InstagramLocation> searchIgLocation(String query, int numOfResults) throws IOException {
     	initGoogleCSE();
         List<Result> results = new ArrayList<Result>();
