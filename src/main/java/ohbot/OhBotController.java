@@ -2026,6 +2026,16 @@ public class OhBotController {
         if (text.startsWith("IgLocation:")) {
         	String search = text.replace("IgLocation:", "");
         	List<InstagramLocation> result = searchIgLocation(search, 10);
+        	if (result != null) {
+        		List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, result.get(0).getUrl(), true, false);
+        		List<String> resultList = new ArrayList<String>();
+        		for(int i=0;i<igList.size();i++) {
+        			resultList.add(igList.get(i).getUrl());
+        		}
+        		if (resultList.size() > 0) {
+        			processReplyImageCarouselTemplateFromStringList(replyToken, resultList, result.get(0).getTitle(), result.get(0).getUrl());
+        		}
+        	}
         }
 
         if (text.equals("我的LineId")) {
@@ -4447,7 +4457,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             url = getInstagramImageUrl(userId, senderId, text);
         }
         else {
-            url = getRandomInstagramImageUrl(userId, senderId, text, isHot);
+            /*url = getRandomInstagramImageUrl(userId, senderId, text, isHot);*/
         }
         if (url.equals("N/A")) {
             this.replyText(replyToken, "此帳號未公開");
@@ -6980,14 +6990,20 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return "";
     }
 
-    private String getRandomInstagramImageUrl(String userId, String senderId, String target, boolean isHot) {
+    private List<InstagramItem> getRandomInstagramImageUrl(String userId, String senderId, String target, boolean isLocation, boolean isHot) {
         try {
 
             Random randomGenerator = new Random();
             int random_num = randomGenerator.nextInt(mUserAgentList.size());
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            String url="https://www.instagram.com/explore/tags/" + target + "/";
+            String url;
+            if (isLocation) {
+            	url = target;
+            }
+            else {
+            	url="https://www.instagram.com/explore/tags/" + target + "/";
+            }
             PgLog.info("getRandomInstagramImageUrl:" + url);
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("User-Agent",mUserAgentList.get(random_num));
@@ -7014,6 +7030,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             List<String> tempImgList = new ArrayList<String> ();
             List<String> tempIgList = new ArrayList<String> ();
             List<String> tempIgLikeCountList = new ArrayList<String> ();
+            List<InstagramItem> resultImgList = new ArrayList<InstagramItem> ();
 
             Pattern pattern = Pattern.compile("display_url\":\".*?\",");
             Matcher matcher = pattern.matcher(html);
@@ -7050,15 +7067,24 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
 
             if (tempImgList.size() > 0) {
-                random_num = randomGenerator.nextInt(tempImgList.size());
+            	
+            	for (int i=0;i<tempImgList.size();i++) {
+                    String igUrl = "https://www.instagram.com/p/" + tempIgList.get(random_num);
+                    String likeCount = tempIgLikeCountList.get(random_num);
+                    PgLog.info("Piggy Check ig_url: " + igUrl);
+                    resultImgList.add(new InstagramItem(igUrl, likeCount));
+            	}
+            	
+                /*random_num = randomGenerator.nextInt(tempImgList.size());
 
                 String result_url = tempImgList.get(random_num);
                 String ig_url = "https://www.instagram.com/p/" + tempIgList.get(random_num);
                 String like_count = tempIgLikeCountList.get(random_num);
                 PgLog.info("Piggy Check ig_url: " + ig_url);
-                /*mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
-                mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));*/
-                return result_url;
+                mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
+                mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
+                return result_url;*/
+            	return resultImgList;
             }
             else {
                 PgLog.info("Piggy Check parse IG fail!");
@@ -7067,7 +7093,23 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return null;
+    }
+    
+    class InstagramItem {
+    	String itemUrl;
+    	String itemLikeCount;
+    	public InstagramItem(String url, String like) {
+    		itemUrl = url;
+    		itemLikeCount = like;
+		}
+    	public String getUrl() {
+    		return itemUrl;
+    	}
+    	
+    	public String getLike() {
+    		return itemLikeCount;
+    	}
     }
 
     private String getRandomPexelsImageUrl(String target) {
@@ -8537,20 +8579,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             	return null;
             }
         }
-        PgLog.info("Piggy Check result size" + results.size());
+        PgLog.info("Piggy Check result size " + results.size());
         for (int i=0;i<results.size();i++) {
         	Result r = results.get(i);
         	String title = r.getTitle();
         	String link = r.getLink();
-        	PgLog.info("Piggy Check igLocation url: r " + r.getDisplayLink());
-        	PgLog.info("Piggy Check igLocation url: r " + r.getFormattedUrl());
-        	PgLog.info("Piggy Check igLocation url: r " + r.getLink());
-        	PgLog.info("Piggy Check igLocation url: r " + r.getMime());
-        	InstagramLocation il = new InstagramLocation(r.getLink(), r.getTitle());
-        	igLocationResults.add(il);
-        	PgLog.info("Piggy Check igLocation title: " + il.getTitle());
-        	PgLog.info("Piggy Check igLocation url: " + il.getUrl());
-        	PgLog.info("Piggy Check igLocation url: " + il.getUrl());
+        	if (!link.contains("/.../")) {
+        		InstagramLocation il = new InstagramLocation(link, title);
+            	igLocationResults.add(il);
+        	}
         }
         return igLocationResults;
     }
