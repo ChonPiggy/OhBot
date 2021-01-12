@@ -8540,9 +8540,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         PgLog.info("Piggy Check result size" + results.size());
         for (int i=0;i<results.size();i++) {
         	Result r = results.get(i);
-        	InstagramLocation il = new InstagramLocation(r.getFormattedUrl(), r.getTitle());
+        	String title = r.getTitle();
+        	String link = r.getLink();
+        	PgLog.info("Piggy Check igLocation url: r " + r.getDisplayLink());
+        	PgLog.info("Piggy Check igLocation url: r " + r.getFormattedUrl());
+        	PgLog.info("Piggy Check igLocation url: r " + r.getLink());
+        	PgLog.info("Piggy Check igLocation url: r " + r.getMime());
+        	InstagramLocation il = new InstagramLocation(r.getLink(), r.getTitle());
         	igLocationResults.add(il);
         	PgLog.info("Piggy Check igLocation title: " + il.getTitle());
+        	PgLog.info("Piggy Check igLocation url: " + il.getUrl());
         	PgLog.info("Piggy Check igLocation url: " + il.getUrl());
         }
         return igLocationResults;
