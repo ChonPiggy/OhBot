@@ -5,6 +5,6 @@ package ohbot;
  */
 public class Greeter {
     public String sayHello() {
-        return "Hello, World!";
+        return "Hello, World! My name is Piggy";
     }
 }
