@@ -2025,10 +2025,14 @@ public class OhBotController {
         
         if (text.startsWith("IgLocation:")) {
         	String search = text.replace("IgLocation:", "");
-        	List<InstagramLocation> result = searchIgLocation(search, 10);
-        	String title = result.get(0).getTitle();
-        	if (result != null) {
-        		List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, result.get(0).getUrl(), true, false);
+        	List<InstagramLocation> igLocationList = searchIgLocation(search, 10);
+        	
+        	Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(igLocationList.size());
+        	String title = igLocationList.get(random_num).getTitle();
+            
+        	if (igLocationList != null) {
+        		List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, igLocationList.get(random_num).getUrl(), true, false);
         		List<ImageItem> resultList = new ArrayList<ImageItem>();
         		for(int i=0;i<igList.size();i++) {
         			InstagramItem item = igList.get(i);
