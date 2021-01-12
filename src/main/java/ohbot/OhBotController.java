@@ -2043,7 +2043,8 @@ public class OhBotController {
         		}
         	}
         }
-        if (text.contains("www.instagram.com")&&text.contains("explore")&&text.contains("locations")) {
+        /*if (text.contains("www.instagram.com")&&text.contains("explore")&&text.contains("locations")) {*/
+        if (text.contains("www.instagram.com\\/explore\\/locations\\/")) {
         	List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, text, true, false);
     		List<ImageItem> resultList = new ArrayList<ImageItem>();
     		for(int i=0;i<igList.size();i++) {
