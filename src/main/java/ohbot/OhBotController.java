@@ -2025,7 +2025,7 @@ public class OhBotController {
         
         if (text.startsWith("IgLocation:")) {
         	String search = text.replace("IgLocation:", "");
-        	searchIgLocation(search, 10);
+        	List<InstagramLocation> result = searchIgLocation(search, 10);
         }
 
         if (text.equals("我的LineId")) {
@@ -8515,7 +8515,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     
     String API_KEY = "AIzaSyBWpknMcS02RhR42Gp5g7odK5hQLdJqK-A";
     String CX_INSTAGRAM_LOCATION = "e2c451811ef6e4847";
-    List<Result> searchIgLocation(String query, int numOfResults) throws IOException {
+    List<InstagramLocation> searchIgLocation(String query, int numOfResults) throws IOException {
     	initGoogleCSE();
         List<Result> results = new ArrayList<Result>();
         List<InstagramLocation> igLocationResults = new ArrayList<InstagramLocation>();
@@ -8538,13 +8538,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
         PgLog.info("Piggy Check result size" + results.size());
-        for (int i=0;i<10;i++) {
+        for (int i=0;i<results.size();i++) {
         	Result r = results.get(i);
         	InstagramLocation il = new InstagramLocation(r.getFormattedUrl(), r.getTitle());
         	igLocationResults.add(il);
-        	PgLog.info("Piggy Check igLocation: " + il); 
+        	PgLog.info("Piggy Check igLocation title: " + il.getTitle());
+        	PgLog.info("Piggy Check igLocation url: " + il.getUrl());
         }
-        return results;
+        return igLocationResults;
     }
     
     class InstagramLocation {
