@@ -89,6 +89,7 @@ import java.security.NoSuchAlgorithmException;
 import java.net.*;
 import java.lang.Integer;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.customsearch.Customsearch;
@@ -8508,13 +8509,20 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     	}
     }
     
+    private Customsearch getCustomsearch() {
+        return new Customsearch(new NetHttpTransport(), new JacksonFactory(), null);
+    }
+    
     String API_KEY = "AIzaSyBWpknMcS02RhR42Gp5g7odK5hQLdJqK-A";
+    String CX_INSTAGRAM_LOCATION = "e2c451811ef6e4847";
     List<Result> googleSearch(String query, int numOfResults) throws IOException {
     	initGoogleCSE();
         List<Result> results = new ArrayList<Result>();
         Customsearch.Cse.List list = search.cse().list(query);
 
         list.setKey(API_KEY);
+        list.setC2coff("1");
+        list.setCx(CX_INSTAGRAM_LOCATION);
 
         //Exact terms
         for(long i = 1 ; i < numOfResults ; i+=10){
@@ -8529,5 +8537,32 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         return results;
     }
+    
+    /*List<Result> googleSearchImage(String query) throws IOException {
+    	try {
+            Customsearch customsearch = getCustomsearch();
+            Customsearch.Cse.List list = customsearch.cse().list(query);
+            list.setKey(API_KEY);
+            list.setCx
+            list.setSearchType("image");
+            list.setImgSize("xlarge");
+            list.setImgType("photo");
+
+            Search results = list.execute();
+            List<Image> images = new ArrayList<Image>();
+
+            for (Result result : results.getItems()) {
+                Image image = new Image();
+                image.setSource("google");
+                image.setUrl(result.getLink());
+                image.setTitle(result.getTitle());
+                images.add(image);
+            }
+            return images;
+
+        } catch (IOException e) {
+            throw new ImageSearchException(e.getMessage(), e.getCause());
+        }
+    }*/
 
 }
