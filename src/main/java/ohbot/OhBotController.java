@@ -2024,8 +2024,8 @@ public class OhBotController {
         }
         
         if (text.startsWith("GoogleSearch:")) {
-        	String search = text.replace("GoogleSearch:", "");
-        	googleSearch(search, 10);
+        	String search = text.replace("IgLocation:", "");
+        	searchIgLocation(search, 10);
         }
 
         if (text.equals("我的LineId")) {
@@ -8515,9 +8515,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     
     String API_KEY = "AIzaSyBWpknMcS02RhR42Gp5g7odK5hQLdJqK-A";
     String CX_INSTAGRAM_LOCATION = "e2c451811ef6e4847";
-    List<Result> googleSearch(String query, int numOfResults) throws IOException {
+    List<Result> searchIgLocation(String query, int numOfResults) throws IOException {
     	initGoogleCSE();
         List<Result> results = new ArrayList<Result>();
+        List<InstagramLocation> igLocationResults = new ArrayList<InstagramLocation>();
         Customsearch.Cse.List list = search.cse().list(query);
 
         list.setKey(API_KEY);
@@ -8532,10 +8533,29 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         PgLog.info("Piggy Check result size" + results.size());
         for (int i=0;i<10;i++) {
         	Result r = results.get(i);
-        	PgLog.info("Piggy Check : " + r.getFormattedUrl() + " | r: " + r);
+        	InstagramLocation il = new InstagramLocation(r.getFormattedUrl(), r.getTitle());
+        	igLocationResults.add(il);
+        	PgLog.info("Piggy Check igLocation: " + il); 
         }
-
         return results;
+    }
+    
+    class InstagramLocation {
+    	String ig_url = "";
+    	String ig_title = "";
+    	public InstagramLocation(String url, String title) {
+    		ig_url = url;
+    		ig_title = title;
+		}
+    	public String getUrl() {
+    		return ig_url;
+    	}
+    	public String getTitle() {
+    		return ig_title;
+    	}
+    	public String toString() {
+    		return ig_title + ": " + ig_url;
+    	}
     }
     
     /*List<Result> googleSearchImage(String query) throws IOException {
