@@ -5,6 +5,14 @@ package ohbot;
  */
 public class Greeter {
     public String sayHello() {
-        return "Hello, World! My name is Piggy";
+        return "<html>\n
+        <head>\n
+        	<meta name=\"google-site-verification\" content=\"NpDCWKInZP6DC18AE31GEnC-n7jaiWXKIMIdA-ztf24\" />\n
+				<title> Piggy Test Page</title>\n
+		</head>\n
+		<body>\n
+			Hello World, My name is Piggy!\n
+		</body>\n
+	</html>\n";
     }
 }
