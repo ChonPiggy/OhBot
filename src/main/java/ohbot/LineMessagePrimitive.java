@@ -23,8 +23,13 @@ import ohbot.utils.PgLog;
 
 public class LineMessagePrimitive {
 
-    @Autowired
     private static LineMessagingClient lineMessagingClient;
+    
+    public static void setClient(LineMessagingClient client) {
+    	if (lineMessagingClient == null) {
+    		lineMessagingClient = client;
+    	}
+    }
     
     public static CompletableFuture<BotApiResponse> pushMessage(PushMessage message) {
     	return lineMessagingClient.pushMessage(message);

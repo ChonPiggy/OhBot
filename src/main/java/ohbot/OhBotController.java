@@ -554,6 +554,8 @@ public class OhBotController {
     private boolean mIsBdAdFeatureEnable = false;
     
 
+    @Autowired
+    private static LineMessagingClient lineMessagingClient;
 
     @RequestMapping("/")
     public String index() {
@@ -1074,6 +1076,7 @@ public class OhBotController {
 
         // Init check 
         WorldCountryPeopleCountCrawl.init();
+        LineMessagePrimitive.setClient(lineMessagingClient);
         // Init check finished.
         String text = content.getText().trim();
         //PgLog.info(text);
