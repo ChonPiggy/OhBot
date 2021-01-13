@@ -26,6 +26,7 @@ public class LineMessagePrimitive {
     private static LineMessagingClient lineMessagingClient;
     
     public static void setClient(LineMessagingClient client) {
+    	PgLog.info("Piggy Check client: " + client);
     	if (lineMessagingClient == null) {
     		lineMessagingClient = client;
     	}
@@ -59,6 +60,29 @@ public class LineMessagePrimitive {
                 .replyMessage(new ReplyMessage(replyToken, messages));
         //PgLog.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
         
+    }
+    
+    public static String getUserDisplayName(String userid) {
+        String strResult="";
+        
+        UserProfileResponse userProfileResponse = getUserProfile(userid);
+        if (userProfileResponse == null) {
+            return "";
+        }
+        strResult = userProfileResponse.getDisplayName();
+        
+        return strResult;
+    }
+    public static URI getUserDisplayPicture(String userid) {
+        URI strResult=null;
+        
+        UserProfileResponse userProfileResponse = getUserProfile(userid);
+        if (userProfileResponse == null) {
+            return null;
+        }
+        strResult = userProfileResponse.getPictureUrl();
+        
+        return strResult;
     }
     
 

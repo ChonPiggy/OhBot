@@ -555,7 +555,7 @@ public class OhBotController {
     
 
     @Autowired
-    private static LineMessagingClient lineMessagingClient;
+    private LineMessagingClient lineMessagingClient;
 
     @RequestMapping("/")
     public String index() {
@@ -1076,6 +1076,7 @@ public class OhBotController {
 
         // Init check 
         WorldCountryPeopleCountCrawl.init();
+        PgLog.info("Piggy Check client: " + lineMessagingClient);
         LineMessagePrimitive.setClient(lineMessagingClient);
         // Init check finished.
         String text = content.getText().trim();
