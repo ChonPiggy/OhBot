@@ -554,8 +554,6 @@ public class OhBotController {
     private boolean mIsBdAdFeatureEnable = false;
     
 
-    @Autowired
-    private LineMessagingClient lineMessagingClient;
 
     @RequestMapping("/")
     public String index() {
@@ -623,7 +621,7 @@ public class OhBotController {
 
         CompletableFuture<BotApiResponse> apiResponse = null;
         
-        apiResponse = lineMessagingClient.pushMessage(pushMessage);
+        apiResponse = LineMessagePrimitive.pushMessage(pushMessage);
         //return String.format("Sent messages: %s %s", apiResponse.message(), apiResponse.code());
         return "";
         
@@ -1055,33 +1053,9 @@ public class OhBotController {
     public String user(@RequestParam(value = "userid") String userid) {
         String strResult="";
     
-        UserProfileResponse userProfileResponse = getUserProfile(userid);
+        UserProfileResponse userProfileResponse = LineMessagePrimitive.getUserProfile(userid);
         strResult = userProfileResponse.getDisplayName() + "\n" + userProfileResponse.getPictureUrl();
     
-        return strResult;
-    }
-
-    public String getUserDisplayName(String userid) {
-        String strResult="";
-        
-        UserProfileResponse userProfileResponse = getUserProfile(userid);
-        if (userProfileResponse == null) {
-            return "";
-        }
-        strResult = userProfileResponse.getDisplayName();
-        
-        return strResult;
-    }
-
-    public URI getUserDisplayPicture(String userid) {
-        URI strResult=null;
-        
-        UserProfileResponse userProfileResponse = getUserProfile(userid);
-        if (userProfileResponse == null) {
-            return null;
-        }
-        strResult = userProfileResponse.getPictureUrl();
-        
         return strResult;
     }
 
@@ -1259,10 +1233,10 @@ public class OhBotController {
 
         if (text.contains("奴隸") && text.contains("滾")) {
             if (isFromGroup) {
-                leaveGroup(replyToken, senderId);
+                LineMessagePrimitive.leaveGroup(replyToken, senderId);
             }
             if (isFromRoom) {
-                leaveRoom(replyToken, senderId);
+            	LineMessagePrimitive.leaveRoom(replyToken, senderId);
             }
         }
 
@@ -1385,19 +1359,23 @@ public class OhBotController {
         }
         
         if (text.equals("抽單張")) {
-        	randomPttBeautyGirl(userId, senderId, replyToken, false, SINGLE_PIC);
+        	PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, SINGLE_PIC);
+        	processReplyPttBeautyGirl(replyToken, result);
             return;
         }
         else if (text.equals("抽多張")) {
-        	randomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
+        	PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
+        	processReplyPttBeautyGirl(replyToken, result);
             return;
         }
         else if (text.equals("爆抽單張")) {
-        	randomPttBeautyGirl(userId, senderId, replyToken, true, SINGLE_PIC);
+        	PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, true, SINGLE_PIC);
+        	processReplyPttBeautyGirl(replyToken, result);
             return;
         }
         else if (text.equals("爆抽多張")) {
-        	randomPttBeautyGirl(userId, senderId, replyToken, true, MULTI_PIC);
+        	PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, true, MULTI_PIC);
+        	processReplyPttBeautyGirl(replyToken, result);
             return;
         }
 
@@ -1405,7 +1383,9 @@ public class OhBotController {
             if(text.replace("抽", "").replace("爆", "").replace(" ", "").trim().equals("")) {
             	// Pic Source from PTT beauty
                 boolean isHot = text.startsWith("爆抽");
-                randomPttBeautyGirl(userId, senderId, replyToken, isHot, 0);
+                PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, isHot, MULTI_PIC);
+                
+                processReplyPttBeautyGirl(replyToken, result);
                 return;
             }
             else {
@@ -1424,7 +1404,8 @@ public class OhBotController {
             }
         }
         else if (text.equals("抽")) {
-            randomPttBeautyGirl(userId, senderId, replyToken, false, 0);
+            PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
+            processReplyPttBeautyGirl(replyToken, result);
             //randomGirl(text, replyToken);
             return;
         }
@@ -2298,21 +2279,21 @@ public class OhBotController {
         if (message.length() > 1000) {
             message = message.substring(0, 1000 - 2) + "……";
         }
-        this.reply(replyToken, new TextMessage(message));
+        LineMessagePrimitive.reply(replyToken, new TextMessage(message));
     }
 
     private void replyImage(@NonNull String replyToken, @NonNull String original, @NonNull String preview) {
         if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
-        this.reply(replyToken, new ImageMessage(URI.create(original), URI.create(preview)));
+        LineMessagePrimitive.reply(replyToken, new ImageMessage(URI.create(original), URI.create(preview)));
     }
     
     private void replyImage(@NonNull String replyToken, @NonNull URI original, @NonNull URI preview) {
         if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
-        this.reply(replyToken, new ImageMessage(original, preview));
+        LineMessagePrimitive.reply(replyToken, new ImageMessage(original, preview));
     }
 
     private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
@@ -2325,65 +2306,6 @@ public class OhBotController {
     	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
     }
 
-    private void replyImageCarouselTemplate(@NonNull String replyToken, String altText, @NonNull List<ImageCarouselColumn> columns) {
-        if (replyToken.isEmpty()) {
-            throw new IllegalArgumentException("replyToken must not be empty");
-        }
-        this.reply(replyToken, new TemplateMessage(altText, new ImageCarouselTemplate(columns)));
-    }
-
-    private void replyLocation(@NonNull String replyToken, @NonNull String title, @NonNull String address, double latitude, double longitude) {
-        if (replyToken.isEmpty()) {
-            throw new IllegalArgumentException("replyToken must not be empty");
-        }        
-        this.reply(replyToken, new LocationMessage(title, address, latitude, longitude));
-    }
-
-    private void reply(@NonNull String replyToken, @NonNull Message message) {
-        reply(replyToken, Collections.singletonList(message));
-    }
-
-    private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
-        
-        CompletableFuture<BotApiResponse> apiResponse = lineMessagingClient
-                .replyMessage(new ReplyMessage(replyToken, messages));
-        //PgLog.info("Sent messages: {} {}", apiResponse.message(), apiResponse.code());
-        
-    }
-
-    private void leaveGroup(@NonNull String replyToken, @NonNull String groupId) {
-
-        final BotApiResponse botApiResponse;
-        try {
-            botApiResponse = lineMessagingClient.leaveGroup(groupId).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-    }
-
-    private void leaveRoom(@NonNull String replyToken, @NonNull String roomId) {
-        
-        final BotApiResponse botApiResponse;
-        try {
-            botApiResponse = lineMessagingClient.leaveRoom(roomId).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-    }
-
-    private UserProfileResponse getUserProfile(@NonNull String userId) {
-        try {
-            CompletableFuture<UserProfileResponse> response = lineMessagingClient
-                    .getProfile(userId);
-                    //PgLog.info("Piggy Check response: " + response);
-            return response.get();//TODO
-        }catch (Exception e) {
-            PgLog.info("Exception: " + e);
-        }
-        return null;
-    }
 
 /*
 This code is public domain: you are free to use, link and/or modify it in any way you want, for all purposes including commercial applications.
@@ -3759,7 +3681,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 columnsList.add(getImageCarouselColumn(imgUrl, "PG Cute!", searchResultUrl));
             }
             if (maxCount>0) {
-                this.replyImageCarouselTemplate(replyToken, "AmazonJp", columnsList);    
+            	LineMessagePrimitive.replyImageCarouselTemplate(replyToken, "AmazonJp", columnsList);    
             }
             else {
                 this.replyText(replyToken, "搜索失敗");
@@ -4265,7 +4187,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     
     final int SINGLE_PIC = 1;
     final int MULTI_PIC = 2;
-    private void randomPttBeautyGirl(String userId, String senderId, String replyToken, boolean isHot, int singlePicFlag) throws IOException {
+    private PttBeautyGirl getRandomPttBeautyGirl(String userId, String senderId, String replyToken, boolean isHot, int singlePicFlag) throws IOException {
     	boolean isSinglePic = mPttBeautySinglePicMap.containsKey(userId) 
         		? mPttBeautySinglePicMap.get(userId).booleanValue() 
         		: false /*default false*/;
@@ -4282,7 +4204,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (senderId.equals(GROUP_ID_CONNECTION)) {
             if(mConnectionGroupRandomGirlUserIdList.contains(userId)) {
                 this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
-                return;
+                return null;
             }
             else {
                 mConnectionGroupRandomGirlUserIdList.add(userId);
@@ -4295,7 +4217,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 int count = mTokyoHotRandomGirlLimitationList.get(userId);
                 if (count > 10) {
                     this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
-                    return;
+                    return null;
                 }
                 else {
                     count++;
@@ -4323,7 +4245,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         
         if (result.getUrlList().size() <= 0) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
-            return;
+            return null;
         }
         /*else if (result.getUrlList().size() == 1 || isSinglePic) {
         	String url = "";
@@ -4342,7 +4264,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             this.replyImage(replyToken, url, url);
         }*/
         else {
-        	processReplyPttBeautyGirl(replyToken, result);
+        	return result;
         }
     }
     
@@ -4379,7 +4301,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        this.replyImageCarouselTemplate(replyToken, "Ptt Beauty History", columnsList);
+        LineMessagePrimitive.replyImageCarouselTemplate(replyToken, "Ptt Beauty History", columnsList);
     }
     
     final int MAX_CAROUSEL_COLUMN = 9;
@@ -4402,7 +4324,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        this.replyImageCarouselTemplate(replyToken, girl.getDescribeString(), columnsList);
+        LineMessagePrimitive.replyImageCarouselTemplate(replyToken, girl.getDescribeString(), columnsList);
     }
     
     class ImageItem {
@@ -4449,7 +4371,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        this.replyImageCarouselTemplate(replyToken, title, columnsList);
+        LineMessagePrimitive.replyImageCarouselTemplate(replyToken, title, columnsList);
     }
 
 
@@ -4596,7 +4518,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             index = randomGenerator.nextInt(mRandamLocationAddressList.size());
             String address = mRandamLocationAddressList.get(index);
 
-            this.replyLocation(replyToken, title, address, getRandomLatitude(), getRandomLongitude());
+            LineMessagePrimitive.replyLocation(replyToken, title, address, getRandomLatitude(), getRandomLongitude());
         }
     }
 
@@ -6393,7 +6315,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 )
         );
         TemplateMessage templateMessage = new TemplateMessage("The function Only on mobile device ! ", buttonsTemplate);
-        this.reply(replyToken, templateMessage);
+        LineMessagePrimitive.reply(replyToken, templateMessage);
     }
 
     private void help2(String text, String replyToken) throws IOException {
@@ -6424,7 +6346,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 )
         );
         TemplateMessage templateMessage = new TemplateMessage("The function Only on mobile device ! ", carouselTemplate);
-        this.reply(replyToken, templateMessage);
+        LineMessagePrimitive.reply(replyToken, templateMessage);
     }
 
     private String decodeJandanImageUrl(String input) {
@@ -8467,7 +8389,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 ));
         TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text",
                                                               imageCarouselTemplate);
-        this.reply(replyToken, templateMessage);
+        LineMessagePrimitive.reply(replyToken, templateMessage);
     }
     
     private static URI createUri(String path) {
@@ -8692,4 +8614,29 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
     }*/
 
+    
+
+
+    public static String getUserDisplayName(String userid) {
+        String strResult="";
+        
+        UserProfileResponse userProfileResponse = LineMessagePrimitive.getUserProfile(userid);
+        if (userProfileResponse == null) {
+            return "";
+        }
+        strResult = userProfileResponse.getDisplayName();
+        
+        return strResult;
+    }
+    public static URI getUserDisplayPicture(String userid) {
+        URI strResult=null;
+        
+        UserProfileResponse userProfileResponse = LineMessagePrimitive.getUserProfile(userid);
+        if (userProfileResponse == null) {
+            return null;
+        }
+        strResult = userProfileResponse.getPictureUrl();
+        
+        return strResult;
+    }
 }
