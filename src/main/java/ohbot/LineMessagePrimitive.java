@@ -26,7 +26,6 @@ public class LineMessagePrimitive {
     private static LineMessagingClient lineMessagingClient;
     
     public static void setClient(LineMessagingClient client) {
-    	PgLog.info("Piggy Check client: " + client);
     	if (lineMessagingClient == null) {
     		lineMessagingClient = client;
     	}
