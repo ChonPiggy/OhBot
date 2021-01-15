@@ -4273,7 +4273,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         PttBeautyGirl result = getRandomPttBeautyImageUrl(userId, senderId, isHot);
 
-        PgLog.info("Piggy Check randomPttBeautyGirl url list size: " + result.getPicUrlList().size());
+        //PgLog.info("Piggy Check randomPttBeautyGirl url list size: " + result.getPicUrlList().size());
         /*if (url.equals("")) {
             this.replyText(replyToken, "PTT 表特版 parse 失敗");
             return;

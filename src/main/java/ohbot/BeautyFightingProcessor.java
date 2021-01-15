@@ -127,7 +127,7 @@ public abstract class BeautyFightingProcessor {
 					return true;
 				}
 				else {
-					sendTextReply(replyToken, "只能由遊戲發起者 " + info.getStarter() + " 設定回合數");
+					sendTextReply(replyToken, "只能由遊戲發起者 " + LineMessagePrimitive.getUserDisplayName(userId) + " 設定回合數");
 					return true;
 				}
 			}
@@ -138,7 +138,7 @@ public abstract class BeautyFightingProcessor {
 					return true;
 				}
 				else {
-					sendTextReply(replyToken, "只能由遊戲發起者 " + info.getStarter() + " 做設定");
+					sendTextReply(replyToken, "只能由遊戲發起者 " + LineMessagePrimitive.getUserDisplayName(userId) + " 做設定");
 					return true;
 				}
 			}
@@ -148,7 +148,7 @@ public abstract class BeautyFightingProcessor {
 					sendTextReply(replyToken, "設定成功");
 				}
 				else {
-					sendTextReply(replyToken, "只能由遊戲發起者 " + info.getStarter() + " 做設定");
+					sendTextReply(replyToken, "只能由遊戲發起者 " + LineMessagePrimitive.getUserDisplayName(userId) + " 做設定");
 					return true;
 				}
 			}
@@ -157,7 +157,7 @@ public abstract class BeautyFightingProcessor {
 	}
 	
 	public boolean processBeautyFightingPostback(String replyToken, String senderId, String userId, String data) {
-		PgLog.info("Piggy Check processBeautyFightingPostback: " + data);
+		//PgLog.info("Piggy Check processBeautyFightingPostback: " + data);
 		if (data.startsWith(BeautyFightingProcessor.PREFIX)) {
 			synchronized (lock) {
 				if (mBeautyFightingMap.containsKey(senderId)) {
@@ -173,7 +173,6 @@ public abstract class BeautyFightingProcessor {
 						}*/
 						if (!info.isPlayerAnswered(userId)) {
 							info.updateAnswer(userId, data);
-							PgLog.info("Piggy Check list: " + info.getPlayerListDump());
 						}
 						else {
 							return true;
@@ -231,7 +230,7 @@ public abstract class BeautyFightingProcessor {
 		private String mStarter = "";
 		private String mGroupId = "";
 		private int mRounds = 1;
-		private int mMaxRounds = 15;
+		private int mMaxRounds = 10;
 		private boolean mIsShowDetailEveryRound = true;
 		public static final String LEFT = "LEFT";
 		public static final String RIGHT = "RIGHT";
@@ -335,7 +334,7 @@ public abstract class BeautyFightingProcessor {
 		}
 		
 		public String getPlayerVoteList() {
-			String roundsInfo = "第 " + mRounds + " 回合\n";
+			String roundsInfo = "表特好球帶第 " + mRounds + " 回合\n";
 			synchronized (lock) {
 				String leftVotes = "左邊:\n";
 				for (String key : mPlayerMap.keySet()) {
