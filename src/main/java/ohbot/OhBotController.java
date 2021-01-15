@@ -1383,8 +1383,14 @@ public class OhBotController {
         	processReplyPttBeautyGirl(replyToken, result);
             return;
         }
-
-        if ((text.startsWith("抽") || text.startsWith("熱抽") || text.startsWith("爆抽")) && text.length() > 1) {
+        if (text.equals("抽")) {
+            //PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
+        	PttBeautyGirl result = getRandomPttBeautyGirl(null, null, null, false, MULTI_PIC);
+            processReplyPttBeautyGirl(replyToken, result);
+            //randomGirl(text, replyToken);
+            return;
+        }
+        else if ((text.startsWith("抽") || text.startsWith("熱抽") || text.startsWith("爆抽")) && text.length() > 1) {
             if(text.replace("抽", "").replace("爆", "").replace(" ", "").trim().equals("")) {
             	// Pic Source from PTT beauty
                 boolean isHot = text.startsWith("爆抽");
@@ -1407,12 +1413,6 @@ public class OhBotController {
                     pexelsTarget(text, replyToken);    
                 }*/
             }
-        }
-        else if (text.equals("抽")) {
-            PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
-            processReplyPttBeautyGirl(replyToken, result);
-            //randomGirl(text, replyToken);
-            return;
         }
 
         if (text.endsWith("天氣?") || text.endsWith("天氣？")) {
@@ -8715,6 +8715,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 			return data;
 		}
 	};
