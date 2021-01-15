@@ -336,21 +336,21 @@ public abstract class BeautyFightingProcessor {
 				String leftVotes = "左邊:\n";
 				for (String key : mPlayerMap.keySet()) {
 					if (mPlayerMap.get(key).equals(LEFT)) {
-						leftVotes += "" + LineMessagePrimitive.getUserDisplayName(mStarter) + "\n";
+						leftVotes += "" + LineMessagePrimitive.getUserDisplayName(mPlayerMap.get(key)) + "\n";
 					}
 				}
 				
 				String rightVotes = "左邊:\n";
 				for (String key : mPlayerMap.keySet()) {
 					if (mPlayerMap.get(key).equals(RIGHT)) {
-						rightVotes += "" + LineMessagePrimitive.getUserDisplayName(mStarter) + "\n";
+						rightVotes += "" + LineMessagePrimitive.getUserDisplayName(mPlayerMap.get(key)) + "\n";
 					}
 				}
 				
 				String noVotes = "未投票:\n";
 				for (String key : mPlayerMap.keySet()) {
 					if (mPlayerMap.get(key).equals(NONE)) {
-						noVotes += "" + LineMessagePrimitive.getUserDisplayName(mStarter) + "\n";
+						noVotes += "" + LineMessagePrimitive.getUserDisplayName(mPlayerMap.get(key)) + "\n";
 					}
 				}	
 				return roundsInfo+"\n"+leftVotes+"\n"+rightVotes+"\n"+noVotes;
