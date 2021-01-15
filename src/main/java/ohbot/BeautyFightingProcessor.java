@@ -162,6 +162,9 @@ public abstract class BeautyFightingProcessor {
 			synchronized (lock) {
 				if (mBeautyFightingMap.containsKey(senderId)) {
 					BeautyFightingInfo info = mBeautyFightingMap.get(senderId);
+					if (!info.isPlayerJoined(userId)) {
+						return true;
+					}
 					data = data.substring(BeautyFightingProcessor.PREFIX.length());
 					if (data.startsWith(BeautyFightingProcessor.VOTE)) {
 						data = data.substring(BeautyFightingProcessor.VOTE.length());
