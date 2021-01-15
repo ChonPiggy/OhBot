@@ -80,6 +80,7 @@ public abstract class BeautyFightingProcessor {
 				if (userId.equals(info.getStarter())) {
 					info.setBeautyData(getPttBeautyData(), BeautyFightingInfo.LEFT);
 					info.setBeautyData(getPttBeautyData(), BeautyFightingInfo.RIGHT);
+					info.setStarted();
 					sendImageReply(replyToken, info.getLeftPicUrl(), info.getRightPicUrl(), info.getRounds());
 					return true;
 				}
@@ -172,6 +173,7 @@ public abstract class BeautyFightingProcessor {
 						}*/
 						if (!info.isPlayerAnswered(userId)) {
 							info.updateAnswer(userId, data);
+							PgLog.info("Piggy Check list: " + info.getPlayerListDump());
 						}
 						else {
 							return true;
@@ -454,6 +456,10 @@ public abstract class BeautyFightingProcessor {
 		
 		public boolean isStarted() {
 			return mIsStart;
+		}
+		
+		public void setStarted() {
+			mIsStart = true;
 		}
 
 		public String close() {
