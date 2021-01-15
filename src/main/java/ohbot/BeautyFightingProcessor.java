@@ -80,7 +80,7 @@ public abstract class BeautyFightingProcessor {
 				if (userId.equals(info.getStarter())) {
 					info.setBeautyData(getPttBeautyData(), BeautyFightingInfo.LEFT);
 					info.setBeautyData(getPttBeautyData(), BeautyFightingInfo.RIGHT);
-					sendImageReply(replyToken, info.getLeftPicUrl(), info.getRightPicUrl(), 1);
+					sendImageReply(replyToken, info.getLeftPicUrl(), info.getRightPicUrl(), info.getRounds());
 					return true;
 				}
 				else {
@@ -225,7 +225,7 @@ public abstract class BeautyFightingProcessor {
 	public class BeautyFightingInfo {
 		private String mStarter = "";
 		private String mGroupId = "";
-		private int mRounds = 0;
+		private int mRounds = 1;
 		private int mMaxRounds = 15;
 		private boolean mIsShowDetailEveryRound = true;
 		public static final String LEFT = "LEFT";
@@ -337,21 +337,21 @@ public abstract class BeautyFightingProcessor {
 				String leftVotes = "左邊:\n";
 				for (String key : mPlayerMap.keySet()) {
 					if (mPlayerMap.get(key).equals(LEFT)) {
-						leftVotes += "" + LineMessagePrimitive.getUserDisplayName(mPlayerMap.get(key)) + "\n";
+						leftVotes += "" + LineMessagePrimitive.getUserDisplayName(key) + "\n";
 					}
 				}
 				
 				String rightVotes = "左邊:\n";
 				for (String key : mPlayerMap.keySet()) {
 					if (mPlayerMap.get(key).equals(RIGHT)) {
-						rightVotes += "" + LineMessagePrimitive.getUserDisplayName(mPlayerMap.get(key)) + "\n";
+						rightVotes += "" + LineMessagePrimitive.getUserDisplayName(key) + "\n";
 					}
 				}
 				
 				String noVotes = "未投票:\n";
 				for (String key : mPlayerMap.keySet()) {
 					if (mPlayerMap.get(key).equals(NONE)) {
-						noVotes += "" + LineMessagePrimitive.getUserDisplayName(mPlayerMap.get(key)) + "\n";
+						noVotes += "" + LineMessagePrimitive.getUserDisplayName(key) + "\n";
 					}
 				}	
 				return roundsInfo+"\n"+leftVotes+"\n"+rightVotes+"\n"+noVotes;
