@@ -48,6 +48,7 @@ public abstract class BeautyFightingProcessor {
 					return true;
 				}
 				else {
+					info.join(userId);
 					sendTextReply(replyToken, "加入成功! 目前名單:\n" + info.getPlayerListDump());
 					return true;
 				}
