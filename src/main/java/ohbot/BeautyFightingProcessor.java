@@ -170,7 +170,6 @@ public abstract class BeautyFightingProcessor {
 						else if (data.equals(BeautyFightingInfo.RIGHT)) {
 							info.updateAnswer(userId, BeautyFightingInfo.RIGHT);
 						}*/
-						
 						info.updateAnswer(userId, data);
 						
 						if (info.isThisRoundFinished()) {
@@ -192,7 +191,7 @@ public abstract class BeautyFightingProcessor {
 					}
 				}
 			}
-			return false
+			return true;
 		}
 		
 		return false;
@@ -270,6 +269,19 @@ public abstract class BeautyFightingProcessor {
 				if (mPlayerMap.containsKey(userId)) {
 					mPlayerMap.put(userId, answer);
 					return true;
+				}
+			}
+			return false;
+		}
+		
+		public boolean isPlayerAnswered(String userId) {
+			synchronized (lock) {
+				if (mPlayerMap.containsKey(userId)) {
+					if (mPlayerMap.containsKey(userId)) {
+						if (!mPlayerMap.get(userId).equals(NONE)) {
+							return true;
+						}
+					}
 				}
 			}
 			return false;
