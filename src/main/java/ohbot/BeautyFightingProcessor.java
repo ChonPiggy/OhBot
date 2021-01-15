@@ -26,6 +26,7 @@ public abstract class BeautyFightingProcessor {
 		if (text.equals("開始表特好球帶")){
 			if (!mBeautyFightingMap.containsKey(senderId)) {
 				// This room didn't start a fight
+				mBeautyFightingMap.put(senderId, new BeautyFightingInfo(userId, senderId));
 				sendTextReply(replyToken, BeautyFightingProcessor.getGuideString(userId));
 				return true;
 			}
