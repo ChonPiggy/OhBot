@@ -2029,6 +2029,11 @@ public class OhBotController {
         		}
         	}
         }
+        
+        if (mBeautyFightingProcessor.processBeautyFightingString(replyToken, senderId, userId, text)) {
+        	return;
+        }
+        
         /*if (text.contains("www.instagram.com")&&text.contains("explore")&&text.contains("locations")) {*/
         if (text.contains("www.instagram.com\\/explore\\/locations\\/")) {
         	List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, text, true, false);
@@ -2269,6 +2274,9 @@ public class OhBotController {
         String data = event.getPostbackContent().getData();
         String senderId = event.getSource().getSenderId();
         String userId = event.getSource().getUserId();
+        if (mBeautyFightingProcessor.processBeautyFightingPostback(replyToken, senderId, userId, data)) {
+        	return;
+        }
         switch (data) {
             case "more:1": {
                 this.replyText(replyToken, "Coming soon!");
