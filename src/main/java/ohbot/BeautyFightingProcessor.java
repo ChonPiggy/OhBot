@@ -48,8 +48,12 @@ public abstract class BeautyFightingProcessor {
 					return true;
 				}
 				else {
+					if (info.isStarted()) {
+						sendTextReply(replyToken, "遊戲已經開始囉");
+						return true;
+					}
 					info.join(userId);
-					sendTextReply(replyToken, "加入成功! 目前名單:\n" + info.getPlayerListDump());
+					sendTextReply(replyToken, "加入成功!\n目前名單:\n" + info.getPlayerListDump());
 					return true;
 				}
 			}
@@ -188,6 +192,7 @@ public abstract class BeautyFightingProcessor {
 					}
 				}
 			}
+			return false
 		}
 		
 		return false;
@@ -222,7 +227,7 @@ public abstract class BeautyFightingProcessor {
 		private String mGroupId = "";
 		private int mRounds = 0;
 		private int mMaxRounds = 15;
-		private boolean mIsShowDetailEveryRound = false;
+		private boolean mIsShowDetailEveryRound = true;
 		public static final String LEFT = "LEFT";
 		public static final String RIGHT = "RIGHT";
 		public static final String NONE = "NONE";
