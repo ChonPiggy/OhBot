@@ -174,7 +174,7 @@ public abstract class BeautyFightingProcessor {
 							info.updateAnswer(userId, data);
 							if (info.isThisRoundFinished()) {
 								// Send next Q
-								if (info.getMaxRounds()>=info.getMaxRounds()) {
+								if (info.getRounds()>=info.getMaxRounds()) {
 									String result = info.close();
 									sendTextReply(replyToken, result);
 								}
@@ -341,7 +341,7 @@ public abstract class BeautyFightingProcessor {
 					}
 				}
 				
-				String rightVotes = "左邊:\n";
+				String rightVotes = "右邊:\n";
 				for (String key : mPlayerMap.keySet()) {
 					if (mPlayerMap.get(key).equals(RIGHT)) {
 						rightVotes += "" + LineMessagePrimitive.getUserDisplayName(key) + "\n";
