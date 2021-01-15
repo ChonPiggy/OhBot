@@ -172,21 +172,24 @@ public abstract class BeautyFightingProcessor {
 						}*/
 						if (!info.isPlayerAnswered(userId)) {
 							info.updateAnswer(userId, data);
-							if (info.isThisRoundFinished()) {
-								// Send next Q
-								if (info.getRounds()>=info.getMaxRounds()) {
-									String result = info.close();
-									sendTextReply(replyToken, result);
-								}
-								else {
-									info.updateRound(getPttBeautyData());
-									sendImageReply(replyToken, info.getLeftPicUrl(), info.getRightPicUrl(), info.getRounds());
-								}
+						}
+						else {
+							return true;
+						}
+						if (info.isThisRoundFinished()) {
+							// Send next Q
+							if (info.getRounds()>=info.getMaxRounds()) {
+								String result = info.close();
+								sendTextReply(replyToken, result);
 							}
 							else {
-								if (info.isShowDetailEveryRound()) {
-									sendTextReply(replyToken, info.getPlayerVoteList());
-								}
+								info.updateRound(getPttBeautyData());
+								sendImageReply(replyToken, info.getLeftPicUrl(), info.getRightPicUrl(), info.getRounds());
+							}
+						}
+						else {
+							if (info.isShowDetailEveryRound()) {
+								sendTextReply(replyToken, info.getPlayerVoteList());
 							}
 						}
 					}
@@ -278,10 +281,8 @@ public abstract class BeautyFightingProcessor {
 		public boolean isPlayerAnswered(String userId) {
 			synchronized (lock) {
 				if (mPlayerMap.containsKey(userId)) {
-					if (mPlayerMap.containsKey(userId)) {
-						if (!mPlayerMap.get(userId).equals(NONE)) {
-							return true;
-						}
+					if (!mPlayerMap.get(userId).equals(NONE)) {
+						return true;
 					}
 				}
 			}
