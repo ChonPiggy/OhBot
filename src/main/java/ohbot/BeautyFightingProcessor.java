@@ -493,7 +493,7 @@ public abstract class BeautyFightingProcessor {
 			if (!position.equals(LEFT) && !position.equals(RIGHT)) {
 				return;
 			}
-			/*do {
+			do {
 				Random randomGenerator = new Random();
 	            int index = randomGenerator.nextInt(list.size());
 	            url = list.get(index);
@@ -504,7 +504,7 @@ public abstract class BeautyFightingProcessor {
 	            	continue;
 	            }
 	            count--;
-			}while (url.contains(".gif"));*/
+			}while (url.contains(".gif"));
 			
             if (position.equals(LEFT)) {
             	setLeftPicUrl(url);

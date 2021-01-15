@@ -6807,7 +6807,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
 
                 // Process result save to history table
-                PgLog.info("Piggy Check result_url: " + result_url);
+                //PgLog.info("Piggy Check result_url: " + result_url);
                 String rank = (numberCount.equals("爆") ? "爆" : (numberCount + "推"));
                 String historyString = resultTitle + "\n\n" + result_url + " " + rank;
 
