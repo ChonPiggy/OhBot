@@ -6629,7 +6629,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return "";
     }
     
-    class PttBeautyGirl extends Object{
+    class PttBeautyGirl {
     	private List<String> picUrlList;
     	private String resultUrl;
     	private String describeString;
@@ -8702,8 +8702,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 			List<ImageCarouselColumn> columnsList = new ArrayList<>();
 	        columnsList.add(getImagePostbackColumn(leftPic, BeautyFightingInfo.LEFT));
 	        columnsList.add(getImagePostbackColumn(rightPic, BeautyFightingInfo.RIGHT));
-
-	        LineMessagePrimitive.replyImageCarouselTemplate(replyToken, "表特對決第 " + rounds + "", columnsList);
+	        replyText(replyToken, "leftPic: "+leftPic+" rightPic:"+rightPic);
+	        //LineMessagePrimitive.replyImageCarouselTemplate(replyToken, "表特對決第 " + rounds + "", columnsList);
 	        return true;
 		}
 		

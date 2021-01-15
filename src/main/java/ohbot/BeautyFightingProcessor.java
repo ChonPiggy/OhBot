@@ -69,6 +69,10 @@ public abstract class BeautyFightingProcessor {
 				}
 			}*/
 			else if (text.equals("開始")) {
+				if (info.isStarted()) {
+					sendTextReply(replyToken, "遊戲已經開始囉");
+					return true;
+				}
 				if (userId.equals(info.getStarter())) {
 					info.setBeautyData(getPttBeautyData(), BeautyFightingInfo.LEFT);
 					info.setBeautyData(getPttBeautyData(), BeautyFightingInfo.RIGHT);
@@ -76,7 +80,7 @@ public abstract class BeautyFightingProcessor {
 					return true;
 				}
 				else {
-					sendTextReply(replyToken, "只能由遊戲發起者 " + info.getStarter() + " 開始遊戲");
+					sendTextReply(replyToken, "只能由遊戲發起者 " + LineMessagePrimitive.getUserDisplayName(info.getStarter()) + " 開始遊戲");
 					return true;
 				}
 			}	
@@ -88,7 +92,7 @@ public abstract class BeautyFightingProcessor {
 					return true;
 				}
 				else {
-					sendTextReply(replyToken, "只能由遊戲發起者 " + info.getStarter() + " 終止遊戲");
+					sendTextReply(replyToken, "只能由遊戲發起者 " + LineMessagePrimitive.getUserDisplayName(info.getStarter()) + " 終止遊戲");
 					return true;
 				}
 			}			
@@ -205,7 +209,7 @@ public abstract class BeautyFightingProcessor {
 		result += "說出\"設定回合:數字\"可設定回合數\n";
 		result += "最大值為100 最小值5\n\n";
 		result += "說出\"開啟局中進度顯示\"可設定狀態\n";
-		result += "\"關閉局中進度顯示\"可關閉(預設為關)";
+		result += "\"關閉局中進度顯示\"可關閉(預設為關)\n";
 		result += "說出\"開始\"可以開始遊戲(遊戲中可退出)\n\n";
 		result += "發起人說出\"結束\"可強制結束遊戲\n\n";
 		result += "遊戲開始後點擊你喜歡的照片\n\n";
