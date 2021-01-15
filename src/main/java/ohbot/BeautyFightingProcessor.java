@@ -463,12 +463,12 @@ public abstract class BeautyFightingProcessor {
 		
 		public void setBeautyData(PttBeautyGirl beauty, String position) {
 			List<String> list = beauty.getPicUrlList();
-			String url = "";
+			String url = list.get(0);
 			int count = 10;
 			if (!position.equals(LEFT) || !position.equals(RIGHT)) {
 				return;
 			}
-			do {
+			/*do {
 				Random randomGenerator = new Random();
 	            int index = randomGenerator.nextInt(list.size());
 	            url = list.get(index);
@@ -479,7 +479,7 @@ public abstract class BeautyFightingProcessor {
 	            	continue;
 	            }
 	            count--;
-			}while (url.contains(".gif"));
+			}while (url.contains(".gif"));*/
 			
             if (position.equals(LEFT)) {
             	setLeftPicUrl(url);
