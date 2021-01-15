@@ -170,22 +170,23 @@ public abstract class BeautyFightingProcessor {
 						else if (data.equals(BeautyFightingInfo.RIGHT)) {
 							info.updateAnswer(userId, BeautyFightingInfo.RIGHT);
 						}*/
-						info.updateAnswer(userId, data);
-						
-						if (info.isThisRoundFinished()) {
-							// Send next Q
-							if (info.getMaxRounds()>=info.getMaxRounds()) {
-								String result = info.close();
-								sendTextReply(replyToken, result);
+						if (!info.isPlayerAnswered(userId)) {
+							info.updateAnswer(userId, data);
+							if (info.isThisRoundFinished()) {
+								// Send next Q
+								if (info.getMaxRounds()>=info.getMaxRounds()) {
+									String result = info.close();
+									sendTextReply(replyToken, result);
+								}
+								else {
+									info.updateRound(getPttBeautyData());
+									sendImageReply(replyToken, info.getLeftPicUrl(), info.getRightPicUrl(), info.getRounds());
+								}
 							}
 							else {
-								info.updateRound(getPttBeautyData());
-								sendImageReply(replyToken, info.getLeftPicUrl(), info.getRightPicUrl(), info.getRounds());
-							}
-						}
-						else {
-							if (info.isShowDetailEveryRound()) {
-								sendTextReply(replyToken, info.getPlayerVoteList());
+								if (info.isShowDetailEveryRound()) {
+									sendTextReply(replyToken, info.getPlayerVoteList());
+								}
 							}
 						}
 					}
