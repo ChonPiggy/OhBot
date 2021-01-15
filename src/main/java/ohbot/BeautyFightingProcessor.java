@@ -465,7 +465,7 @@ public abstract class BeautyFightingProcessor {
 			List<String> list = beauty.getPicUrlList();
 			String url = list.get(0);
 			int count = 10;
-			if (!position.equals(LEFT) || !position.equals(RIGHT)) {
+			if (!position.equals(LEFT) && !position.equals(RIGHT)) {
 				return;
 			}
 			/*do {

@@ -1384,7 +1384,6 @@ public class OhBotController {
             return;
         }
         if (text.equals("抽")) {
-            //PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
         	PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
             processReplyPttBeautyGirl(replyToken, result);
             //randomGirl(text, replyToken);
