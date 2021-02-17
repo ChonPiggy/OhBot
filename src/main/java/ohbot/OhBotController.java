@@ -261,6 +261,7 @@ public class OhBotController {
     private String GROUP_ID_TOTYO_HOT = "C08a844342f10681cd7750d26974c5da8";
     private String GROUP_ID_INGRESS_EAT = "C0eb3ba0c74a0295aecde593c9bdc4fa3";
     private String GROUP_ID_INGRESS_FITNESS_2020 = "C1cc5b5d48eff907dd6e62bf8911bb4e1";
+    private String GROUP_ID_DRAG_ON_EACH_OTHER_FITNESS = "C2593163e6a01125494fec3ee13b43eb1";    
     private String GROUP_ID_PUBLIC_ISSUES_NO_IDIOTS = "C9265f5f62fafcfd7fa4764a0047b6759";
     
     private String mRandomFootIgTargetString = "美食";
@@ -1771,15 +1772,15 @@ public class OhBotController {
         }
 
         if (text.equals("體脂總表")||text.equals("體脂圖表")) {
-            if (senderId.equals(GROUP_ID_INGRESS_FITNESS_2020)||userId.equals(USER_ID_PIGGY)) {
-                String googleShareSheetsBodyFat = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgKam2fMmTXepu9Bd2aV5BmS7fNIxzwicP2uuDwxY5wnTcGXSI-8INZBA11_Tzb7NtOFMIX5bA1P5C/pubchart?oid=1886194158&format=image";
+            if (senderId.equals(GROUP_ID_DRAG_ON_EACH_OTHER_FITNESS)||userId.equals(USER_ID_PIGGY)) {
+                String googleShareSheetsBodyFat = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSyyFe-lVckUfGCeY0iuOpdA-xJXozLRZVNBxxpWAfIMtKawF2sK45DWua6MmQTl6VUqXXwnrsZqIa3/pubchart?oid=1886194158&format=image";
                 this.replyImage(replyToken, googleShareSheetsBodyFat, googleShareSheetsBodyFat);
             }
         }
 
         if (text.equals("體重總表")||text.equals("體重圖表")) {
-            if (senderId.equals(GROUP_ID_INGRESS_FITNESS_2020)||userId.equals(USER_ID_PIGGY)) {
-                String googleShareSheetsWeight = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgKam2fMmTXepu9Bd2aV5BmS7fNIxzwicP2uuDwxY5wnTcGXSI-8INZBA11_Tzb7NtOFMIX5bA1P5C/pubchart?oid=569446092&format=image";
+            if (senderId.equals(GROUP_ID_DRAG_ON_EACH_OTHER_FITNESS)||userId.equals(USER_ID_PIGGY)) {
+                String googleShareSheetsWeight = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSyyFe-lVckUfGCeY0iuOpdA-xJXozLRZVNBxxpWAfIMtKawF2sK45DWua6MmQTl6VUqXXwnrsZqIa3/pubchart?oid=569446092&format=image";
                 this.replyImage(replyToken, googleShareSheetsWeight, googleShareSheetsWeight);
             }
         }
