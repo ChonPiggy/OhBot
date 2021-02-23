@@ -5876,12 +5876,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void exchangeBitcon(String text, String replyToken) throws IOException {
-    	text = text.substring(0, text.indexOf("比特幣"));
+    	String numberText = text.substring(0, text.indexOf("比特幣"));
         text = text.replace("比特幣換算", "").replace("?", "").replace("？", "").trim();
         PgLog.info(text);
         double number = 1.0;
         try {
-        	number = Double.parseDouble(text);
+        	number = Double.parseDouble(numberText);
         }
         catch(java.lang.NumberFormatException e) {
         }
@@ -5903,7 +5903,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     country="JPY";
                     text = text.replace("日圓","").replace("日元","").replace("日幣","").trim();
                 }
-                else if (text.endsWith("台幣") || text.endsWith("新台幣")) {
+                else if (text.endsWith("台幣") || text.endsWith("新台幣")||text.endsWith("臺幣") || text.endsWith("新臺幣")) {
                     country="TWD";
                     text = text.replace("台幣","").replace("新台幣","").trim();
                 }
