@@ -5825,9 +5825,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String strResult = text + mExchangedDefaultText;
             String country = mExchangedDefaultCountry;
 
-            int inputNumber = -1;
+            double inputNumber = 0.0;
                 try {
-                    inputNumber = Integer.parseInt(text);
+                    inputNumber = Double.parseDouble(text);
                 }
                 catch(java.lang.NumberFormatException e1) {
                     
@@ -5876,14 +5876,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void exchangeBitcon(String text, String replyToken) throws IOException {
-    	String numberText = text.substring(0, text.indexOf("比特幣"));
-        text = text.replace("比特幣換算", "").replace("?", "").replace("？", "").replace(numberText, "").trim();
+    	String numberText = text.substring(0, text.indexOf("比特幣")).trim();
+        text = text.replace("比特幣換算", "").replace("?", "").replace("？", "").replace(" ", "").replace(numberText, "").trim();
         PgLog.info(text);
         double number = 1.0;
         try {
         	number = Double.parseDouble(numberText);
         }
         catch(java.lang.NumberFormatException e) {
+        	return;
         }
         try {
             String strResult = text;    
@@ -6110,9 +6111,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 return;
             }else{
 
-                int inputNumber = -1;
+                double inputNumber = 0;
                 try {
-                    inputNumber = Integer.parseInt(text);
+                    inputNumber = Double.parseDouble(text);
                 }
                 catch(java.lang.NumberFormatException e1) {
                     
@@ -6248,9 +6249,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 return;
             }else{
 
-                int inputNumber = -1;
+                double inputNumber = 0;
                 try {
-                    inputNumber = Integer.parseInt(text);
+                    inputNumber = Double.parseDouble(text);
                 }
                 catch(java.lang.NumberFormatException e1) {
                     
