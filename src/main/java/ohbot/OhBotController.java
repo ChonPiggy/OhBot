@@ -5876,13 +5876,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void exchangeBitcon(String text, String replyToken) throws IOException {
-    	String number = "";
-    	number = text.substring(0, text.indexOf("比特幣"));
+    	text = text.substring(0, text.indexOf("比特幣"));
         text = text.replace("比特幣換算", "").replace("?", "").replace("？", "").trim();
         PgLog.info(text);
-        int numberInterger = 1;
+        double number = 1.0;
         try {
-        	numberInterger = Integer.parseInt(number);
+        	number = Double.parseDouble(text);
         }
         catch(java.lang.NumberFormatException e) {
         }
@@ -5890,7 +5889,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String strResult = text;    
             String country ="";
 
-            if (text.length() >= 2) {
+            if (text.length() >= 1) {
 
                 if (text.endsWith("人民幣")) {
                     country="CNY";
@@ -5964,14 +5963,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
 
                 if (rateNumber > 0) {
-                	if (numberInterger > 1) {
-                		strResult = "" + numberInterger + " 比特幣換算" + strResult + "大概 $" + (int)(rateNumber * numberInterger);
+                	if (number > 0) {
+                		strResult = "" + number + " 比特幣換算" + strResult + "大概 $" + (int)(rateNumber * number);
                         this.replyText(replyToken, strResult);
                         return;
                 	}
-                    int numResult = (int) (rateNumber);
+                    /*int numResult = (int) (rateNumber);
                     strResult = "1 比特幣換算" + strResult + "大概 $" + numResult;
-                    this.replyText(replyToken, strResult);
+                    this.replyText(replyToken, strResult);*/
                 }
                 else {
                     return;
