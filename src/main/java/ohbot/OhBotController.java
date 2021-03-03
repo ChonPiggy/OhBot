@@ -1803,7 +1803,7 @@ public class OhBotController {
             japaneseNameToRomaji(replyToken, text);
         }
         
-        if (text.startsWith("http") && (text.endsWith(".png")||text.endsWith(".jpeg")||text.endsWith(".jpg"))) {
+        if (text.startsWith("http") && (text.endsWith(".png")||text.endsWith(".jpeg")||text.endsWith(".jpg")||text.endsWith(".webp"))) {
         	this.replyImage(replyToken, text, text);
         }
 
