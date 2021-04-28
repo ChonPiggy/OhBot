@@ -3160,10 +3160,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //httpget.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
             httpget.setHeader("Accept-Language", "en-US,en;q=0.9");
             httpget.setHeader("Cache-Control", "max-age=0");
-            httpget.setHeader("Connection", "keep-alive");
+            //httpget.setHeader("Connection", "keep-alive");
             httpget.setHeader("Upgrade-Insecure-Requests", "1");
             httpget.setHeader("Sec-Fetch-User", "?1");
             httpget.setHeader("Sec-Fetch-Dest", "document");
+            httpget.setHeader("dnt", "1");
+            httpget.setHeader("sec-fetch-mode", "navigate");
+            httpget.setHeader("upgrade-insecure-requests", "1");
+            httpget.setHeader("sec-ch-ua", "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"90\", \"Google Chrome\";v=\"90\"");
             /*httpget.setHeader("User-Agent",
                               "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");*/
             httpget.setHeader("User-Agent",
