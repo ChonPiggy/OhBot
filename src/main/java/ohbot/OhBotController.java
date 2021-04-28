@@ -3148,8 +3148,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 return;
             }
 
-            DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
-            defaultHttpClient = (DefaultHttpClient) WebClientDevWrapper.wrapClient(defaultHttpClient);
+            /*DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
+            defaultHttpClient = (DefaultHttpClient) WebClientDevWrapper.wrapClient(defaultHttpClient);*/
+            CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="https://tw.screener.finance.yahoo.net/screener/ws?f=j&ShowID="+text;
             PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
@@ -3172,8 +3173,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                               "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");*/
             httpget.setHeader("User-Agent",
                               "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36");
-            
-            CloseableHttpResponse response = defaultHttpClient.execute(httpget);
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            //CloseableHttpResponse response = defaultHttpClient.execute(httpget);
             //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             String strResult = "";
