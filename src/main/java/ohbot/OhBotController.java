@@ -3153,14 +3153,22 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String url="https://tw.screener.finance.yahoo.net/screener/ws?f=j&ShowID="+text;
             PgLog.info(url);
             HttpGet httpget = new HttpGet(url);
-            httpget.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-            httpget.setHeader("Accept-Encoding","gzip, deflate, sdch");
-            httpget.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+            //httpget.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            httpget.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+            //httpget.setHeader("Accept-Encoding","gzip, deflate, sdch");
+            httpget.setHeader("Accept-Encoding","gzip, deflate, br");
+            //httpget.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+            httpget.setHeader("Accept-Language", "en-US,en;q=0.9");
             httpget.setHeader("Cache-Control", "max-age=0");
             httpget.setHeader("Connection", "keep-alive");
             httpget.setHeader("Upgrade-Insecure-Requests", "1");
+            httpget.setHeader("Sec-Fetch-User", "?1");
+            httpget.setHeader("Sec-Fetch-Dest", "document");
+            /*httpget.setHeader("User-Agent",
+                              "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");*/
             httpget.setHeader("User-Agent",
-                              "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
+                              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36");
+            
             CloseableHttpResponse response = defaultHttpClient.execute(httpget);
             //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
