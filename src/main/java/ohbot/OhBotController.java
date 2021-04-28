@@ -3165,6 +3165,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             String strResult = "";
+            PgLog.info("PiggyCheck: " + EntityUtils.toString(httpEntity, "utf-8"));
             Gson gson = new GsonBuilder().create();
             Screener screener = gson.fromJson(EntityUtils.toString(httpEntity, "utf-8"),Screener.class);
 
