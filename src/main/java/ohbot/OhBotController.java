@@ -8296,7 +8296,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return result;
 
         } catch (Exception e) {
-            PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
+            //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
         }
 
         return null;
