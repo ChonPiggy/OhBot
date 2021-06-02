@@ -8148,7 +8148,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String inspectionString = data.substring(data.indexOf("\"送驗\":")+5, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
 
-            String excludeString = data.substring(data.indexOf("\"排除(新)\":")+8, data.indexOf(",\""));
+            String excludeString = data.substring(data.indexOf("\"排除\":")+5, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
 
             String yesterday_confirmString = data.substring(data.indexOf("\"昨日確診\":")+7, data.indexOf(",\""));
