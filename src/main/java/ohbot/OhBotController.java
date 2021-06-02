@@ -8253,11 +8253,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String title = "Unknown";
             while(strResult.contains("title=\"")){
                 tempString = tempString.substring(tempString.indexOf("title=\"")+7, tempString.length());
-                if (tempString.startsWith("AV女優の名前が知りたい")||tempString.startsWith("RSD")) {
-                    tempString = tempString.substring(7, tempString.length());
-                    continue;
+                if (!tempString.startsWith("AV女優の名前が知りたい")&&!tempString.startsWith("RSD")) {
+                    title = tempString.substring(0, tempString.indexOf("\""));
+                    break;
                 }
-                title = tempString.substring(0, tempString.indexOf("\""));
+                tempString = tempString.substring(7, tempString.length());
             }
 
             // video serial code
