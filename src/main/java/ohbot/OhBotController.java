@@ -8207,7 +8207,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (origin_exclude == -1) {
                 origin_exclude = exclude;
             }
-            result += "資料來源:衛福部疾管署\n\n";
             result += EmojiUtils.emojify(":bomb:") + "確診: " + confirm + (origin_confirm>0&&origin_confirm!=confirm? ("(+" + (confirm-origin_confirm) + ")" ): "") + "\n";
             result += EmojiUtils.emojify(":pill:") + "痊癒: "+heal+(origin_heal>0&&origin_heal!=heal? ("(+" + (heal-origin_heal) + ")" ): "") + "\n";
             result += EmojiUtils.emojify(":syringe:") + "治療中: "+ (confirm-heal-dead) + "\n";
@@ -8225,11 +8224,69 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             result += EmojiUtils.emojify(":calendar:") + EmojiUtils.emojify(":microscope:") + "昨日送驗: "+yesterday_inspection+"\n";
             result += EmojiUtils.emojify(":calendar:") + EmojiUtils.emojify(":ok_hand:") + "昨日排除: "+yesterday_exclude;
 
+            result += "\n\n資料來源:衛福部疾管署";
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
         return result;
+    }
+
+    private String checkAvWiki(String data) {
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String website = "http://av-wiki.net/?s="+data;
+            HttpGet httpget = new HttpGet(website);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+            if (!strResult.contains("1件")) {
+                return null;
+            }
+            //video title
+            String tempString = "";
+            tempString = strResult.substring(strResult.indexOf("=text\" title=\"")+14, strResult.length());
+            String title = tempString.substring(0, tempString.indexOf("\" target=\"_blank\""));
+
+            // video serial code
+            tempString = strResult.substring(strResult.indexOf("<li>品番")+6, strResult.length());
+            String code = tempString.substring(0, tempString.indexOf("\" target=\"_blank\""));
+
+            // video artists
+            String artists = "";
+            tempString = strResult.substring(strResult.indexOf("AV女優名：")+6, strResult.length());
+            tempString = tempString.substring(0, tempString.indexOf("</span>"));
+
+            while(tempString.contains("rel=\"tag\">")){
+                tempString = tempString.substring(tempString.indexOf("rel=\"tag\">")+6, tempString.length());
+                artists = tempString.substring(0, tempString.indexOf("</a>")) + "\n";
+                tempString = tempString.substring(tempString.indexOf("</a>"), tempString.length());
+            }
+
+
+            String name = strResult.substring(strResult.indexOf(0, strResult.indexOf("\" target=\"_blank\""));
+            String title = strResult.substring(strResult.indexOf("=text\" title=\"")+14, strResult.indexOf("\" target=\"_blank\""));
+            String title = strResult.substring(strResult.indexOf("=text\" title=\"")+14, strResult.indexOf("\" target=\"_blank\""));
+            String title = strResult.substring(strResult.indexOf("=text\" title=\"")+14, strResult.indexOf("\" target=\"_blank\""));
+            newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("<br/>"));
+            newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("\r"));
+            
+            //PgLog.info("Newest DGPA time: " + newestDgpaReportTime);
+            
+            String dgpaTableBody = strResult.substring(strResult.indexOf("<TBODY class=\"Table_Body\">"), strResult.length());
+
+            String northArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>北部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>中部地區</FONT>"));
+            String middleArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>中部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>南部地區</FONT>"));
+            String southArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>南部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>東部地區</FONT>"));
+            String eastArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>東部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>外島地區</FONT>"));
+            String seaArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>外島地區</FONT>")+17, dgpaTableBody.indexOf("備註："));
+
+        } catch (Exception e) {
+            //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
+        }
+
+        return null;
     }
 
 
