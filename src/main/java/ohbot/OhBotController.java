@@ -8245,9 +8245,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
-            /*if (!strResult.contains("1件")) {
+            if (!strResult.contains("1件")) {
                 return null;
-            }*/
+            }
             //video title
             String tempString = "";
             tempString = strResult.substring(strResult.indexOf("=text\" title=\"")+14, strResult.length());
@@ -8276,15 +8276,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String result = "";
 
-            result += (website + "\n");
+            result += (website + "\n\n");
 
-            result += ("片名: " + title + "\n");
+            result += ("片名: " + title + "\n\n");
 
-            result += ("番號: " + code + "\n");
+            result += ("番號: " + code + "\n\n");
 
-            result += ("配信開始日: " + date + "\n");
+            result += ("配信開始日: " + date + "\n\n");
 
-            result += ("女優: " + artists + "\n");
+            result += ("女優: " + artists + "\n\n");
 
             return result;
 
