@@ -8264,7 +8264,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             while(tempString.contains("rel=\"tag\">")){
                 tempString = tempString.substring(tempString.indexOf("rel=\"tag\">")+10, tempString.length());
-                artists = tempString.substring(0, tempString.indexOf("</a>")) + "\n";
+                artists += tempString.substring(0, tempString.indexOf("</a>")) + "\n";
                 tempString = tempString.substring(tempString.indexOf("</a>"), tempString.length());
             }
             // video start date
