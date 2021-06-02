@@ -8249,9 +8249,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 return null;
             }
             //video title
-            String tempString = "";
-            tempString = strResult.substring(strResult.indexOf("=text\" title=\"")+14, strResult.length());
-            String title = tempString.substring(0, tempString.indexOf("\" target=\"_blank\""));
+            String tempString = strResult;
+            String title = "Unknown";
+            while(strResult.contains("title=\"")){
+                tempString = tempString.substring(tempString.indexOf("title=\"")+7, tempString.length());
+                if (tempString.startsWith("AV女優の名前が知りたい")||tempString.startsWith("RSD")) {
+                    tempString = tempString.substring(7, tempString.length());
+                    continue;
+                }
+                title = tempString.substring(0, tempString.indexOf("\""));
+            }
 
             // video serial code
             tempString = strResult.substring(strResult.indexOf("<li>品番")+7, strResult.length());
