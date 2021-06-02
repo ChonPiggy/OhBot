@@ -8263,24 +8263,26 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 artists = tempString.substring(0, tempString.indexOf("</a>")) + "\n";
                 tempString = tempString.substring(tempString.indexOf("</a>"), tempString.length());
             }
-
-
-            String name = strResult.substring(strResult.indexOf(0, strResult.indexOf("\" target=\"_blank\""));
-            String title = strResult.substring(strResult.indexOf("=text\" title=\"")+14, strResult.indexOf("\" target=\"_blank\""));
-            String title = strResult.substring(strResult.indexOf("=text\" title=\"")+14, strResult.indexOf("\" target=\"_blank\""));
-            String title = strResult.substring(strResult.indexOf("=text\" title=\"")+14, strResult.indexOf("\" target=\"_blank\""));
-            newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("<br/>"));
-            newestDgpaReportTime = newestDgpaReportTime.substring(0, newestDgpaReportTime.indexOf("\r"));
+            // video start date
+            String date = "";
+            tempString = strResult.substring(strResult.indexOf("配信開始日：")+6, strResult.length());
+            date = tempString.substring(0, tempString.indexOf("</li>"));
             
             //PgLog.info("Newest DGPA time: " + newestDgpaReportTime);
-            
-            String dgpaTableBody = strResult.substring(strResult.indexOf("<TBODY class=\"Table_Body\">"), strResult.length());
 
-            String northArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>北部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>中部地區</FONT>"));
-            String middleArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>中部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>南部地區</FONT>"));
-            String southArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>南部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>東部地區</FONT>"));
-            String eastArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>東部地區</FONT>")+17, dgpaTableBody.indexOf("<FONT>外島地區</FONT>"));
-            String seaArea = dgpaTableBody.substring(dgpaTableBody.indexOf("<FONT>外島地區</FONT>")+17, dgpaTableBody.indexOf("備註："));
+            String result = "";
+
+            result += (website + "\n");
+
+            result += ("片名: " + title + "\n");
+
+            result += ("番號: " + code + "\n");
+
+            result += ("配信開始日: " + date + "\n");
+
+            result += ("女優: " + artists + "\n");
+
+            return result;
 
         } catch (Exception e) {
             //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
