@@ -253,7 +253,7 @@ public class OhBotController {
     private String USER_ID_KOFAT = "U9c99b691ba0b5d32de41606c19b2e2eb";
     private String USER_ID_CATHY = "U0473526c4d3f618618244132ca0d7ea0";
     private String USER_ID_MEAT_UNCLE = "U267420c1d3d7f551c2c19b312e81db86";
-    private String USER_ID_TEST_MASTER = USER_ID_KOFAT;
+    private String USER_ID_TEST_MASTER = "";//USER_ID_KOFAT;
 
     private String GROUP_ID_CONNECTION = "Ccc1bbf4da77b2fbbc5745be3d6ca154f";
     private String GROUP_ID_RUNRUNRUN = "C85a3ee8bcca930815577ad8955c70723";
@@ -8254,8 +8254,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String title = tempString.substring(0, tempString.indexOf("\" target=\"_blank\""));
 
             // video serial code
-            tempString = strResult.substring(strResult.indexOf("<li>品番")+6, strResult.length());
-            String code = tempString.substring(0, tempString.indexOf("\" target=\"_blank\""));
+            tempString = strResult.substring(strResult.indexOf("<li>品番")+7, strResult.length());
+            String code = tempString.substring(0, tempString.indexOf("</li>"));
 
             // video artists
             String artists = "";
@@ -8263,7 +8263,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             tempString = tempString.substring(0, tempString.indexOf("</span>"));
 
             while(tempString.contains("rel=\"tag\">")){
-                tempString = tempString.substring(tempString.indexOf("rel=\"tag\">")+6, tempString.length());
+                tempString = tempString.substring(tempString.indexOf("rel=\"tag\">")+10, tempString.length());
                 artists = tempString.substring(0, tempString.indexOf("</a>")) + "\n";
                 tempString = tempString.substring(tempString.indexOf("</a>"), tempString.length());
             }
