@@ -1784,6 +1784,10 @@ public class OhBotController {
                 this.replyImage(replyToken, googleShareSheetsWeight, googleShareSheetsWeight);
             }
         }
+        String avWiki = checkAvWiki(text);
+        if (avWiki != null) {
+            this.replyText(replyToken, avWiki);
+        }
 
         if (text.startsWith("AmazonJp:")) {
             amazonJpSearch(replyToken, text);
