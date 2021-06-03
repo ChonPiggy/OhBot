@@ -8237,6 +8237,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private String checkAvWiki(String data) {
+
+        // parser exception, XD has only one result, ignore it.
+        if (data.equals("XD")) {
+            return null;
+        }
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String website = "http://av-wiki.net/?s="+data;
