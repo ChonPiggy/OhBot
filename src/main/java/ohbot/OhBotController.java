@@ -8245,7 +8245,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
-            if (!strResult.contains("1件")) {
+            if (!strResult.contains(">1件<")) {
                 return null;
             }
             //video title
