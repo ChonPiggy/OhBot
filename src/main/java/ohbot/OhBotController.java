@@ -8239,6 +8239,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private String checkAvWiki(String data) {
 
         // parser exception, XD has only one result, ignore it.
+        data = data.toUpperCase();
         if (data.equals("XD")) {
             return null;
         }
