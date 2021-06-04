@@ -8240,9 +8240,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         // parser exception, XD has only one result, ignore it.
         data = data.toUpperCase();
-        if (data.equals("XD")) {
-            return null;
-        }
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String website = "http://av-wiki.net/?s="+data;
@@ -8269,6 +8266,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             // video serial code
             tempString = strResult.substring(strResult.indexOf("<li>品番")+7, strResult.length());
             String code = tempString.substring(0, tempString.indexOf("</li>"));
+
+            if (!code.toUpperCase().equals(data)) {
+                return null;
+            }
 
             // video artists
             String artists = "";
