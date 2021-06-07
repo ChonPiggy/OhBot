@@ -4462,8 +4462,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         PgLog.info("Piggy Check title: " + info.getTitle());
         PgLog.info("Piggy Check info: " + info);
 
-        List<ImageCarouselColumn> columnsList = new ArrayList<>();
-
         while (index < info.getImageList().size()) {
             columnsList.add(getImagePostbackColumn(info.getImageList().get(index), info.getTitle(), AvWikiInfo.POSTBACK_PREFIX, info.toString()));
             count++;
@@ -8277,58 +8275,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return result;
     }
 
-    class AvWikiInfo {
-
-        public static String POSTBACK_PREFIX = "AvWikiInfo_Prefix";
-
-        private String mLink;
-        private String mTitle;
-        private String mCode;
-        private String mDate;
-        private String mArtists;
-        private String mImg;
-        private ArrayList<String> mImgs;
-
-        public AvWikiInfo (String link, String title, String code, String date, String artists, String img, ArrayList<String> imgs) {
-            mLink = link;
-            mTitle = title;
-            mCode = code;
-            mDate = date;
-            mArtists = artists;
-            mImg = img;
-            mImgs = imgs;
-        }
-
-        public ArrayList<String> getImageList() {
-            return mImgs;
-        }
-
-        public String getCoverImage() {
-            return mImg;
-        }
-
-        public String getTitle() {
-            return mTitle;
-        }
-
-
-        public String toString() {
-            String result = "";
-
-            result += (mWebsite + "\n\n");
-
-            result += ("片名: " + mTitle + "\n\n");
-
-            result += ("番號: " + mCode + "\n\n");
-
-            result += ("配信開始日: " + mDate + "\n\n");
-
-            result += ("女優: " + mArtists);
-
-            return result;
-        }
-    }
-
     private AvWikiInfo getAvWikis(String data) {
 
         // parser exception, XD has only one result, ignore it.
@@ -8360,7 +8306,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             tempString = strResult.substring(strResult.indexOf("<li>品番")+7, strResult.length());
             String code = tempString.substring(0, tempString.indexOf("</li>"));
 
-            if (!code.toUpperCase().equals(link)) {
+            if (!code.toUpperCase().equals(data)) {
                 return null;
             }
 
