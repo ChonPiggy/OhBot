@@ -8390,7 +8390,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             List<String> imgs = new ArrayList<String> ();
 
 
-            if (strResult.contains(\"luminous\">")) {
+            if (strResult.contains("\"luminous\">")) {
                 tempString = strResult.substring(strResult.indexOf("\"luminous\">")+11, strResult.length());
                 while (strResult.contains("https://pics.dmm.co.jp/digital/video/")) {
                     String result = tempString.substring(tempString.indexOf("https://pics.dmm.co.jp/digital/video/"), tempString.indexOf(".jpg\"")+5);
