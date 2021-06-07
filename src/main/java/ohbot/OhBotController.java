@@ -285,44 +285,44 @@ public class OhBotController {
     private HashMap<String, Boolean> mPttBeautySinglePicMap = new HashMap<>(); // userId, boolean flag, default is false
     
     private class PttBeautyHistory {
-    	int ARRAY_MAX_ELEMENTS = 10;
-    	ArrayList<PttBeautyGirl> history = new ArrayList<PttBeautyGirl>(ARRAY_MAX_ELEMENTS); // search page history
-    	int index = -1;
-    	private byte[] lock = new byte[0];
-    	public void addHistory(PttBeautyGirl girl) {
-    		synchronized (lock) {
-    			if (history.size() >= 10) {
-    				if (index+1 == ARRAY_MAX_ELEMENTS) {
-    	    			index = 0;
-    	        		history.set(index, girl);
-    	    		}
-    				else {
-    					index++;
-    					history.set(index, girl);
-    				}
-    			}	    		
-	    		else {
-	    			index++;
-	    			history.add(girl);
-	    		}
-    		}
-    	}
-    	public List<PttBeautyGirl> getSearchHistoryList() {
-    		synchronized (lock) {
-	    		List<PttBeautyGirl> result = new ArrayList<PttBeautyGirl>();
-	    		int count = history.size();
-	    		int copyIndex = index;
-	    		while (count > 0) {
-	    			result.add(history.get(copyIndex));
-	    			copyIndex--;
-	    			if (copyIndex<0) {
-	    				copyIndex = history.size()-1;
-	    			}
-	    			count--;
-	    		}
-	    		return result;
-    		}
-    	}
+        int ARRAY_MAX_ELEMENTS = 10;
+        ArrayList<PttBeautyGirl> history = new ArrayList<PttBeautyGirl>(ARRAY_MAX_ELEMENTS); // search page history
+        int index = -1;
+        private byte[] lock = new byte[0];
+        public void addHistory(PttBeautyGirl girl) {
+            synchronized (lock) {
+                if (history.size() >= 10) {
+                    if (index+1 == ARRAY_MAX_ELEMENTS) {
+                        index = 0;
+                        history.set(index, girl);
+                    }
+                    else {
+                        index++;
+                        history.set(index, girl);
+                    }
+                }                
+                else {
+                    index++;
+                    history.add(girl);
+                }
+            }
+        }
+        public List<PttBeautyGirl> getSearchHistoryList() {
+            synchronized (lock) {
+                List<PttBeautyGirl> result = new ArrayList<PttBeautyGirl>();
+                int count = history.size();
+                int copyIndex = index;
+                while (count > 0) {
+                    result.add(history.get(copyIndex));
+                    copyIndex--;
+                    if (copyIndex<0) {
+                        copyIndex = history.size()-1;
+                    }
+                    count--;
+                }
+                return result;
+            }
+        }
     }
 
     private CoronaVirusWikiRankCrawlThread mCoronaVirusWikiRankCrawlThread = null;
@@ -1071,7 +1071,7 @@ public class OhBotController {
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws IOException {
-    	//PgLog.info("Piggy check handleTextMessageEvent: " + event);
+        //PgLog.info("Piggy check handleTextMessageEvent: " + event);
         handleTextContent(event.getReplyToken(), event, event.getMessage());
     }
 
@@ -1205,36 +1205,36 @@ public class OhBotController {
         checkNeedTotallyBullyReply(userId, replyToken);
         
         if (text.startsWith("PgCommand發公告:")) {
-        	String announeMessage = text.replace("PgCommand發公告:", "");
-        	AnnouncementManager.announceNewMessage(announeMessage, false, 0);
-        	this.replyText(replyToken, "好的PG大人, 設定公告: " + announeMessage);
+            String announeMessage = text.replace("PgCommand發公告:", "");
+            AnnouncementManager.announceNewMessage(announeMessage, false, 0);
+            this.replyText(replyToken, "好的PG大人, 設定公告: " + announeMessage);
         }
         
         if (text.startsWith("PgCommand取消公告")) {
-        	String message = AnnouncementManager.removeAnnouncement();
-        	if (message != null) {
-        		this.replyText(replyToken, "好的PG大人, 取消公告: " + message);
-        	}
-        	else {
-        		this.replyText(replyToken, "PG大人目前暫無公告");
-        	}
+            String message = AnnouncementManager.removeAnnouncement();
+            if (message != null) {
+                this.replyText(replyToken, "好的PG大人, 取消公告: " + message);
+            }
+            else {
+                this.replyText(replyToken, "PG大人目前暫無公告");
+            }
         }
         
         String announeMessage = AnnouncementManager.processAnnounceMessage(senderId);
         if (announeMessage != null) {
-        	boolean isNormalImage = announeMessage.endsWith(".jpg")||announeMessage.endsWith(".jpeg")||announeMessage.endsWith(".png");
-        	boolean isEarthQuakeImage = announeMessage.contains(".png")&&announeMessage.contains("cwb")&&announeMessage.contains("earthquake");
-        	if (announeMessage.startsWith("http") && (isNormalImage || isEarthQuakeImage)) {
-        		this.replyImage(replyToken, announeMessage, announeMessage);
-        		return;
-			}
-        	this.replyText(replyToken, announeMessage);
-        	return;
+            boolean isNormalImage = announeMessage.endsWith(".jpg")||announeMessage.endsWith(".jpeg")||announeMessage.endsWith(".png");
+            boolean isEarthQuakeImage = announeMessage.contains(".png")&&announeMessage.contains("cwb")&&announeMessage.contains("earthquake");
+            if (announeMessage.startsWith("http") && (isNormalImage || isEarthQuakeImage)) {
+                this.replyImage(replyToken, announeMessage, announeMessage);
+                return;
+            }
+            this.replyText(replyToken, announeMessage);
+            return;
         }
         
         if (text.startsWith("PgCommand測試:") && userId.equals(USER_ID_PIGGY)) {
-        	text = text.replace("PgCommand測試:", "");
-        	testPttBeautyGirl(replyToken, text);
+            text = text.replace("PgCommand測試:", "");
+            testPttBeautyGirl(replyToken, text);
         }
 
         if (text.contains("奴隸") && text.contains("滾")) {
@@ -1242,7 +1242,7 @@ public class OhBotController {
                 LineMessagePrimitive.leaveGroup(replyToken, senderId);
             }
             if (isFromRoom) {
-            	LineMessagePrimitive.leaveRoom(replyToken, senderId);
+                LineMessagePrimitive.leaveRoom(replyToken, senderId);
             }
         }
 
@@ -1354,45 +1354,45 @@ public class OhBotController {
         }
         
         if (text.equals("設定抽單張")) {
-        	mPttBeautySinglePicMap.put(userId, Boolean.valueOf(true));
+            mPttBeautySinglePicMap.put(userId, Boolean.valueOf(true));
             this.replyText(replyToken, "好的");
             return;
         }
         else if (text.equals("設定抽多張")) {
-        	mPttBeautySinglePicMap.put(userId, Boolean.valueOf(false));
+            mPttBeautySinglePicMap.put(userId, Boolean.valueOf(false));
             this.replyText(replyToken, "好的");
             return;
         }
         
         if (text.equals("抽單張")) {
-        	PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, SINGLE_PIC);
-        	processReplyPttBeautyGirl(replyToken, result);
+            PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, SINGLE_PIC);
+            processReplyPttBeautyGirl(replyToken, result);
             return;
         }
         else if (text.equals("抽多張")) {
-        	PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
-        	processReplyPttBeautyGirl(replyToken, result);
+            PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
+            processReplyPttBeautyGirl(replyToken, result);
             return;
         }
         else if (text.equals("爆抽單張")) {
-        	PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, true, SINGLE_PIC);
-        	processReplyPttBeautyGirl(replyToken, result);
+            PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, true, SINGLE_PIC);
+            processReplyPttBeautyGirl(replyToken, result);
             return;
         }
         else if (text.equals("爆抽多張")) {
-        	PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, true, MULTI_PIC);
-        	processReplyPttBeautyGirl(replyToken, result);
+            PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, true, MULTI_PIC);
+            processReplyPttBeautyGirl(replyToken, result);
             return;
         }
         if (text.equals("抽")) {
-        	PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
+            PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, false, MULTI_PIC);
             processReplyPttBeautyGirl(replyToken, result);
             //randomGirl(text, replyToken);
             return;
         }
         else if ((text.startsWith("抽") || text.startsWith("熱抽") || text.startsWith("爆抽")) && text.length() > 1) {
             if(text.replace("抽", "").replace("爆", "").replace(" ", "").trim().equals("")) {
-            	// Pic Source from PTT beauty
+                // Pic Source from PTT beauty
                 boolean isHot = text.startsWith("爆抽");
                 PttBeautyGirl result = getRandomPttBeautyGirl(userId, senderId, replyToken, isHot, MULTI_PIC);
                 
@@ -1400,7 +1400,7 @@ public class OhBotController {
                 return;
             }
             else {
-            	// Pic Source from IG
+                // Pic Source from IG
                 boolean isHot = text.startsWith("熱抽");
                 text = text.trim().replace("熱抽", "").replace("抽", "").replace(" ", "");
 
@@ -1785,8 +1785,16 @@ public class OhBotController {
             }
         }
         String avWiki = checkAvWiki(text);
+
         if (avWiki != null) {
             this.replyText(replyToken, avWiki);
+        }
+
+        if (text.startsWith("AvWiki:")) {
+            AvWikiInfo info = getAvWikis(text.replace("AvWiki:",""));
+            if (info != null) {
+                processReplyAvWikiList(replyToken, info);
+            }
         }
 
         if (text.startsWith("AmazonJp:")) {
@@ -1808,7 +1816,7 @@ public class OhBotController {
         }
         
         if (text.startsWith("http") && (text.endsWith(".png")||text.endsWith(".jpeg")||text.endsWith(".jpg")||text.endsWith(".webp"))) {
-        	this.replyImage(replyToken, text, text);
+            this.replyImage(replyToken, text, text);
         }
 
         if (text.startsWith("PgCommand設定MD地圖:")) {
@@ -2014,42 +2022,42 @@ public class OhBotController {
         }
         
         if (text.startsWith("IgLocation:")) {
-        	String search = text.replace("IgLocation:", "");
-        	List<InstagramLocation> igLocationList = searchIgLocation(search, 10);
-        	
-        	Random randomGenerator = new Random();
-            int random_num = randomGenerator.nextInt(igLocationList.size());
-        	String title = igLocationList.get(random_num).getTitle();
+            String search = text.replace("IgLocation:", "");
+            List<InstagramLocation> igLocationList = searchIgLocation(search, 10);
             
-        	if (igLocationList != null) {
-        		List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, igLocationList.get(random_num).getUrl(), true, false);
-        		List<ImageItem> resultList = new ArrayList<ImageItem>();
-        		for(int i=0;i<igList.size();i++) {
-        			InstagramItem item = igList.get(i);
-        			resultList.add(new ImageItem(item.getLike()+EmojiUtils.emojify(":heart:"), item.getImgUrl(), item.getUrl()));
-        		}
-        		if (resultList.size() > 0) {
-        			processReplyImageCarouselTemplateFromStringList(replyToken, resultList, title);
-        		}
-        	}
+            Random randomGenerator = new Random();
+            int random_num = randomGenerator.nextInt(igLocationList.size());
+            String title = igLocationList.get(random_num).getTitle();
+            
+            if (igLocationList != null) {
+                List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, igLocationList.get(random_num).getUrl(), true, false);
+                List<ImageItem> resultList = new ArrayList<ImageItem>();
+                for(int i=0;i<igList.size();i++) {
+                    InstagramItem item = igList.get(i);
+                    resultList.add(new ImageItem(item.getLike()+EmojiUtils.emojify(":heart:"), item.getImgUrl(), item.getUrl()));
+                }
+                if (resultList.size() > 0) {
+                    processReplyImageCarouselTemplateFromStringList(replyToken, resultList, title);
+                }
+            }
         }
         
         if (mBeautyFightingProcessor.processBeautyFightingString(replyToken, senderId, userId, text)) {
-        	return;
+            return;
         }
         
         /*if (text.contains("www.instagram.com")&&text.contains("explore")&&text.contains("locations")) {*/
         if (text.contains("www.instagram.com\\/explore\\/locations\\/")) {
-        	List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, text, true, false);
-    		List<ImageItem> resultList = new ArrayList<ImageItem>();
-    		for(int i=0;i<igList.size();i++) {
-    			InstagramItem item = igList.get(i);
-    			resultList.add(new ImageItem(item.getLike()+EmojiUtils.emojify(":heart:"), item.getImgUrl(), item.getUrl()));
-    		}
-    		if (resultList.size() > 0) {
-    			processReplyImageCarouselTemplateFromStringList(replyToken, resultList, "偵測到IG地點自動觸發");
-    			return;
-    		}
+            List<InstagramItem> igList = getRandomInstagramImageUrl(userId, senderId, text, true, false);
+            List<ImageItem> resultList = new ArrayList<ImageItem>();
+            for(int i=0;i<igList.size();i++) {
+                InstagramItem item = igList.get(i);
+                resultList.add(new ImageItem(item.getLike()+EmojiUtils.emojify(":heart:"), item.getImgUrl(), item.getUrl()));
+            }
+            if (resultList.size() > 0) {
+                processReplyImageCarouselTemplateFromStringList(replyToken, resultList, "偵測到IG地點自動觸發");
+                return;
+            }
         }
 
         if (text.equals("我的LineId")) {
@@ -2095,7 +2103,7 @@ public class OhBotController {
         // Temp feature
         
         /*if (text.contains("美國總統大選")||text.contains("美國大選")||text.contains("美國總統")) {
-        	this.replyText(replyToken, getUSPresidentVoie2020());
+            this.replyText(replyToken, getUSPresidentVoie2020());
         }*/
 
         /*if ((text.contains("Ingress") || text.contains("ingress")) &&
@@ -2158,7 +2166,7 @@ public class OhBotController {
         }
         
         if (text.contains("凱西") && text.contains("多久") && (text.contains("出獄")||text.contains("畢業"))) {
-        	long timeMillis = getTimeInMillis(2021, 10, 1, 0, 0, 0);
+            long timeMillis = getTimeInMillis(2021, 10, 1, 0, 0, 0);
             Calendar current = Calendar.getInstance(TimeZone.getDefault());
             current.setTimeInMillis(System.currentTimeMillis());
      
@@ -2167,10 +2175,10 @@ public class OhBotController {
             long time = date.getTimeInMillis() - current.getTimeInMillis();
             int day = Math.round(time / 1000 / 60 / 60 / 24);
             if (day > 0) {
-            	this.replyText(replyToken, "還有 " + day + " 天");
+                this.replyText(replyToken, "還有 " + day + " 天");
             }
             else {
-            	this.replyText(replyToken, "凱西已經畢業可以自己開診所囉");
+                this.replyText(replyToken, "凱西已經畢業可以自己開診所囉");
             }
         }
 
@@ -2279,7 +2287,11 @@ public class OhBotController {
         String senderId = event.getSource().getSenderId();
         String userId = event.getSource().getUserId();
         if (mBeautyFightingProcessor.processBeautyFightingPostback(replyToken, senderId, userId, data)) {
-        	return;
+            return;
+        }
+        if (data.startsWith(AvWikiInfo.POSTBACK_PREFIX)) {
+            this.replyText(replyToken, data.replace(AvWikiInfo.POSTBACK_PREFIX, ""));
+            return;
         }
         switch (data) {
             case "more:1": {
@@ -2317,31 +2329,39 @@ public class OhBotController {
 
     private ImageCarouselColumn getImageCarouselColumn(String imageUrl, String label, String url) {
         //return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
-    	label = label.replace(" ", "").replace("　", "").trim();
-    	if (label.length()>12) {
-    		// Image carouse column label length limit is 12.
-    		label = label.substring(0, 12);
-    	}
-    	return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
+        label = label.replace(" ", "").replace("　", "").trim();
+        if (label.length()>12) {
+            // Image carouse column label length limit is 12.
+            label = label.substring(0, 12);
+        }
+        return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
     }
     
-    private ImageCarouselColumn getImagePostbackColumn(String imageUrl, String info) {
+    private ImageCarouselColumn getBeautyFightingImagePostbackColumn(String imageUrl, String info) {
         //return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
-    	String label = "";
-    	String data = "";
-    	if (info.equals(BeautyFightingInfo.LEFT)) {
-    		label = EmojiUtils.emojify(":point_left:");
-    		data = BeautyFightingProcessor.PREFIX+BeautyFightingProcessor.VOTE+BeautyFightingInfo.LEFT;
-    	}
-    	else if (info.equals(BeautyFightingInfo.RIGHT)) {
-    		label = EmojiUtils.emojify(":point_right:");
-    		data = BeautyFightingProcessor.PREFIX+BeautyFightingProcessor.VOTE+BeautyFightingInfo.RIGHT;
-    	}
-    	else {
-    		return null;
-    	}
-    	PostbackAction action =  new PostbackAction(label, data);
-    	return new ImageCarouselColumn(URI.create(imageUrl), action);
+        String label = "";
+        String data = "";
+        if (info.equals(BeautyFightingInfo.LEFT)) {
+            label = EmojiUtils.emojify(":point_left:");
+            data = BeautyFightingProcessor.PREFIX+BeautyFightingProcessor.VOTE+BeautyFightingInfo.LEFT;
+        }
+        else if (info.equals(BeautyFightingInfo.RIGHT)) {
+            label = EmojiUtils.emojify(":point_right:");
+            data = BeautyFightingProcessor.PREFIX+BeautyFightingProcessor.VOTE+BeautyFightingInfo.RIGHT;
+        }
+        else {
+            return null;
+        }
+        PostbackAction action =  new PostbackAction(label, data);
+        return new ImageCarouselColumn(URI.create(imageUrl), action);
+    }
+
+    private ImageCarouselColumn getImagePostbackColumn(String imageUrl, String title, String prefix, String info) {
+        //return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
+        String label = title;
+        String data = prefix+info;
+        PostbackAction action =  new PostbackAction(label, data);
+        return new ImageCarouselColumn(URI.create(imageUrl), action);
     }
 
 
@@ -3733,7 +3753,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 columnsList.add(getImageCarouselColumn(imgUrl, "PG Cute!", searchResultUrl));
             }
             if (maxCount>0) {
-            	LineMessagePrimitive.replyImageCarouselTemplate(replyToken, "AmazonJp", columnsList);    
+                LineMessagePrimitive.replyImageCarouselTemplate(replyToken, "AmazonJp", columnsList);    
             }
             else {
                 this.replyText(replyToken, "搜索失敗");
@@ -3825,7 +3845,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void whoImPickRandomPttBeautyGirlMap(String userId, String replyToken) {
         if (mWhoImPickRandomGirlMap.containsKey(userId)) {
             //this.replyText(replyToken, mWhoImPickRandomGirlMap.get(userId));
-        	processReplyPttBeautyGirl(replyToken, mWhoImPickRandomGirlMap.get(userId));
+            processReplyPttBeautyGirl(replyToken, mWhoImPickRandomGirlMap.get(userId));
         }
         else {
             if (isAdminUserId(userId)) {
@@ -3841,7 +3861,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void whoTheyPickRandomPttBeautyGirlMap(String senderId, String replyToken) {
         if (mWhoTheyPickRandomGirlMap.containsKey(senderId)) {
             //this.replyText(replyToken, mWhoTheyPickRandomGirlMap.get(senderId));
-        	processReplyPttBeautyGirlHistory(replyToken, mWhoTheyPickRandomGirlMap.get(senderId));
+            processReplyPttBeautyGirlHistory(replyToken, mWhoTheyPickRandomGirlMap.get(senderId));
         }
         else {
             this.replyText(replyToken, "這群組還沒人抽過唷");
@@ -4240,54 +4260,54 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     final int SINGLE_PIC = 1;
     final int MULTI_PIC = 2;
     private PttBeautyGirl getRandomPttBeautyGirl(String userId, String senderId, String replyToken, boolean isHot, int singlePicFlag) throws IOException {
-    	boolean isSinglePic = false;
-    	/*boolean isSinglePic = mPttBeautySinglePicMap.containsKey(userId) 
-        		? mPttBeautySinglePicMap.get(userId).booleanValue() 
-        		: false default false*/;
+        boolean isSinglePic = false;
+        /*boolean isSinglePic = mPttBeautySinglePicMap.containsKey(userId) 
+                ? mPttBeautySinglePicMap.get(userId).booleanValue() 
+                : false default false*/;
         if (singlePicFlag > 0) {
-        	switch(singlePicFlag) {
-        	case SINGLE_PIC:
-        		isSinglePic = true;
-        		break;
-        	case MULTI_PIC:
-        		isSinglePic = false;
-        		break;
-        	}
+            switch(singlePicFlag) {
+            case SINGLE_PIC:
+                isSinglePic = true;
+                break;
+            case MULTI_PIC:
+                isSinglePic = false;
+                break;
+            }
         }
         if (senderId != null) {
-	        if (senderId.equals(GROUP_ID_CONNECTION)) {
-	        	if (userId != null) {
-		            if(mConnectionGroupRandomGirlUserIdList.contains(userId)) {
-		            	if (replyToken != null) {
-		            		this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
-		            	}
-		                return null;
-		            }
-		            else {
-		                mConnectionGroupRandomGirlUserIdList.add(userId);
-		            }
-	        	}
-	        }
-	        if (senderId.equals(GROUP_ID_TOTYO_HOT)) {
-	        	if (userId != null) {
-		            if(mTokyoHotRandomGirlLimitationList.containsKey(userId)) {
-		                int count = mTokyoHotRandomGirlLimitationList.get(userId);
-		                if (count > 10) {
-		                	if (replyToken != null) {
-		                		this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
-		                	}
-		                    return null;
-		                }
-		                else {
-		                    count++;
-		                    mTokyoHotRandomGirlLimitationList.put(userId, count);    
-		                }
-		            }
-		            else {
-		                mTokyoHotRandomGirlLimitationList.put(userId, 1);
-		            }
-	        	}
-	        }
+            if (senderId.equals(GROUP_ID_CONNECTION)) {
+                if (userId != null) {
+                    if(mConnectionGroupRandomGirlUserIdList.contains(userId)) {
+                        if (replyToken != null) {
+                            this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
+                        }
+                        return null;
+                    }
+                    else {
+                        mConnectionGroupRandomGirlUserIdList.add(userId);
+                    }
+                }
+            }
+            if (senderId.equals(GROUP_ID_TOTYO_HOT)) {
+                if (userId != null) {
+                    if(mTokyoHotRandomGirlLimitationList.containsKey(userId)) {
+                        int count = mTokyoHotRandomGirlLimitationList.get(userId);
+                        if (count > 10) {
+                            if (replyToken != null) {
+                                this.replyImage(replyToken, IMAGE_I_HAVE_NO_SPERM, IMAGE_I_HAVE_NO_SPERM);
+                            }
+                            return null;
+                        }
+                        else {
+                            count++;
+                            mTokyoHotRandomGirlLimitationList.put(userId, count);    
+                        }
+                    }
+                    else {
+                        mTokyoHotRandomGirlLimitationList.put(userId, 1);
+                    }
+                }
+            }
         }
 
         PttBeautyGirl result = getRandomPttBeautyImageUrl(userId, senderId, isHot);
@@ -4309,56 +4329,56 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return null;
         }
         /*else if (result.getUrlList().size() == 1 || isSinglePic) {
-        	String url = "";
-        	if (result.getUrlList().get(0).endsWith(".gif")) {
+            String url = "";
+            if (result.getUrlList().get(0).endsWith(".gif")) {
                 this.replyText(replyToken, "Line 不能顯示 gif 直接貼: " + url);
             }
             if (result.getUrlList().get(0).indexOf("http:") >= 0) {
-            	url = result.getUrlList().get(0).replace("http", "https");
+                url = result.getUrlList().get(0).replace("http", "https");
             }
             else {
-            	url = result.getUrlList().get(0);
+                url = result.getUrlList().get(0);
             }
             if (url.equals("")) {
-            	return;
+                return;
             }
             this.replyImage(replyToken, url, url);
         }*/
         else {
-        	return result;
+            return result;
         }
     }
     
     private void processReplyPttBeautyGirlHistory(String replyToken, PttBeautyHistory girlHistory) {
-    	List<ImageCarouselColumn> columnsList = new ArrayList<>();
-    	int count = 0;
-    	int MAX_CAROUSEL_COLUMN = 9;
-    	List<PttBeautyGirl> history = girlHistory.getSearchHistoryList();
+        List<ImageCarouselColumn> columnsList = new ArrayList<>();
+        int count = 0;
+        int MAX_CAROUSEL_COLUMN = 9;
+        List<PttBeautyGirl> history = girlHistory.getSearchHistoryList();
         for(int i=0;i<history.size();i++) {
             PgLog.info("Piggy Check title: " + history.get(i).getTitle());
             //PgLog.info("Piggy Check searchResultUrl: " + history.get(i).getResultUrl());
             //PgLog.info("Piggy Check imgUrl: " + history.get(i).getUrlList().get(0));
             if (!history.get(i).getPicUrlList().get(0).endsWith(".gif")) {
-            	columnsList.add(getImageCarouselColumn(history.get(i).getPicUrlList().get(0), (history.get(i).getTitle() + " " + history.get(i).getRank()), history.get(i).getResultUrl()));
+                columnsList.add(getImageCarouselColumn(history.get(i).getPicUrlList().get(0), (history.get(i).getTitle() + " " + history.get(i).getRank()), history.get(i).getResultUrl()));
                 count++;
             }
             else {
-            	try {
-            		int index = 1;
-            		while(true) {
-            			if (!history.get(i).getPicUrlList().get(index).endsWith(".gif")) {
-                        	columnsList.add(getImageCarouselColumn(history.get(i).getPicUrlList().get(index), (history.get(i).getTitle() + " " + history.get(i).getRank()), history.get(i).getResultUrl()));
+                try {
+                    int index = 1;
+                    while(true) {
+                        if (!history.get(i).getPicUrlList().get(index).endsWith(".gif")) {
+                            columnsList.add(getImageCarouselColumn(history.get(i).getPicUrlList().get(index), (history.get(i).getTitle() + " " + history.get(i).getRank()), history.get(i).getResultUrl()));
                             count++;
                             break;
                         }
-            			index++;
-            		}
-            	} catch (Exception e) {
-            		continue;
-            	}
+                        index++;
+                    }
+                } catch (Exception e) {
+                    continue;
+                }
             }
             if (count > MAX_CAROUSEL_COLUMN) {
-            	break;
+                break;
             }
         }
 
@@ -4376,12 +4396,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         while (index < girl.getPicUrlList().size()) {
             //PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));
             if (!girl.getPicUrlList().get(index).endsWith(".gif")) {
-            	columnsList.add(getImageCarouselColumn(girl.getPicUrlList().get(index), (girl.getTitle() + " " + girl.getRank()), girl.getResultUrl()));
+                columnsList.add(getImageCarouselColumn(girl.getPicUrlList().get(index), (girl.getTitle() + " " + girl.getRank()), girl.getResultUrl()));
                 count++;
             }
             index++;
             if (count > MAX_CAROUSEL_COLUMN) {
-            	break;
+                break;
             }
         }
 
@@ -4389,26 +4409,26 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     class ImageItem {
-    	String mTitle;
-    	String mUrl;
-    	String mImgUrl;
-    	public ImageItem(String title, String imgUrl, String url) {
-			mTitle = title;
-			mUrl = url;
-			mImgUrl = imgUrl;
-			if (mImgUrl.indexOf("http:") >= 0) {
-				mImgUrl = mImgUrl.replace("http", "https");
+        String mTitle;
+        String mUrl;
+        String mImgUrl;
+        public ImageItem(String title, String imgUrl, String url) {
+            mTitle = title;
+            mUrl = url;
+            mImgUrl = imgUrl;
+            if (mImgUrl.indexOf("http:") >= 0) {
+                mImgUrl = mImgUrl.replace("http", "https");
             }
-		}
-    	public String getTitle() {
-    		return mTitle;
-    	}
-    	public String getUrl() {
-    		return mUrl;
-    	}
-    	public String getImgUrl() {
-    		return mImgUrl;
-    	}
+        }
+        public String getTitle() {
+            return mTitle;
+        }
+        public String getUrl() {
+            return mUrl;
+        }
+        public String getImgUrl() {
+            return mImgUrl;
+        }
     }
     private void processReplyImageCarouselTemplateFromStringList(String replyToken, List<ImageItem> imgs, String title) {
         List<ImageCarouselColumn> columnsList = new ArrayList<>();
@@ -4419,7 +4439,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         while (index < resultList.size()) {
             //PgLog.info("Piggy Check imgUrl: " + girl.getUrlList().get(index));
             if (!resultList.get(index).getImgUrl().endsWith(".gif")) {
-            	ImageItem item = resultList.get(index); 
+                ImageItem item = resultList.get(index); 
                 columnsList.add(getImageCarouselColumn(item.getImgUrl(), item.getTitle(), item.getUrl()));
                 /*PgLog.info("Piggy Check TitleUrl: " + item.getTitle());
                 PgLog.info("Piggy Check ImgUrl: " + item.getImgUrl());
@@ -4433,6 +4453,27 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
 
         LineMessagePrimitive.replyImageCarouselTemplate(replyToken, title, columnsList);
+    }
+
+    private void processReplyAvWikiList(String replyToken, AvWikiInfo info) {
+        List<ImageCarouselColumn> columnsList = new ArrayList<>();
+        int index = 0;
+        int count = 0;
+        PgLog.info("Piggy Check title: " + info.getTitle());
+        PgLog.info("Piggy Check info: " + info);
+
+        List<ImageCarouselColumn> columnsList = new ArrayList<>();
+
+        while (index < info.getImageList().size()) {
+            columnsList.add(getImagePostbackColumn(info.getImageList().get(index), info.getTitle(), AvWikiInfo.POSTBACK_PREFIX, info.toString()));
+            count++;
+            index++;
+            if (count > MAX_CAROUSEL_COLUMN) {
+                break;
+            }
+        }
+
+        LineMessagePrimitive.replyImageCarouselTemplate(replyToken, info.getTitle(), columnsList);
     }
 
 
@@ -5078,7 +5119,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result_image_context = EntityUtils.toString(httpEntity, "utf-8");
             //PgLog.info("Piggy Check result_image_image: |" + result_image_context +"|");
             if (result_image_context.contains("<body")) {
-            	result_image_context = result_image_context.substring(result_image_context.indexOf("<body"), result_image_context.length());
+                result_image_context = result_image_context.substring(result_image_context.indexOf("<body"), result_image_context.length());
             }
             List<ImageItem> resultImageList = new ArrayList<ImageItem> ();
             if (result_image_context.indexOf("http://imgur.com/") > 0) {
@@ -5086,7 +5127,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_context);
                 while(matcherJp.find()){
-                	
+                    
                     String result = matcherJp.group();
                     result = result.replace("</a>","");
                     result = result.replace("http:","https:");
@@ -5462,7 +5503,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
         if (text.equals("EarthQuakeSeek")) {
-        	source = getRandomSourceFromList(mEarthQuakeMeMeImgurLinkList);
+            source = getRandomSourceFromList(mEarthQuakeMeMeImgurLinkList);
         }
         if (text.equals("kofat")) {
             source = getRandomSourceFromList(mKofatCosplayImgurLinkList);
@@ -5894,15 +5935,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private void exchangeBitcon(String text, String replyToken) throws IOException {
-    	String numberText = text.substring(0, text.indexOf("比特幣")).trim();
+        String numberText = text.substring(0, text.indexOf("比特幣")).trim();
         text = text.replace("比特幣換算", "").replace("?", "").replace("？", "").replace(" ", "").replace(numberText, "").trim();
         PgLog.info(text);
         double number = 1.0;
         try {
-        	number = Double.parseDouble(numberText);
+            number = Double.parseDouble(numberText);
         }
         catch(java.lang.NumberFormatException e) {
-        	return;
+            return;
         }
         try {
             String strResult = text;    
@@ -5982,11 +6023,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
 
                 if (rateNumber > 0) {
-                	if (number > 0) {
-                		strResult = "" + number + " 比特幣換算" + strResult + "大概 $" + (int)(rateNumber * number);
+                    if (number > 0) {
+                        strResult = "" + number + " 比特幣換算" + strResult + "大概 $" + (int)(rateNumber * number);
                         this.replyText(replyToken, strResult);
                         return;
-                	}
+                    }
                     /*int numResult = (int) (rateNumber);
                     strResult = "1 比特幣換算" + strResult + "大概 $" + numResult;
                     this.replyText(replyToken, strResult);*/
@@ -6648,42 +6689,42 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     class PttBeautyGirl {
-    	private List<String> picUrlList;
-    	private String resultUrl;
-    	private String describeString;
-    	private String titleString;
-    	private String rankString;
-    	public PttBeautyGirl(List<String> list, String url, String title, String describe, String rank) {
-    		picUrlList = list;
-    		resultUrl = url;
-    		describeString = describe;
-    		titleString = title;
-    		rankString = rank;
-    	}
-    	
-    	public List<String> getPicUrlList() {
-    		return picUrlList;
-    	}
-    	
-    	public List<String> getLimitedList(int max) {
-    		return (List<String>) getRandomItemFromList(picUrlList, max);
-    	}
-    	
-    	public String getResultUrl() {
-    		return resultUrl;
-    	}
-    	
-    	public String getDescribeString() {
-    		return describeString;
-    	}
-    	
-    	public String getTitle() {
-    		return titleString;
-    	}
-    	
-    	public String getRank() {
-    		return rankString;
-    	}
+        private List<String> picUrlList;
+        private String resultUrl;
+        private String describeString;
+        private String titleString;
+        private String rankString;
+        public PttBeautyGirl(List<String> list, String url, String title, String describe, String rank) {
+            picUrlList = list;
+            resultUrl = url;
+            describeString = describe;
+            titleString = title;
+            rankString = rank;
+        }
+        
+        public List<String> getPicUrlList() {
+            return picUrlList;
+        }
+        
+        public List<String> getLimitedList(int max) {
+            return (List<String>) getRandomItemFromList(picUrlList, max);
+        }
+        
+        public String getResultUrl() {
+            return resultUrl;
+        }
+        
+        public String getDescribeString() {
+            return describeString;
+        }
+        
+        public String getTitle() {
+            return titleString;
+        }
+        
+        public String getRank() {
+            return rankString;
+        }
     }
 
     private PttBeautyGirl getRandomPttBeautyImageUrl(String userId, String senderId, boolean isHot) {
@@ -6863,13 +6904,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         result = result.replace("http:","https:");
                         result = result.replace("imgur.com","i.imgur.com");
                         if (result.contains("</a>")) {
-                        	result = result.substring(0, result.indexOf("</a>"));
+                            result = result.substring(0, result.indexOf("</a>"));
                         }
                         result = result + ".jpg";
                         //PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
                         if (resultImageList.indexOf(result) == -1) {
-                        	resultImageList.add(result);
-                        	//PgLog.info("Piggy Check Ptt Beauty imgur Add!!");
+                            resultImageList.add(result);
+                            //PgLog.info("Piggy Check Ptt Beauty imgur Add!!");
                         }
                         
                     }
@@ -6882,8 +6923,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                         //PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
                         result = result.replace("http:","https:");
                         if (resultImageList.indexOf(result) == -1) {
-                        	resultImageList.add(result);
-                        	//PgLog.info("Piggy Check Ptt Beauty Add!!");
+                            resultImageList.add(result);
+                            //PgLog.info("Piggy Check Ptt Beauty Add!!");
                         }
                     }
                 }
@@ -6892,24 +6933,24 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 if (resultImageList.size() > 0) {
                     //random_num = randomGenerator.nextInt(resultImageList.size());
                     //return resultImageList.get(random_num);
-                	PttBeautyGirl girl = new PttBeautyGirl(resultImageList, result_url, resultTitle, historyString, rank);
-                	if (userId != null) {
-                		mWhoImPickRandomGirlMap.put(userId, girl);
-                	}
-                	if (senderId != null) {
-	                    if (!mWhoTheyPickRandomGirlMap.containsKey(senderId)) {
-	                    	PttBeautyHistory history = new PttBeautyHistory();
-	                    	history.addHistory(girl);
-	                    	
-	                    		mWhoTheyPickRandomGirlMap.put(senderId, history);
-	                    	
-	                    }
-	                    else {
-	                    	PttBeautyHistory history = mWhoTheyPickRandomGirlMap.get(senderId);
-	                    	history.addHistory(girl);
-	                    	mWhoTheyPickRandomGirlMap.put(senderId, history);
-	                    }
-                	}
+                    PttBeautyGirl girl = new PttBeautyGirl(resultImageList, result_url, resultTitle, historyString, rank);
+                    if (userId != null) {
+                        mWhoImPickRandomGirlMap.put(userId, girl);
+                    }
+                    if (senderId != null) {
+                        if (!mWhoTheyPickRandomGirlMap.containsKey(senderId)) {
+                            PttBeautyHistory history = new PttBeautyHistory();
+                            history.addHistory(girl);
+                            
+                                mWhoTheyPickRandomGirlMap.put(senderId, history);
+                            
+                        }
+                        else {
+                            PttBeautyHistory history = mWhoTheyPickRandomGirlMap.get(senderId);
+                            history.addHistory(girl);
+                            mWhoTheyPickRandomGirlMap.put(senderId, history);
+                        }
+                    }
                     return girl;
                 }
                 else {
@@ -7033,10 +7074,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url;
             if (isLocation) {
-            	url = target;
+                url = target;
             }
             else {
-            	url="https://www.instagram.com/explore/tags/" + target + "/";
+                url="https://www.instagram.com/explore/tags/" + target + "/";
             }
             PgLog.info("getRandomInstagramImageUrl:" + url);
             HttpGet httpGet = new HttpGet(url);
@@ -7061,7 +7102,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 html = html.substring(html.indexOf("edge_hashtag_to_top_posts"), html.length());
             }
             if (isLocation) {
-            	html = html.substring(html.indexOf("edge_location_to_top_post"), html.length());
+                html = html.substring(html.indexOf("edge_location_to_top_post"), html.length());
             }
 
             List<String> tempImgList = new ArrayList<String> ();
@@ -7104,15 +7145,15 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
 
             if (tempImgList.size() > 0) {
-            	
-            	for (int i=0;i<tempImgList.size();i++) {
-            		String imgUrl = tempImgList.get(i);
+                
+                for (int i=0;i<tempImgList.size();i++) {
+                    String imgUrl = tempImgList.get(i);
                     String igUrl = "https://www.instagram.com/p/" + tempIgList.get(i);
                     String likeCount = tempIgLikeCountList.get(i);
                     //PgLog.info("Piggy Check imgUrl: " + imgUrl);
                     resultImgList.add(new InstagramItem(imgUrl, igUrl, likeCount));
-            	}
-            	
+                }
+                
                 /*random_num = randomGenerator.nextInt(tempImgList.size());
 
                 String result_url = tempImgList.get(random_num);
@@ -7122,7 +7163,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 mWhoImPickRandomGirlMap.put(userId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
                 mWhoTheyPickRandomGirlMap.put(senderId, (ig_url + " " + like_count + EmojiUtils.emojify(":heart:")));
                 return result_url;*/
-            	return resultImgList;
+                return resultImgList;
             }
             else {
                 PgLog.info("Piggy Check parse IG fail!");
@@ -7135,24 +7176,24 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     class InstagramItem {
-    	String imgUrl;
-    	String itemUrl;
-    	String itemLikeCount;
-    	public InstagramItem(String img, String url, String like) {
-    		imgUrl = img;
-    		itemUrl = url;
-    		itemLikeCount = like;
-		}
-    	public String getImgUrl() {
-    		return imgUrl;
-    	}
-    	public String getUrl() {
-    		return itemUrl;
-    	}
-    	
-    	public String getLike() {
-    		return itemLikeCount;
-    	}
+        String imgUrl;
+        String itemUrl;
+        String itemLikeCount;
+        public InstagramItem(String img, String url, String like) {
+            imgUrl = img;
+            itemUrl = url;
+            itemLikeCount = like;
+        }
+        public String getImgUrl() {
+            return imgUrl;
+        }
+        public String getUrl() {
+            return itemUrl;
+        }
+        
+        public String getLike() {
+            return itemLikeCount;
+        }
     }
 
     private String getRandomPexelsImageUrl(String target) {
@@ -7636,19 +7677,19 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             int affectCount = 0;
             int maxLevel = 0;
             while (tempContext.contains("href=\"#collapse")) {
-            	affectCount++;
+                affectCount++;
                 tempContext = tempContext.substring(tempContext.indexOf("href=\"#collapse")+15, tempContext.length());
                 tempContext = tempContext.substring(tempContext.indexOf("\">")+2, tempContext.length());
                 String detailText = tempContext.substring(0, tempContext.indexOf("</a>"));
                 mNewestEarthquakeReportText +=  detailText + "\n"; // Scale per location
                 String numberString = detailText.substring(detailText.indexOf(" ")+1, detailText.indexOf("級"));
                 if (maxLevel == 0) {
-	                try {
-	                	maxLevel = Integer.parseInt(numberString);
-	                }
-	                catch(java.lang.NumberFormatException e1) {
-	                    PgLog.info("NumberFormatException e1: " + e1);
-	                }
+                    try {
+                        maxLevel = Integer.parseInt(numberString);
+                    }
+                    catch(java.lang.NumberFormatException e1) {
+                        PgLog.info("NumberFormatException e1: " + e1);
+                    }
                 }
             }
             if (tempContext.contains("\">詳細資料")) {
@@ -7668,11 +7709,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 notifyAllNeedEarthquakeEventRoom();
                 PgLog.info("Piggy Check: maxLevel: " + maxLevel + " affectCount: " + affectCount);
                 if (affectCount >= 6 && maxLevel > 3) {
-                	// Notify all group when maxLevel over 4 and affect count over 6
-                	if (!AnnouncementManager.isSameAnnounceMessage(mNewestEarthquakeReportImage)) {
-                		AnnouncementManager.announceNewMessage(mNewestEarthquakeReportImage, true, 30);
-                		LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "觸發通知所有群組地震訊息, 時間區間為 30 分鐘內");
-                	}
+                    // Notify all group when maxLevel over 4 and affect count over 6
+                    if (!AnnouncementManager.isSameAnnounceMessage(mNewestEarthquakeReportImage)) {
+                        AnnouncementManager.announceNewMessage(mNewestEarthquakeReportImage, true, 30);
+                        LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "觸發通知所有群組地震訊息, 時間區間為 30 分鐘內");
+                    }
                 }
             }
             mNewestEarthquakeTime = newestEarthquakeTime;
@@ -8236,6 +8277,138 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return result;
     }
 
+    class AvWikiInfo {
+
+        public static String POSTBACK_PREFIX = "AvWikiInfo_Prefix";
+
+        private String mLink;
+        private String mTitle;
+        private String mCode;
+        private String mDate;
+        private String mArtists;
+        private String mImg;
+        private ArrayList<String> mImgs;
+
+        public AvWikiInfo (String link, String title, String code, String date, String artists, String img, ArrayList<String> imgs) {
+            mLink = link;
+            mTitle = title;
+            mCode = code;
+            mDate = date;
+            mArtists = artists;
+            mImg = img;
+            mImgs = imgs;
+        }
+
+        public ArrayList<String> getImageList() {
+            return mImgs;
+        }
+
+        public String getCoverImage() {
+            return mImg;
+        }
+
+        public String getTitle() {
+            return mTitle;
+        }
+
+
+        public String toString() {
+            String result = "";
+
+            result += (mWebsite + "\n\n");
+
+            result += ("片名: " + mTitle + "\n\n");
+
+            result += ("番號: " + mCode + "\n\n");
+
+            result += ("配信開始日: " + mDate + "\n\n");
+
+            result += ("女優: " + mArtists);
+
+            return result;
+        }
+    }
+
+    private AvWikiInfo getAvWikis(String data) {
+
+        // parser exception, XD has only one result, ignore it.
+        data = data.toUpperCase();
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String website = "http://av-wiki.net/?s="+data;
+            HttpGet httpget = new HttpGet(website);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+            if (!strResult.contains(">1件<")) {
+                return null;
+            }
+            //video title
+            String tempString = strResult;
+            String title = "Unknown";
+            while(strResult.contains("title=\"")){
+                tempString = tempString.substring(tempString.indexOf("title=\"")+7, tempString.length());
+                if (!tempString.startsWith("AV女優の名前が知りたい")&&!tempString.startsWith("RSD")) {
+                    title = tempString.substring(0, tempString.indexOf("\""));
+                    break;
+                }
+                tempString = tempString.substring(7, tempString.length());
+            }
+
+            // video serial code
+            tempString = strResult.substring(strResult.indexOf("<li>品番")+7, strResult.length());
+            String code = tempString.substring(0, tempString.indexOf("</li>"));
+
+            if (!code.toUpperCase().equals(link)) {
+                return null;
+            }
+
+            // video artists
+            String artists = "";
+            tempString = strResult.substring(strResult.indexOf("AV女優名：")+6, strResult.length());
+            tempString = tempString.substring(0, tempString.indexOf("</span>"));
+
+            while(tempString.contains("rel=\"tag\">")){
+                tempString = tempString.substring(tempString.indexOf("rel=\"tag\">")+10, tempString.length());
+                artists += tempString.substring(0, tempString.indexOf("</a>")) + "\n";
+                tempString = tempString.substring(tempString.indexOf("</a>"), tempString.length());
+            }
+            // video start date
+            String date = "";
+            tempString = strResult.substring(strResult.indexOf("配信開始日：")+6, strResult.length());
+            date = tempString.substring(0, tempString.indexOf("</li>"));
+            
+            //PgLog.info("Newest DGPA time: " + newestDgpaReportTime);
+
+            // Cover imgage
+
+            String img = "";
+            tempString = strResult.substring(strResult.indexOf("loading=\"lazy\" src=\"")+20, strResult.length());
+            img = tempString.substring(0, tempString.indexOf(".jpg\"")+5);
+
+            List<String> imgs = new ArrayList<String> ();
+
+
+            if (strResult.contains(\"luminous\">")) {
+                tempString = strResult.substring(strResult.indexOf("\"luminous\">")+11, strResult.length());
+                while (strResult.contains("https://pics.dmm.co.jp/digital/video/")) {
+                    String result = tempString.substring(tempString.indexOf("https://pics.dmm.co.jp/digital/video/"), tempString.indexOf(".jpg\"")+5);
+                    imgs.add(result);
+                    tempString = tempString.substring(tempString.indexOf(".jpg\"")+5, tempString.length());
+                }
+            }
+            AvWikiInfo info = new AvWikiInfo(website, title, code, date, artists, img, imgs);
+
+            return info;
+
+        } catch (Exception e) {
+            //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
+        }
+
+        return null;
+    }
+
     private String checkAvWiki(String data) {
 
         // parser exception, XD has only one result, ignore it.
@@ -8435,12 +8608,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return result;
     }
     void testPttBeautyGirl(String replyToken, String url) {
-    	Random randomGenerator = new Random();
+        Random randomGenerator = new Random();
         int random_num = randomGenerator.nextInt(mUserAgentList.size());
         CloseableHttpClient httpClient = HttpClients.createDefault();
         PgLog.info("getChinaVirusTaiwanData:" + url);
         HttpGet httpGet = new HttpGet(url);
-    	// Process get image from result url.
+        // Process get image from result url.
         httpGet = new HttpGet(url);
         httpGet.addHeader("User-Agent",mUserAgentList.get(0));
         httpGet.addHeader("Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484; over18=1");
@@ -8452,65 +8625,65 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
 
         CloseableHttpResponse response;
-		try {
-			response = httpClient.execute(httpGet);
-			
-			
-	        //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
-	        HttpEntity httpEntity = response.getEntity();
-	
-	        String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
-	
-	        result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
-	
-	        List<String> resultImageList = new ArrayList<String> ();
-	
-	        if (result_image_image.indexOf("http://imgur.com/") > 0) {
-	            Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
-	            Matcher matcherJp = patternJp.matcher(result_image_image);
-	            while(matcherJp.find()){
-	                String result = matcherJp.group();
-	                //PgLog.info("Piggy Check Ptt Beauty result: " + result);
-	                result = result.replace("http:","https:");
-	                result = result.replace("imgur.com","i.imgur.com");
-	                if (result.contains("</a>")) {
-	                	result = result.substring(0, result.indexOf("</a>"));
-	                }
-	                result = result + ".jpg";
-	                //PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
-	                if (resultImageList.indexOf(result) == -1) {
-	                	resultImageList.add(result);
-	                	//PgLog.info("Piggy Check Ptt Beauty imgur Add!!");
-	                }
-	                
-	            }
-	        }
-	        else {
-	            Pattern patternJp = Pattern.compile("http.*?:.*?.jp.*?g");
-	            Matcher matcherJp = patternJp.matcher(result_image_image);
-	            while(matcherJp.find()){
-	                String result = matcherJp.group();
-	                //PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
-	                if (resultImageList.indexOf(result) == -1) {
-	                	resultImageList.add(result);
-	                	//PgLog.info("Piggy Check Ptt Beauty Add!!");
-	                }
-	            }
-	        }
-	
-	        
-	        if (resultImageList.size() > 0) {
-	            //random_num = randomGenerator.nextInt(resultImageList.size());
-	            //return resultImageList.get(random_num);
-	        	PttBeautyGirl girl = new PttBeautyGirl(resultImageList, url, "Test", "Test", "rank");
-	        	processReplyPttBeautyGirl(replyToken, girl);
-	        }
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        try {
+            response = httpClient.execute(httpGet);
+            
+            
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+    
+            String result_image_image = EntityUtils.toString(httpEntity, "utf-8");
+    
+            result_image_image = result_image_image.substring(0, result_image_image.indexOf("--"));
+    
+            List<String> resultImageList = new ArrayList<String> ();
+    
+            if (result_image_image.indexOf("http://imgur.com/") > 0) {
+                Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
+                Matcher matcherJp = patternJp.matcher(result_image_image);
+                while(matcherJp.find()){
+                    String result = matcherJp.group();
+                    //PgLog.info("Piggy Check Ptt Beauty result: " + result);
+                    result = result.replace("http:","https:");
+                    result = result.replace("imgur.com","i.imgur.com");
+                    if (result.contains("</a>")) {
+                        result = result.substring(0, result.indexOf("</a>"));
+                    }
+                    result = result + ".jpg";
+                    //PgLog.info("Piggy Check Ptt Beauty imgur url: " + result_url + " img_link: " + result);
+                    if (resultImageList.indexOf(result) == -1) {
+                        resultImageList.add(result);
+                        //PgLog.info("Piggy Check Ptt Beauty imgur Add!!");
+                    }
+                    
+                }
+            }
+            else {
+                Pattern patternJp = Pattern.compile("http.*?:.*?.jp.*?g");
+                Matcher matcherJp = patternJp.matcher(result_image_image);
+                while(matcherJp.find()){
+                    String result = matcherJp.group();
+                    //PgLog.info("Piggy Check Ptt Beauty url: " + result_url + " img_link: " + result);
+                    if (resultImageList.indexOf(result) == -1) {
+                        resultImageList.add(result);
+                        //PgLog.info("Piggy Check Ptt Beauty Add!!");
+                    }
+                }
+            }
+    
+            
+            if (resultImageList.size() > 0) {
+                //random_num = randomGenerator.nextInt(resultImageList.size());
+                //return resultImageList.get(random_num);
+                PttBeautyGirl girl = new PttBeautyGirl(resultImageList, url, "Test", "Test", "rank");
+                processReplyPttBeautyGirl(replyToken, girl);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     void test(String replyToken) {
-    	URI imageUrl = createUri("/i.imgur.com/guYQMo8.jpg");
+        URI imageUrl = createUri("/i.imgur.com/guYQMo8.jpg");
         ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(
                 Arrays.asList(
                         new ImageCarouselColumn(imageUrl,
@@ -8554,13 +8727,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     public String getUSPresidentVoie2020() {
-    	Random randomGenerator = new Random();
-    	String url = "https://graphics.thomsonreuters.com/2020-US-elex/20201103/20201103-summary_zh.json?cache=1604456972612";
+        Random randomGenerator = new Random();
+        String url = "https://graphics.thomsonreuters.com/2020-US-elex/20201103/20201103-summary_zh.json?cache=1604456972612";
         int random_num = randomGenerator.nextInt(mUserAgentList.size());
         CloseableHttpClient httpClient = HttpClients.createDefault();
         //PgLog.info("getUSPresidentVoie2020:" + url);
         HttpGet httpGet = new HttpGet(url);
-    	// Process get image from result url.
+        // Process get image from result url.
         httpGet = new HttpGet(url);
         httpGet.addHeader("User-Agent",mUserAgentList.get(0));
         httpGet.addHeader("Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484; over18=1");
@@ -8574,58 +8747,58 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int biden = 0;
         int trump = 0;
         int notYet = 0;
-		try {
-			response = httpClient.execute(httpGet);
-			
-			
-	        //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
-	        HttpEntity httpEntity = response.getEntity();
-	
-	        String resultData = EntityUtils.toString(httpEntity, "utf-8");
-	        
-	        resultData = resultData.substring(resultData.indexOf("balanceVals"), resultData.length());
-	        String rWin = resultData.substring(resultData.indexOf("\"r_win\":")+8, resultData.indexOf(",\"d_win\":"));
-	        String dWin = resultData.substring(resultData.indexOf("\"d_win\":")+8, resultData.indexOf(",\"o_win\":"));
-	        String noResult = resultData.substring(resultData.indexOf("\"no_result\":")+12, resultData.indexOf(",\"r_gain\":"));
+        try {
+            response = httpClient.execute(httpGet);
+            
+            
+            //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+    
+            String resultData = EntityUtils.toString(httpEntity, "utf-8");
+            
+            resultData = resultData.substring(resultData.indexOf("balanceVals"), resultData.length());
+            String rWin = resultData.substring(resultData.indexOf("\"r_win\":")+8, resultData.indexOf(",\"d_win\":"));
+            String dWin = resultData.substring(resultData.indexOf("\"d_win\":")+8, resultData.indexOf(",\"o_win\":"));
+            String noResult = resultData.substring(resultData.indexOf("\"no_result\":")+12, resultData.indexOf(",\"r_gain\":"));
             try {
-            	trump = Integer.parseInt(rWin);
-            	biden = Integer.parseInt(dWin);
-            	notYet = Integer.parseInt(noResult);
+                trump = Integer.parseInt(rWin);
+                biden = Integer.parseInt(dWin);
+                notYet = Integer.parseInt(noResult);
             } catch (java.lang.NumberFormatException e) {
             }
-	
-	        
-		} catch (Exception e) {
-			e.printStackTrace();
-			return e.getMessage();
-		}
-		String result = "270 to win.\n";
-		String bidenString = "拜登: ";
-		
-		bidenString+=biden;
-    	bidenString+=" ";
-    	if (270-biden > 0) {
-    		bidenString+="("+(270-biden)+" to win)";
-    	}
-    	else {
-    		bidenString+=EmojiUtils.emojify(":trophy:");
-    	}
-    	
-    	String trumpString = "川普: ";
-    	trumpString+=trump;
-    	trumpString+=" ";
-    	if (270-trump > 0) {
-    		trumpString+="("+(270-trump)+" to win)";
-    	}
-    	else {
-    		trumpString+=EmojiUtils.emojify(":trophy:");
-    	}
-    	
-        if (biden > trump) {
-        	result += (bidenString + "\n" + trumpString);
+    
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        String result = "270 to win.\n";
+        String bidenString = "拜登: ";
+        
+        bidenString+=biden;
+        bidenString+=" ";
+        if (270-biden > 0) {
+            bidenString+="("+(270-biden)+" to win)";
         }
         else {
-        	result += (trumpString + "\n" + bidenString);
+            bidenString+=EmojiUtils.emojify(":trophy:");
+        }
+        
+        String trumpString = "川普: ";
+        trumpString+=trump;
+        trumpString+=" ";
+        if (270-trump > 0) {
+            trumpString+="("+(270-trump)+" to win)";
+        }
+        else {
+            trumpString+=EmojiUtils.emojify(":trophy:");
+        }
+        
+        if (biden > trump) {
+            result += (bidenString + "\n" + trumpString);
+        }
+        else {
+            result += (trumpString + "\n" + bidenString);
         }
         result+="\n未開: " + notYet;
         //PgLog.info("result: " + result);
@@ -8634,37 +8807,37 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     List<?> getRandomItemFromList(List<? extends Object> list, int max) {
-    	if (list != null && list.size() <= max) {
-    		return list;
-    	}
-    	List<Object> resultList = new ArrayList<Object>(max);
-    	Set<Integer> pickedSet = new HashSet<Integer>();
-    	int count = 0;
-		Random randomGenerator = new Random();
-    	while(count < max) {
+        if (list != null && list.size() <= max) {
+            return list;
+        }
+        List<Object> resultList = new ArrayList<Object>(max);
+        Set<Integer> pickedSet = new HashSet<Integer>();
+        int count = 0;
+        Random randomGenerator = new Random();
+        while(count < max) {
             int random_num = randomGenerator.nextInt(max);
             if (!pickedSet.contains(random_num)) {
-            	pickedSet.add(random_num);
-            	count++;
+                pickedSet.add(random_num);
+                count++;
             }
-    	}
-    	
-    	Iterator iterator = pickedSet.iterator(); 
+        }
+        
+        Iterator iterator = pickedSet.iterator(); 
         
         while (iterator.hasNext()){
-        	resultList.add(list.get(((Integer)iterator.next()).intValue()));
+            resultList.add(list.get(((Integer)iterator.next()).intValue()));
         }
-    	
+        
         return resultList;
     }
     
     private Customsearch search;
 
     public void initGoogleCSE() {
-    	if (search == null) {
-    		search = new Customsearch.Builder(new NetHttpTransport(), new JacksonFactory(), null)
+        if (search == null) {
+            search = new Customsearch.Builder(new NetHttpTransport(), new JacksonFactory(), null)
                 .setApplicationName("PiggyTestGoogleSearch").build();
-    	}
+        }
     }
     
     private Customsearch getCustomsearch() {
@@ -8675,7 +8848,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     String CX_INSTAGRAM_LOCATION = "e2c451811ef6e4847";
     
     List<InstagramLocation> searchIgLocation(String query, int numOfResults) throws IOException {
-    	initGoogleCSE();
+        initGoogleCSE();
         List<Result> results = new ArrayList<Result>();
         List<InstagramLocation> igLocationResults = new ArrayList<InstagramLocation>();
         Customsearch.Cse.List list = search.cse().list(query);
@@ -8689,46 +8862,46 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             list.setStart(i);
             List<Result> temp = list.execute().getItems();
             if (temp != null) {
-            	results.addAll(temp);
+                results.addAll(temp);
             }
             else {
-            	PgLog.info("Piggy Check result null");
-            	return null;
+                PgLog.info("Piggy Check result null");
+                return null;
             }
         }
         PgLog.info("Piggy Check result size " + results.size());
         for (int i=0;i<results.size();i++) {
-        	Result r = results.get(i);
-        	String title = r.getTitle();
-        	String link = r.getLink();
-        	if (!link.contains("/.../")) {
-        		InstagramLocation il = new InstagramLocation(link, title);
-            	igLocationResults.add(il);
-        	}
+            Result r = results.get(i);
+            String title = r.getTitle();
+            String link = r.getLink();
+            if (!link.contains("/.../")) {
+                InstagramLocation il = new InstagramLocation(link, title);
+                igLocationResults.add(il);
+            }
         }
         return igLocationResults;
     }
     
     class InstagramLocation {
-    	String ig_url = "";
-    	String ig_title = "";
-    	public InstagramLocation(String url, String title) {
-    		ig_url = url;
-    		ig_title = title;
-		}
-    	public String getUrl() {
-    		return ig_url;
-    	}
-    	public String getTitle() {
-    		return ig_title;
-    	}
-    	public String toString() {
-    		return ig_title + ": " + ig_url;
-    	}
+        String ig_url = "";
+        String ig_title = "";
+        public InstagramLocation(String url, String title) {
+            ig_url = url;
+            ig_title = title;
+        }
+        public String getUrl() {
+            return ig_url;
+        }
+        public String getTitle() {
+            return ig_title;
+        }
+        public String toString() {
+            return ig_title + ": " + ig_url;
+        }
     }
     
     /*List<Result> googleSearchImage(String query) throws IOException {
-    	try {
+        try {
             Customsearch customsearch = getCustomsearch();
             Customsearch.Cse.List list = customsearch.cse().list(query);
             list.setKey(API_KEY);
@@ -8781,33 +8954,33 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
     
     private BeautyFightingProcessor mBeautyFightingProcessor = new BeautyFightingProcessor() {
-		
-		@Override
-		public boolean sendTextReply(String replyToken, String text) {
-			replyText(replyToken, text);
-			return true;
-		}
-		
-		@Override
-		public boolean sendImageReply(String replyToken, String leftPic, String rightPic, int rounds) {
-			List<ImageCarouselColumn> columnsList = new ArrayList<>();
-	        columnsList.add(getImagePostbackColumn(leftPic, BeautyFightingInfo.LEFT));
-	        columnsList.add(getImagePostbackColumn(rightPic, BeautyFightingInfo.RIGHT));
-	        //replyText(replyToken, "leftPic: "+leftPic+" rightPic:"+rightPic);
-	        LineMessagePrimitive.replyImageCarouselTemplate(replyToken, "表特對決第 " + rounds + " 回合", columnsList);
-	        return true;
-		}
-		
-		@Override
-		public PttBeautyGirl getPttBeautyData() {
-			PttBeautyGirl data = null;
-			try {
-				data = getRandomPttBeautyGirl(null, null, null, false, MULTI_PIC);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+        
+        @Override
+        public boolean sendTextReply(String replyToken, String text) {
+            replyText(replyToken, text);
+            return true;
+        }
+        
+        @Override
+        public boolean sendImageReply(String replyToken, String leftPic, String rightPic, int rounds) {
+            List<ImageCarouselColumn> columnsList = new ArrayList<>();
+            columnsList.add(getBeautyFightingImagePostbackColumn(leftPic, BeautyFightingInfo.LEFT));
+            columnsList.add(getBeautyFightingImagePostbackColumn(rightPic, BeautyFightingInfo.RIGHT));
+            //replyText(replyToken, "leftPic: "+leftPic+" rightPic:"+rightPic);
+            LineMessagePrimitive.replyImageCarouselTemplate(replyToken, "表特對決第 " + rounds + " 回合", columnsList);
+            return true;
+        }
+        
+        @Override
+        public PttBeautyGirl getPttBeautyData() {
+            PttBeautyGirl data = null;
+            try {
+                data = getRandomPttBeautyGirl(null, null, null, false, MULTI_PIC);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-			return data;
-		}
-	};
+            return data;
+        }
+    };
 }
