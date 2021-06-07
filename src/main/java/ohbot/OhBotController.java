@@ -4468,7 +4468,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         while (index < info.getImageList().size()) {
             //PgLog.info("Piggy Check info.getImageList(): " + info.getImageList().get(index));
-            columnsList.add(getImagePostbackColumn(info.getImageList().get(index), info.toString(), AvWikiInfo.POSTBACK_PREFIX, info.toString()));
+            columnsList.add(getImagePostbackColumn(info.getImageList().get(index), info.getTitle(), AvWikiInfo.POSTBACK_PREFIX, info.toString()));
             count++;
             index++;
             if (count > MAX_CAROUSEL_COLUMN) {
@@ -4476,7 +4476,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
         }
 
-        LineMessagePrimitive.replyImageCarouselTemplate(replyToken, info.getTitle(), columnsList);
+        LineMessagePrimitive.replyImageCarouselTemplate(replyToken, info.toString(), columnsList);
     }
 
 
