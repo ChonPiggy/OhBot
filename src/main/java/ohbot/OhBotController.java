@@ -4352,7 +4352,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void processReplyPttBeautyGirlHistory(String replyToken, PttBeautyHistory girlHistory) {
         List<ImageCarouselColumn> columnsList = new ArrayList<>();
         int count = 0;
-        int MAX_CAROUSEL_COLUMN = 9;
         List<PttBeautyGirl> history = girlHistory.getSearchHistoryList();
         for(int i=0;i<history.size();i++) {
             PgLog.info("Piggy Check title: " + history.get(i).getTitle());
@@ -8341,10 +8340,13 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (strResult.contains("\"luminous-link\">")) {
                 tempString = strResult.substring(strResult.indexOf("\"luminous-link\">")+16, strResult.length());
                 while (strResult.contains("https://pics.dmm.co.jp/digital/video/")) {
-                    String result = tempString.substring(tempString.indexOf("https://pics.dmm.co.jp/digital/video/"), tempString.indexOf(".jpg\"")+5);
+                    String result = tempString.substring(tempString.indexOf("https://pics.dmm.co.jp/digital/video/"), tempString.indexOf(".jpg\"")+4);
                     PgLog.info("Piggy Check result: " + result);
                     imgs.add(result);
                     tempString = tempString.substring(tempString.indexOf(".jpg\"")+5, tempString.length());
+                    if (imgs.size() > MAX_CAROUSEL_COLUMN) {
+                        break;
+                    }
                 }
             }
             AvWikiInfo info = new AvWikiInfo(website, title, code, date, artists, img, imgs);
