@@ -8338,8 +8338,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             ArrayList<String> imgs = new ArrayList<String> ();
 
 
-            if (strResult.contains("\"luminous\">")) {
-                tempString = strResult.substring(strResult.indexOf("\"luminous\">")+11, strResult.length());
+            if (strResult.contains("\"luminous-link\">")) {
+                tempString = strResult.substring(strResult.indexOf("\"luminous-link\">")+16, strResult.length());
                 while (strResult.contains("https://pics.dmm.co.jp/digital/video/")) {
                     String result = tempString.substring(tempString.indexOf("https://pics.dmm.co.jp/digital/video/"), tempString.indexOf(".jpg\"")+5);
                     PgLog.info("Piggy Check result: " + result);
