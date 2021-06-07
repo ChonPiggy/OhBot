@@ -1791,7 +1791,7 @@ public class OhBotController {
         }
 
         if (text.startsWith("AvWiki:")) {
-            AvWikiInfo info = getAvWikis(text.replace("AvWiki:",""));
+            AvWikiInfo info = getAvWiki(text.replace("AvWiki:",""));
             if (info != null) {
                 processReplyAvWikiList(replyToken, info);
             }
@@ -4461,8 +4461,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         int count = 0;
         PgLog.info("Piggy Check title: " + info.getTitle());
         PgLog.info("Piggy Check info: " + info);
+        PgLog.info("Piggy Check info.getImageList().size: " + info.getImageList().size());
 
         while (index < info.getImageList().size()) {
+            PgLog.info("Piggy Check info.getImageList(): " + info.getImageList().get(index));
             columnsList.add(getImagePostbackColumn(info.getImageList().get(index), info.getTitle(), AvWikiInfo.POSTBACK_PREFIX, info.toString()));
             count++;
             index++;
@@ -8275,7 +8277,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return result;
     }
 
-    private AvWikiInfo getAvWikis(String data) {
+    private AvWikiInfo getAvWiki(String data) {
 
         // parser exception, XD has only one result, ignore it.
         data = data.toUpperCase();
@@ -8340,6 +8342,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempString = strResult.substring(strResult.indexOf("\"luminous\">")+11, strResult.length());
                 while (strResult.contains("https://pics.dmm.co.jp/digital/video/")) {
                     String result = tempString.substring(tempString.indexOf("https://pics.dmm.co.jp/digital/video/"), tempString.indexOf(".jpg\"")+5);
+                    PgLog.info("Piggy Check result: " + result);
                     imgs.add(result);
                     tempString = tempString.substring(tempString.indexOf(".jpg\"")+5, tempString.length());
                 }
