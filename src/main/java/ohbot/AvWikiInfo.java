@@ -1,5 +1,7 @@
 package ohbot;
 
+import java.util.ArrayList; 
+
 public class AvWikiInfo {
 
     public static String POSTBACK_PREFIX = "AvWikiInfo_Prefix";
