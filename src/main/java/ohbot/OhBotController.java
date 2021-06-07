@@ -4462,12 +4462,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         List<ImageCarouselColumn> columnsList = new ArrayList<>();
         int index = 0;
         int count = 0;
-        PgLog.info("Piggy Check title: " + info.getTitle());
-        PgLog.info("Piggy Check info: " + info);
-        PgLog.info("Piggy Check info.getImageList().size: " + info.getImageList().size());
+        //PgLog.info("Piggy Check title: " + info.getTitle());
+        //PgLog.info("Piggy Check info: " + info);
+        //PgLog.info("Piggy Check info.getImageList().size: " + info.getImageList().size());
 
         while (index < info.getImageList().size()) {
-            PgLog.info("Piggy Check info.getImageList(): " + info.getImageList().get(index));
+            //PgLog.info("Piggy Check info.getImageList(): " + info.getImageList().get(index));
             columnsList.add(getImagePostbackColumn(info.getImageList().get(index), info.getTitle(), AvWikiInfo.POSTBACK_PREFIX, info.toString()));
             count++;
             index++;
@@ -8345,7 +8345,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempString = strResult.substring(strResult.indexOf("\"luminous-link\">")+16, strResult.length());
                 while (strResult.contains("https://pics.dmm.co.jp/digital/video/")) {
                     String result = tempString.substring(tempString.indexOf("https://pics.dmm.co.jp/digital/video/"), tempString.indexOf(".jpg\"")+4);
-                    PgLog.info("Piggy Check result: " + result);
                     imgs.add(result);
                     tempString = tempString.substring(tempString.indexOf(".jpg\"")+5, tempString.length());
                     if (imgs.size() > MAX_CAROUSEL_COLUMN) {
