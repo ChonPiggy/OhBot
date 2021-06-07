@@ -8333,7 +8333,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             tempString = strResult.substring(strResult.indexOf("loading=\"lazy\" src=\"")+20, strResult.length());
             img = tempString.substring(0, tempString.indexOf(".jpg\"")+5);
 
-            List<String> imgs = new ArrayList<String> ();
+            ArrayList<String> imgs = new ArrayList<String> ();
 
 
             if (strResult.contains("\"luminous\">")) {
