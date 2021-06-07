@@ -2360,6 +2360,10 @@ public class OhBotController {
         //return new ImageCarouselColumn(URI.create(imageUrl), new URIAction(label, URI.create(url), new AltUri(URI.create(url))));
         String label = title;
         String data = prefix+info;
+        if (label.length()>12) {
+            // Image carouse column label length limit is 12.
+            label = label.substring(0, 12);
+        }
         PostbackAction action =  new PostbackAction(label, data);
         return new ImageCarouselColumn(URI.create(imageUrl), action);
     }
