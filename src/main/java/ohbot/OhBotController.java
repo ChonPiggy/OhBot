@@ -51,7 +51,9 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
 
+import org.apache.http.entity.StringEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ClientConnectionManager;
@@ -1788,6 +1790,14 @@ public class OhBotController {
 
         if (avWiki != null) {
             this.replyText(replyToken, avWiki);
+        }
+
+        if (text.startsWith("縮網址:")||text.startsWith("縮網址：")) {
+            String ori = text.replace("縮網址:","").replace("縮網址","");
+            String shorten = getReurlCcLink(ori);
+            if (shorten != null) {
+                this.replyText(replyToken, "縮網址: "+shorten);
+            }
         }
 
         if (text.toUpperCase().startsWith("AVWIKI:")||text.toUpperCase().startsWith("AVWIKI：")) {
@@ -8284,6 +8294,63 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return result;
     }
 
+    private String getReurlCcLink(String link) {
+        /*try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String website = "https://avgle.com/search/videos?search_query=" + data + "&search_type=videos";
+            HttpGet httpGet = new HttpGet(website);
+            httpGet.setHeader("Content-Type","application/jon");
+            httpGet.setHeader("reurl-api-key","4070ff49d794e03414503b663c974755ecd3b133979f04df8a38b58d65165567c4f5d6");
+        
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+            if (strResult.contains("No Viedos Found.")) {
+                return null;
+            }
+            //video title
+            String tempString = strResult;
+            String link = null;
+            if(strResult.contains("<a href=\"/video/")){
+                tempString = tempString.substring(tempString.indexOf("<a href=\"/video/")+16, tempString.length());
+                tempString = tempString.substring(0, tempString.indexOf("\">"));
+
+                link = "https://avgle.com/video/" + tempString;
+                PgLog.info("getAvgleLink: " + link);
+            }
+
+            return link;
+
+        } catch (Exception e) {
+            //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
+        }*/
+
+
+        HttpClient httpclient = new DefaultHttpClient();
+        String postRequest = "{\"url\" : \""+link+"\" , \"utm_source\" : \"FB_AD\"}"; 
+                        
+        try {
+            String url = "Service URL";
+            HttpPost request = new HttpPost(url);
+            request.setHeader("Content-Type", "application/json");    
+            request.setHeader("reurl-api-key","4070ff49d794e03414503b663c974755ecd3b133979f04df8a38b58d65165567c4f5d6");
+
+            // Request body
+            StringEntity reqEntity = new StringEntity(postRequest,"UTF-8");
+            request.setEntity(reqEntity);
+            PgLog.info("Piggy Check request: " + request);
+            HttpResponse response = httpclient.execute(request);
+            HttpEntity entity = response.getEntity();
+
+            String result = EntityUtils.toString(entity);
+            PgLog.info("Piggy Check result: " + result);
+        } catch (Exception e) {
+            PgLog.info("Exception e: " + e);
+        }
+
+        return null;
+    }
     private String getAvgleLink(String data) {
         data = data.toUpperCase();
         try {
