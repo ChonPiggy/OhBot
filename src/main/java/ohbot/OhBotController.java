@@ -8364,7 +8364,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         data = data.toUpperCase();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            String website = "https://jable.tv/search/" + data;
+            String website = "https://jable.tv/search/" + data+"/";
             HttpGet httpget = new HttpGet(website);
             CloseableHttpResponse response = httpClient.execute(httpget);
             HttpEntity httpEntity = response.getEntity();
@@ -8471,7 +8471,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 avgleLink = getReurlCcLink(avgleLink);    
             }
 
-            if (avgleLink != null) {
+            if (jableLink != null) {
                 jableLink = getReurlCcLink(jableLink);    
             }
 
