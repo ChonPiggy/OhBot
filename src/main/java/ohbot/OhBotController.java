@@ -8284,6 +8284,40 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return result;
     }
 
+    private String getAvgleLink(String data) {
+        data = data.toUpperCase();
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String website = "https://avgle.com/search/videos?search_query=" + data + "&search_type=videos";
+            HttpGet httpget = new HttpGet(website);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+            if (strResult.contains("No Viedos Found.")) {
+                return null;
+            }
+            //video title
+            String tempString = strResult;
+            String link = null;
+            if(strResult.contains("<a href=\"/video/")){
+                tempString = tempString.substring(tempString.indexOf("<a href=\"/video/")+16, tempString.length());
+                tempString = tempString.substring(0, tempString.indexOf("\">"));
+
+                link = "https://avgle.com/video/" + tempString;
+                PgLog.info("getAvgleLink: " + link);
+            }
+
+            return link;
+
+        } catch (Exception e) {
+            //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
+        }
+
+        return null;
+    }
+    }
+
     private AvWikiInfo getAvWiki(String data) {
 
         // parser exception, XD has only one result, ignore it.
@@ -8356,7 +8390,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     }
                 }
             }
-            AvWikiInfo info = new AvWikiInfo(website, title, code, date, artists, img, imgs);
+            String avgleLink = getAvgleLink(data);
+
+            AvWikiInfo info = new AvWikiInfo(website, title, code, date, artists, img, imgs, avgleLink);
 
             return info;
 
