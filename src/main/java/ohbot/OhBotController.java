@@ -1803,7 +1803,7 @@ public class OhBotController {
         if (text.toUpperCase().startsWith("AVGLE:")||text.toUpperCase().startsWith("AVGLE：")) {
             String searchKeyWord = text.toUpperCase().replace("AVGLE:","").replace("AVGLE：","");
             ArrayList<ImageItem> results = getAvgleResultList(searchKeyWord);
-            if (results.size() > 1) {
+            if (results.size() > 0) {
                 processReplyImageCarouselTemplateFromStringList(replyToken, results, "Avgle 搜尋: " + searchKeyWord);
             }
             else {
@@ -4490,9 +4490,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (!resultList.get(index).getImgUrl().endsWith(".gif")) {
                 ImageItem item = resultList.get(index); 
                 columnsList.add(getImageCarouselColumn(item.getImgUrl(), item.getTitle(), item.getUrl()));
-                /*PgLog.info("Piggy Check TitleUrl: " + item.getTitle());
+                PgLog.info("Piggy Check TitleUrl: " + item.getTitle());
                 PgLog.info("Piggy Check ImgUrl: " + item.getImgUrl());
-                PgLog.info("Piggy Check Url: " + item.getUrl());*/
+                PgLog.info("Piggy Check Url: " + item.getUrl());
                 count++;
             }
             index++;
@@ -8407,9 +8407,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (strResult.contains("No Viedos Found.")) {
                 return null;
             }
-            //video title
             
-            int count = 0;
             String tempString = strResult;
             while(tempString.contains("<a href=\"/video/")){
                 
@@ -8435,11 +8433,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 ImageItem result = new ImageItem(title, coverLink, videoLink);
                 resultArray.add(result);
-
-                count++;
-                if (count > MAX_CAROUSEL_COLUMN) {
-                    break;
-                }
             }
 
             return resultArray;
