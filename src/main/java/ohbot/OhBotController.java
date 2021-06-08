@@ -1817,9 +1817,10 @@ public class OhBotController {
         }
 
         if (text.toUpperCase().startsWith("JABLE:")||text.toUpperCase().startsWith("JABLE：")) {
-            AvWikiInfo info = getAvWiki(text.toUpperCase().replace("JABLE:","").replace("JABLE：",""));
-            if (info != null) {
-                processReplyAvWikiList(replyToken, info);
+            String searchKeyWord = text.toUpperCase().replace("JABLE:","").replace("JABLE：","");
+            ArrayList<ImageItem> results = getJableResultList(searchKeyWord);
+            if (results.size() > 0) {
+                processReplyImageCarouselTemplateFromStringList(replyToken, results, "Jable 搜尋: " + searchKeyWord);
             }
             else {
                 this.replyText(replyToken, "Jable 查無影片");
@@ -8368,7 +8369,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private String getPngFromJpg(String link) {
 
         HttpClient httpclient = new DefaultHttpClient();
-        String postRequest = "{\"Parameters\": [{\"Name\": \"File\",\"FileValue\": {\"Url\": \""+link+"\"}},{"Name": "StoreFile","Value": true}]}"; 
+        String postRequest = "{\"Parameters\": [{\"Name\": \"File\",\"FileValue\": {\"Url\": \""+link+"\"}},{\"Name\": \"StoreFile\",\"Value\": true}]}"; 
                         
         try {
             String url = "https://v2.convertapi.com/convert/jpg/to/png?Secret=s6qSJPdQMNI155rD";
@@ -8517,6 +8518,61 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
 
         return null;
+    }
+
+    private ArrayList<ImageItem> getJableResultList(String data) {
+        data = data.toUpperCase();
+        ArrayList<ImageItem> resultArray = new ArrayList<ImageItem>();
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String website = "https://avgle.com/search/videos?search_query=" + data + "&search_type=videos";
+            HttpGet httpget = new HttpGet(website);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+            if (strResult.contains("No Viedos Found.")) {
+                return null;
+            }
+            
+            String tempString = strResult;
+            while(tempString.contains("<a href=\"/video/")){
+                
+                String videoLink = null;
+                String coverLink = null;
+                String title = null;
+
+                // parse video link
+                tempString = tempString.substring(tempString.indexOf("<a href=\"/video/")+16, tempString.length());
+                videoLink = "https://avgle.com/video/" + tempString.substring(0, tempString.indexOf("\">"));
+
+                PgLog.info("getAvgleResultList video: " + videoLink);
+
+                tempString = tempString.substring(tempString.indexOf("<img src=\"")+10, tempString.length());
+
+                coverLink = tempString.substring(0, tempString.indexOf("\" title=\""));
+
+                if (coverLink.endsWith(".jpg")) {
+                    coverLink = getPngFromJpg(coverLink);
+                }
+
+                PgLog.info("getAvgleResultList coverLink: " + coverLink);
+
+                tempString = tempString.substring(tempString.indexOf("\" title=\"")+9, tempString.length());
+
+                title = tempString.substring(0, tempString.indexOf("\" alt=\""));
+
+                ImageItem result = new ImageItem(title, coverLink, videoLink);
+                resultArray.add(result);
+            }
+
+            return resultArray;
+
+        } catch (Exception e) {
+            //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
+        }
+
+        return resultArray;
     }
     
 
