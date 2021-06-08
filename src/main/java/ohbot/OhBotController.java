@@ -4500,9 +4500,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (!resultList.get(index).getImgUrl().endsWith(".gif")) {
                 ImageItem item = resultList.get(index); 
                 columnsList.add(getImageCarouselColumn(item.getImgUrl(), item.getTitle(), item.getUrl()));
-                PgLog.info("Piggy Check TitleUrl: " + item.getTitle());
+                /*PgLog.info("Piggy Check TitleUrl: " + item.getTitle());
                 PgLog.info("Piggy Check ImgUrl: " + item.getImgUrl());
-                PgLog.info("Piggy Check Url: " + item.getUrl());
+                PgLog.info("Piggy Check Url: " + item.getUrl());*/
                 count++;
             }
             index++;
@@ -4555,7 +4555,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }catch (IndexOutOfBoundsException e2) {
             throw e2;
         }
-        PgLog.info("Piggy Check 6");
     }
 
     private void instagramTarget(String userId, String senderId, String text, String replyToken, boolean isHot, boolean isPerson) throws IOException {
@@ -8388,12 +8387,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity entity = response.getEntity();
 
             String result = EntityUtils.toString(entity);
-            PgLog.info("Piggy Check post result: " + result);
+            //PgLog.info("Piggy Check post result: " + result);
 
             result = result.substring(result.indexOf("\"Url\":\"")+7, result.length());
             result = result.substring(0, result.indexOf("\""));
 
-            PgLog.info("Piggy Check shorten result: " + result);
+            //PgLog.info("Piggy Check shorten result: " + result);
 
             return result;
         } catch (Exception e) {
@@ -8464,7 +8463,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempString = tempString.substring(tempString.indexOf("<a href=\"/video/")+16, tempString.length());
                 videoLink = "https://avgle.com/video/" + tempString.substring(0, tempString.indexOf("\">"));
 
-                PgLog.info("getAvgleResultList video: " + videoLink);
+                //PgLog.info("getAvgleResultList video: " + videoLink);
 
                 tempString = tempString.substring(tempString.indexOf("<img src=\"")+10, tempString.length());
 
@@ -8474,7 +8473,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     coverLink = getPngFromJpg(coverLink);
                 }
 
-                PgLog.info("getAvgleResultList coverLink: " + coverLink);
+                //PgLog.info("getAvgleResultList coverLink: " + coverLink);
 
                 tempString = tempString.substring(tempString.indexOf("\" title=\"")+9, tempString.length());
 
@@ -8556,24 +8555,26 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempString = tempString.substring(tempString.indexOf("data-src=\"")+10, tempString.length());
                 coverLink = tempString.substring(0, tempString.indexOf("\" data-preview"));
                 
-                PgLog.info("getJableResultList coverLink: " + coverLink);
+                //PgLog.info("getJableResultList coverLink: " + coverLink);
 
                 if (coverLink.endsWith(".jpg")) {
                     coverLink = getPngFromJpg(coverLink);
                 }
 
-                PgLog.info("getJableResultList coverLink: " + coverLink);
+                //PgLog.info("getJableResultList coverLink: " + coverLink);
 
                 tempString = tempString.substring(tempString.indexOf("class=\"title\"><a href=\"")+23, tempString.length());
 
                 videoLink = tempString.substring(0, tempString.indexOf("\">"));
 
 
-                PgLog.info("getJableResultList coverLink: " + videoLink);
+                //PgLog.info("getJableResultList videoLink: " + videoLink);
 
                 tempString = tempString.substring(tempString.indexOf("\">")+2, tempString.length());
 
                 title = tempString.substring(0, tempString.indexOf("</a>"));
+
+                //PgLog.info("getJableResultList title: " + title);
 
                 ImageItem result = new ImageItem(title, coverLink, videoLink);
                 resultArray.add(result);
