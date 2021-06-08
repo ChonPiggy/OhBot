@@ -8331,7 +8331,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         String postRequest = "{\"url\" : \""+link+"\" , \"utm_source\" : \"FB_AD\"}"; 
                         
         try {
-            String url = "Service URL";
+            String url = "https://api.reurl.cc/shorten";
             HttpPost request = new HttpPost(url);
             request.setHeader("Content-Type", "application/json");    
             request.setHeader("reurl-api-key","4070ff49d794e03414503b663c974755ecd3b133979f04df8a38b58d65165567c4f5d6");
