@@ -16,7 +16,7 @@ public class AvWikiInfo {
     private String mAvgleLink;
     private String mJableLink;
 
-    public AvWikiInfo (String link, String title, String code, String date, String artists, String img, ArrayList<String> imgs, String avgle String jable) {
+    public AvWikiInfo (String link, String title, String code, String date, String artists, String img, ArrayList<String> imgs, String avgle, String jable) {
         mLink = link;
         mTitle = title;
         mCode = code;
