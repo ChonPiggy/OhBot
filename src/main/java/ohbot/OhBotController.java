@@ -1792,7 +1792,7 @@ public class OhBotController {
             this.replyText(replyToken, avWiki);
         }
 
-        if (text.startsWith("JpgToPng:") {
+        if (text.startsWith("JpgToPng:")) {
             String link = text.replace("JpgToPng:","");
             getPngFromJpg(link);
         }
