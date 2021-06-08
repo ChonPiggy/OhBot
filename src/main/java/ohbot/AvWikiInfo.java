@@ -14,8 +14,9 @@ public class AvWikiInfo {
     private String mImg;
     private ArrayList<String> mImgs;
     private String mAvgleLink;
+    private String mJableLink;
 
-    public AvWikiInfo (String link, String title, String code, String date, String artists, String img, ArrayList<String> imgs, String avgle) {
+    public AvWikiInfo (String link, String title, String code, String date, String artists, String img, ArrayList<String> imgs, String avgle String jable) {
         mLink = link;
         mTitle = title;
         mCode = code;
@@ -24,6 +25,7 @@ public class AvWikiInfo {
         mImg = img;
         mImgs = imgs;
         mAvgleLink = avgle;
+        mJableLink = avgle;
     }
 
     public ArrayList<String> getImageList() {
@@ -53,7 +55,11 @@ public class AvWikiInfo {
         result += ("女優: " + mArtists + "\n");
 
         if (mAvgleLink != null) {
-            result += ("在Avgle上觀看: " + mAvgleLink);
+            result += ("在Avgle上觀看: " + mAvgleLink + "\n");
+        }
+
+        if (mJableLink != null) {
+            result += ("在Jable上觀看: " + mJableLink);
         }
 
         return result;

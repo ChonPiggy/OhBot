@@ -8359,6 +8359,38 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         return null;
     }
+
+    private String getJableLink(String data) {
+        data = data.toUpperCase();
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String website = "https://jable.tv/search/" + data;
+            HttpGet httpget = new HttpGet(website);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+            if (strResult.contains("No Viedos Found.")) {
+                return null;
+            }
+            //video title
+            String tempString = strResult;
+            String link = null;
+            if(strResult.contains("<a href=\"https://jable.tv/videos/")){
+                tempString = tempString.substring(tempString.indexOf("<a href=\"https://jable.tv/videos/")+9, tempString.length());
+                link = tempString.substring(0, tempString.indexOf("\">"));
+
+                PgLog.info("getJableLink: " + link);
+            }
+
+            return link;
+
+        } catch (Exception e) {
+            //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
+        }
+
+        return null;
+    }
     
 
     private AvWikiInfo getAvWiki(String data) {
@@ -8434,11 +8466,16 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
             }
             String avgleLink = getAvgleLink(data);
+            String jableLink = getJableLink(data);
             if (avgleLink != null) {
                 avgleLink = getReurlCcLink(avgleLink);    
             }
 
-            AvWikiInfo info = new AvWikiInfo(website, title, code, date, artists, img, imgs, avgleLink);
+            if (avgleLink != null) {
+                jableLink = getReurlCcLink(jableLink);    
+            }
+
+            AvWikiInfo info = new AvWikiInfo(website, title, code, date, artists, img, imgs, avgleLink, jableLink);
 
             return info;
 
