@@ -8295,37 +8295,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     }
 
     private String getReurlCcLink(String link) {
-        /*try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
-            String website = "https://avgle.com/search/videos?search_query=" + data + "&search_type=videos";
-            HttpGet httpGet = new HttpGet(website);
-            httpGet.setHeader("Content-Type","application/jon");
-            httpGet.setHeader("reurl-api-key","4070ff49d794e03414503b663c974755ecd3b133979f04df8a38b58d65165567c4f5d6");
-        
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            HttpEntity httpEntity = response.getEntity();
-            String strResult = EntityUtils.toString(httpEntity, "utf-8");
-
-            if (strResult.contains("No Viedos Found.")) {
-                return null;
-            }
-            //video title
-            String tempString = strResult;
-            String link = null;
-            if(strResult.contains("<a href=\"/video/")){
-                tempString = tempString.substring(tempString.indexOf("<a href=\"/video/")+16, tempString.length());
-                tempString = tempString.substring(0, tempString.indexOf("\">"));
-
-                link = "https://avgle.com/video/" + tempString;
-                PgLog.info("getAvgleLink: " + link);
-            }
-
-            return link;
-
-        } catch (Exception e) {
-            //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
-        }*/
-
 
         HttpClient httpclient = new DefaultHttpClient();
         String postRequest = "{\"url\" : \""+link+"\" , \"utm_source\" : \"FB_AD\"}"; 
@@ -8346,7 +8315,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result = EntityUtils.toString(entity);
             PgLog.info("Piggy Check post result: " + result);
 
-            result = result.substring(result.indexOf("short_url\",\"")+12, result.length());
+            result = result.substring(result.indexOf("short_url\":\"")+12, result.length());
             result = result.substring(0, result.indexOf("\",\"original_url\""));
 
             PgLog.info("Piggy Check shorten result: " + result);
