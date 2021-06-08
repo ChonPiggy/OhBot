@@ -1803,7 +1803,7 @@ public class OhBotController {
         if (text.toUpperCase().startsWith("AVGLE:")||text.toUpperCase().startsWith("AVGLE：")) {
             String searchKeyWord = text.toUpperCase().replace("AVGLE:","").replace("AVGLE：","");
             ArrayList<ImageItem> results = getAvgleResultList(searchKeyWord);
-            if (results.size > 1) {
+            if (results.size() > 1) {
                 processReplyImageCarouselTemplateFromStringList(replyToken, results, "Avgle 搜尋: " + searchKeyWord);
             }
             else {
