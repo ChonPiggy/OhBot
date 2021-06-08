@@ -1816,7 +1816,7 @@ public class OhBotController {
                 processReplyImageCarouselTemplateFromStringList(replyToken, results, "Avgle 搜尋: " + searchKeyWord);
             }
             else {
-                this.replyText(replyToken, "Avgle 查無影片");
+                this.replyText(replyToken, "Avgle 查無\""+searchKeyWord+"\"的影片");
             }
         }
 
@@ -1827,7 +1827,7 @@ public class OhBotController {
                 processReplyImageCarouselTemplateFromStringList(replyToken, results, "Jable 搜尋: " + searchKeyWord);
             }
             else {
-                this.replyText(replyToken, "Jable 查無影片");
+                this.replyText(replyToken, "Jable 查無\""+searchKeyWord+"\"的影片");
             }
         }
 
