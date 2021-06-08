@@ -8373,7 +8373,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private String getPngFromJpg(String link) {
 
         HttpClient httpclient = new DefaultHttpClient();
-        String postRequest = "{\"Parameters\": [{\"Name\": \"File\",\"FileValue\": {\"Url\": \""+link+"\"}},{\"Name\": \"StoreFile\",\"Value\": true}]}"; 
+        String postRequest = "{\"Parameters\": [{\"Name\": \"File\",\"FileValue\": {\"Url\": \""+link+"\"}},{\"Name\": \"StoreFile\",\"Value\": false}]}"; 
                         
         try {
             String url = "https://v2.convertapi.com/convert/jpg/to/png?Secret=s6qSJPdQMNI155rD";
@@ -8452,6 +8452,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 return null;
             }
             
+            int count = 0;
             String tempString = strResult;
             while(tempString.contains("<a href=\"/video/")){
                 
@@ -8481,6 +8482,11 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 ImageItem result = new ImageItem(title, coverLink, videoLink);
                 resultArray.add(result);
+
+                count++;
+                if (count > MAX_CAROUSEL_COLUMN) {
+                    break;
+                }
             }
 
             return resultArray;
@@ -8540,31 +8546,34 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             
             String tempString = strResult;
-            while(tempString.contains("<a href=\"/video/")){
+            while(tempString.contains("data-src=\"")){
                 
                 String videoLink = null;
                 String coverLink = null;
                 String title = null;
 
-                // parse video link
-                tempString = tempString.substring(tempString.indexOf("<a href=\"/video/")+16, tempString.length());
-                videoLink = "https://avgle.com/video/" + tempString.substring(0, tempString.indexOf("\">"));
-
-                PgLog.info("getAvgleResultList video: " + videoLink);
-
-                tempString = tempString.substring(tempString.indexOf("<img src=\"")+10, tempString.length());
-
-                coverLink = tempString.substring(0, tempString.indexOf("\" title=\""));
+                // parse cover image link
+                tempString = tempString.substring(tempString.indexOf("data-src=\"")+10, tempString.length());
+                coverLink = tempString.substring(0, tempString.indexOf("\" data-preview"));
+                
+                PgLog.info("getJableResultList coverLink: " + coverLink);
 
                 if (coverLink.endsWith(".jpg")) {
                     coverLink = getPngFromJpg(coverLink);
                 }
 
-                PgLog.info("getAvgleResultList coverLink: " + coverLink);
+                PgLog.info("getJableResultList coverLink: " + coverLink);
 
-                tempString = tempString.substring(tempString.indexOf("\" title=\"")+9, tempString.length());
+                tempString = tempString.substring(tempString.indexOf("class=\"title\"><a href=\"")+23, tempString.length());
 
-                title = tempString.substring(0, tempString.indexOf("\" alt=\""));
+                videoLink = tempString.substring(0, tempString.indexOf("\">"));
+
+
+                PgLog.info("getJableResultList coverLink: " + videoLink);
+
+                tempString = tempString.substring(tempString.indexOf("\">")+2, tempString.length());
+
+                title = tempString.substring(0, tempString.indexOf("</a>"));
 
                 ImageItem result = new ImageItem(title, coverLink, videoLink);
                 resultArray.add(result);
