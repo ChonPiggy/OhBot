@@ -1800,6 +1800,37 @@ public class OhBotController {
             }
         }
 
+        if (text.toUpperCase().startsWith("AVGLE:")||text.toUpperCase().startsWith("AVGLE：")) {
+            String searchKeyWord = text.toUpperCase().replace("AVGLE:","").replace("AVGLE：","");
+            ArrayList<ImageItem> results = getAvgleResultList(searchKeyWord);
+            if (results.size > 1) {
+                processReplyImageCarouselTemplateFromStringList(replyToken, results, "Avgle 搜尋: " + searchKeyWord);
+            }
+            else {
+                this.replyText(replyToken, "Avgle 查無影片");
+            }
+        }
+
+        if (text.toUpperCase().startsWith("JABLE:")||text.toUpperCase().startsWith("JABLE：")) {
+            AvWikiInfo info = getAvWiki(text.toUpperCase().replace("JABLE:","").replace("JABLE：",""));
+            if (info != null) {
+                processReplyAvWikiList(replyToken, info);
+            }
+            else {
+                this.replyText(replyToken, "Jable 查無影片");
+            }
+        }
+
+        if (text.toUpperCase().startsWith("AVGLE:")||text.toUpperCase().startsWith("AVGLE：")) {
+            AvWikiInfo info = getAvWiki(text.toUpperCase().replace("AVGLE:","").replace("AVGLE：",""));
+            if (info != null) {
+                processReplyAvWikiList(replyToken, info);
+            }
+            else {
+                this.replyText(replyToken, "素人片系統內查無此片, 可能是一般性A片");
+            }
+        }
+
         if (text.toUpperCase().startsWith("AVWIKI:")||text.toUpperCase().startsWith("AVWIKI：")) {
             AvWikiInfo info = getAvWiki(text.toUpperCase().replace("AVWIKI:","").replace("AVWIKI：",""));
             if (info != null) {
@@ -4447,6 +4478,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             return mImgUrl;
         }
     }
+
     private void processReplyImageCarouselTemplateFromStringList(String replyToken, List<ImageItem> imgs, String title) {
         List<ImageCarouselColumn> columnsList = new ArrayList<>();
         int index = 0;
@@ -8358,6 +8390,64 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         }
 
         return null;
+    }
+
+
+    private ArrayList<ImageItem> getAvgleResultList(String data) {
+        data = data.toUpperCase();
+        ArrayList<ImageItem> resultArray = new ArrayList<ImageItem>();
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String website = "https://avgle.com/search/videos?search_query=" + data + "&search_type=videos";
+            HttpGet httpget = new HttpGet(website);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+
+            if (strResult.contains("No Viedos Found.")) {
+                return null;
+            }
+            //video title
+            
+            int count = 0;
+            while(strResult.contains("<a href=\"/video/")){
+                String tempString = strResult;
+                String videoLink = null;
+                String coverLink = null;
+                String title = null;
+
+                // parse video link
+                tempString = tempString.substring(tempString.indexOf("<a href=\"/video/")+16, tempString.length());
+                videoLink = "https://avgle.com/video/" + tempString.substring(0, tempString.indexOf("\">"));
+
+                PgLog.info("getAvgleResultList video: " + videoLink);
+
+                tempString = tempString.substring(tempString.indexOf("<img src=\"")+10, tempString.length());
+
+                coverLink = tempString.substring(0, tempString.indexOf("\" title=\""));
+
+                PgLog.info("getAvgleResultList coverLink: " + coverLink);
+
+                tempString = tempString.substring(tempString.indexOf("\" title=\"")+9, tempString.length());
+
+                title = tempString.substring(0, tempString.indexOf("\" alt=\""));
+
+                ImageItem result = new ImageItem(title, coverLink, videoLink);
+                resultArray.add(result);
+
+                count++
+                if (count > MAX_CAROUSEL_COLUMN) {
+                    break;
+                }
+            }
+
+            return resultArray;
+
+        } catch (Exception e) {
+            //PgLog.info("checkNeedToWorkOrSchoolReport e: " + e);
+        }
+
+        return resultArray;
     }
 
     private String getJableLink(String data) {
