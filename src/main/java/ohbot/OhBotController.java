@@ -8373,7 +8373,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private String getPngFromJpg(String link) {
 
         HttpClient httpclient = new DefaultHttpClient();
-        String postRequest = "{\"Parameters\": [{\"Name\": \"File\",\"FileValue\": {\"Url\": \""+link+"\"}},{\"Name\": \"StoreFile\",\"Value\": false}]}"; 
+        String postRequest = "{\"Parameters\": [{\"Name\": \"File\",\"FileValue\": {\"Url\": \""+link+"\"}},{\"Name\": \"StoreFile\",\"Value\": true}]}"; 
                         
         try {
             String url = "https://v2.convertapi.com/convert/jpg/to/png?Secret=s6qSJPdQMNI155rD";
