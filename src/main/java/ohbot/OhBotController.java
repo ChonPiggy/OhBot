@@ -1795,10 +1795,11 @@ public class OhBotController {
             if (info != null) {
                 processReplyAvWikiList(replyToken, info);
             }
+            else {
+                this.replyText(replyToken, "素人片系統內查無此片, 可能是一般性A片");
+            }
         }
-        else {
-            this.replyText(replyToken, "素人片系統內查無此片, 可能是一般性A片");
-        }
+
 
         if (text.startsWith("AmazonJp:")) {
             amazonJpSearch(replyToken, text);
