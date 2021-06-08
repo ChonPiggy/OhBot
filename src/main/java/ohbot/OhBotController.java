@@ -1794,7 +1794,11 @@ public class OhBotController {
 
         if (text.startsWith("JpgToPng:")) {
             String link = text.replace("JpgToPng:","");
-            getPngFromJpg(link);
+            String result = getPngFromJpg(link);
+            if (result != null) {
+                this.replyText(replyToken, result);
+                return;
+            }
         }
 
         if (text.startsWith("縮網址:")||text.startsWith("縮網址：")) {
@@ -8384,12 +8388,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity entity = response.getEntity();
 
             String result = EntityUtils.toString(entity);
-            //PgLog.info("Piggy Check post result: " + result);
+            PgLog.info("Piggy Check post result: " + result);
 
             result = result.substring(result.indexOf("\"Url\": \"")+8, result.length());
             result = result.substring(0, result.indexOf("\""));
 
-            //PgLog.info("Piggy Check shorten result: " + result);
+            PgLog.info("Piggy Check shorten result: " + result);
 
             return result;
         } catch (Exception e) {
