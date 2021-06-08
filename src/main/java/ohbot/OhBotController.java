@@ -1791,7 +1791,7 @@ public class OhBotController {
         }
 
         if (text.toUpperCase().startsWith("AVWIKI:")||text.toUpperCase().startsWith("AVWIKI：")) {
-            AvWikiInfo info = getAvWiki(text.replace("AVWIKI:","").replace("AVWIKI：",""));
+            AvWikiInfo info = getAvWiki(text.toUpperCase().replace("AVWIKI:","").replace("AVWIKI：",""));
             if (info != null) {
                 processReplyAvWikiList(replyToken, info);
             }
