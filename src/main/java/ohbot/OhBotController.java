@@ -8410,8 +8410,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             //video title
             
             int count = 0;
-            while(strResult.contains("<a href=\"/video/")){
-                String tempString = strResult;
+            String tempString = strResult;
+            while(tempString.contains("<a href=\"/video/")){
+                
                 String videoLink = null;
                 String coverLink = null;
                 String title = null;
