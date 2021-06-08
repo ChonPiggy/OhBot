@@ -25,7 +25,7 @@ public class AvWikiInfo {
         mImg = img;
         mImgs = imgs;
         mAvgleLink = avgle;
-        mJableLink = avgle;
+        mJableLink = jable;
     }
 
     public ArrayList<String> getImageList() {
