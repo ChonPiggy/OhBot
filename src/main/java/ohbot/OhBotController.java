@@ -8435,7 +8435,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 ImageItem result = new ImageItem(title, coverLink, videoLink);
                 resultArray.add(result);
 
-                count++
+                count++;
                 if (count > MAX_CAROUSEL_COLUMN) {
                     break;
                 }
