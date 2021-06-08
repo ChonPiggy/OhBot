@@ -8390,7 +8390,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String result = EntityUtils.toString(entity);
             PgLog.info("Piggy Check post result: " + result);
 
-            result = result.substring(result.indexOf("\"Url\": \"")+8, result.length());
+            result = result.substring(result.indexOf("\"Url\":\"")+7, result.length());
             result = result.substring(0, result.indexOf("\""));
 
             PgLog.info("Piggy Check shorten result: " + result);
@@ -8529,7 +8529,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         ArrayList<ImageItem> resultArray = new ArrayList<ImageItem>();
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            String website = "https://avgle.com/search/videos?search_query=" + data + "&search_type=videos";
+            String website = "https://jable.tv/search/" + data + "/";
             HttpGet httpget = new HttpGet(website);
             CloseableHttpResponse response = httpClient.execute(httpget);
             HttpEntity httpEntity = response.getEntity();
