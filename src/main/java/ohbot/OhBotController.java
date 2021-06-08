@@ -8316,7 +8316,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         return null;
     }
-    }
+    
 
     private AvWikiInfo getAvWiki(String data) {
 
