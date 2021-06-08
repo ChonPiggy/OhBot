@@ -1792,6 +1792,11 @@ public class OhBotController {
             this.replyText(replyToken, avWiki);
         }
 
+        if (text.startsWith("JpgToPng:") {
+            String link = text.replace("JpgToPng:","");
+            getPngFromJpg(link);
+        }
+
         if (text.startsWith("縮網址:")||text.startsWith("縮網址：")) {
             String ori = text.replace("縮網址:","").replace("縮網址","");
             String shorten = getReurlCcLink(ori);
@@ -8359,6 +8364,40 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
         return null;
     }
+
+    private String getPngFromJpg(String link) {
+
+        HttpClient httpclient = new DefaultHttpClient();
+        String postRequest = "{\"Parameters\": [{\"Name\": \"File\",\"FileValue\": {\"Url\": \""+link+"\"}},{"Name": "StoreFile","Value": true}]}"; 
+                        
+        try {
+            String url = "https://v2.convertapi.com/convert/jpg/to/png?Secret=s6qSJPdQMNI155rD";
+            HttpPost request = new HttpPost(url);
+            request.setHeader("Content-Type", "application/json");
+
+            // Request body
+            StringEntity reqEntity = new StringEntity(postRequest,"UTF-8");
+            request.setEntity(reqEntity);
+            //PgLog.info("Piggy Check request: " + request);
+            HttpResponse response = httpclient.execute(request);
+            HttpEntity entity = response.getEntity();
+
+            String result = EntityUtils.toString(entity);
+            //PgLog.info("Piggy Check post result: " + result);
+
+            result = result.substring(result.indexOf("\"Url\": \"")+8, result.length());
+            result = result.substring(0, result.indexOf("\""));
+
+            //PgLog.info("Piggy Check shorten result: " + result);
+
+            return result;
+        } catch (Exception e) {
+            PgLog.info("Exception e: " + e);
+        }
+
+        return null;
+    }
+
     private String getAvgleLink(String data) {
         data = data.toUpperCase();
         try {
@@ -8424,6 +8463,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempString = tempString.substring(tempString.indexOf("<img src=\"")+10, tempString.length());
 
                 coverLink = tempString.substring(0, tempString.indexOf("\" title=\""));
+
+                if (coverLink.endsWith(".jpg")) {
+                    coverLink = getPngFromJpg(coverLink);
+                }
 
                 PgLog.info("getAvgleResultList coverLink: " + coverLink);
 
