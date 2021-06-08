@@ -8308,17 +8308,17 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             // Request body
             StringEntity reqEntity = new StringEntity(postRequest,"UTF-8");
             request.setEntity(reqEntity);
-            PgLog.info("Piggy Check request: " + request);
+            //PgLog.info("Piggy Check request: " + request);
             HttpResponse response = httpclient.execute(request);
             HttpEntity entity = response.getEntity();
 
             String result = EntityUtils.toString(entity);
-            PgLog.info("Piggy Check post result: " + result);
+            //PgLog.info("Piggy Check post result: " + result);
 
             result = result.substring(result.indexOf("short_url\":\"")+12, result.length());
             result = result.substring(0, result.indexOf("\",\"original_url\""));
 
-            PgLog.info("Piggy Check shorten result: " + result);
+            //PgLog.info("Piggy Check shorten result: " + result);
 
             return result;
         } catch (Exception e) {
@@ -8348,7 +8348,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempString = tempString.substring(0, tempString.indexOf("\">"));
 
                 link = "https://avgle.com/video/" + tempString;
-                PgLog.info("getAvgleLink: " + link);
+                //PgLog.info("getAvgleLink: " + link);
             }
 
             return link;
@@ -8380,7 +8380,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempString = tempString.substring(tempString.indexOf("<a href=\"https://jable.tv/videos/")+9, tempString.length());
                 link = tempString.substring(0, tempString.indexOf("\">"));
 
-                PgLog.info("getJableLink: " + link);
+                //PgLog.info("getJableLink: " + link);
             }
 
             return link;
