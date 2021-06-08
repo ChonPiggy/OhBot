@@ -8344,7 +8344,14 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             HttpEntity entity = response.getEntity();
 
             String result = EntityUtils.toString(entity);
-            PgLog.info("Piggy Check result: " + result);
+            PgLog.info("Piggy Check post result: " + result);
+
+            result = result.substring(result.indexOf("short_url\",\"")+12, result.length());
+            result = result.substring(0, result.indexOf("\",\"original_url\""));
+
+            PgLog.info("Piggy Check shorten result: " + result);
+
+            return result;
         } catch (Exception e) {
             PgLog.info("Exception e: " + e);
         }
@@ -8458,6 +8465,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 }
             }
             String avgleLink = getAvgleLink(data);
+            if (avgleLink != null) {
+                avgleLink = getReurlCcLink(avgleLink);    
+            }
 
             AvWikiInfo info = new AvWikiInfo(website, title, code, date, artists, img, imgs, avgleLink);
 
