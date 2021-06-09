@@ -2336,7 +2336,7 @@ public class OhBotController {
 
     @EventMapping
     public void handlePostbackEvent(PostbackEvent event) throws IOException {
-        PgLog.info("Got postBack event: {}" + event);
+        //PgLog.info("Got postBack event: {}" + event);
         String replyToken = event.getReplyToken();
         String data = event.getPostbackContent().getData();
         String senderId = event.getSource().getSenderId();
