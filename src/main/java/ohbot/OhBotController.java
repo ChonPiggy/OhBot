@@ -1786,11 +1786,6 @@ public class OhBotController {
                 this.replyImage(replyToken, googleShareSheetsWeight, googleShareSheetsWeight);
             }
         }
-        String avWiki = checkAvWiki(text);
-
-        if (avWiki != null) {
-            this.replyText(replyToken, avWiki);
-        }
 
         if (text.startsWith("JpgToPng:")) {
             String link = text.replace("JpgToPng:","");
@@ -1849,6 +1844,14 @@ public class OhBotController {
             else {
                 this.replyText(replyToken, "素人片系統內查無此片, 可能是一般性A片");
             }
+        }
+
+        String avWiki = checkAvWiki(text);
+
+        if (avWiki != null) {
+            AvWikiInfo info = getAvWiki(text.toUpperCase());
+            this.replyText(replyToken, info.toString());
+            //this.replyText(replyToken, avWiki);
         }
 
 
