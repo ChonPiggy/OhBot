@@ -1809,9 +1809,11 @@ public class OhBotController {
             ArrayList<ImageItem> results = getAvgleResultList(searchKeyWord);
             if (results.size() > 0) {
                 processReplyImageCarouselTemplateFromStringList(replyToken, results, "Avgle 搜尋: " + searchKeyWord);
+                return;
             }
             else {
                 this.replyText(replyToken, "Avgle 查無\""+searchKeyWord+"\"的影片");
+                return;
             }
         }
 
@@ -1820,9 +1822,11 @@ public class OhBotController {
             ArrayList<ImageItem> results = getJableResultList(searchKeyWord);
             if (results.size() > 0) {
                 processReplyImageCarouselTemplateFromStringList(replyToken, results, "Jable 搜尋: " + searchKeyWord);
+                return;
             }
             else {
                 this.replyText(replyToken, "Jable 查無\""+searchKeyWord+"\"的影片");
+                return;
             }
         }
 
@@ -1830,9 +1834,11 @@ public class OhBotController {
             AvWikiInfo info = getAvWiki(text.toUpperCase().replace("AVGLE:","").replace("AVGLE：",""));
             if (info != null) {
                 processReplyAvWikiList(replyToken, info);
+                return;
             }
             else {
                 this.replyText(replyToken, "素人片系統內查無此片, 可能是一般性A片");
+                return;
             }
         }
 
@@ -1840,9 +1846,11 @@ public class OhBotController {
             AvWikiInfo info = getAvWiki(text.toUpperCase().replace("AVWIKI:","").replace("AVWIKI：",""));
             if (info != null) {
                 processReplyAvWikiList(replyToken, info);
+                return;
             }
             else {
                 this.replyText(replyToken, "素人片系統內查無此片, 可能是一般性A片");
+                return;
             }
         }
 
@@ -1851,6 +1859,7 @@ public class OhBotController {
         if (avWiki != null) {
             AvWikiInfo info = getAvWiki(text.toUpperCase());
             this.replyText(replyToken, info.toString());
+            return;
             //this.replyText(replyToken, avWiki);
         }
 
