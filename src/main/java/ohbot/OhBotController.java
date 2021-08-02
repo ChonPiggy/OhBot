@@ -8245,8 +8245,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String confirmString = data.substring(data.indexOf("\"確診\":")+5, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
 
-            String healString = data.substring(data.indexOf("\"解除隔離\":")+7, data.indexOf(",\""));
-            data = data.substring(data.indexOf(",\"")+1, data.length());
+            /*String healString = data.substring(data.indexOf("\"解除隔離\":")+7, data.indexOf(",\""));
+            data = data.substring(data.indexOf(",\"")+1, data.length());*/
 
             String deadString = data.substring(data.indexOf("\"死亡\":")+5, data.indexOf(",\""));
             data = data.substring(data.indexOf(",\"")+1, data.length());
@@ -8266,7 +8266,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             String yesterday_inspectionString = data.substring(data.indexOf("\"昨日送驗\":")+7, data.length());
 
             confirmString = confirmString.replace("\"", "").replace(",", "");
-            healString = healString.replace("\"", "").replace(",", "");
+            //healString = healString.replace("\"", "").replace(",", "");
             deadString = deadString.replace("\"", "").replace(",", "");
             inspectionString = inspectionString.replace("\"", "").replace(",", "");
             excludeString = excludeString.replace("\"", "").replace(",", "");
@@ -8285,7 +8285,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             try {
                 confirm = Integer.parseInt(confirmString);
-                heal = Integer.parseInt(healString);
+                //heal = Integer.parseInt(healString);
                 dead = Integer.parseInt(deadString);
                 inspection = Integer.parseInt(inspectionString);
                 exclude = Integer.parseInt(excludeString);
@@ -8301,9 +8301,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (origin_confirm == -1) {
                 origin_confirm = confirm;
             }
-            if (origin_heal == -1) {
+            /*if (origin_heal == -1) {
                 origin_heal = heal;
-            }
+            }*/
             if (origin_dead == -1) {
                 origin_dead = dead;
             }
@@ -8314,8 +8314,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 origin_exclude = exclude;
             }
             result += EmojiUtils.emojify(":bomb:") + "確診: " + confirm + (origin_confirm>0&&origin_confirm!=confirm? ("(+" + (confirm-origin_confirm) + ")" ): "") + "\n";
-            result += EmojiUtils.emojify(":pill:") + "痊癒: "+heal+(origin_heal>0&&origin_heal!=heal? ("(+" + (heal-origin_heal) + ")" ): "") + "\n";
-            result += EmojiUtils.emojify(":syringe:") + "治療中: "+ (confirm-heal-dead) + "\n";
+            //result += EmojiUtils.emojify(":pill:") + "痊癒: "+heal+(origin_heal>0&&origin_heal!=heal? ("(+" + (heal-origin_heal) + ")" ): "") + "\n";
+            //result += EmojiUtils.emojify(":syringe:") + "治療中: "+ (confirm-heal-dead) + "\n";
             result += EmojiUtils.emojify(":skull:") + "死亡: "+dead+(origin_dead>0&&origin_dead!=dead? ("(+" + (dead-origin_dead) + ")" ): "") + "\n";
 
             result +="\n";
@@ -8894,7 +8894,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         Random randomGenerator = new Random();
         int random_num = randomGenerator.nextInt(mUserAgentList.size());
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        PgLog.info("getChinaVirusTaiwanData:" + url);
+        PgLog.info("testPttBeautyGirl:" + url);
         HttpGet httpGet = new HttpGet(url);
         // Process get image from result url.
         httpGet = new HttpGet(url);
