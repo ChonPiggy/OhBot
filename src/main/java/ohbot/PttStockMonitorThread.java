@@ -179,7 +179,8 @@ public class PttStockMonitorThread extends Thread {
     private void processReplyToNotify(String data) {
         synchronized (lock) {
         	if (data != null && !data.equals("")) {
-        		LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
+        		PgLog.info(data);
+        		//LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
         	}
         }
     }
