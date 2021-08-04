@@ -129,6 +129,7 @@ public class PttStockMonitorThread extends Thread {
     }
     
     public void setForceTargetPage(String target) {
+    	PgLog.info("setForceTargetPage: " + target);
     	mForceTargetPage = target;
     }
     
@@ -226,7 +227,9 @@ public class PttStockMonitorThread extends Thread {
             	time = time.replace("\n", "");
             	time = time.replace(todayMDString, "");
             	
-            	
+            	PgLog.info("user: " + user);
+            	PgLog.info("content: " + content);
+            	PgLog.info("time: " + time);
             	mLastMontioredContent = content;
             	
             	if (isMatchMonitorSpeakers(user)) {
@@ -240,7 +243,6 @@ public class PttStockMonitorThread extends Thread {
 
         } catch (Exception e) {
         	e.printStackTrace();
-            
         }
         PgLog.info("checkPttStockWebsite update finished.");
         processReplyToNotify(replyResult);
