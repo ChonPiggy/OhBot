@@ -212,7 +212,7 @@ public class PttStockMonitorThread extends Thread {
             
             while(strResult.contains("<div class=\"push\">")) {
             	int index1 = strResult.indexOf("<div class=\"push\">");
-            	int index2 = strResult.indexOf("</span></div><div");
+            	int index2 = strResult.indexOf("</span></div>");
             	PgLog.info("Piggy Check: index1: " + index1 + " index2: " + index2);
             	PgLog.info("Piggy Check: " + strResult.substring(0, 300));
             	mLastMontioredContent = strResult.substring(index1, index2);
