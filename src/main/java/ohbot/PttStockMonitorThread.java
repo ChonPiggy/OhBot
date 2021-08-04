@@ -121,7 +121,7 @@ public class PttStockMonitorThread extends Thread {
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
 
-            if (strResult.contains(mLastMontioredContent)) {
+            if (!strResult.contains(mLastMontioredContent)) {
             	// If last content was deleted, reset it.
             	mLastMontioredContent = "";
             }
