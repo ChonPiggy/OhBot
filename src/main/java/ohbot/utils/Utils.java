@@ -6,6 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class Utils {
@@ -46,5 +50,75 @@ public class Utils {
         }
         return sb.toString();
 
+    }
+    
+    public static boolean isNowAfterTime(String time) {
+
+
+    	String format = "HH:mm:ss";
+
+    	Date nowTime = new Date(System.currentTimeMillis());
+    	try {
+
+    		Date endTime = new SimpleDateFormat(format).parse(time);
+
+    		if (nowTime.getTime() == endTime.getTime()) {
+    			return true;
+    		}
+    		
+    		Calendar date = Calendar.getInstance();
+    		date.setTime(nowTime);
+
+    		Calendar end = Calendar.getInstance();
+    		end.setTime(endTime);
+
+    		return date.after(end);
+    	} catch (ParseException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    		return false;
+    	}
+    
+    
+    
+    }
+    
+    public static boolean isTimeInPeriod(String startTimeString, String endTimeString) {
+
+
+    	String format = "HH:mm:ss";
+
+    	
+    	try {
+    		Date nowTime = new Date(System.currentTimeMillis());
+    		Date startTime = new SimpleDateFormat(format).parse(startTimeString);
+
+    		Date endTime = new SimpleDateFormat(format).parse(endTimeString);
+
+    		if (nowTime.getTime() == startTime.getTime()
+    				|| nowTime.getTime() == endTime.getTime()) {
+    			return true;
+    		}
+    		
+    		Calendar date = Calendar.getInstance();
+    		date.setTime(nowTime);
+
+    		Calendar begin = Calendar.getInstance();
+    		begin.setTime(startTime);
+
+    		Calendar end = Calendar.getInstance();
+    		end.setTime(endTime);
+
+    		if (date.after(begin) && date.before(end)) {
+    			return true;
+    		} else {
+    			return false;
+    		}
+    	} catch (ParseException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    		return false;
+    	}
+    
     }
 }

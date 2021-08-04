@@ -4,6 +4,7 @@ package ohbot;
 import emoji4j.EmojiUtils;
 import lombok.ToString;
 import ohbot.utils.PgLog;
+import ohbot.utils.Utils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,18 +18,22 @@ import org.checkerframework.checker.units.qual.m;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.IOException;
 import java.lang.Integer;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class PttStockMonitorThread extends Thread {
 	private byte[] lock = new byte[0];
     private boolean isUpdating = false;
+    private boolean isReseted = true;
     private ArrayList<String> mMonitorSpeakers = new ArrayList<String>();
     private String mLastUpdateDate = "";
     private int mUpdateFrequent = 30000; // 30s
     private ArrayList<SpeakingData> mSpeakingDataList = new ArrayList<SpeakingData>();
     private final String INGRESS_STOCK_NOTIFY_TOKEN = "uY1Tp8L0CJwLQA1AWNHx2KFntVtIDSTCdJejJJpq7vB";
     private String mLastMontioredContent = "";
+    private boolean mIsNewDateNotified = false;
     
     private class SpeakingData {
     	String mUserid = "";
@@ -51,15 +56,29 @@ public class PttStockMonitorThread extends Thread {
     public void resetMonitorSpeakers() {
     	mMonitorSpeakers.clear();
     }
+    
+    public boolean isTimeAfterStockClose() {
+    	return Utils.isNowAfterTime("14:00");
+    }
 
     public void run() {
     	PgLog.info("Piggy Check time: " + getCurrentDateString() + " " + getCurrentTimeString());
         while (true) {
             try {
                 if (!isUpdating) {
-                	if (!mMonitorSpeakers.isEmpty() && isNeedMonitor()) {
+                	if (!mMonitorSpeakers.isEmpty() && isDateNeedMonitor()/* && isTimeNeedMonitor()*/) {
                 		checkPttStockWebsite();
                 	}
+                	
+                	if (!isReseted && isTimeAfterStockClose()) {
+                		// Do reset thing
+                		mLastUpdateDate = "";
+                		mSpeakingDataList.clear();
+                		mLastMontioredContent = "";
+                		isReseted = true;
+                		mIsNewDateNotified = false;
+                	}
+                	
                 	Thread.sleep(mUpdateFrequent);
                 }
                            
@@ -94,7 +113,7 @@ public class PttStockMonitorThread extends Thread {
         return sdf.format(current.getTime());
     }
     
-    private boolean isNeedMonitor() {
+    private boolean isDateNeedMonitor() {
     	// Check if date is working date
     	Calendar current = Calendar.getInstance(TimeZone.getDefault());
         current.setTimeInMillis(System.currentTimeMillis());
@@ -102,13 +121,42 @@ public class PttStockMonitorThread extends Thread {
     	return dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY;
     }
     
+    private boolean isTimeNeedMonitor() {
+    	return Utils.isTimeInPeriod("08:30", "14:00");
+    }
+    
     private String getCurrentDateTalkingPage() {
-    	if (true) {
-    		return "https://www.ptt.cc/bbs/Test/M.1628072595.A.F5B.html";
-    	}
-    	else {
-    		return "";
-    	}
+    	try {
+	    	CloseableHttpClient httpClient = HttpClients.createDefault();
+	        //HttpGet httpget = new HttpGet(talkingPage);
+	        HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Test/search?q="+getCurrentDateString().replace(":", "%2F"));
+	        CloseableHttpResponse response = httpClient.execute(httpget);
+	        HttpEntity httpEntity = response.getEntity();
+	        String strResult = EntityUtils.toString(httpEntity, "utf-8");
+	        
+	        strResult = strResult.substring(strResult.indexOf("<div class=\"title\">")+19, strResult.length());
+	        strResult = strResult.substring(0, strResult.indexOf("</a>"));
+	        
+	        strResult = strResult.substring(strResult.indexOf("<a href=\"")+9, strResult.length());
+	        String targatUrl = strResult.substring(0, strResult.indexOf("\">"));
+	        String title = strResult.substring(strResult.indexOf("\">")+2, strResult.indexOf("</a>"));
+	        targatUrl = "https://www.ptt.cc/" + targatUrl;
+	        PgLog.info("targatUrl: " + targatUrl);
+	        PgLog.info("title: " + title);
+	        if (title.contains(getCurrentDateString()) && title.contains("Test")) {
+	        	if (!mIsNewDateNotified) {
+	        		processReplyToNotify(title + "\n" + targatUrl);
+	        		mIsNewDateNotified = true;
+	        	}
+	        	return targatUrl;
+	        }
+	        
+	        
+	    } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return "";
     }
 
     private void checkPttStockWebsite() {
@@ -151,6 +199,9 @@ public class PttStockMonitorThread extends Thread {
             	strResult = strResult.substring(strResult.indexOf("push-userid\">")+13, strResult.length());
             	user = strResult.substring(0, strResult.indexOf("</span>"));
             	user = user.replace(" ", "").trim();
+            	if (user.equals("gn01765288")) {
+            		user = "金庸";
+            	}
             	
             	// process content
             	strResult = strResult.substring(strResult.indexOf("push-content\">")+14, strResult.length());
