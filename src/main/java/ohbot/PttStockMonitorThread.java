@@ -34,6 +34,7 @@ public class PttStockMonitorThread extends Thread {
     private final String INGRESS_STOCK_NOTIFY_TOKEN = "uY1Tp8L0CJwLQA1AWNHx2KFntVtIDSTCdJejJJpq7vB";
     private String mLastMontioredContent = "";
     private boolean mIsNewDateNotified = false;
+    private String mForceTargetPage = "null";
     
     private class SpeakingData {
     	String mUserid = "";
@@ -70,14 +71,15 @@ public class PttStockMonitorThread extends Thread {
                 		checkPttStockWebsite();
                 	}
                 	
-                	if (!isReseted && isTimeAfterStockClose()) {
+                	/*if (!isReseted && isTimeAfterStockClose()) {
                 		// Do reset thing
                 		mLastUpdateDate = "";
                 		mSpeakingDataList.clear();
                 		mLastMontioredContent = "";
                 		isReseted = true;
                 		mIsNewDateNotified = false;
-                	}
+                		mForceTargetPage = "null";
+                	}*/
                 	
                 	Thread.sleep(mUpdateFrequent);
                 }
@@ -126,15 +128,25 @@ public class PttStockMonitorThread extends Thread {
     	return Utils.isTimeInPeriod("08:30", "14:00");
     }
     
+    public void setForceTargetPage(String target) {
+    	mForceTargetPage = target;
+    }
+    
     private String getCurrentDateTalkingPage() {
+    	if (!mForceTargetPage.equals("null")) {
+    		return mForceTargetPage;
+    	}
     	try {
 	    	CloseableHttpClient httpClient = HttpClients.createDefault();
 	        //HttpGet httpget = new HttpGet(talkingPage);
-	        //HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Test/search?q="+getCurrentDateString().replace(":", "%2F"));
-	        HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Test/search?q=Test11111");
+	        HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Stock/search?q="+getCurrentDateString().replace(":", "%2F"));
 	        CloseableHttpResponse response = httpClient.execute(httpget);
 	        HttpEntity httpEntity = response.getEntity();
 	        String strResult = EntityUtils.toString(httpEntity, "utf-8");
+	        
+	        if (!strResult.contains("<div class=\"title\">")) {
+	        	return "";
+	        }
 	        
 	        strResult = strResult.substring(strResult.indexOf("<div class=\"title\">")+19, strResult.length());
 	        strResult = strResult.substring(0, strResult.indexOf("</a>"));
@@ -145,14 +157,13 @@ public class PttStockMonitorThread extends Thread {
 	        targatUrl = "https://www.ptt.cc/" + targatUrl;
 	        PgLog.info("targatUrl: " + targatUrl);
 	        PgLog.info("title: " + title);
-	        if (/*title.contains(getCurrentDateString()) && */title.contains("Test11111")) {
+	        if (title.contains(getCurrentDateString()) && title.contains("盤中")) {
 	        	if (!mIsNewDateNotified) {
 	        		processReplyToNotify(title + "\n" + targatUrl);
 	        		mIsNewDateNotified = true;
 	        	}
 	        	return targatUrl;
 	        }
-	        
 	        
 	    } catch (IOException e) {
 			// TODO Auto-generated catch block

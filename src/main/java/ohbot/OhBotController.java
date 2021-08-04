@@ -1895,6 +1895,13 @@ public class OhBotController {
         if (text.startsWith("http") && (text.endsWith(".png")||text.endsWith(".jpeg")||text.endsWith(".jpg")||text.endsWith(".webp"))) {
             this.replyImage(replyToken, text, text);
         }
+        
+        if (text.startsWith("PgCommand設定監聽:")) {
+        	if(!isAdminUserId(userId, replyToken)) {return;}
+        	text = text.replace("PgCommand設定監聽:", "");
+        	mPttStockMonitorThread.setForceTargetPage(text);
+        	this.replyText(replyToken, "PttMonitor: " + text);
+        }
 
         if (text.startsWith("PgCommand設定MD地圖:")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
