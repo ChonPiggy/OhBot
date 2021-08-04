@@ -178,6 +178,7 @@ public class PttStockMonitorThread extends Thread {
         String talkingPage = getCurrentDateTalkingPage();
         String replyResult = "\n";
         String todayMDString = getCurrentMDString() + " ";
+        String strResult = "";
         if (talkingPage.equals("")) {
         	isUpdating = false;
     		return;
@@ -189,7 +190,7 @@ public class PttStockMonitorThread extends Thread {
             HttpGet httpget = new HttpGet(talkingPage);
             CloseableHttpResponse response = httpClient.execute(httpget);
             HttpEntity httpEntity = response.getEntity();
-            String strResult = EntityUtils.toString(httpEntity, "utf-8");
+            strResult = EntityUtils.toString(httpEntity, "utf-8");
 
             if (!strResult.contains(mLastMontioredContent)) {
             	// If last content was deleted, reset it.
