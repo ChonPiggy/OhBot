@@ -128,7 +128,7 @@ public class PttStockMonitorThread extends Thread {
             
             if (!mLastMontioredContent.equals("")) {
             	// Jump to last check content;
-            	strResult = strResult.substring(strResult.indexOf(mLastMontioredContent), strResult.length());
+            	strResult = strResult.substring(strResult.indexOf(mLastMontioredContent)+mLastMontioredContent.length(), strResult.length());
             }
             
             while(strResult.contains("<div class=\"push\">")) {
