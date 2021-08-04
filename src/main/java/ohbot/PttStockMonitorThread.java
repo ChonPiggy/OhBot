@@ -112,8 +112,6 @@ public class PttStockMonitorThread extends Thread {
             CloseableHttpResponse response = httpClient.execute(httpget);
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
-            
-            PgLog.info(strResult);
 
             if (strResult.contains(mLastMontioredContent)) {
             	// If last content was deleted, reset it.
