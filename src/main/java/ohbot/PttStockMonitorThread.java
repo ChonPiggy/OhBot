@@ -202,6 +202,7 @@ public class PttStockMonitorThread extends Thread {
             }
             
             while(strResult.contains("<div class=\"push\">")) {
+            	mLastMontioredContent = strResult.substring(strResult.indexOf("<div class=\"push\">"), strResult.indexOf("</span></div><div"));
             	String user = "";
             	String content = "";
             	String time = "";
@@ -230,7 +231,7 @@ public class PttStockMonitorThread extends Thread {
             	PgLog.info("user: " + user);
             	PgLog.info("content: " + content);
             	PgLog.info("time: " + time);
-            	mLastMontioredContent = content;
+            	
             	
             	if (isMatchMonitorSpeakers(user)) {
             		SpeakingData data = new SpeakingData(user, content, time);
