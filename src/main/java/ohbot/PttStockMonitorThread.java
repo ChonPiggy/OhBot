@@ -194,26 +194,23 @@ public class PttStockMonitorThread extends Thread {
             if (!strResult.contains(mLastMontioredContent)) {
             	// If last content was deleted, reset it.
             	mLastMontioredContent = "";
-            	PgLog.info("Piggy Check: what2?");
             }
             
             if (!mLastMontioredContent.equals("")) {
             	// Jump to last check content;
             	strResult = strResult.substring(strResult.indexOf(mLastMontioredContent)+mLastMontioredContent.length(), strResult.length());
-            	PgLog.info("Piggy Check: what?");
-            	PgLog.info("Piggy Check: " + strResult.substring(0, 200));
             }
-            PgLog.info("Piggy Check: " + strResult.substring(0, 200));
+            PgLog.info("Piggy Check: " + strResult.substring(0, 250));
             if(strResult.contains("<div class=\"push\">")) {
             	strResult = strResult.substring(strResult.indexOf("<div class=\"push\">"), strResult.length());
-            	PgLog.info("Piggy Check: " + strResult.substring(0, 200));
+            	PgLog.info("Piggy Check strResult.contains: " + strResult.substring(0, 250));
             }
             
             while(strResult.contains("<div class=\"push\">")) {
             	int index1 = strResult.indexOf("<div class=\"push\">");
             	int index2 = strResult.indexOf("</span></div><div");
             	PgLog.info("Piggy Check: index1: " + index1 + " index2: " + index2);
-            	PgLog.info("Piggy Check: " + strResult.substring(0, 200));
+            	PgLog.info("Piggy Check: " + strResult.substring(0, 250));
             	mLastMontioredContent = strResult.substring(index1, index2);
             	String user = "";
             	String content = "";
@@ -250,6 +247,9 @@ public class PttStockMonitorThread extends Thread {
             		replyResult += (data.toString() + "\n");
             		mSpeakingDataList.add(data);
             	}
+            	
+            	// Finish this round and move cursor to end of this round
+            	strResult = strResult.substring(strResult.indexOf("</span></div>")+13, strResult.length());
             	
             }
             
