@@ -143,7 +143,7 @@ public class PttStockMonitorThread extends Thread {
             	// process content
             	strResult = strResult.substring(strResult.indexOf("push-ipdatetime\">")+17, strResult.length());
             	time = strResult.substring(0, strResult.indexOf("</span>"));
-            	time = time.replace("", "\n");
+            	time = time.replace("\n", "");
             	
             	mLastMontioredContent = content;
             	
