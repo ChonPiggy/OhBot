@@ -134,15 +134,15 @@ public class PttStockMonitorThread extends Thread {
             	
             	// process user id
             	strResult = strResult.substring(strResult.indexOf("push-userid\">")+13, strResult.length());
-            	user = strResult.substring(strResult.indexOf(0, strResult.indexOf("</span>")));
+            	user = strResult.substring(0, strResult.indexOf("</span>"));
             	
             	// process content
             	strResult = strResult.substring(strResult.indexOf("push-content\">")+14, strResult.length());
-            	content = strResult.substring(strResult.indexOf(0, strResult.indexOf("</span>")));
+            	content = strResult.substring(0, strResult.indexOf("</span>"));
             	
             	// process content
             	strResult = strResult.substring(strResult.indexOf("push-ipdatetime\">")+17, strResult.length());
-            	time = strResult.substring(strResult.indexOf(0, strResult.indexOf("</span>")));
+            	time = strResult.substring(0, strResult.indexOf("</span>"));
             	time = time.replace("", "\n");
             	
             	mLastMontioredContent = content;
@@ -168,7 +168,7 @@ public class PttStockMonitorThread extends Thread {
 
     private void processReplyToNotify(String data) {
         synchronized (lock) {
-        	if (data != null) {
+        	if (data != null && !data.equals("")) {
         		LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
         	}
         }
