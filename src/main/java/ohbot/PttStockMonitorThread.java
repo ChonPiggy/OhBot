@@ -83,7 +83,7 @@ public class PttStockMonitorThread extends Thread {
                 }
                            
             } catch (Exception e) {
-                //log.info("CoronaVirusWikiRankCrawlThread e: " + e);
+                //log.info("PttStockMonitorThread e: " + e);
             	e.printStackTrace();
             }
         }
@@ -140,7 +140,7 @@ public class PttStockMonitorThread extends Thread {
 	        
 	        strResult = strResult.substring(strResult.indexOf("<a href=\"")+9, strResult.length());
 	        String targatUrl = strResult.substring(0, strResult.indexOf("\">"));
-	        String title = strResult.substring(strResult.indexOf("\">")+2, strResult.indexOf("</a>"));
+	        String title = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
 	        targatUrl = "https://www.ptt.cc/" + targatUrl;
 	        PgLog.info("targatUrl: " + targatUrl);
 	        PgLog.info("title: " + title);
