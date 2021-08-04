@@ -160,7 +160,7 @@ public class PttStockMonitorThread extends Thread {
 	        PgLog.info("title: " + title);
 	        if (title.contains(getCurrentDateString()) && title.contains("盤中")) {
 	        	if (!mIsNewDateNotified) {
-	        		processReplyToNotify(title + "\n" + targatUrl);
+	        		processReplyToNotify("準備開盤囉\n" + title + "\n" + targatUrl);
 	        		mIsNewDateNotified = true;
 	        	}
 	        	return targatUrl;
@@ -195,22 +195,26 @@ public class PttStockMonitorThread extends Thread {
             	// If last content was deleted, reset it.
             	mLastMontioredContent = "";
             }
+            PgLog.info("Piggy Check begin: " + strResult.substring(0, 300));
             
+            PgLog.info("Piggy Check mLastMontioredContent: " + mLastMontioredContent);
             if (!mLastMontioredContent.equals("")) {
             	// Jump to last check content;
             	strResult = strResult.substring(strResult.indexOf(mLastMontioredContent)+mLastMontioredContent.length(), strResult.length());
             }
-            PgLog.info("Piggy Check: " + strResult.substring(0, 250));
+            PgLog.info("Piggy Check after cut the lastest: " + strResult.substring(0, 300));
             if(strResult.contains("<div class=\"push\">")) {
             	strResult = strResult.substring(strResult.indexOf("<div class=\"push\">"), strResult.length());
-            	PgLog.info("Piggy Check strResult.contains: " + strResult.substring(0, 250));
+            	PgLog.info("Piggy Check strResult.contains: " + strResult.substring(0, 300));
             }
+            
+            PgLog.info("Piggy Check after move cursor to start: " + strResult.substring(0, 300));
             
             while(strResult.contains("<div class=\"push\">")) {
             	int index1 = strResult.indexOf("<div class=\"push\">");
             	int index2 = strResult.indexOf("</span></div><div");
             	PgLog.info("Piggy Check: index1: " + index1 + " index2: " + index2);
-            	PgLog.info("Piggy Check: " + strResult.substring(0, 250));
+            	PgLog.info("Piggy Check: " + strResult.substring(0, 300));
             	mLastMontioredContent = strResult.substring(index1, index2);
             	String user = "";
             	String content = "";
