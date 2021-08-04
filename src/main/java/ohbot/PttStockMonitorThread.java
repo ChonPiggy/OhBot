@@ -84,6 +84,7 @@ public class PttStockMonitorThread extends Thread {
                            
             } catch (Exception e) {
                 //log.info("CoronaVirusWikiRankCrawlThread e: " + e);
+            	e.printStackTrace();
             }
         }
     }
