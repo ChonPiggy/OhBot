@@ -286,6 +286,8 @@ public class OhBotController {
     private HashMap<String, Integer> mTokyoHotRandomGirlLimitationList = new HashMap<>(); // userId, count
     private HashMap<String, Boolean> mPttBeautySinglePicMap = new HashMap<>(); // userId, boolean flag, default is false
     
+    private PttStockMonitorThread mPttStockMonitorThread;
+    
     private class PttBeautyHistory {
         int ARRAY_MAX_ELEMENTS = 10;
         ArrayList<PttBeautyGirl> history = new ArrayList<PttBeautyGirl>(ARRAY_MAX_ELEMENTS); // search page history
@@ -1144,6 +1146,12 @@ public class OhBotController {
         }
         
         // BD feature End
+        
+        if (mPttStockMonitorThread == null) {
+        	mPttStockMonitorThread = new PttStockMonitorThread();
+        	mPttStockMonitorThread.start();
+        	mPttStockMonitorThread.addMonitorSpeaker("deacoke");
+        }
 
         if (mEarthquakeCheckThread == null) {
             mEarthquakeCheckThread = new NewestEarthquakeTimeCheckThread();
