@@ -157,7 +157,8 @@ public class PttStockMonitorThread extends Thread {
             
 
         } catch (Exception e) {
-            PgLog.info("checkPttStockWebsite e: " + e.printStackTrace());
+        	e.printStackTrace();
+            
         }
         PgLog.info("checkPttStockWebsite update finished.");
         processReplyToNotify(replyResult);
