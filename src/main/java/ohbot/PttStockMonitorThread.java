@@ -99,7 +99,7 @@ public class PttStockMonitorThread extends Thread {
     private void checkPttStockWebsite() {
         isUpdating = true;
         String talkingPage = getCurrentDateTalkingPage();
-        String replyResult = "";
+        String replyResult = "\n";
         if (talkingPage.equals("")) {
         	isUpdating = false;
     		return;
