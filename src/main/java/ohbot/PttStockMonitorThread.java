@@ -200,13 +200,17 @@ public class PttStockMonitorThread extends Thread {
             if (!mLastMontioredContent.equals("")) {
             	// Jump to last check content;
             	strResult = strResult.substring(strResult.indexOf(mLastMontioredContent)+mLastMontioredContent.length(), strResult.length());
+            	PgLog.info("Piggy Check Jump to last check: " + strResult.substring(0, 300));
             }
             if(strResult.contains("<div class=\"push\">")) {
             	strResult = strResult.substring(strResult.indexOf("<div class=\"push\">"), strResult.length());
+            	PgLog.info("Piggy Check Cut the shit: " + strResult.substring(0, 300));
             }
             
             while(strResult.contains("<div class=\"push\">")) {
+            	
             	mLastMontioredContent = strResult.substring(strResult.indexOf("<div class=\"push\">", strResult.indexOf("</span></div>")));
+            	PgLog.info("Piggy Check mLastMontioredContent: " + mLastMontioredContent);
             	String user = "";
             	String content = "";
             	String time = "";
@@ -240,12 +244,12 @@ public class PttStockMonitorThread extends Thread {
             	if (isMatchMonitorSpeakers(user)) {
             		SpeakingData data = new SpeakingData(user, content, time);
             		replyResult += (data.toString() + "\n");
-            		mSpeakingDataList.add(data);
+            		//mSpeakingDataList.add(data);
             	}
             	
             	// Finish this round and move cursor to end of this round
             	strResult = strResult.substring(strResult.indexOf("</span></div>")+13, strResult.length());
-            	
+            	PgLog.info("Piggy Check end of round: " + strResult);
             }
             
 
