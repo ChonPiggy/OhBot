@@ -53,6 +53,7 @@ public class PttStockMonitorThread extends Thread {
     }
 
     public void run() {
+    	PgLog.info("Piggy Check time: " + getCurrentDateString());
         while (true) {
             try {
                 if (!isUpdating) {
@@ -96,7 +97,7 @@ public class PttStockMonitorThread extends Thread {
     
     private String getCurrentDateTalkingPage() {
     	if (true) {
-    		return "https://www.ptt.cc/bbs/Stock/M.1628056815.A.E3D.html";
+    		return "https://www.ptt.cc/bbs/Test/M.1628072595.A.F5B.html";
     	}
     	else {
     		return "";
