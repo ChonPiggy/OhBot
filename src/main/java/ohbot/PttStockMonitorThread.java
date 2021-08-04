@@ -1,8 +1,5 @@
 package ohbot;
 
-
-import emoji4j.EmojiUtils;
-import lombok.ToString;
 import ohbot.utils.PgLog;
 import ohbot.utils.Utils;
 
@@ -13,14 +10,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.checkerframework.checker.units.qual.m;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.io.IOException;
-import java.lang.Integer;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class PttStockMonitorThread extends Thread {
@@ -63,15 +55,14 @@ public class PttStockMonitorThread extends Thread {
     }
 
     public void run() {
-    	PgLog.info("Piggy Check time: " + getCurrentDateString() + " " + getCurrentTimeString());
         while (true) {
             try {
                 if (!isUpdating) {
-                	if (!mMonitorSpeakers.isEmpty() && isDateNeedMonitor()/* && isTimeNeedMonitor()*/) {
+                	if (!mMonitorSpeakers.isEmpty() && isDateNeedMonitor() && isTimeNeedMonitor()) {
                 		checkPttStockWebsite();
                 	}
                 	
-                	/*if (!isReseted && isTimeAfterStockClose()) {
+                	if (!isReseted && isTimeAfterStockClose()) {
                 		// Do reset thing
                 		mLastUpdateDate = "";
                 		mSpeakingDataList.clear();
@@ -79,7 +70,7 @@ public class PttStockMonitorThread extends Thread {
                 		isReseted = true;
                 		mIsNewDateNotified = false;
                 		mForceTargetPage = "null";
-                	}*/
+                	}
                 	
                 	Thread.sleep(mUpdateFrequent);
                 }
@@ -156,8 +147,8 @@ public class PttStockMonitorThread extends Thread {
 	        String targatUrl = strResult.substring(0, strResult.indexOf("\">"));
 	        String title = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
 	        targatUrl = "https://www.ptt.cc/" + targatUrl;
-	        PgLog.info("targatUrl: " + targatUrl);
-	        PgLog.info("title: " + title);
+	        //PgLog.info("targatUrl: " + targatUrl);
+	        //PgLog.info("title: " + title);
 	        if (title.contains(getCurrentDateString()) && title.contains("盤中")) {
 	        	if (!mIsNewDateNotified) {
 	        		processReplyToNotify("準備開盤囉\n" + title + "\n" + targatUrl);
@@ -167,7 +158,6 @@ public class PttStockMonitorThread extends Thread {
 	        }
 	        
 	    } catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	return "";
@@ -183,7 +173,7 @@ public class PttStockMonitorThread extends Thread {
         	isUpdating = false;
     		return;
     	}
-        PgLog.info("checkPttStockWebsite update started.");
+        //PgLog.info("checkPttStockWebsite update started.");
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             //HttpGet httpget = new HttpGet(talkingPage);
@@ -200,16 +190,13 @@ public class PttStockMonitorThread extends Thread {
             if (!mLastMontioredContent.equals("")) {
             	// Jump to last check content;
             	strResult = strResult.substring(strResult.indexOf(mLastMontioredContent)+mLastMontioredContent.length(), strResult.length());
-            	PgLog.info("Piggy Check Jump to last check: " + strResult.substring(0, 300));
             }
             if(strResult.contains("<div class=\"push\">")) {
             	strResult = strResult.substring(strResult.indexOf("<div class=\"push\">"), strResult.length());
-            	PgLog.info("Piggy Check Cut the shit: " + strResult.substring(0, 300));
             }
             
             while(strResult.contains("<div class=\"push\">")) {
             	mLastMontioredContent = strResult.substring(strResult.indexOf("<div class=\"push\">"), strResult.indexOf("</span></div>"));
-            	PgLog.info("Piggy Check mLastMontioredContent: " + mLastMontioredContent);
             	String user = "";
             	String content = "";
             	String time = "";
@@ -248,15 +235,13 @@ public class PttStockMonitorThread extends Thread {
             	
             	// Finish this round and move cursor to end of this round
             	strResult = strResult.substring(strResult.indexOf("</span></div>")+13, strResult.length());
-            	PgLog.info("Piggy Check end of round: " + strResult);
             }
             
 
         } catch (Exception e) {
         	e.printStackTrace();
-        	PgLog.info("checkPttStockWebsite strResult: " + strResult);
         }
-        PgLog.info("checkPttStockWebsite update finished.");
+        //PgLog.info("checkPttStockWebsite update finished.");
         processReplyToNotify(replyResult);
         replyResult = null;
         isUpdating = false;
@@ -265,8 +250,8 @@ public class PttStockMonitorThread extends Thread {
     private void processReplyToNotify(String data) {
         synchronized (lock) {
         	if (data != null && !data.equals("\n")) {
-        		PgLog.info("Piggy Check notify: " +  data);
-        		//LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
+        		//PgLog.info("Piggy Check notify: " +  data);
+        		LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
         	}
         }
     }
