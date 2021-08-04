@@ -136,6 +136,7 @@ public class PttStockMonitorThread extends Thread {
             	// process user id
             	strResult = strResult.substring(strResult.indexOf("push-userid\">")+13, strResult.length());
             	user = strResult.substring(0, strResult.indexOf("</span>"));
+            	user = user.replace(" ", "").trim();
             	
             	// process content
             	strResult = strResult.substring(strResult.indexOf("push-content\">")+14, strResult.length());
