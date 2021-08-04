@@ -53,7 +53,7 @@ public class PttStockMonitorThread extends Thread {
     }
 
     public void run() {
-    	PgLog.info("Piggy Check time: " + getCurrentDateString());
+    	PgLog.info("Piggy Check time: " + getCurrentDateString() + " " + getCurrentTimeString());
         while (true) {
             try {
                 if (!isUpdating) {
@@ -77,6 +77,13 @@ public class PttStockMonitorThread extends Thread {
     	Calendar current = Calendar.getInstance(TimeZone.getDefault());
         current.setTimeInMillis(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        return sdf.format(current.getTime());
+    }
+    
+    private String getCurrentTimeString() {
+    	Calendar current = Calendar.getInstance(TimeZone.getDefault());
+        current.setTimeInMillis(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(current.getTime());
     }
     
