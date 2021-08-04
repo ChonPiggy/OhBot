@@ -208,8 +208,7 @@ public class PttStockMonitorThread extends Thread {
             }
             
             while(strResult.contains("<div class=\"push\">")) {
-            	
-            	mLastMontioredContent = strResult.substring(strResult.indexOf("<div class=\"push\">", strResult.indexOf("</span></div>")));
+            	mLastMontioredContent = strResult.substring(strResult.indexOf("<div class=\"push\">"), strResult.indexOf("</span></div>"));
             	PgLog.info("Piggy Check mLastMontioredContent: " + mLastMontioredContent);
             	String user = "";
             	String content = "";
