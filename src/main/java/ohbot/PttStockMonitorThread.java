@@ -144,7 +144,7 @@ public class PttStockMonitorThread extends Thread {
 	        targatUrl = "https://www.ptt.cc/" + targatUrl;
 	        PgLog.info("targatUrl: " + targatUrl);
 	        PgLog.info("title: " + title);
-	        if (title.contains(getCurrentDateString()) && title.contains("Test1")) {
+	        if (/*title.contains(getCurrentDateString()) && */title.contains("Test11111")) {
 	        	if (!mIsNewDateNotified) {
 	        		processReplyToNotify(title + "\n" + targatUrl);
 	        		mIsNewDateNotified = true;
