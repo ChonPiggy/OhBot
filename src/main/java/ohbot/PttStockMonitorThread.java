@@ -250,6 +250,7 @@ public class PttStockMonitorThread extends Thread {
 
         } catch (Exception e) {
         	e.printStackTrace();
+        	PgLog.info("checkPttStockWebsite strResult: " + strResult);
         }
         PgLog.info("checkPttStockWebsite update finished.");
         processReplyToNotify(replyResult);
@@ -259,7 +260,7 @@ public class PttStockMonitorThread extends Thread {
 
     private void processReplyToNotify(String data) {
         synchronized (lock) {
-        	if (data != null && !data.equals("")) {
+        	if (data != null && !data.equals("\n")) {
         		PgLog.info("Piggy Check notify: " +  data);
         		//LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
         	}
