@@ -46,7 +46,7 @@ public class PttStockMonitorThread extends Thread {
     		mTime = time;
 		}
     	public String toString() {
-    		return mUserid + ": " + mContent + " " + mTime;
+    		return mUserid + mContent + " " + mTime;
     	}
     }
     
@@ -199,6 +199,10 @@ public class PttStockMonitorThread extends Thread {
             if (!mLastMontioredContent.equals("")) {
             	// Jump to last check content;
             	strResult = strResult.substring(strResult.indexOf(mLastMontioredContent)+mLastMontioredContent.length(), strResult.length());
+            }
+            
+            if(strResult.contains("<div class=\"push\">")) {
+            	strResult = strResult.substring(strResult.indexOf("<div class=\"push\">"), strResult.length());
             }
             
             while(strResult.contains("<div class=\"push\">")) {
