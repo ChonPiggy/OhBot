@@ -130,7 +130,8 @@ public class PttStockMonitorThread extends Thread {
     	try {
 	    	CloseableHttpClient httpClient = HttpClients.createDefault();
 	        //HttpGet httpget = new HttpGet(talkingPage);
-	        HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Test/search?q="+getCurrentDateString().replace(":", "%2F"));
+	        //HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Test/search?q="+getCurrentDateString().replace(":", "%2F"));
+	        HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Test/search?q=Test11111");
 	        CloseableHttpResponse response = httpClient.execute(httpget);
 	        HttpEntity httpEntity = response.getEntity();
 	        String strResult = EntityUtils.toString(httpEntity, "utf-8");
