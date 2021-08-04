@@ -79,6 +79,13 @@ public class PttStockMonitorThread extends Thread {
         return sdf.format(current.getTime());
     }
     
+    private String getCurrentMDString() {
+    	Calendar current = Calendar.getInstance(TimeZone.getDefault());
+        current.setTimeInMillis(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+        return sdf.format(current.getTime());
+    }
+    
     private boolean isNeedMonitor() {
     	// Check if date is working date
     	Calendar current = Calendar.getInstance(TimeZone.getDefault());
@@ -100,6 +107,7 @@ public class PttStockMonitorThread extends Thread {
         isUpdating = true;
         String talkingPage = getCurrentDateTalkingPage();
         String replyResult = "\n";
+        String todayMDString = getCurrentMDString() + " ";
         if (talkingPage.equals("")) {
         	isUpdating = false;
     		return;
@@ -144,6 +152,8 @@ public class PttStockMonitorThread extends Thread {
             	strResult = strResult.substring(strResult.indexOf("push-ipdatetime\">")+17, strResult.length());
             	time = strResult.substring(0, strResult.indexOf("</span>"));
             	time = time.replace("\n", "");
+            	time = time.replace(todayMDString, "");
+            	
             	
             	mLastMontioredContent = content;
             	
