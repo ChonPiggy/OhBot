@@ -147,7 +147,7 @@ public class PttStockMonitorThread extends Thread {
             	
             	mLastMontioredContent = content;
             	
-            	if (mMonitorSpeakers.contains(user)) {
+            	if (isMatchMonitorSpeakers(user)) {
             		SpeakingData data = new SpeakingData(user, content, time);
             		replyResult += (data.toString() + "\n");
             		mSpeakingDataList.add(data);
@@ -157,7 +157,7 @@ public class PttStockMonitorThread extends Thread {
             
 
         } catch (Exception e) {
-            PgLog.info("checkPttStockWebsite e: " + e);
+            PgLog.info("checkPttStockWebsite e: " + e.printStackTrace());
         }
         PgLog.info("checkPttStockWebsite update finished.");
         processReplyToNotify(replyResult);
@@ -167,7 +167,9 @@ public class PttStockMonitorThread extends Thread {
 
     private void processReplyToNotify(String data) {
         synchronized (lock) {
-        	LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
+        	if (data != null) {
+        		LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
+        	}
         }
     }
 
