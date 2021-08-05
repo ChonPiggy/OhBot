@@ -83,14 +83,14 @@ public class Utils {
     
     }
     
-    public static boolean isTimeInPeriod(String startTimeString, String endTimeString) {
+    public static boolean isTimeInPeriod(String nowTimeString, String startTimeString, String endTimeString) {
 
 
     	String format = "HH:mm";
 
     	
     	try {
-    		Date nowTime = new Date(System.currentTimeMillis());
+    		Date nowTime = new SimpleDateFormat(format).parse(nowTimeString);
     		Date startTime = new SimpleDateFormat(format).parse(startTimeString);
 
     		Date endTime = new SimpleDateFormat(format).parse(endTimeString);
@@ -108,11 +108,6 @@ public class Utils {
 
     		Calendar end = Calendar.getInstance();
     		end.setTime(endTime);
-    		PgLog.info("date: " + date.getTime());
-    		PgLog.info("begin: " + begin.getTime());
-    		PgLog.info("end: " + end.getTime());
-    		PgLog.info("date.after(begin): " + date.after(begin));
-    		PgLog.info("date.before(end): " + date.before(end));
     		
     		if (date.after(begin) && date.before(end)) {
     			return true;

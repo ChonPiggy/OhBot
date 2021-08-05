@@ -118,7 +118,7 @@ public class PttStockMonitorThread extends Thread {
     }
     
     private boolean isTimeNeedMonitor() {
-    	return Utils.isTimeInPeriod("08:30", "14:00");
+    	return Utils.isTimeInPeriod(getCurrentTimeString(), "08:30", "14:00");
     }
     
     public void setForceTargetPage(String target) {
@@ -150,8 +150,8 @@ public class PttStockMonitorThread extends Thread {
 	        String targatUrl = strResult.substring(0, strResult.indexOf("\">"));
 	        String title = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
 	        targatUrl = "https://www.ptt.cc/" + targatUrl;
-	        //PgLog.info("targatUrl: " + targatUrl);
-	        //PgLog.info("title: " + title);
+	        PgLog.info("targatUrl: " + targatUrl);
+	        PgLog.info("title: " + title);
 	        if (title.contains(getCurrentDateString()) && title.contains("盤中")) {
 	        	if (!mIsNewDateNotified) {
 	        		processReplyToNotify("準備開盤囉\n" + title + "\n" + targatUrl);
@@ -170,7 +170,6 @@ public class PttStockMonitorThread extends Thread {
     }
     
     private String getCurrentDateTalkingPageFromBoard() {
-    	PgLog.info("getCurrentDateTalkingPageFromBoard()");
     	if (!mForceTargetPage.equals("null")) {
     		return mForceTargetPage;
     	}
