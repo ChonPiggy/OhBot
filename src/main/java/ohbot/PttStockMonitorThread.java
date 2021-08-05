@@ -124,7 +124,8 @@ public class PttStockMonitorThread extends Thread {
     	mForceTargetPage = target;
     }
     
-    private String getCurrentDateTalkingPage() {
+    private String getCurrentDateTalkingPageFromSearch() {
+    	PgLog.info("getCurrentDateTalkingPageFromSearch()");
     	if (!mForceTargetPage.equals("null")) {
     		return mForceTargetPage;
     	}
@@ -137,11 +138,60 @@ public class PttStockMonitorThread extends Thread {
 	        String strResult = EntityUtils.toString(httpEntity, "utf-8");
 	        
 	        if (!strResult.contains("<div class=\"title\">")) {
-	        	return "";
+	        	return getCurrentDateTalkingPageFromBoard();
 	        }
 	        
 	        strResult = strResult.substring(strResult.indexOf("<div class=\"title\">")+19, strResult.length());
 	        strResult = strResult.substring(0, strResult.indexOf("</a>"));
+	        
+	        strResult = strResult.substring(strResult.indexOf("<a href=\"")+9, strResult.length());
+	        String targatUrl = strResult.substring(0, strResult.indexOf("\">"));
+	        String title = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
+	        targatUrl = "https://www.ptt.cc/" + targatUrl;
+	        //PgLog.info("targatUrl: " + targatUrl);
+	        //PgLog.info("title: " + title);
+	        if (title.contains(getCurrentDateString()) && title.contains("盤中")) {
+	        	if (!mIsNewDateNotified) {
+	        		processReplyToNotify("準備開盤囉\n" + title + "\n" + targatUrl);
+	        		mIsNewDateNotified = true;
+	        	}
+	        	return targatUrl;
+	        }
+	        else {
+	        	return getCurrentDateTalkingPageFromBoard();
+	        }
+	        
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return "";
+    }
+    
+    private String getCurrentDateTalkingPageFromBoard() {
+    	PgLog.info("getCurrentDateTalkingPageFromBoard()");
+    	if (!mForceTargetPage.equals("null")) {
+    		return mForceTargetPage;
+    	}
+    	try {
+	    	CloseableHttpClient httpClient = HttpClients.createDefault();
+	        //HttpGet httpget = new HttpGet(talkingPage);
+	        HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Stock/index.html");
+	        CloseableHttpResponse response = httpClient.execute(httpget);
+	        HttpEntity httpEntity = response.getEntity();
+	        String strResult = EntityUtils.toString(httpEntity, "utf-8");
+	        
+	        if (!strResult.contains(getCurrentDateString())) {
+	        	return "";
+	        }
+	        
+	        int index = strResult.indexOf(getCurrentDateString());
+	        
+	        if (index < 0) {
+	        	return "";
+	        }
+	        
+	        strResult = strResult.substring(index-60, index+20);
+	        strResult = strResult.substring(strResult.indexOf("<a href=\""), strResult.indexOf("</a>"));
 	        
 	        strResult = strResult.substring(strResult.indexOf("<a href=\"")+9, strResult.length());
 	        String targatUrl = strResult.substring(0, strResult.indexOf("\">"));
@@ -165,7 +215,7 @@ public class PttStockMonitorThread extends Thread {
 
     private void checkPttStockWebsite() {
         isUpdating = true;
-        String talkingPage = getCurrentDateTalkingPage();
+        String talkingPage = getCurrentDateTalkingPageFromSearch();
         String replyResult = "\n";
         String todayMDString = getCurrentMDString() + " ";
         String strResult = "";
