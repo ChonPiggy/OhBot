@@ -61,8 +61,6 @@ public class PttStockMonitorThread extends Thread {
                 	if (!mMonitorSpeakers.isEmpty() && isDateNeedMonitor() && isTimeNeedMonitor()) {
                 		checkPttStockWebsite();
                 	}
-                	PgLog.info("Piggy Check isDateNeedMonitor: " + isDateNeedMonitor());
-                	PgLog.info("Piggy Check isTimeNeedMonitor: " + isTimeNeedMonitor());
                 	
                 	if (!isReseted && isTimeAfterStockClose()) {
                 		// Do reset thing
@@ -127,7 +125,7 @@ public class PttStockMonitorThread extends Thread {
     }
     
     private String getCurrentDateTalkingPageFromSearch() {
-    	PgLog.info("getCurrentDateTalkingPageFromSearch()");
+    	//PgLog.info("getCurrentDateTalkingPageFromSearch()");
     	if (!mForceTargetPage.equals("null")) {
     		return mForceTargetPage;
     	}
@@ -150,8 +148,8 @@ public class PttStockMonitorThread extends Thread {
 	        String targatUrl = strResult.substring(0, strResult.indexOf("\">"));
 	        String title = strResult.substring(strResult.indexOf("\">")+2, strResult.length());
 	        targatUrl = "https://www.ptt.cc/" + targatUrl;
-	        PgLog.info("targatUrl: " + targatUrl);
-	        PgLog.info("title: " + title);
+	        //PgLog.info("targatUrl: " + targatUrl);
+	        //PgLog.info("title: " + title);
 	        if (title.contains(getCurrentDateString()) && title.contains("盤中")) {
 	        	if (!mIsNewDateNotified) {
 	        		processReplyToNotify("準備開盤囉\n" + title + "\n" + targatUrl);
@@ -224,7 +222,7 @@ public class PttStockMonitorThread extends Thread {
         	isUpdating = false;
     		return;
     	}
-        PgLog.info("checkPttStockWebsite update started.");
+        //PgLog.info("checkPttStockWebsite update started.");
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             //HttpGet httpget = new HttpGet(talkingPage);
@@ -273,9 +271,9 @@ public class PttStockMonitorThread extends Thread {
             	time = time.replace("\n", "");
             	time = time.replace(todayMDString, "");
             	
-            	PgLog.info("user: " + user);
+            	/*PgLog.info("user: " + user);
             	PgLog.info("content: " + content);
-            	PgLog.info("time: " + time);
+            	PgLog.info("time: " + time);*/
             	
             	
             	if (isMatchMonitorSpeakers(user)) {
@@ -292,7 +290,7 @@ public class PttStockMonitorThread extends Thread {
         } catch (Exception e) {
         	e.printStackTrace();
         }
-        PgLog.info("checkPttStockWebsite update finished.");
+        //PgLog.info("checkPttStockWebsite update finished.");
         processReplyToNotify(replyResult);
         replyResult = null;
         isUpdating = false;
