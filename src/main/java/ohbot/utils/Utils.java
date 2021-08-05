@@ -86,7 +86,7 @@ public class Utils {
     public static boolean isTimeInPeriod(String startTimeString, String endTimeString) {
 
 
-    	String format = "HH:mm:ss";
+    	String format = "HH:mm";
 
     	
     	try {
