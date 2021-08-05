@@ -1153,6 +1153,7 @@ public class OhBotController {
         	mPttStockMonitorThread.addMonitorSpeaker("gn01765288"); //金庸
         	mPttStockMonitorThread.addMonitorSpeaker("tenghui"); //T大
         	mPttStockMonitorThread.addMonitorSpeaker("ChonPiggy"); //測試
+        	mPttStockMonitorThread.addMonitorSpeaker("deacoke"); //測試
         }
 
         if (mEarthquakeCheckThread == null) {
