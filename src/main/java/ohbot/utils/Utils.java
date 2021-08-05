@@ -108,7 +108,12 @@ public class Utils {
 
     		Calendar end = Calendar.getInstance();
     		end.setTime(endTime);
-
+    		PgLog.info("date: " + date);
+    		PgLog.info("begin: " + begin);
+    		PgLog.info("end: " + end);
+    		PgLog.info("date.after(begin): " + date.after(begin));
+    		PgLog.info("date.before(end): " + date.before(end));
+    		
     		if (date.after(begin) && date.before(end)) {
     			return true;
     		} else {
