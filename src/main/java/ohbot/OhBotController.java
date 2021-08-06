@@ -7764,11 +7764,37 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             int affectCount = 0;
             int maxLevel = 0;
+            boolean isNewTaipeiCityOver2 = false;
+            boolean isTaipeiCityOver2 = false;
+            boolean isTaipeiCityOver3 = false;
             while (tempContext.contains("href=\"#collapse")) {
                 affectCount++;
                 tempContext = tempContext.substring(tempContext.indexOf("href=\"#collapse")+15, tempContext.length());
                 tempContext = tempContext.substring(tempContext.indexOf("\">")+2, tempContext.length());
                 String detailText = tempContext.substring(0, tempContext.indexOf("</a>"));
+                
+                if (detailText.contains("臺北市")||detailText.contains("新北市")) {
+                	int level = 0;
+                	String numStr = detailText.substring(detailText.indexOf("級")-1, detailText.indexOf("級"));
+                	try {
+                		level = Integer.parseInt(numStr);
+                    }
+                    catch(java.lang.NumberFormatException e1) {
+                        PgLog.info("NumberFormatException e1: " + e1);
+                    }
+                	if (level > 2) {
+                		if (detailText.contains("臺北市")) {
+                			isTaipeiCityOver2 = true;
+                			if (level > 3) {
+                				isTaipeiCityOver2 = true;
+                			}
+                		}
+                		if (detailText.contains("新北市")) {
+                			isNewTaipeiCityOver2 = true;
+                		}
+                	}
+                }
+                
                 mNewestEarthquakeReportText +=  detailText + "\n"; // Scale per location
                 String numberString = detailText.substring(detailText.indexOf(" ")+1, detailText.indexOf("級"));
                 if (maxLevel == 0) {
@@ -7796,7 +7822,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (!mNewestEarthquakeTime.equals("") && !mNewestEarthquakeTime.equals(newestEarthquakeTime)) {
                 notifyAllNeedEarthquakeEventRoom();
                 PgLog.info("Piggy Check: maxLevel: " + maxLevel + " affectCount: " + affectCount);
-                if (affectCount >= 6 && maxLevel > 3) {
+                if ((affectCount >= 6 && maxLevel >= 4) ||
+                		(affectCount >= 12 && maxLevel >= 3) ||
+                		(isTaipeiCityOver2 && isNewTaipeiCityOver2) ||
+                		isTaipeiCityOver3) {
                     // Notify all group when maxLevel over 4 and affect count over 6
                     if (!AnnouncementManager.isSameAnnounceMessage(mNewestEarthquakeReportImage)) {
                         AnnouncementManager.announceNewMessage(mNewestEarthquakeReportImage, true, 30);

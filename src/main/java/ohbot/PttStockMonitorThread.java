@@ -152,7 +152,7 @@ public class PttStockMonitorThread extends Thread {
 	        //PgLog.info("title: " + title);
 	        if (title.contains(getCurrentDateString()) && title.contains("盤中")) {
 	        	if (!mIsNewDateNotified) {
-	        		processReplyToNotify("準備開盤囉\n" + title + "\n" + targatUrl);
+	        		processReplyToNotify("\n準備開盤囉\n" + title + "\n" + targatUrl);
 	        		mIsNewDateNotified = true;
 	        	}
 	        	return targatUrl;
@@ -200,7 +200,7 @@ public class PttStockMonitorThread extends Thread {
 	        //PgLog.info("title: " + title);
 	        if (title.contains(getCurrentDateString()) && title.contains("盤中")) {
 	        	if (!mIsNewDateNotified) {
-	        		processReplyToNotify("準備開盤囉\n" + title + "\n" + targatUrl);
+	        		processReplyToNotify("\n準備開盤囉\n" + title + "\n" + targatUrl);
 	        		mIsNewDateNotified = true;
 	        	}
 	        	return targatUrl;
