@@ -76,6 +76,10 @@ public class PttStockMonitorThread extends Thread {
     public boolean isTimeAfterStockClose() {
     	return Utils.isNowAfterTime("14:00");
     }
+    
+    public boolean isTimeBeforeStockOpen() {
+    	return Utils.isNowAfterTime("08:00");
+    }
 
     public void run() {
         while (true) {
@@ -139,7 +143,14 @@ public class PttStockMonitorThread extends Thread {
     }
     
     private boolean isTimeNeedMonitor() {
-    	return Utils.isTimeInPeriod(getCurrentTimeString(), "08:30", "14:00");
+    	return  isTimeInStockOpening();
+    }
+    private boolean isTimeInStockOpening() {
+    	return Utils.isTimeInPeriod(getCurrentTimeString(), "08:30", "13:59");
+    }
+    
+    private boolean isTimeInStockClosing() {
+    	return Utils.isTimeInPeriod(getCurrentTimeString(), "14:00", "08:00");
     }
     
     public void setForceTargetPage(String target) {
