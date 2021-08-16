@@ -38,6 +38,28 @@ public class PttStockMonitorThread extends Thread {
     		mContent = content;
     		mTime = time;
 		}
+    	public String getUserId() {
+    		return mUserid;
+    	}
+    	public String getContent() {
+    		return mContent;
+    	}
+    	public String getTime() {
+    		return mTime;
+    	}
+    	@Override
+    	public boolean equals(Object obj) {
+    		if (obj instanceof SpeakingData) {
+    			SpeakingData data = (SpeakingData) obj;
+    			if (mUserid.equals(data.getUserId()) &&
+    					mContent.equals(data.getContent()) &&
+    					mTime.equals(data.getTime())) {
+    				return true;
+    			}
+    		}
+    		return super.equals(obj);
+    	}
+    	@Override
     	public String toString() {
     		return mUserid + mContent + " " + mTime;
     	}
@@ -258,9 +280,6 @@ public class PttStockMonitorThread extends Thread {
             	strResult = strResult.substring(strResult.indexOf("push-userid\">")+13, strResult.length());
             	user = strResult.substring(0, strResult.indexOf("</span>"));
             	user = user.replace(" ", "").trim();
-            	if (user.equals("gn01765288")) {
-            		user = "金庸";
-            	}
             	
             	// process content
             	strResult = strResult.substring(strResult.indexOf("push-content\">")+14, strResult.length());
@@ -278,9 +297,14 @@ public class PttStockMonitorThread extends Thread {
             	
             	
             	if (isMatchMonitorSpeakers(user)) {
+            		if (user.equals("gn01765288")) {
+                		user = user.replace("gn01765288", "金庸");
+                	}
             		SpeakingData data = new SpeakingData(user, content, time);
-            		replyResult += (data.toString() + "\n");
-            		//mSpeakingDataList.add(data);
+            		if (!mSpeakingDataList.contains(data)) {
+            			replyResult += (data.toString() + "\n");
+            			mSpeakingDataList.add(data);
+            		}            		
             	}
             	
             	// Finish this round and move cursor to end of this round
