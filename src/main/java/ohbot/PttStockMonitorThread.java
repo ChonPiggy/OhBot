@@ -24,6 +24,7 @@ public class PttStockMonitorThread extends Thread {
     private int mUpdateFrequent = 30000; // 30s
     private ArrayList<SpeakingData> mSpeakingDataList = new ArrayList<SpeakingData>();
     private final String INGRESS_STOCK_NOTIFY_TOKEN = "uY1Tp8L0CJwLQA1AWNHx2KFntVtIDSTCdJejJJpq7vB";
+    private final String SayGoAndGo_STOCK_NOTIFY_TOKEN = "gABHHem5nu1LlNWhaagxbhX5Y54LDoUgYbVgZfv3ins";
     private String mLastMontioredContent = "";
     private boolean mIsNewDateNotified = false;
     private String mForceTargetPage = "null";
@@ -301,6 +302,7 @@ public class PttStockMonitorThread extends Thread {
         	if (data != null && !data.equals("\n")) {
         		//PgLog.info("Piggy Check notify: " +  data);
         		LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
+        		LineNotify.callEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, data);
         	}
         }
     }
