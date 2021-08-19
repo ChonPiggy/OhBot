@@ -23,7 +23,7 @@ public class PttStockMonitorThread extends Thread {
     private String mLastUpdateDate = "";
     private int mUpdateFrequent = 30000; // 30s
     private ArrayList<SpeakingData> mSpeakingDataList = new ArrayList<SpeakingData>();
-    private final String INGRESS_STOCK_NOTIFY_TOKEN = "uY1Tp8L0CJwLQA1AWNHx2KFntVtIDSTCdJejJJpq7vB";
+    private final String INGRESS_STOCK_NOTIFY_TOKEN = "McE8tNie8utDcRbpBrUq9QZ7Q6qWBE9BtmM5HZwxQbo";
     private final String SayGoAndGo_STOCK_NOTIFY_TOKEN = "gABHHem5nu1LlNWhaagxbhX5Y54LDoUgYbVgZfv3ins";
     private String mLastMontioredContent = "";
     private boolean mIsNewDateNotified = false;
@@ -87,6 +87,10 @@ public class PttStockMonitorThread extends Thread {
                 if (!isUpdating) {
                 	if (!mMonitorSpeakers.isEmpty() && isDateNeedMonitor() && isTimeNeedMonitor()) {
                 		checkPttStockWebsite();
+                	}
+                	
+                	if (mMonitorSpeakers.isEmpty()) {
+                		checkPttStockWebsitePost();
                 	}
                 	
                 	if (!isReseted && isTimeAfterStockClose()) {
@@ -332,6 +336,9 @@ public class PttStockMonitorThread extends Thread {
         isUpdating = false;
     }
 
+    private void checkPttStockWebsitePost() {
+    	// TODO
+    }
     private void processReplyToNotify(String data) {
         synchronized (lock) {
         	if (data != null && !data.equals("\n")) {
