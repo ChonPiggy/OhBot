@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 public class PttStockMonitorThread extends Thread {
 	private byte[] lock = new byte[0];
     private boolean isUpdating = false;
-    private boolean isReseted = true;
+    private boolean isReseted = false;
     private ArrayList<String> mMonitorSpeakers = new ArrayList<String>();
     private String mLastUpdateDate = "";
     private int mUpdateFrequent = 30000; // 30s
@@ -94,6 +94,7 @@ public class PttStockMonitorThread extends Thread {
                 	}
                 	
                 	if (!isReseted && isTimeAfterStockClose()) {
+                		PgLog.info("PttMonitor daily reset.");
                 		// Do reset thing
                 		mLastUpdateDate = "";
                 		mSpeakingDataList.clear();
