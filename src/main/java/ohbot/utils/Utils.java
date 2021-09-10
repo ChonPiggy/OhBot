@@ -55,7 +55,7 @@ public class Utils {
     public static boolean isNowAfterTime(String time) {
 
 
-    	String format = "HH:mm:ss";
+    	String format = "HH:mm";
 
     	Date nowTime = new Date(System.currentTimeMillis());
     	try {
