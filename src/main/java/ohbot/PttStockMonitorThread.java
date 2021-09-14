@@ -94,7 +94,7 @@ public class PttStockMonitorThread extends Thread {
                 	}
                 	
                 	if (!isReseted && isTimeAfterStockClose()) {
-                		PgLog.info("PttMonitor daily reset.");
+                		PgLog.info("PttMonitor daily reset. getCurrentTimeString() " + getCurrentDateString() +" " + getCurrentTimeString());
                 		// Do reset thing
                 		mLastUpdateDate = "";
                 		mSpeakingDataList.clear();
@@ -300,6 +300,45 @@ public class PttStockMonitorThread extends Thread {
             	// process content
             	strResult = strResult.substring(strResult.indexOf("push-content\">")+14, strResult.length());
             	content = strResult.substring(0, strResult.indexOf("</span>"));
+            	
+            	if (content.contains(".jpg")||content.contains(".jpeg")) {
+            		String url = "";
+            		String contentString = "";
+            		// 3 Possible if include image url
+            		// Step 1: remove ": "
+            		content = content.substring(2);
+            		
+            		// Remove space from begin/end.
+            		content = content.trim();
+            		
+
+            		// Only Image
+            		// |:  <a href="https://i.imgur.com/qwqKi3R.jpg" target="_blank" rel="noreferrer noopener nofollow">https://i.imgur.com/qwqKi3R.jpg</a>|
+
+            		if((content.indexOf("<a href=\"") == 0) && (content.indexOf("</a>")+4 == content.length())) {
+            			url = content.substring(content.indexOf("nofollow\">")+10, content.length()-4);
+            			content = url;
+            		}
+            		
+            		// String before image
+            		// |: 老酥今天帶墨鏡<a href="https://i.imgur.com/TKutMfv.jpg" target="_blank" rel="noreferrer noopener nofollow">https://i.imgur.com/TKutMfv.jpg</a>|
+            		else if((content.indexOf("<a href=\"") != 0) && (content.indexOf("</a>")+4 == content.length())) {
+            			contentString = content.substring(0, content.indexOf("<a href=\""));
+            			url = content.substring(content.indexOf("nofollow\">")+10, content.length()-4);
+            			content = contentString + url;
+            		}
+            		
+            		// String after image
+            		// |: <a href="https://i.imgur.com/8ZhlrKO.jpg" target="_blank" rel="noreferrer noopener nofollow">https://i.imgur.com/8ZhlrKO.jpg</a> 啟航囉|
+            		else if((content.indexOf("<a href=\"") == 0) && (content.indexOf("</a>")+4 != content.length())) {
+            			contentString = content.substring(content.indexOf("</a>")+4, content.length());
+            			url = content.substring(content.indexOf("nofollow\">")+10, content.indexOf("</a>"));
+            			content = url + contentString;
+            		}
+            		
+            		// Step end: add ": "
+            		content = ": " + content;
+            	}
             	
             	// process content
             	strResult = strResult.substring(strResult.indexOf("push-ipdatetime\">")+17, strResult.length());
