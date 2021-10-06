@@ -25,6 +25,7 @@ public class PttStockMonitorThread extends Thread {
     private ArrayList<SpeakingData> mSpeakingDataList = new ArrayList<SpeakingData>();
     private final String INGRESS_STOCK_NOTIFY_TOKEN = "McE8tNie8utDcRbpBrUq9QZ7Q6qWBE9BtmM5HZwxQbo";
     private final String SayGoAndGo_STOCK_NOTIFY_TOKEN = "gABHHem5nu1LlNWhaagxbhX5Y54LDoUgYbVgZfv3ins";
+    private final String Pearl_STOCK_NOTIFY_TOKEN = "KsFvfy8f1untCDH7zHeD7s5VNxtZUcYHJexRxea71ky";
     private String mLastMontioredContent = "";
     private boolean mIsNewDateNotified = false;
     private String mForceTargetPage = "null";
@@ -91,21 +92,20 @@ public class PttStockMonitorThread extends Thread {
                 	
                 	if (mMonitorSpeakers.isEmpty()) {
                 		checkPttStockWebsitePost();
-                	}
-                	
-                	if (!isReseted && isTimeAfterStockClose()) {
-                		PgLog.info("PttMonitor daily reset. getCurrentTimeString() " + getCurrentDateString() +" " + getCurrentTimeString());
-                		// Do reset thing
-                		mLastUpdateDate = "";
-                		mSpeakingDataList.clear();
-                		mLastMontioredContent = "";
-                		isReseted = true;
-                		mIsNewDateNotified = false;
-                		mForceTargetPage = "null";
-                	}
-                	
-                	Thread.sleep(mUpdateFrequent);
+                	}	
                 }
+                if (!isReseted && isTimeAfterStockClose()) {
+            		PgLog.info("PttMonitor daily reset. getCurrentTimeString() " + getCurrentDateString() +" " + getCurrentTimeString());
+            		// Do reset thing
+            		mLastUpdateDate = "";
+            		mSpeakingDataList.clear();
+            		mLastMontioredContent = "";
+            		isReseted = true;
+            		mIsNewDateNotified = false;
+            		mForceTargetPage = "null";
+            	}
+            	
+            	Thread.sleep(mUpdateFrequent);
                            
             } catch (Exception e) {
                 //log.info("PttStockMonitorThread e: " + e);
@@ -385,6 +385,7 @@ public class PttStockMonitorThread extends Thread {
         		//PgLog.info("Piggy Check notify: " +  data);
         		LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
         		LineNotify.callEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, data);
+        		LineNotify.callEvent(Pearl_STOCK_NOTIFY_TOKEN, data);
         	}
         }
     }
