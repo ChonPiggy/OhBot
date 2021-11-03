@@ -5,6 +5,8 @@ import java.io.*;
 import java.net.*;
 import java.util.regex.Pattern;
 
+import ohbot.utils.PgLog;
+
 public class LineNotify {
     private static final String strEndpoint = "https://notify-api.line.me/api/notify";
     public static boolean callLocalImageEvent(String token, String message, String image) {
@@ -26,11 +28,8 @@ public class LineNotify {
             PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
             printWriter.print(parameterMessageString);
             if (!image.equals("")) {
-            	String imageThumbnail = new String("&imageThumbnail=@" + image);
-            	String imageFullsize = new String("&imageFullsize=@" + image);
             	String imageFile = new String("&imageFile=@" + image);
-            	printWriter.print(imageThumbnail);
-            	printWriter.print(imageFullsize);
+            	PgLog.info("imageFile: " + imageFile); 
             	printWriter.print(imageFile);
             }
             printWriter.close();
