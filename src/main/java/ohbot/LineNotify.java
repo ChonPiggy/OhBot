@@ -12,12 +12,12 @@ public class LineNotify {
     public static boolean callLocalImageEvent(String token, String message, String image) {
     	boolean result = false;
         try {
-            message = replaceProcess(message);
+            /*message = replaceProcess(message);
             message = URLEncoder.encode(message, "UTF-8");
             if (!image.equals("")) {
             	image = replaceProcess(image);
             	image = URLEncoder.encode(image, "UTF-8");
-            }
+            }*/
             String strUrl = strEndpoint;
             URL url = new URL( strUrl );
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
