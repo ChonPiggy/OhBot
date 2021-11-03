@@ -1086,6 +1086,7 @@ public class OhBotController {
     	handleImageContent(event.getReplyToken(), event, event.getMessage());
     }
     
+    @EventMapping
     private void handleImageContent(String replyToken, Event event, ImageMessageContent content) {
     	PgLog.info("handleImageContent()");
     	PgLog.info("source: " + event.getSource());
