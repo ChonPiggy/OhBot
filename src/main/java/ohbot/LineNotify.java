@@ -28,7 +28,8 @@ public class LineNotify {
             PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
             printWriter.print(parameterMessageString);
             if (!image.equals("")) {
-            	String imageFile = new String("&imageFile=@" + image);
+            	//String imageFile = new String("&imageFile=@" + image);
+            	String imageFile = new String("&imageFile=@file:/app/build/libs/OhBot-1.0-SNAPSHOT.jar!/BOOT-INF/classes!/PgTest.jpeg");
             	PgLog.info("imageFile: " + imageFile); 
             	printWriter.print(imageFile);
             }
