@@ -7,8 +7,10 @@ import java.util.regex.Pattern;
 
 public class LineNotify {
     private static final String strEndpoint = "https://notify-api.line.me/api/notify";
-
     public static boolean callEvent(String token, String message, String image) {
+    	return callEvent(token, message, image, false);
+    }
+    public static boolean callEvent(String token, String message, String image, boolean isImageFromLocal) {
         boolean result = false;
         try {
             message = replaceProcess(message);
@@ -22,7 +24,9 @@ public class LineNotify {
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.addRequestProperty("Authorization",  "Bearer " + token);
             connection.setRequestMethod( "POST" );
-            connection.addRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
+            if (!isImageFromLocal) {
+            	connection.addRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
+            }
             connection.setDoOutput( true );
             String parameterMessageString = new String("message=" + message);
             PrintWriter printWriter = new PrintWriter(connection.getOutputStream());

@@ -1097,8 +1097,18 @@ public class OhBotController {
     	PgLog.info("OriginalContentUrl: " + content.getContentProvider().getOriginalContentUrl());
     	PgLog.info("PreviewImageUrl: " + content.getContentProvider().getPreviewImageUrl());
     	PgLog.info("Type: " + content.getContentProvider().getType());
-    	
-    	LineMessagePrimitive.handleHeavyContent(replyToken, content.getId() , null);
+    	if (isAdminUserId(event.getSource().getUserId())) {
+    		File f = LineMessagePrimitive.handleHeavyContent(replyToken, content.getId() , null);
+    		PgLog.info("getAbsolutePath: " + f.getAbsolutePath());
+    		try {
+				PgLog.info("getCanonicalPath: " + f.getCanonicalPath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    		PgLog.info("getPath: " + f.getPath());
+    		
+    		LineNotify.callEvent(replyToken, "PG Test", f.getPath(), true);
+    	}
     }
     
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
