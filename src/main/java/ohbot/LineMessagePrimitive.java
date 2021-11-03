@@ -1,5 +1,7 @@
 package ohbot;
 
+import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +43,7 @@ public class LineMessagePrimitive {
     	}
     }
     
-    public static void handleHeavyContent(String replyToken, String messageId,
+    public static File handleHeavyContent(String replyToken, String messageId,
     		Consumer<MessageContentResponse> messageConsumer) {
     	final MessageContentResponse response;
     	try {
@@ -49,9 +51,18 @@ public class LineMessagePrimitive {
     				.get();
     	} catch (Exception e) {
     		PgLog.error("Cannot get image: " + e);
-    		return;
+    		return null;
     	}
-    	PgLog.error("Cannot get response.getLength(): " + response.getLength());
+    	InputStream is = response.getStream();
+    	File f = PgUtils.createTempFileFromInputStream(is, "PgTest");
+    	
+    	PgLog.error("response.getLength(): " + response.getLength());
+    	if (f != null) {
+    		PgLog.error("f.getPath(): " + f.getPath());
+    		PgLog.error("f.length(): " + f.length());
+    	}
+    	f.deleteOnExit();
+    	return f;
     	//messageConsumer.accept(response);
 }
     
