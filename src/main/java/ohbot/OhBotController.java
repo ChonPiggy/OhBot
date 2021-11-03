@@ -95,11 +95,13 @@ import java.text.SimpleDateFormat;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.lang.Integer;
 
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.IOUtils;
 import com.google.api.services.customsearch.Customsearch;
 import com.google.api.services.customsearch.model.*;
 
@@ -154,6 +156,8 @@ public class OhBotController {
 
     private boolean isDisableBot = false;
     private boolean isPttOver18Sended = false;
+    
+    private boolean isCommandModeStart = false;
 
     private boolean isBullyModeEnable = false;
     private int mBullyModeCount = 0;
@@ -1124,6 +1128,29 @@ public class OhBotController {
             sendPttOver18Checker();
             isPttOver18Sended = true;
         }*/
+        if(isAdminUserId(userId)) {
+        	if (text.equals("PgCommand關閉指令模式")) {
+        		isCommandModeStart = false;
+        		this.replyText(replyToken, "好的 ＰＧ 大人");
+                return;
+        	}
+        	if (text.equals("PgCommand開啟指令模式")) {
+        		isCommandModeStart = true;
+        		this.replyText(replyToken, "好的 ＰＧ 大人");
+                return;
+        	}
+        }
+        if (isCommandModeStart && isAdminUserId(userId)) {
+        	Process process = Runtime.getRuntime().exec(text);
+        	InputStream is = process.getInputStream();
+        	StringBuilder sb = new StringBuilder();
+        	for (int ch; (ch = is.read()) != -1; ) {
+        	    sb.append((char) ch);
+        	}
+        	this.replyText(replyToken, sb.toString());
+        	is.close();
+            return;
+        }
         if(isAdminUserId(userId)) {
             if (text.equals("PgCommand開啟全功能")) {
                 isDisableBot = false;

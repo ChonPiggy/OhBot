@@ -42,8 +42,6 @@ public class LineNotify {
                 throw new Exception( "Error:(StatusCode)" + statusCode + ", " + connection.getResponseMessage() );
             }
             connection.disconnect();
-            String command = "curl -X POST https://notify-api.line.me/api/notify -H 'Authorization: Bearer RPKQnj2YVRslWIodM2BBOZhlbJbomKzDFBOdD447png' -F 'message=pg test' -F 'imageFile=@/app/PgTest.jpeg'";
-            /*Process process = */Runtime.getRuntime().exec(command);
         } catch (Exception e) {
             e.printStackTrace();
         }
