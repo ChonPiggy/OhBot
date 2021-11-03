@@ -1081,12 +1081,12 @@ public class OhBotController {
         //PgLog.info("Piggy check handleTextMessageEvent: " + event);
         handleTextContent(event.getReplyToken(), event, event.getMessage());
     }
-    
+
+    @EventMapping
     public void handleImageMessageEvent(MessageEvent<ImageMessageContent> event) throws IOException {
     	handleImageContent(event.getReplyToken(), event, event.getMessage());
     }
     
-    @EventMapping
     private void handleImageContent(String replyToken, Event event, ImageMessageContent content) {
     	PgLog.info("handleImageContent()");
     	PgLog.info("source: " + event.getSource());
