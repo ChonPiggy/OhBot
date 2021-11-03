@@ -1100,14 +1100,10 @@ public class OhBotController {
     	if (isAdminUserId(event.getSource().getUserId())) {
     		File f = LineMessagePrimitive.handleHeavyContent(replyToken, content.getId() , null);
     		PgLog.info("getAbsolutePath: " + f.getAbsolutePath());
-    		try {
-				PgLog.info("getCanonicalPath: " + f.getCanonicalPath());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
     		PgLog.info("getPath: " + f.getPath());
-    		
+    		final String SayGoAndGo_STOCK_NOTIFY_TOKEN = "gABHHem5nu1LlNWhaagxbhX5Y54LDoUgYbVgZfv3ins";
     		LineNotify.callLocalImageEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "PG Test", f.getAbsolutePath());
+    		//LineNotify.callLocalImageEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, "PG Test", f.getAbsolutePath());
     	}
     }
     
