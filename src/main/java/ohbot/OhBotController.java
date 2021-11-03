@@ -1103,8 +1103,9 @@ public class OhBotController {
     		File f = LineMessagePrimitive.handleHeavyContent(replyToken, content.getId() , null);
     		PgLog.info("getAbsolutePath: " + f.getAbsolutePath());
     		final String SayGoAndGo_STOCK_NOTIFY_TOKEN = "gABHHem5nu1LlNWhaagxbhX5Y54LDoUgYbVgZfv3ins";
-    		PgLog.info("test path: " + this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
-    		LineNotify.callLocalImageEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "PG Test", f.getAbsolutePath());
+    		String testPath = "this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()";
+    		PgLog.info("test path: " + testPath);
+    		LineNotify.callLocalImageEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "PG Test", testPath+f.getPath());
     		//LineNotify.callLocalImageEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, "PG Test", f.getAbsolutePath());
     	}
     }
