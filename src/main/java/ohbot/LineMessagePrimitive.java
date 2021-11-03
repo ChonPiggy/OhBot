@@ -25,6 +25,7 @@ import com.linecorp.bot.model.response.BotApiResponse;
 
 import lombok.NonNull;
 import ohbot.utils.PgLog;
+import ohbot.utils.PgUtils;
 
 public class LineMessagePrimitive {
 

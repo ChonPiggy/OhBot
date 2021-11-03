@@ -1,7 +1,7 @@
 package ohbot;
 
 import ohbot.utils.PgLog;
-import ohbot.utils.Utils;
+import ohbot.utils.PgUtils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -75,11 +75,11 @@ public class PttStockMonitorThread extends Thread {
     }
     
     public boolean isTimeAfterStockClose() {
-    	return Utils.isNowAfterTime("14:00");
+    	return PgUtils.isNowAfterTime("14:00");
     }
     
     public boolean isTimeBeforeStockOpen() {
-    	return Utils.isNowAfterTime("08:00");
+    	return PgUtils.isNowAfterTime("08:00");
     }
 
     public void run() {
@@ -151,11 +151,11 @@ public class PttStockMonitorThread extends Thread {
     	return  isTimeInStockOpening();
     }
     private boolean isTimeInStockOpening() {
-    	return Utils.isTimeInPeriod(getCurrentTimeString(), "08:30", "13:59");
+    	return PgUtils.isTimeInPeriod(getCurrentTimeString(), "08:30", "13:59");
     }
     
     private boolean isTimeInStockClosing() {
-    	return Utils.isTimeInPeriod(getCurrentTimeString(), "14:00", "08:00");
+    	return PgUtils.isTimeInPeriod(getCurrentTimeString(), "14:00", "08:00");
     }
     
     public void setForceTargetPage(String target) {

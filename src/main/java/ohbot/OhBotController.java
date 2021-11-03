@@ -40,7 +40,7 @@ import ohbot.aqiObj.AqiResult;
 import ohbot.aqiObj.Datum;
 import ohbot.stockObj.*;
 import ohbot.utils.PgLog;
-import ohbot.utils.Utils;
+import ohbot.utils.PgUtils;
 
 import java.lang.reflect.*;
 
@@ -7471,7 +7471,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 httpGet.addHeader( "Cookie","_gat=1; nsfw-click-load=off; gif-click-load=on; _ga=GA1.2.1861846600.1423061484" );
                 CloseableHttpResponse response = httpClient.execute(httpGet);
                 InputStream in = response.getEntity().getContent();
-                String html = Utils.convertStreamToString(in);
+                String html = PgUtils.convertStreamToString(in);
                 
                 html = html.substring(html.indexOf("list-style-type"));
                 
