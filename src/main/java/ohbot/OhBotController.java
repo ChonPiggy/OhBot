@@ -1141,14 +1141,19 @@ public class OhBotController {
         	}
         }
         if (isCommandModeStart && isAdminUserId(userId)) {
-        	Process process = Runtime.getRuntime().exec(text);
-        	InputStream is = process.getInputStream();
-        	StringBuilder sb = new StringBuilder();
-        	for (int ch; (ch = is.read()) != -1; ) {
-        	    sb.append((char) ch);
+        	try {
+	        	Process process = Runtime.getRuntime().exec(text);
+	        	InputStream is = process.getInputStream();
+	        	StringBuilder sb = new StringBuilder();
+	        	for (int ch; (ch = is.read()) != -1; ) {
+	        	    sb.append((char) ch);
+	        	}
+	        	this.replyText(replyToken, sb.toString());
+	        	is.close();
+        	} catch (Exception e) {
+        		e.printStackTrace();
+        		this.replyText(replyToken, "指令失敗");
         	}
-        	this.replyText(replyToken, sb.toString());
-        	is.close();
             return;
         }
         if(isAdminUserId(userId)) {
