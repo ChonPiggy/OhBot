@@ -55,7 +55,7 @@ public class LineMessagePrimitive {
     		return null;
     	}
     	InputStream is = response.getStream();
-    	File f = PgUtils.createTempFileFromInputStream(is, "PgTest.jpeg");
+    	File f = PgUtils.createTempFileFromInputStream(is, "PgTest.png");
     	
     	PgLog.error("response.getLength(): " + response.getLength());
     	if (f != null) {
