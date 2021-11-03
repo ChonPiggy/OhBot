@@ -1102,26 +1102,7 @@ public class OhBotController {
     	if (isAdminUserId(event.getSource().getUserId())) {
     		File f = LineMessagePrimitive.handleHeavyContent(replyToken, content.getId() , null);
     		PgLog.info("getAbsolutePath: " + f.getAbsolutePath());
-    		final String SayGoAndGo_STOCK_NOTIFY_TOKEN = "gABHHem5nu1LlNWhaagxbhX5Y54LDoUgYbVgZfv3ins";
-    		String testPath = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-    		PgLog.info("test path: " + testPath);
-    		//File testFile = new File(testPath+f.getPath());
-    		File testFile = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), f.getPath());
-    		if (testFile != null) {
-    			
-    			PgLog.info("testFile path: " + testFile.getAbsolutePath());
-    			PgLog.info("testFile exists: " + testFile.exists());
-    			
-    		}
-    		
-    		File testFile1 = new File(f.getAbsolutePath());
-    		if (testFile1 != null) {
-    			
-    			PgLog.info("testFile1 path: " + testFile1.getAbsolutePath());
-    			PgLog.info("testFile1 exists: " + testFile1.exists());
-    			
-    		}
-    		
+    		//final String SayGoAndGo_STOCK_NOTIFY_TOKEN = "gABHHem5nu1LlNWhaagxbhX5Y54LDoUgYbVgZfv3ins";
     		LineNotify.callLocalImageEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "PG Test", f.getAbsolutePath());
     		//LineNotify.callLocalImageEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, "PG Test", f.getAbsolutePath());
     	}
