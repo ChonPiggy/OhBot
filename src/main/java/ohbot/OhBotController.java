@@ -1107,8 +1107,20 @@ public class OhBotController {
     		PgLog.info("test path: " + testPath);
     		File testFile = new File(testPath+f.getPath());
     		if (testFile != null) {
+    			
     			PgLog.info("testFile path: " + testFile.getAbsolutePath());
+    			PgLog.info("testFile exists: " + testFile.exists());
+    			
     		}
+    		
+    		File testFile1 = new File(f.getAbsolutePath());
+    		if (testFile1 != null) {
+    			
+    			PgLog.info("testFile1 path: " + testFile1.getAbsolutePath());
+    			PgLog.info("testFile1 exists: " + testFile1.exists());
+    			
+    		}
+    		
     		LineNotify.callLocalImageEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "PG Test", testPath+f.getPath());
     		//LineNotify.callLocalImageEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, "PG Test", f.getAbsolutePath());
     	}
