@@ -4,10 +4,13 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.linecorp.bot.client.LineBlobClient;
 import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.message.LocationMessage;
@@ -24,12 +27,26 @@ import ohbot.utils.PgLog;
 public class LineMessagePrimitive {
 
     private static LineMessagingClient lineMessagingClient;
+    private static LineBlobClient lineBlobClient;
     
     public static void setClient(LineMessagingClient client) {
     	if (lineMessagingClient == null) {
     		lineMessagingClient = client;
     	}
     }
+    
+    public static void handleHeavyContent(String replyToken, String messageId,
+    		Consumer<MessageContentResponse> messageConsumer) {
+    	final MessageContentResponse response;
+    	try {
+    		response = lineBlobClient.getMessageContent(messageId)
+    				.get();
+    	} catch (Exception e) {
+    		PgLog.error("Cannot get image: " + e.getMessage());
+    		throw new RuntimeException(e);
+    	}
+    	messageConsumer.accept(response);
+}
     
     public static CompletableFuture<BotApiResponse> pushMessage(PushMessage message) {
     	return lineMessagingClient.pushMessage(message);
