@@ -1107,7 +1107,7 @@ public class OhBotController {
 			}
     		PgLog.info("getPath: " + f.getPath());
     		
-    		LineNotify.callLocalImageEvent(replyToken, "PG Test", f.getPath());
+    		LineNotify.callLocalImageEvent(GROUP_ID_BOT_HELL, "PG Test", f.getPath());
     	}
     }
     
