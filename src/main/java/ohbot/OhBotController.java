@@ -1107,7 +1107,7 @@ public class OhBotController {
 			}
     		PgLog.info("getPath: " + f.getPath());
     		
-    		LineNotify.callEvent(replyToken, "PG Test", f.getPath(), true);
+    		LineNotify.callLocalImageEvent(replyToken, "PG Test", f.getPath());
     	}
     }
     
@@ -4981,7 +4981,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void notifyImage(String room, String image, String replyToken) throws IOException {
         image = image.replace("PgCommandNotifyImage:", "");
 
-        if (LineNotify.callEvent(room, " ", image)) {
+        if (LineNotify.callImageEvent(room, " ", image)) {
             this.replyText(replyToken, "圖片發送成功");
         }
         else {
@@ -8092,7 +8092,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     private void notifyAllNeedEarthquakeEventRoom() {
         for (String room : mEarthquakeEventRoomList){
             LineNotify.callEvent(room, mNewestEarthquakeReportText);
-            LineNotify.callEvent(room, " ", mNewestEarthquakeReportImage);
+            LineNotify.callImageEvent(room, " ", mNewestEarthquakeReportImage);
         }        
     }
 
