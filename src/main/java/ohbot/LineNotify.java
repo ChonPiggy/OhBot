@@ -26,7 +26,7 @@ public class LineNotify {
             PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
             printWriter.print(parameterMessageString);
             if (!image.equals("")) {
-            	String imageFile = new String("&@imageFile=" + image);
+            	String imageFile = new String("&imageFile=@" + image);
             	printWriter.print(imageFile);
             }
             printWriter.close();
