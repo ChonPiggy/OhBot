@@ -1150,6 +1150,7 @@ public class OhBotController {
 	        	}
 	        	this.replyText(replyToken, sb.toString());
 	        	is.close();
+	        	process.destroy();
         	} catch (Exception e) {
         		e.printStackTrace();
         		this.replyText(replyToken, "指令失敗");
