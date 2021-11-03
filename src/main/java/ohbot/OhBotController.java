@@ -1095,7 +1095,7 @@ public class OhBotController {
     	PgLog.info("PreviewImageUrl: " + content.getContentProvider().getPreviewImageUrl());
     	PgLog.info("Type: " + content.getContentProvider().getType());
     	
-    	//LineMessagePrimitive.handleHeavyContent(replyToken, content.getId() , messageConsumer);
+    	LineMessagePrimitive.handleHeavyContent(replyToken, content.getId() , null);
     }
     
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {

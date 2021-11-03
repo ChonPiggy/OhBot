@@ -45,7 +45,8 @@ public class LineMessagePrimitive {
     		PgLog.error("Cannot get image: " + e.getMessage());
     		throw new RuntimeException(e);
     	}
-    	messageConsumer.accept(response);
+    	PgLog.error("Cannot get response.getLength(): " + response.getLength());
+    	//messageConsumer.accept(response);
 }
     
     public static CompletableFuture<BotApiResponse> pushMessage(PushMessage message) {
