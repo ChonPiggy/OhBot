@@ -301,7 +301,7 @@ public class PttStockMonitorThread extends Thread {
             	strResult = strResult.substring(strResult.indexOf("push-content\">")+14, strResult.length());
             	content = strResult.substring(0, strResult.indexOf("</span>"));
             	
-            	if (content.contains(".jpg")||content.contains(".jpeg")) {
+            	if (content.contains(".jpg")||content.contains(".jpeg")||content.contains(".png")) {
             		String url = "";
             		String contentString = "";
             		// 3 Possible if include image url

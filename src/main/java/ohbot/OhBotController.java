@@ -3,6 +3,7 @@ package ohbot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.URIAction;
@@ -12,6 +13,7 @@ import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent.Emoji;
 import com.linecorp.bot.model.message.Message;
@@ -42,6 +44,7 @@ import ohbot.utils.Utils;
 import java.lang.reflect.*;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import java.lang.reflect.Method;
 
 import org.apache.http.HttpHost;
@@ -1078,7 +1081,19 @@ public class OhBotController {
         //PgLog.info("Piggy check handleTextMessageEvent: " + event);
         handleTextContent(event.getReplyToken(), event, event.getMessage());
     }
-
+    
+    public void handleImageMessageEvent(MessageEvent<ImageMessageContent> event) throws IOException {
+    	handleImageContent(event.getReplyToken(), event, event.getMessage());
+    }
+    
+    private void handleImageContent(String replyToken, Event event, ImageMessageContent content) {
+    	PgLog.info("handleImageContent()");
+    	PgLog.info("source: " + event.getSource());
+    	PgLog.info("OriginalContentUrl: " + content.getContentProvider().getOriginalContentUrl().toString());
+    	PgLog.info("PreviewImageUrl: " + content.getContentProvider().getPreviewImageUrl().toString());
+    	PgLog.info("Type: " + content.getContentProvider().getType());
+    }
+    
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
 
         // Init check 
@@ -9186,7 +9201,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return new Customsearch(new NetHttpTransport(), new JacksonFactory(), null);
     }
     
-    String API_KEY = "AIzaSyBWpknMcS02RhR42Gp5g7odK5hQLdJqK-A";
+    String GOOGLE_SEARCH_API_KEY = "AIzaSyBWpknMcS02RhR42Gp5g7odK5hQLdJqK-A";
     String CX_INSTAGRAM_LOCATION = "e2c451811ef6e4847";
     
     List<InstagramLocation> searchIgLocation(String query, int numOfResults) throws IOException {
@@ -9195,7 +9210,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         List<InstagramLocation> igLocationResults = new ArrayList<InstagramLocation>();
         Customsearch.Cse.List list = search.cse().list(query);
 
-        list.setKey(API_KEY);
+        list.setKey(GOOGLE_SEARCH_API_KEY);
         list.setC2coff("1");
         list.setCx(CX_INSTAGRAM_LOCATION);
 
