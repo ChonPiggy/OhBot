@@ -62,7 +62,6 @@ public class LineMessagePrimitive {
     		PgLog.error("f.getPath(): " + f.getPath());
     		PgLog.error("f.length(): " + f.length());
     	}
-    	f.deleteOnExit();
     	return f;
     	//messageConsumer.accept(response);
 }
