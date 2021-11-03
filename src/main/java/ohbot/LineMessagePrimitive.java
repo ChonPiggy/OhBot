@@ -35,6 +35,12 @@ public class LineMessagePrimitive {
     	}
     }
     
+    public static void setBlobClient(LineBlobClient client) {
+    	if (lineBlobClient == null) {
+    		lineBlobClient = client;
+    	}
+    }
+    
     public static void handleHeavyContent(String replyToken, String messageId,
     		Consumer<MessageContentResponse> messageConsumer) {
     	final MessageContentResponse response;
@@ -42,8 +48,8 @@ public class LineMessagePrimitive {
     		response = lineBlobClient.getMessageContent(messageId)
     				.get();
     	} catch (Exception e) {
-    		PgLog.error("Cannot get image: " + e.getMessage());
-    		throw new RuntimeException(e);
+    		PgLog.error("Cannot get image: " + e);
+    		return;
     	}
     	PgLog.error("Cannot get response.getLength(): " + response.getLength());
     	//messageConsumer.accept(response);

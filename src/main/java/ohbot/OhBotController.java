@@ -2,6 +2,7 @@ package ohbot;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.linecorp.bot.client.LineBlobClient;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.PushMessage;
@@ -566,6 +567,8 @@ public class OhBotController {
 
     @Autowired
     private LineMessagingClient lineMessagingClient;
+    @Autowired
+    private LineBlobClient lineBlobClient;
 
     @RequestMapping("/")
     public String index() {
@@ -1103,6 +1106,7 @@ public class OhBotController {
         // Init check 
         WorldCountryPeopleCountCrawl.init();
         LineMessagePrimitive.setClient(lineMessagingClient);
+        LineMessagePrimitive.setBlobClient(lineBlobClient);
         // Init check finished.
         String text = content.getText().trim();
         //PgLog.info(text);
