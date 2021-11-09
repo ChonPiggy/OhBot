@@ -3,14 +3,18 @@ package ohbot;
 // fork from https://gist.github.com/xchinjo/60c16be6a14ca7599cb267f153a75b25
 import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
 import java.util.regex.Pattern;
 
 import ohbot.utils.PgLog;
 
 public class LineNotify {
     private static final String strEndpoint = "https://notify-api.line.me/api/notify";
-    public static boolean callLocalImageEvent(String token, String message, String image) {
+    public static boolean callLocalImageEvent(String token, String message, File image) {
     	boolean result = false;
+    	String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
+    	String charset = "UTF-8";
+    	String CRLF = "\r\n"; // Line separator required by multipart/form-data.
         try {
             /*message = replaceProcess(message);
             message = URLEncoder.encode(message, "UTF-8");
@@ -22,17 +26,34 @@ public class LineNotify {
             URL url = new URL( strUrl );
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.addRequestProperty("Authorization",  "Bearer " + token);
-            connection.addRequestProperty( "Content-Type", "image/jpeg" );
             connection.setRequestMethod( "POST" );
             connection.setDoOutput( true );
+            connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+            
+            OutputStream output = connection.getOutputStream();
             String parameterMessageString = new String("message=" + message);
-            PrintWriter printWriter = new PrintWriter(connection.getOutputStream());
+            //PrintWriter printWriter = new PrintWriter(output);
+            PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(output, charset), true);
             printWriter.print(parameterMessageString);
-            if (!image.equals("")) {
+            /*if (!image.equals("")) {
             	String imageFile = new String("&imageFile=@" + image);
             	PgLog.info("imageFile: " + imageFile); 
             	printWriter.print(imageFile);
-            }
+            }*/
+            
+            // Send binary file.
+            printWriter.append("--" + boundary).append(CRLF);
+            printWriter.append("Content-Disposition: form-data; name=\"binaryFile\"; filename=\"" + image.getName() + "\"").append(CRLF);
+            printWriter.append("Content-Type: " + URLConnection.guessContentTypeFromName(image.getName())).append(CRLF);
+            printWriter.append("Content-Transfer-Encoding: binary").append(CRLF);
+            printWriter.append(CRLF).flush();
+            Files.copy(image.toPath(), output);
+            output.flush(); // Important before continuing with writer!
+            printWriter.append(CRLF).flush(); // CRLF is important! It indicates end of boundary.
+
+            // End of multipart/form-data.
+            printWriter.append("--" + boundary + "--").append(CRLF).flush();
+
             printWriter.close();
             connection.connect();
             PgLog.info("connection.getResponseMessage(): " + connection.getResponseMessage());
