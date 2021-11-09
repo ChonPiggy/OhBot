@@ -53,12 +53,8 @@ public class PgUtils {
 			boolean isDumped = false;
 			while ((read = inputStream.read(bytes)) != -1) {
 				outputStream.write(bytes, 0, read);
-				if (!isDumped) {
-					isDumped = true;
-					PgLog.info("Piggy Check first("+read+"): " + bytesToHex(bytes));
-				}
+				PgLog.info("Piggy Check ("+read+"): " + bytesToHex(bytes));
 			}
-			PgLog.info("Piggy Check last("+read+"): " + bytesToHex(bytes));
 		}
 	}
 
