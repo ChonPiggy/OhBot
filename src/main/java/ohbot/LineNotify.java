@@ -22,6 +22,7 @@ public class LineNotify {
             URL url = new URL( strUrl );
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.addRequestProperty("Authorization",  "Bearer " + token);
+            connection.addRequestProperty( "Content-Type", "image/jpeg" );
             connection.setRequestMethod( "POST" );
             connection.setDoOutput( true );
             String parameterMessageString = new String("message=" + message);
@@ -34,7 +35,7 @@ public class LineNotify {
             }
             printWriter.close();
             connection.connect();
-            PgLog.info("connection.getContent(): " + connection.getContent());
+            PgLog.info("connection.getResponseMessage(): " + connection.getResponseMessage());
             int statusCode = connection.getResponseCode();
             if ( statusCode == 200 ) {
                 result = true;
