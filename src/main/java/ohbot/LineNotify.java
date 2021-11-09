@@ -21,15 +21,6 @@ public class LineNotify {
     private static final String strEndpoint = "https://notify-api.line.me/api/notify";
     
 	public static LinkedHashMap<String, Object> sendLineNotifyImage(String token, String msg, MultipartFile file) {
-		if (file == null) {
-			PgLog.info("MultipartFile is null");
-		}
-		else {
-			PgLog.info("MultipartFile: " + file.getSize());
-			PgLog.info("MultipartFile: " + file.getOriginalFilename());
-			PgLog.info("MultipartFile: " + file.getName());
-			PgLog.info("MultipartFile: " + file.getContentType());
-		}
 		try {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("message", msg);
