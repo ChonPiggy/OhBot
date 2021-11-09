@@ -34,7 +34,7 @@ public class LineNotify {
             String parameterMessageString = new String("message=" + message);
             //PrintWriter printWriter = new PrintWriter(output);
             PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(output, charset), true);
-            printWriter.print(parameterMessageString);
+            //printWriter.print(parameterMessageString);
             /*if (!image.equals("")) {
             	String imageFile = new String("&imageFile=@" + image);
             	PgLog.info("imageFile: " + imageFile); 
@@ -42,6 +42,7 @@ public class LineNotify {
             }*/
             
             // Send binary file.
+            printWriter.append("message="+message);
             printWriter.append("--" + boundary).append(CRLF);
             printWriter.append("Content-Disposition: form-data; name=\"binaryFile\"; filename=\"" + image.getName() + "\"").append(CRLF);
             printWriter.append("Content-Type: " + URLConnection.guessContentTypeFromName(image.getName())).append(CRLF);
@@ -55,7 +56,7 @@ public class LineNotify {
             printWriter.append("--" + boundary + "--").append(CRLF).flush();
             PgLog.info("printWriter(): " + printWriter);
             printWriter.close();
-            connection.connect();
+            //connection.connect();
             PgLog.info("connection.getResponseMessage(): " + connection.getResponseMessage());
             int statusCode = connection.getResponseCode();
             if ( statusCode == 200 ) {
