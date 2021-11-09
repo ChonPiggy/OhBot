@@ -2,6 +2,8 @@ package ohbot.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,8 +14,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.http.entity.ContentType;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import org.springframework.mock.web.MockMultipartFile;
 public class PgUtils {
 	public static void writeToFile(InputStream in, String path){
 		File file = new File(path);
@@ -151,5 +159,18 @@ public class PgUtils {
 	
 	public static String bytesToHex(byte[] bytes) {
 		return Hex.encodeHexString(bytes);
+	}
+	
+	public static MultipartFile getMultipartFileFromFile(File file) {
+		MultipartFile multipartFile = null;
+		try {
+			FileInputStream fileInputStream = new FileInputStream(file);
+			multipartFile = new MockMultipartFile("copy"+file.getName(), file.getName(), ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return multipartFile;
 	}
 }

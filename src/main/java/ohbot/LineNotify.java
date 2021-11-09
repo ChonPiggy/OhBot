@@ -4,12 +4,60 @@ package ohbot;
 import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
+import java.util.LinkedHashMap;
 import java.util.regex.Pattern;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import ohbot.utils.PgLog;
 
 public class LineNotify {
     private static final String strEndpoint = "https://notify-api.line.me/api/notify";
+    
+	public static LinkedHashMap<String, Object> sendLineNotifyImage(String token, String msg, MultipartFile file) {
+		if (file == null) {
+			PgLog.info("MultipartFile is null");
+		}
+		else {
+			PgLog.info("MultipartFile: " + file.getSize());
+			PgLog.info("MultipartFile: " + file.getOriginalFilename());
+			PgLog.info("MultipartFile: " + file.getName());
+			PgLog.info("MultipartFile: " + file.getContentType());
+		}
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("message", msg);
+			if (file != null) {
+				map.add("imageFile", file.getResource());
+			}
+			return callLineNotify(token, map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static LinkedHashMap<String, Object> callLineNotify(String token, MultiValueMap<String, Object> map) throws Exception {
+		RestTemplate restTemplate = new RestTemplate();
+
+		HttpHeaders headers = new HttpHeaders();
+		if (map.get("imageFile") != null) {
+			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+		} else {
+			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		}
+		headers.add("Authorization", "Bearer " + token);
+		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(map, headers);
+		return restTemplate.postForObject(strEndpoint, request, LinkedHashMap.class);
+	}
+	
     public static boolean callLocalImageEvent(String token, String message, File image) {
     	boolean result = false;
     	String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
@@ -32,6 +80,7 @@ public class LineNotify {
             
             OutputStream output = connection.getOutputStream();
             String parameterMessageString = new String("message=" + message);
+            
             //PrintWriter printWriter = new PrintWriter(output);
             PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(output, charset), true);
             //printWriter.print(parameterMessageString);
