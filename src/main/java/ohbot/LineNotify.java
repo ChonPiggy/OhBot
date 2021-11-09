@@ -34,7 +34,7 @@ public class LineNotify {
             }
             printWriter.close();
             connection.connect();
-            
+            PgLog.info("connection.getContent(): " + connection.getContent());
             int statusCode = connection.getResponseCode();
             if ( statusCode == 200 ) {
                 result = true;
