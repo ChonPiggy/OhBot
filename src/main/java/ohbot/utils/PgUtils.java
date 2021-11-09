@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.codec.binary.Hex;
+
 
 public class PgUtils {
 	public static void writeToFile(InputStream in, String path){
@@ -45,15 +47,19 @@ public class PgUtils {
 	public static void copyInputStreamToFile(InputStream inputStream, File file)
 			throws IOException {
 
-		// append = false
 		try (FileOutputStream outputStream = new FileOutputStream(file, false)) {
 			int read;
 			byte[] bytes = new byte[DEFAULT_BUFFER_SIZE];
+			boolean isDumped = false;
 			while ((read = inputStream.read(bytes)) != -1) {
 				outputStream.write(bytes, 0, read);
+				if (!isDumped) {
+					isDumped = true;
+					PgLog.info("Piggy Check first("+read+"): " + bytesToHex(bytes));
+				}
 			}
+			PgLog.info("Piggy Check last("+read+"): " + bytesToHex(bytes));
 		}
-
 	}
 
 	/*
@@ -147,5 +153,9 @@ public class PgUtils {
 			return false;
 		}
 
+	}
+	
+	public static String bytesToHex(byte[] bytes) {
+		return Hex.encodeHexString(bytes);
 	}
 }

@@ -55,7 +55,7 @@ public class LineMessagePrimitive {
     		return null;
     	}
     	InputStream is = response.getStream();
-    	File f = PgUtils.createTempFileFromInputStream(is, "PgTest.png");
+    	File f = PgUtils.createTempFileFromInputStream(is, "PgTest.jpeg");
     	
     	PgLog.error("response.getLength(): " + response.getLength());
     	if (f != null) {
@@ -64,7 +64,7 @@ public class LineMessagePrimitive {
     	}
     	return f;
     	//messageConsumer.accept(response);
-}
+    }
     
     public static CompletableFuture<BotApiResponse> pushMessage(PushMessage message) {
     	return lineMessagingClient.pushMessage(message);

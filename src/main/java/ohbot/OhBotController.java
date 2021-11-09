@@ -296,6 +296,9 @@ public class OhBotController {
     
     private PttStockMonitorThread mPttStockMonitorThread;
     
+    String IMGUR_AUTO_UPLOAD_CLIENT_ID = System.getenv("IMGUR_AUTO_UPLOAD_CLIENT_ID");
+    String IMGUR_AUTO_UPLOAD_CLIENT_SECRET = System.getenv("3129427780387dccf6ca437499808029284e8135");
+    
     private class PttBeautyHistory {
         int ARRAY_MAX_ELEMENTS = 10;
         ArrayList<PttBeautyGirl> history = new ArrayList<PttBeautyGirl>(ARRAY_MAX_ELEMENTS); // search page history
@@ -1080,7 +1083,9 @@ public class OhBotController {
 
     @EventMapping
     public void handleDefaultMessageEvent(Event event) {
-        PgLog.info("Received default message(Ignored): {}" + event);
+    	if (isCommandModeStart) {
+    		PgLog.info("Received default message(Ignored): {}" + event);
+    	}
     }
 
     @EventMapping
@@ -2130,7 +2135,7 @@ public class OhBotController {
         /*if (text.equals("PgCommand開始偵測ID")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
             startUserIdDetectMode(senderId, replyToken);
-        }
+        }AIzaSyBWpknMcS02RhR42Gp5g7odK5hQLdJqK-A
 
         if (text.equals("PgCommand停止偵測ID")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
@@ -9249,7 +9254,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         return new Customsearch(new NetHttpTransport(), new JacksonFactory(), null);
     }
     
-    String GOOGLE_SEARCH_API_KEY = "AIzaSyBWpknMcS02RhR42Gp5g7odK5hQLdJqK-A";
+    String GOOGLE_SEARCH_API_KEY = System.getenv("GOOGLE_SEARCH_API_KEY");
     String CX_INSTAGRAM_LOCATION = "e2c451811ef6e4847";
     
     List<InstagramLocation> searchIgLocation(String query, int numOfResults) throws IOException {
