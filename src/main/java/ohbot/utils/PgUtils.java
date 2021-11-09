@@ -50,10 +50,8 @@ public class PgUtils {
 		try (FileOutputStream outputStream = new FileOutputStream(file, false)) {
 			int read;
 			byte[] bytes = new byte[DEFAULT_BUFFER_SIZE];
-			boolean isDumped = false;
 			while ((read = inputStream.read(bytes)) != -1) {
 				outputStream.write(bytes, 0, read);
-				PgLog.info("Piggy Check ("+read+"): " + bytesToHex(bytes));
 			}
 		}
 	}

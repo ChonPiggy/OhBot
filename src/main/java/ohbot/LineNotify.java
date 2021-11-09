@@ -53,7 +53,7 @@ public class LineNotify {
 
             // End of multipart/form-data.
             printWriter.append("--" + boundary + "--").append(CRLF).flush();
-
+            PgLog.info("printWriter(): " + printWriter);
             printWriter.close();
             connection.connect();
             PgLog.info("connection.getResponseMessage(): " + connection.getResponseMessage());
