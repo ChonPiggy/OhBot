@@ -49,6 +49,7 @@ dependencies {
     compile group: 'com.google.apis', name: 'google-api-services-customsearch', version: 'v1-rev69-1.22.0'
     compile group: 'org.springframework', name: 'spring-mock', version: '2.0.8'
     
+    compile group: 'com.dropbox.core', name: 'dropbox-core-sdk', version: '+', changing: true
 }
 
 bootRun {

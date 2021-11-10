@@ -34,6 +34,8 @@ import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.model.event.source.*;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+
+import dropbox.DropBoxAuthorizer;
 import emoji4j.EmojiUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -602,12 +604,10 @@ public class OhBotController {
     @RequestMapping("/dropboxAuthGet")
     public String reponseDropboxAuthGet(Model model, HttpServletRequest request) {
     	System.out.println("reponseDropboxAuthGet()");
-    	Enumeration reqEnum = request.getParameterNames();
+    	Enumeration<String> reqEnum = request.getParameterNames();
     	String challenge = "";
     	while (reqEnum.hasMoreElements()) {
     		String s = (String) reqEnum.nextElement();
-    		System.out.println(s);
-    		System.out.println("==" + request.getParameterValues(s)[0]);
     		if (s.equals("challenge")) {
     			challenge = request.getParameterValues(s)[0];
     		}
@@ -1137,13 +1137,19 @@ public class OhBotController {
     
     @EventMapping
     public void handleFileMessageEvent(MessageEvent<FileMessageContent> event) {
-    	this.replyText(event.getReplyToken(),"Received "+event.getMessage().getFileName()+" ("+event.getMessage().getFileSize()+" bytes)");
-    	LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
+    	if (isAdminUserId(event.getSource().getSenderId())) {
+    		this.replyText(event.getReplyToken(),"Received "+event.getMessage().getFileName()+" ("+event.getMessage().getFileSize()+" bytes)");
+    		LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
+    		
+    		DropBoxAuthorizer.generateAuthFileOutput(DropBoxAuthorizer.SCOPE);
+    	}
     }
     
     @EventMapping
     public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event) throws IOException {
-        LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_AUDIO);
+    	if (isAdminUserId(event.getSource().getSenderId())) {
+    		LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_AUDIO);
+    	}
     }
     
     
