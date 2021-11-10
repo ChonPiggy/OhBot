@@ -1144,7 +1144,7 @@ public class OhBotController {
     		File tempFile = LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
     		String shareUrl = DropBoxPrimitive.uploadFile(tempFile,name);
     		if (shareUrl.endsWith("dl=0")) {
-    			shareUrl = shareUrl.substring(0, shareUrl.length()-1);
+    			shareUrl = shareUrl.substring(0, shareUrl.length()-4);
     			shareUrl+="raw=1";
     		}
     		this.replyText(event.getReplyToken(), "Dropbox link: " + shareUrl);
