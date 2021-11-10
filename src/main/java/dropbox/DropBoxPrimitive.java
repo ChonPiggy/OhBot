@@ -22,6 +22,8 @@ import com.dropbox.core.v2.files.UploadSessionLookupErrorException;
 import com.dropbox.core.v2.files.WriteMode;
 import com.dropbox.core.v2.users.FullAccount;
 
+import ohbot.utils.PgLog;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -34,6 +36,7 @@ import java.util.Date;
 public class DropBoxPrimitive {
 	
 	public static void uploadFile(File file) {
+		PgLog.info("uploadFile: " + file.getPath());
 		// Create Dropbox client
 		DbxRequestConfig config = new DbxRequestConfig("dropbox/java-tutorial", "en_US");
 		DbxClientV2 client = new DbxClientV2(config, System.getenv("DROPBOX_ACCESS_TOKEN"));
@@ -43,9 +46,11 @@ public class DropBoxPrimitive {
 		try {
 			account = client.users().getCurrentAccount();
 
-			System.out.println(account.getName().getDisplayName());
+			PgLog.info("Dropbox Name: " + account.getName().getDisplayName());
+			PgLog.info("Dropbox Email: " + account.getEmail());
+			PgLog.info("Dropbox RootInfo: " + account.getRootInfo());
 
-
+			PgLog.info("Before dump list");
 			// Get files and folder metadata from Dropbox root directory
 			ListFolderResult result = client.files().listFolder("");
 
@@ -69,13 +74,14 @@ public class DropBoxPrimitive {
 					e.printStackTrace();
 				}
 			}
+			PgLog.info("After dump list");
 		} catch (DbxException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 		// Upload "test.txt" to Dropbox
-		try (InputStream in = new FileInputStream("test.txt")) {
+		try (InputStream in = new FileInputStream(file)) {
 			try {
 				FileMetadata metadata = client.files().uploadBuilder("/test.txt")
 						.uploadAndFinish(in);
@@ -90,6 +96,7 @@ public class DropBoxPrimitive {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		PgLog.info("uploadAndFinished.");
 	}
 
 	// Adjust the chunk size based on your network speed and reliability. Larger chunk sizes will
@@ -118,13 +125,10 @@ public class DropBoxPrimitive {
             System.out.println(metadata.toStringMultiline());
         } catch (UploadErrorException ex) {
             System.err.println("Error uploading to Dropbox: " + ex.getMessage());
-            System.exit(1);
         } catch (DbxException ex) {
             System.err.println("Error uploading to Dropbox: " + ex.getMessage());
-            System.exit(1);
         } catch (IOException ex) {
             System.err.println("Error reading from file \"" + localFile + "\": " + ex.getMessage());
-            System.exit(1);
         }
     }
 
@@ -231,7 +235,6 @@ public class DropBoxPrimitive {
                 } else {
                     // Some other error occurred, give up.
                     System.err.println("Error uploading to Dropbox: " + ex.getMessage());
-                    System.exit(1);
                     return;
                 }
             } catch (UploadSessionFinishErrorException ex) {
@@ -247,23 +250,19 @@ public class DropBoxPrimitive {
                 } else {
                     // some other error occurred, give up.
                     System.err.println("Error uploading to Dropbox: " + ex.getMessage());
-                    System.exit(1);
                     return;
                 }
             } catch (DbxException ex) {
                 System.err.println("Error uploading to Dropbox: " + ex.getMessage());
-                System.exit(1);
                 return;
             } catch (IOException ex) {
                 System.err.println("Error reading from file \"" + localFile + "\": " + ex.getMessage());
-                System.exit(1);
                 return;
             }
         }
 
         // if we made it here, then we must have run out of attempts
         System.err.println("Maxed out upload attempts to Dropbox. Most recent error: " + thrown.getMessage());
-        System.exit(1);
     }
 
     private static void printProgress(long uploaded, long size) {
@@ -276,7 +275,6 @@ public class DropBoxPrimitive {
         } catch (InterruptedException ex) {
             // just exit
             System.err.println("Error uploading to Dropbox: interrupted during backoff.");
-            System.exit(1);
         }
     }
 
