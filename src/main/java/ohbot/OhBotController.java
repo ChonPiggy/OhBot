@@ -603,7 +603,8 @@ public class OhBotController {
     
     @RequestMapping("/dropboxAuthGet")
     public String reponseDropboxAuthGet(Model model, HttpServletRequest request) {
-    	Enumeration reqEnum = request.getAttributeNames();
+    	System.out.println("reponseDropboxAuthGet()");
+    	Enumeration reqEnum = request.getParameterNames();
     	while (reqEnum.hasMoreElements()) {
     		String s = (String) reqEnum.nextElement();
     		System.out.println(s);
