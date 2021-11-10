@@ -1,5 +1,6 @@
 package dropbox;
 
+import com.dropbox.core.BadRequestException;
 import com.dropbox.core.DbxAuthInfo;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
@@ -89,17 +90,14 @@ public class DropBoxPrimitive {
 						.uploadAndFinish(in);
 				PgLog.info("uploadAndFinished.");
 				SharedFileMetadata sharedFileMetadata;
-				
-				sharedFileMetadata = client.sharing().getFileMetadata(path);
-				if (sharedFileMetadata == null) {
+				try {
 					SharedLinkMetadata sharedLinkMetadata = client.sharing().createSharedLinkWithSettings(path);
 					PgLog.info("sharedLinkMetadata.getUrl(): " + sharedLinkMetadata.getUrl());
 				    return sharedLinkMetadata.getUrl();
+				} catch (BadRequestException e) {
+					e.printStackTrace();
+					return "duplicate";
 				}
-				else {
-					PgLog.info("sharedFileMetadata already exist: " + sharedFileMetadata.getLinkMetadata().getUrl());
-				}
-				return sharedFileMetadata.getLinkMetadata().getUrl();
 			} catch (DbxException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -1162,6 +1162,14 @@ public class OhBotController {
     			shareUrl = shareUrl.substring(0, shareUrl.length()-4);
     			shareUrl+="raw=1";
     		}
+    		if (shareUrl.equals("")) {
+    			this.replyText(event.getReplyToken(), "Dropbox link upload fail.");
+    			return;
+    		}
+    		else if (shareUrl.equals("duplicate")) {
+    			this.replyText(event.getReplyToken(), "重複上傳");
+    			return;
+    		}
     		this.replyText(event.getReplyToken(), "Dropbox link: " + shareUrl);
     		LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "\nDropbox link: " + shareUrl);
     	}
