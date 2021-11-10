@@ -75,12 +75,16 @@ import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.net.ssl.*;
+import javax.servlet.http.HttpServletRequest;
+
 import java.io.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -595,6 +599,17 @@ public class OhBotController {
     public String reponseDropboxAuth() {
         Greeter greeter = new Greeter();
         return greeter.sayHelloToDropBoxAuth();
+    }
+    
+    @RequestMapping("/dropboxAuthGet")
+    public String reponseDropboxAuthGet(Model model, HttpServletRequest request) {
+    	Enumeration reqEnum = request.getAttributeNames();
+    	while (reqEnum.hasMoreElements()) {
+    		String s = (String) reqEnum.nextElement();
+    		System.out.println(s);
+    		System.out.println("==" + request.getAttribute(s));
+    	}
+		return "";
     }
 
     @RequestMapping("/greeting")
