@@ -1140,17 +1140,16 @@ public class OhBotController {
     public void handleFileMessageEvent(MessageEvent<FileMessageContent> event) {
     	if (isAdminUserId(event.getSource().getSenderId())) {
     		this.replyText(event.getReplyToken(),"Received "+event.getMessage().getFileName()+" ("+event.getMessage().getFileSize()+" bytes)");
-    		LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
-    		
-    		DropBoxAuthorizer.generateAuthFileOutput(DropBoxAuthorizer.SCOPE);
+    		File f = LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
+    		DropBoxPrimitive.uploadFile(f);
+    		//DropBoxAuthorizer.generateAuthFileOutput(DropBoxAuthorizer.SCOPE);
     	}
     }
     
     @EventMapping
     public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event) throws IOException {
     	if (isAdminUserId(event.getSource().getSenderId())) {
-    		File f = LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_AUDIO);
-    		DropBoxPrimitive.uploadFile(f);
+    		LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_AUDIO);
     	}
     }
     
