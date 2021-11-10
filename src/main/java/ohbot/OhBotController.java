@@ -582,7 +582,7 @@ public class OhBotController {
     @RequestMapping("/")
     public String index() {
         Greeter greeter = new Greeter();
-        return greeter.sayHelloToGoogleAuth();
+        return greeter.sayHello();
     }
     
     @RequestMapping("/googleAuth")
