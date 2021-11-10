@@ -596,7 +596,7 @@ public class OhBotController {
     
     @RequestMapping("/dropboxAuth")
     public String reponseDropboxAuth() {
-        return Greeter.sayHelloToDropBoxAuth("");
+        return Greeter.sayHelloToDropBoxAuth();
     }
     
     @RequestMapping("/dropboxAuthGet")
@@ -607,7 +607,7 @@ public class OhBotController {
     	while (reqEnum.hasMoreElements()) {
     		String s = (String) reqEnum.nextElement();
     		System.out.println(s);
-    		System.out.println("==" + request.getParameterValues(s));
+    		System.out.println("==" + request.getParameterValues(s)[0]);
     		if (s.equals("challenge")) {
     			challenge = request.getParameterValues(s)[0];
     		}
