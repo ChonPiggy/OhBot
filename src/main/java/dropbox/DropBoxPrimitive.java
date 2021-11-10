@@ -83,7 +83,7 @@ public class DropBoxPrimitive {
 		// Upload "test.txt" to Dropbox
 		try (InputStream in = new FileInputStream(file)) {
 			try {
-				FileMetadata metadata = client.files().uploadBuilder("/test.txt")
+				FileMetadata metadata = client.files().uploadBuilder(file.getName())
 						.uploadAndFinish(in);
 			} catch (DbxException e) {
 				// TODO Auto-generated catch block
