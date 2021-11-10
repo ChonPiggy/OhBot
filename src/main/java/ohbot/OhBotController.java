@@ -591,26 +591,28 @@ public class OhBotController {
     
     @RequestMapping("/googleAuth")
     public String reponseGoogleAuth() {
-        Greeter greeter = new Greeter();
-        return greeter.sayHelloToGoogleAuth();
+        return Greeter.sayHelloToGoogleAuth();
     }
     
     @RequestMapping("/dropboxAuth")
     public String reponseDropboxAuth() {
-        Greeter greeter = new Greeter();
-        return greeter.sayHelloToDropBoxAuth();
+        return Greeter.sayHelloToDropBoxAuth();
     }
     
     @RequestMapping("/dropboxAuthGet")
     public String reponseDropboxAuthGet(Model model, HttpServletRequest request) {
     	System.out.println("reponseDropboxAuthGet()");
     	Enumeration reqEnum = request.getParameterNames();
+    	String challenge = "";
     	while (reqEnum.hasMoreElements()) {
     		String s = (String) reqEnum.nextElement();
     		System.out.println(s);
-    		System.out.println("==" + request.getAttribute(s));
+    		System.out.println("==" + request.getParameterValues(s));
+    		if (s.equals("challenge")) {
+    			challenge = request.getParameterValues(s)[0];
+    		}
     	}
-		return "";
+    	return Greeter.sayHelloToDropBoxAuth(challenge);
     }
 
     @RequestMapping("/greeting")
