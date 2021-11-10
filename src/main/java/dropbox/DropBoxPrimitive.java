@@ -35,7 +35,7 @@ import java.util.Date;
 
 public class DropBoxPrimitive {
 	
-	public static void uploadFile(File file) {
+	public static void uploadFile(File file, String orignalName) {
 		PgLog.info("uploadFile: " + file.getPath());
 		// Create Dropbox client
 		DbxRequestConfig config = new DbxRequestConfig("dropbox/java-tutorial", "en_US");
@@ -83,7 +83,7 @@ public class DropBoxPrimitive {
 		// Upload "test.txt" to Dropbox
 		try (InputStream in = new FileInputStream(file)) {
 			try {
-				FileMetadata metadata = client.files().uploadBuilder("/"+file.getName())
+				FileMetadata metadata = client.files().uploadBuilder("/20211110/"+orignalName)
 						.uploadAndFinish(in);
 			} catch (DbxException e) {
 				// TODO Auto-generated catch block

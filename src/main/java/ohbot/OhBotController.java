@@ -1140,8 +1140,9 @@ public class OhBotController {
     public void handleFileMessageEvent(MessageEvent<FileMessageContent> event) {
     	if (isAdminUserId(event.getSource().getSenderId())) {
     		this.replyText(event.getReplyToken(),"Received "+event.getMessage().getFileName()+" ("+event.getMessage().getFileSize()+" bytes)");
-    		File f = LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
-    		DropBoxPrimitive.uploadFile(f);
+    		String name = event.getMessage().getFileName();
+    		File tempFile = LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
+    		DropBoxPrimitive.uploadFile(tempFile,name);
     		//DropBoxAuthorizer.generateAuthFileOutput(DropBoxAuthorizer.SCOPE);
     	}
     }
