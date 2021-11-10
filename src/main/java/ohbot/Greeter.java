@@ -14,6 +14,6 @@ public class Greeter {
     }
     
     public String sayHelloToDropBoxAuth() {
-        return "<html>\n<head>\n<meta name=\"google-site-verification\" content=\"NpDCWKInZP6DC18AE31GEnC-n7jaiWXKIMIdA-ztf24\" />\n<title> Piggy Test Page</title>\n</head>\n<body>\nHello Google, My name is Piggy!\n</body>\n</html>\n";
+        return "<html>\n<head>\n<meta name=\"google-site-verification\" content=\"NpDCWKInZP6DC18AE31GEnC-n7jaiWXKIMIdA-ztf24\" />\n<title> Piggy Test Page</title>\n</head>\n<body>\nHello DropBox, My name is Piggy!\n</body>\n</html>\n";
     }
 }
