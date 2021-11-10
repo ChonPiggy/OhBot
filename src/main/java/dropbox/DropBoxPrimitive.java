@@ -20,6 +20,7 @@ import com.dropbox.core.v2.files.UploadSessionCursor;
 import com.dropbox.core.v2.files.UploadSessionFinishErrorException;
 import com.dropbox.core.v2.files.UploadSessionLookupErrorException;
 import com.dropbox.core.v2.files.WriteMode;
+import com.dropbox.core.v2.sharing.SharedFileMetadata;
 import com.dropbox.core.v2.sharing.SharedLinkMetadata;
 import com.dropbox.core.v2.users.FullAccount;
 
@@ -87,9 +88,18 @@ public class DropBoxPrimitive {
 				FileMetadata metadata = client.files().uploadBuilder(path)
 						.uploadAndFinish(in);
 				PgLog.info("uploadAndFinished.");
-				SharedLinkMetadata sharedLinkMetadata = client.sharing().createSharedLinkWithSettings(path);
-				PgLog.info("sharedLinkMetadata.getUrl(): " + sharedLinkMetadata.getUrl());
-			    return sharedLinkMetadata.getUrl();
+				SharedFileMetadata sharedFileMetadata;
+				
+				sharedFileMetadata = client.sharing().getFileMetadata(path);
+				if (sharedFileMetadata == null) {
+					SharedLinkMetadata sharedLinkMetadata = client.sharing().createSharedLinkWithSettings(path);
+					PgLog.info("sharedLinkMetadata.getUrl(): " + sharedLinkMetadata.getUrl());
+				    return sharedLinkMetadata.getUrl();
+				}
+				else {
+					PgLog.info("sharedFileMetadata already exist: " + sharedFileMetadata.getLinkMetadata().getUrl());
+				}
+				return sharedFileMetadata.getLinkMetadata().getUrl();
 			} catch (DbxException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
