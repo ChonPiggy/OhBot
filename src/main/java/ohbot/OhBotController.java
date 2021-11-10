@@ -596,7 +596,7 @@ public class OhBotController {
     
     @RequestMapping("/dropboxAuth")
     public String reponseDropboxAuth() {
-        return Greeter.sayHelloToDropBoxAuth();
+        return Greeter.sayHelloToDropBoxAuth("");
     }
     
     @RequestMapping("/dropboxAuthGet")
