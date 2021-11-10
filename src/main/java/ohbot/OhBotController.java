@@ -1148,6 +1148,7 @@ public class OhBotController {
     			shareUrl+="raw=1";
     		}
     		this.replyText(event.getReplyToken(), "Dropbox link: " + shareUrl);
+    		LineNotify.callEvent(event.getReplyToken(), "Dropbox link: " + shareUrl);
     	}
     }
     
