@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.3.RELEASE")
+        //classpath("org.springframework.boot:spring-boot-gradle-plugin:2.5.6.RELEASE")
     }
 }
 
@@ -39,9 +40,9 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '2.3.3.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.3.3.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.3.3.RELEASE'
-    compile group: 'com.linecorp.bot', name: 'line-bot-api-client', version: '4.0.0'
-    compile group: 'com.linecorp.bot', name: 'line-bot-model', version: '4.0.0'
-    compile group: 'com.linecorp.bot', name: 'line-bot-spring-boot', version: '4.0.0'
+    compile group: 'com.linecorp.bot', name: 'line-bot-api-client', version: '4.6.0'
+    compile group: 'com.linecorp.bot', name: 'line-bot-model', version: '4.6.0'
+    compile group: 'com.linecorp.bot', name: 'line-bot-spring-boot', version: '4.6.0'
     compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
     testCompile 'junit:junit:4.11'
     compile 'com.google.api-client:google-api-client:1.30.10'

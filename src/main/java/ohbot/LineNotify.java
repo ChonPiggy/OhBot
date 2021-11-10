@@ -20,6 +20,7 @@ import ohbot.utils.PgLog;
 public class LineNotify {
     private static final String strEndpoint = "https://notify-api.line.me/api/notify";
     
+    // Reference from: https://github.com/artit-po/Line-Notify-Api-SpringBoot
 	public static LinkedHashMap<String, Object> sendLineNotifyImage(String token, String msg, MultipartFile file) {
 		try {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();

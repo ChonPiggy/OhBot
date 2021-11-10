@@ -44,8 +44,12 @@ public class LineMessagePrimitive {
     	}
     }
     
+    final static int TYPE_IMAGE = 1;
+    final static int TYPE_AUDIO = 2;
+    final static int TYPE_FILE = 3;
+    
     public static File handleHeavyContent(String replyToken, String messageId,
-    		Consumer<MessageContentResponse> messageConsumer) {
+    		Consumer<MessageContentResponse> messageConsumer, int type) {
     	final MessageContentResponse response;
     	try {
     		response = lineBlobClient.getMessageContent(messageId)
@@ -55,12 +59,27 @@ public class LineMessagePrimitive {
     		return null;
     	}
     	InputStream is = response.getStream();
-    	File f = PgUtils.createTempFileFromInputStream(is, "PgTest.jpeg");
+    	String fileName = "";
+    	switch (type) {
+    	case TYPE_IMAGE:
+    		fileName = "TempImageFile.tmp";
+    		break;
+    	case TYPE_AUDIO:
+    		fileName = "TempAudioFile.tmp";
+    		break;
+    	case TYPE_FILE:
+    		fileName = "TempUnknownFile.tmp";
+    		break;
+    	}
+    	if (fileName.equals("")) {
+    		return null;
+    	}
+    	File f = PgUtils.createTempFileFromInputStream(is, fileName);
     	
-    	PgLog.error("response.getLength(): " + response.getLength());
+    	PgLog.info("response.getLength(): " + response.getLength());
     	if (f != null) {
-    		PgLog.error("f.getPath(): " + f.getPath());
-    		PgLog.error("f.length(): " + f.length());
+    		PgLog.info("f.getPath(): " + f.getPath());
+    		PgLog.info("f.length(): " + f.length());
     	}
     	return f;
     	//messageConsumer.accept(response);

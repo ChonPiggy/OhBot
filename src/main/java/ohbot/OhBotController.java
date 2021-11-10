@@ -14,6 +14,8 @@ import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
+import com.linecorp.bot.model.event.message.AudioMessageContent;
+import com.linecorp.bot.model.event.message.FileMessageContent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent.Emoji;
@@ -1088,6 +1090,10 @@ public class OhBotController {
     	}
     }
 
+    final static int TYPE_IMAGE = 1;
+    final static int TYPE_AUDIO = 2;
+    final static int TYPE_FILE = 3;
+    
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws IOException {
         //PgLog.info("Piggy check handleTextMessageEvent: " + event);
@@ -1099,6 +1105,20 @@ public class OhBotController {
     	handleImageContent(event.getReplyToken(), event, event.getMessage());
     }
     
+    @EventMapping
+    public void handleFileMessageEvent(MessageEvent<FileMessageContent> event) {
+    	this.replyText(event.getReplyToken(),"Received '%s'(%d bytes)"+
+                                                 event.getMessage().getFileName()+
+                                                 event.getMessage().getFileSize());
+    	LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
+    }
+    
+    @EventMapping
+    public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event) throws IOException {
+        LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_AUDIO);
+    }
+    
+    
     private void handleImageContent(String replyToken, Event event, ImageMessageContent content) {
     	/*PgLog.info("handleImageContent()");
     	PgLog.info("source: " + event.getSource());
@@ -1109,7 +1129,7 @@ public class OhBotController {
         	PgLog.info("PreviewImageUrl: " + content.getContentProvider().getPreviewImageUrl());
     	}
     	if (isAdminUserId(event.getSource().getUserId())) {
-    		File f = LineMessagePrimitive.handleHeavyContent(replyToken, content.getId() , null);
+    		File f = LineMessagePrimitive.handleHeavyContent(replyToken, content.getId() , null, TYPE_IMAGE);
     		PgLog.info("getAbsolutePath: " + f.getAbsolutePath());
     		//final String SayGoAndGo_STOCK_NOTIFY_TOKEN = "gABHHem5nu1LlNWhaagxbhX5Y54LDoUgYbVgZfv3ins";
     		//LineNotify.callLocalImageEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "PG Test", f);
