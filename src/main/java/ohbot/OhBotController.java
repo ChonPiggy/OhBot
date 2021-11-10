@@ -1139,11 +1139,14 @@ public class OhBotController {
     @EventMapping
     public void handleFileMessageEvent(MessageEvent<FileMessageContent> event) {
     	if (isAdminUserId(event.getSource().getSenderId())) {
-    		this.replyText(event.getReplyToken(),"Received "+event.getMessage().getFileName()+" ("+event.getMessage().getFileSize()+" bytes)");
+    		//this.replyText(event.getReplyToken(),"Received "+event.getMessage().getFileName()+" ("+event.getMessage().getFileSize()+" bytes)");
     		String name = event.getMessage().getFileName();
     		File tempFile = LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
     		String shareUrl = DropBoxPrimitive.uploadFile(tempFile,name);
-
+    		if (shareUrl.endsWith("dl=0")) {
+    			shareUrl = shareUrl.substring(0, shareUrl.length()-1);
+    			shareUrl+="raw=1";
+    		}
     		this.replyText(event.getReplyToken(), "Dropbox link: " + shareUrl);
     	}
     }

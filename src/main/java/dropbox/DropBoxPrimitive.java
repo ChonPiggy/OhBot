@@ -286,7 +286,7 @@ public class DropBoxPrimitive {
     private static String getCurrentDateString() {
     	Calendar current = Calendar.getInstance(TimeZone.getDefault());
         current.setTimeInMillis(System.currentTimeMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         return sdf.format(current.getTime());
     }
 }
