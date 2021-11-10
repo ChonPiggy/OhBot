@@ -1142,8 +1142,9 @@ public class OhBotController {
     		this.replyText(event.getReplyToken(),"Received "+event.getMessage().getFileName()+" ("+event.getMessage().getFileSize()+" bytes)");
     		String name = event.getMessage().getFileName();
     		File tempFile = LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
-    		DropBoxPrimitive.uploadFile(tempFile,name);
-    		//DropBoxAuthorizer.generateAuthFileOutput(DropBoxAuthorizer.SCOPE);
+    		String shareUrl = DropBoxPrimitive.uploadFile(tempFile,name);
+
+    		this.replyText(event.getReplyToken(), "Dropbox link: " + shareUrl);
     	}
     }
     

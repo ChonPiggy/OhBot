@@ -20,6 +20,7 @@ import com.dropbox.core.v2.files.UploadSessionCursor;
 import com.dropbox.core.v2.files.UploadSessionFinishErrorException;
 import com.dropbox.core.v2.files.UploadSessionLookupErrorException;
 import com.dropbox.core.v2.files.WriteMode;
+import com.dropbox.core.v2.sharing.SharedLinkMetadata;
 import com.dropbox.core.v2.users.FullAccount;
 
 import ohbot.utils.PgLog;
@@ -29,13 +30,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class DropBoxPrimitive {
 	
-	public static void uploadFile(File file, String orignalName) {
+	public static String uploadFile(File file, String orignalName) {
 		PgLog.info("uploadFile: " + file.getPath());
 		// Create Dropbox client
 		DbxRequestConfig config = new DbxRequestConfig("dropbox/java-tutorial", "en_US");
@@ -46,10 +50,6 @@ public class DropBoxPrimitive {
 		try {
 			account = client.users().getCurrentAccount();
 
-			PgLog.info("Dropbox Name: " + account.getName().getDisplayName());
-			PgLog.info("Dropbox Email: " + account.getEmail());
-			PgLog.info("Dropbox RootInfo: " + account.getRootInfo());
-
 			PgLog.info("Before dump list");
 			// Get files and folder metadata from Dropbox root directory
 			ListFolderResult result = client.files().listFolder("");
@@ -57,7 +57,7 @@ public class DropBoxPrimitive {
 
 			while (true) {
 				for (Metadata metadata : result.getEntries()) {
-					System.out.println(metadata.getPathLower());
+					System.out.println(metadata.getPathDisplay());
 				}
 
 				if (!result.getHasMore()) {
@@ -83,8 +83,13 @@ public class DropBoxPrimitive {
 		// Upload "test.txt" to Dropbox
 		try (InputStream in = new FileInputStream(file)) {
 			try {
-				FileMetadata metadata = client.files().uploadBuilder("/20211110/"+orignalName)
+				String path = "/"+getCurrentDateString()+"/"+orignalName;
+				FileMetadata metadata = client.files().uploadBuilder(path)
 						.uploadAndFinish(in);
+				PgLog.info("uploadAndFinished.");
+				SharedLinkMetadata sharedLinkMetadata = client.sharing().createSharedLinkWithSettings(path);
+				PgLog.info("sharedLinkMetadata.getUrl(): " + sharedLinkMetadata.getUrl());
+			    return sharedLinkMetadata.getUrl();
 			} catch (DbxException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -96,7 +101,7 @@ public class DropBoxPrimitive {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		PgLog.info("uploadAndFinished.");
+		return "";
 	}
 
 	// Adjust the chunk size based on your network speed and reliability. Larger chunk sizes will
@@ -278,5 +283,10 @@ public class DropBoxPrimitive {
         }
     }
 
-    
+    private static String getCurrentDateString() {
+    	Calendar current = Calendar.getInstance(TimeZone.getDefault());
+        current.setTimeInMillis(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        return sdf.format(current.getTime());
+    }
 }
