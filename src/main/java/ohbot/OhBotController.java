@@ -582,7 +582,19 @@ public class OhBotController {
     @RequestMapping("/")
     public String index() {
         Greeter greeter = new Greeter();
-        return greeter.sayHello();
+        return greeter.sayHelloToGoogleAuth();
+    }
+    
+    @RequestMapping("/googleAuth")
+    public String reponseGoogleAuth() {
+        Greeter greeter = new Greeter();
+        return greeter.sayHelloToGoogleAuth();
+    }
+    
+    @RequestMapping("/dropboxAuth")
+    public String reponseDropboxAuth() {
+        Greeter greeter = new Greeter();
+        return greeter.sayHelloToDropBoxAuth();
     }
 
     @RequestMapping("/greeting")
@@ -1107,9 +1119,7 @@ public class OhBotController {
     
     @EventMapping
     public void handleFileMessageEvent(MessageEvent<FileMessageContent> event) {
-    	this.replyText(event.getReplyToken(),"Received '%s'(%d bytes)"+
-                                                 event.getMessage().getFileName()+
-                                                 event.getMessage().getFileSize());
+    	this.replyText(event.getReplyToken(),"Received "+event.getMessage().getFileName()+" ("+event.getMessage().getFileSize()+" bytes)");
     	LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_FILE);
     }
     
