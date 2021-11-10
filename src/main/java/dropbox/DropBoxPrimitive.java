@@ -12,14 +12,19 @@ import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.DbxPathV2;
 import com.dropbox.core.v2.files.CommitInfo;
 import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.ListFolderContinueErrorException;
+import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.files.UploadErrorException;
 import com.dropbox.core.v2.files.UploadSessionCursor;
 import com.dropbox.core.v2.files.UploadSessionFinishErrorException;
 import com.dropbox.core.v2.files.UploadSessionLookupErrorException;
 import com.dropbox.core.v2.files.WriteMode;
+import com.dropbox.core.v2.users.FullAccount;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -27,6 +32,65 @@ import java.util.logging.Logger;
 import java.util.Date;
 
 public class DropBoxPrimitive {
+	
+	public static void uploadFile(File file) {
+		// Create Dropbox client
+		DbxRequestConfig config = new DbxRequestConfig("dropbox/java-tutorial", "en_US");
+		DbxClientV2 client = new DbxClientV2(config, System.getenv("DROPBOX_ACCESS_TOKEN"));
+
+		// Get current account info
+		FullAccount account;
+		try {
+			account = client.users().getCurrentAccount();
+
+			System.out.println(account.getName().getDisplayName());
+
+
+			// Get files and folder metadata from Dropbox root directory
+			ListFolderResult result = client.files().listFolder("");
+
+
+			while (true) {
+				for (Metadata metadata : result.getEntries()) {
+					System.out.println(metadata.getPathLower());
+				}
+
+				if (!result.getHasMore()) {
+					break;
+				}
+
+				try {
+					result = client.files().listFolderContinue(result.getCursor());
+				} catch (ListFolderContinueErrorException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DbxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} catch (DbxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// Upload "test.txt" to Dropbox
+		try (InputStream in = new FileInputStream("test.txt")) {
+			try {
+				FileMetadata metadata = client.files().uploadBuilder("/test.txt")
+						.uploadAndFinish(in);
+			} catch (DbxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	// Adjust the chunk size based on your network speed and reliability. Larger chunk sizes will
     // result in fewer network requests, which will be faster. But if an error occurs, the entire

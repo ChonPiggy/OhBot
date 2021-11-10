@@ -36,6 +36,7 @@ import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
 import dropbox.DropBoxAuthorizer;
+import dropbox.DropBoxPrimitive;
 import emoji4j.EmojiUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -1148,7 +1149,8 @@ public class OhBotController {
     @EventMapping
     public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event) throws IOException {
     	if (isAdminUserId(event.getSource().getSenderId())) {
-    		LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_AUDIO);
+    		File f = LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_AUDIO);
+    		DropBoxPrimitive.uploadFile(f);
     	}
     }
     
