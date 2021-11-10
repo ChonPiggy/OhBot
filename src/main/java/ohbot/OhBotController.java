@@ -1148,14 +1148,22 @@ public class OhBotController {
     			shareUrl+="raw=1";
     		}
     		this.replyText(event.getReplyToken(), "Dropbox link: " + shareUrl);
-    		LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "Dropbox link: " + shareUrl);
+    		LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "\nDropbox link: " + shareUrl);
     	}
     }
     
     @EventMapping
     public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event) throws IOException {
     	if (isAdminUserId(event.getSource().getSenderId())) {
-    		LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_AUDIO);
+    		String name = event.getMessage().getId();
+    		File tempFile = LineMessagePrimitive.handleHeavyContent(event.getReplyToken(),event.getMessage().getId(), null, TYPE_AUDIO);
+    		String shareUrl = DropBoxPrimitive.uploadFile(tempFile,name+".m4a");
+    		if (shareUrl.endsWith("dl=0")) {
+    			shareUrl = shareUrl.substring(0, shareUrl.length()-4);
+    			shareUrl+="raw=1";
+    		}
+    		this.replyText(event.getReplyToken(), "Dropbox link: " + shareUrl);
+    		LineNotify.callEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "\nDropbox link: " + shareUrl);
     	}
     }
     
