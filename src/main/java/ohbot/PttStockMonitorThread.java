@@ -11,6 +11,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import emoji4j.EmojiUtils;
+
 import java.util.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -353,7 +355,7 @@ public class PttStockMonitorThread extends Thread {
             	
             	if (isMatchMonitorSpeakers(user)) {
             		if (user.equals("gn01765288")) {
-                		user = user.replace("gn01765288", "金庸");
+                		user = user.replace("gn01765288", EmojiUtils.emojify("::light_bulb::") + "金庸" + EmojiUtils.emojify("::light_bulb::"));
                 	}
             		SpeakingData data = new SpeakingData(user, content, time);
             		if (!mSpeakingDataList.contains(data)) {
