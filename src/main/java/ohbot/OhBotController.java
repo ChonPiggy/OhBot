@@ -7918,6 +7918,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             tempContext = tempContext.substring(tempContext.indexOf("icon-earthquake-scale\"></i>")+27, tempContext.length());
             mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</li>")) + "\n"; // Scale
+            
             mNewestEarthquakeReportText += "\n各地震度級:\n";
             
             int affectCount = 0;
@@ -7931,6 +7932,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempContext = tempContext.substring(tempContext.indexOf("\">")+2, tempContext.length());
                 String detailText = tempContext.substring(0, tempContext.indexOf("</a>"));
                 
+                // If Taipei over level 2, notify all
                 if (detailText.contains("臺北市")||detailText.contains("新北市")) {
                 	int level = 0;
                 	String numStr = detailText.substring(detailText.indexOf("級")-1, detailText.indexOf("級"));
@@ -7952,9 +7954,25 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 		}
                 	}
                 }
+                // If Taipei over level 2, notify all End.
                 
                 mNewestEarthquakeReportText +=  detailText + "\n"; // Scale per location
-                String numberString = detailText.substring(detailText.indexOf(" ")+1, detailText.indexOf("級"));
+                
+                String numberString;
+                if (detailText.contains("弱")) {
+                    numberString = detailText.substring(detailText.indexOf(" ")+1, detailText.indexOf("弱"));
+                }
+                else if (detailText.contains("強")) {
+                    numberString = detailText.substring(detailText.indexOf(" ")+1, detailText.indexOf("強"));
+                }
+                else if (detailText.contains("級")) {
+                    numberString = detailText.substring(detailText.indexOf(" ")+1, detailText.indexOf("級"));
+                }
+                else {
+                    PgLog.info("Piggy Check: parse level number exception. detailText: " + detailText);
+                    numberString = detailText.substring(detailText.indexOf(" ")+1, detailText.length()-1);
+                }
+
                 if (maxLevel == 0) {
                     try {
                         maxLevel = Integer.parseInt(numberString);
@@ -7993,7 +8011,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             mNewestEarthquakeTime = newestEarthquakeTime;
         } catch (Exception e) {
-            PgLog.info("checkEarthquakeReport e: " + e);
+            e.printStackTrace();
         }
     }
 
