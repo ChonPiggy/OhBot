@@ -2055,7 +2055,7 @@ public class OhBotController {
             this.replyImage(replyToken, text, text);
         }
         
-        if (text.startsWith("PgCommand設定監聽:")) {
+        if (text.startsWith("PgCommand設定監聽:") || (text.startsWith("https://www.ptt.cc/bbs/Stock/") && text.endsWith(".html"))) {
         	if(!isAdminUserId(userId, replyToken)) {return;}
         	text = text.replace("PgCommand設定監聽:", "");
         	mPttStockMonitorThread.setForceTargetPage(text);
