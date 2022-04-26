@@ -166,7 +166,7 @@ public class PttStockMonitorThread extends Thread {
     }
     
     private String getCurrentDateTalkingPageFromSearch() {
-    	//PgLog.info("getCurrentDateTalkingPageFromSearch()");
+    	PgLog.info("getCurrentDateTalkingPageFromSearch()");
     	if (!mForceTargetPage.equals("null")) {
     		return mForceTargetPage;
     	}
@@ -254,6 +254,7 @@ public class PttStockMonitorThread extends Thread {
     }
 
     private void checkPttStockWebsite() {
+        PgLog.info("checkPttStockWebsite()");
         isUpdating = true;
         String talkingPage = getCurrentDateTalkingPageFromSearch();
         String replyResult = "\n";
@@ -263,7 +264,7 @@ public class PttStockMonitorThread extends Thread {
         	isUpdating = false;
     		return;
     	}
-        //PgLog.info("checkPttStockWebsite update started.");
+        PgLog.info("checkPttStockWebsite update started.");
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             //HttpGet httpget = new HttpGet(talkingPage);

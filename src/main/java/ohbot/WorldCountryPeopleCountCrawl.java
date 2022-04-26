@@ -46,7 +46,7 @@ public class WorldCountryPeopleCountCrawl {
             HttpEntity httpEntity = response.getEntity();
             strResult = EntityUtils.toString(httpEntity, "utf-8");
 
-            strResult = strResult.substring(strResult.indexOf("<td align=\"left\"><b>世界</b></td>")+32, strResult.length());
+            strResult = strResult.substring(strResult.indexOf(">國家/地區")+6, strResult.length());
 
             String country = "世界";
 
