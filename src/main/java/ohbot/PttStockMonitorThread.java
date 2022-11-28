@@ -362,7 +362,7 @@ public class PttStockMonitorThread extends Thread {
             		if (!mSpeakingDataList.contains(data)) {
             			replyResult += (data.toString() + "\n");
             			mSpeakingDataList.add(data);
-            		}            		
+            		}
             	}
             	
             	// Finish this round and move cursor to end of this round
@@ -387,7 +387,7 @@ public class PttStockMonitorThread extends Thread {
         	if (data != null && !data.equals("\n")) {
         		//PgLog.info("Piggy Check notify: " +  data);
         		LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
-        		LineNotify.callEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, data);
+        		//LineNotify.callEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, data);
         		LineNotify.callEvent(Pearl_STOCK_NOTIFY_TOKEN, data);
         	}
         }
