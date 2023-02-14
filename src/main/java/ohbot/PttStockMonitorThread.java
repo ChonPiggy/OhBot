@@ -256,7 +256,8 @@ public class PttStockMonitorThread extends Thread {
     private void checkPttStockWebsite() {
         PgLog.info("checkPttStockWebsite()");
         isUpdating = true;
-        String talkingPage = getCurrentDateTalkingPageFromSearch();
+        //String talkingPage = getCurrentDateTalkingPageFromSearch();
+        String talkingPage = getCurrentDateTalkingPageFromBoard();
         String replyResult = "\n";
         String todayMDString = getCurrentMDString() + " ";
         String strResult = "";
@@ -264,7 +265,7 @@ public class PttStockMonitorThread extends Thread {
         	isUpdating = false;
     		return;
     	}
-        PgLog.info("checkPttStockWebsite update started.");
+        PgLog.info("checkPttStockWebsite update started. talkingPage: " + talkingPage);
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             //HttpGet httpget = new HttpGet(talkingPage);
