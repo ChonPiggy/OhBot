@@ -1312,6 +1312,7 @@ public class OhBotController {
         	mPttStockMonitorThread.addMonitorSpeaker("zesonpso"); //肉鬆哥
         	mPttStockMonitorThread.addMonitorSpeaker("ChonPiggy"); //測試
         	mPttStockMonitorThread.addMonitorSpeaker("deacoke"); //測試
+        	mPttStockMonitorThread.addMonitorSpeaker("UltraSeven"); //老蘇
         }
 
         if (mEarthquakeCheckThread == null) {
