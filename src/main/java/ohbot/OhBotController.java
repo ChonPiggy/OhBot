@@ -5424,7 +5424,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 while(matcherJp.find()){
                     String result = matcherJp.group();
                     ImageItem item = new ImageItem("隨機取圖", result, url);
-                    if (!resultImageList.contains(result)&&!result.contains("logo")) {
+                    if (!resultImageUrlList.contains(result)&&!result.contains("logo")) {
+                        resultImageUrlList.add(result);
                         resultImageList.add(item);
                     }
                     //PgLog.info("Piggy Check get image from website url: " + url + " img_link: " + result);
