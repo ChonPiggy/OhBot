@@ -5338,8 +5338,9 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         if (!text.startsWith("http")) {
             return;
         }
-
-        sendPttOver18Checker();
+        if (text.contains("www.ptt.cc")) {
+            sendPttOver18Checker();
+        }
 
         try{
 
@@ -5362,8 +5363,12 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             CloseableHttpResponse response = httpClient.execute(httpGet);
             //PgLog.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
+            
+            
 
             String result_image_context = EntityUtils.toString(httpEntity, "utf-8");
+            
+            PgLog.info("result_image_context: " + result_image_context);
             //PgLog.info("Piggy Check result_image_image: |" + result_image_context +"|");
             if (result_image_context.contains("<body")) {
                 result_image_context = result_image_context.substring(result_image_context.indexOf("<body"), result_image_context.length());
@@ -7883,6 +7888,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     String mNewestEarthquakeReportImage = "";
 
     private void checkEarthquakeReport() {
+        String targetReport = "https://www.cwb.gov.tw";
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V8/C/E/MOD/EQ_ROW.html");
@@ -7896,7 +7902,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             //PgLog.info("Newest earth quake time: " + newestEarthquakeTime);
             
-            String targetReport = "https://www.cwb.gov.tw";
+            
             targetReport += strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
 
             mNewestEarthquakeReportText = "\n";
@@ -8014,6 +8020,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             }
             mNewestEarthquakeTime = newestEarthquakeTime;
         } catch (Exception e) {
+            PgLog.info("targetReport: " + targetReport);
             e.printStackTrace();
         }
     }
