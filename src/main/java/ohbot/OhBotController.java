@@ -2502,7 +2502,7 @@ public class OhBotController {
             makeSubmission(senderId, userId, text, replyToken);
         }
 
-        if (text.startsWith("隨機取圖:")) {
+        if (text.startsWith("隨機取圖:")||text.toLowerCase().contains("ptt")) {
             processRandomeGetImage(replyToken, text);
         }
 
@@ -5369,9 +5369,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 result_image_context = result_image_context.substring(result_image_context.indexOf("<body"), result_image_context.length());
             }
             List<ImageItem> resultImageList = new ArrayList<ImageItem> ();
-            if (result_image_context.indexOf("http://imgur.com/") > 0) {
+            if (result_image_context.indexOf("http://imgur.com/") > 0 ||
+                    result_image_context.indexOf("https://imgur.com/") > 0) {
                 PgLog.info("Website contains imgur url.");
-                Pattern patternJp = Pattern.compile("http:\\/\\/imgur.com\\/.*");
+                Pattern patternJp = Pattern.compile("(http|https):\\/\\/imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_context);
                 while(matcherJp.find()){
                     
@@ -5387,9 +5388,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
-            else if (result_image_context.indexOf("http://i.imgur.com/") > 0) {
+            else if (result_image_context.indexOf("http://i.imgur.com/") > 0 ||
+                    result_image_context.indexOf("https://i.imgur.com/") > 0) {
                 PgLog.info("Website contains i.imgur url.");
-                Pattern patternJp = Pattern.compile("http:\\/\\/i.imgur.com\\/.*");
+                Pattern patternJp = Pattern.compile("(http|https):\\/\\/i.imgur.com\\/.*");
                 Matcher matcherJp = patternJp.matcher(result_image_context);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
