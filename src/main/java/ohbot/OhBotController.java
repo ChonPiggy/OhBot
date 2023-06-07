@@ -7912,7 +7912,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             response = httpClient.execute(httpget);
             httpEntity = response.getEntity();
             String tempContext = EntityUtils.toString(httpEntity, "utf-8");
-
+            PgLog.info("tempContext.length: " + tempContext.length());
+            PgLog.info("tempContext.indexOf(\"yellow-dot-title\\\">\")+18: " + tempContext.indexOf("yellow-dot-title\">")+18);
             tempContext = tempContext.substring(tempContext.indexOf("yellow-dot-title\">")+18, tempContext.length());
             mNewestEarthquakeReportText += tempContext.substring(0, tempContext.indexOf("</")) + "\n"; // Title
 
