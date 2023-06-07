@@ -5376,7 +5376,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             if (result_image_context.indexOf("http://imgur.com/") > 0 ||
                     result_image_context.indexOf("https://imgur.com/") > 0) {
                 PgLog.info("Website contains imgur url.");
-                Pattern patternJp = Pattern.compile("(http|https):\\/\\/imgur.com\\/.*");
+                Pattern patternJp = Pattern.compile("(http|https):\\/\\/imgur.com\\/.*?(jpeg|jpg)");
                 Matcher matcherJp = patternJp.matcher(result_image_context);
                 while(matcherJp.find()){
                     
@@ -5395,7 +5395,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             else if (result_image_context.indexOf("http://i.imgur.com/") > 0 ||
                     result_image_context.indexOf("https://i.imgur.com/") > 0) {
                 PgLog.info("Website contains i.imgur url.");
-                Pattern patternJp = Pattern.compile("(http|https):\\/\\/i.imgur.com\\/.*");
+                Pattern patternJp = Pattern.compile("(http|https):\\/\\/i.imgur.com\\/.*?(jpeg|jpg)");
                 Matcher matcherJp = patternJp.matcher(result_image_context);
                 while(matcherJp.find()){
                     String result = matcherJp.group();
