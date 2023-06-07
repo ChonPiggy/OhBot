@@ -5368,7 +5368,6 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
             String result_image_context = EntityUtils.toString(httpEntity, "utf-8");
             
-            PgLog.info("result_image_context: " + result_image_context);
             //PgLog.info("Piggy Check result_image_image: |" + result_image_context +"|");
             if (result_image_context.contains("<body")) {
                 result_image_context = result_image_context.substring(result_image_context.indexOf("<body"), result_image_context.length());
