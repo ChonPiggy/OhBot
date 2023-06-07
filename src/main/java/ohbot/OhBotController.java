@@ -2507,7 +2507,7 @@ public class OhBotController {
             Pattern pattern = Pattern.compile("http.*?html");
             Matcher matcher = pattern.matcher(text);
             if(matcher.matches()) {
-                url = matcher.group(1);
+                url = matcher.group();
             }
             processRandomeGetImage(replyToken, url);
         }
