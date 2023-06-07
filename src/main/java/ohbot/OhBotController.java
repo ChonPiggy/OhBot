@@ -5390,7 +5390,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     if (!resultImageList.contains(result)&&!result.contains("logo")) {
                         resultImageList.add(item);
                     }
-                    //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
+                    PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
             else if (result_image_context.indexOf("http://i.imgur.com/") > 0 ||
@@ -5406,7 +5406,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     if (!resultImageList.contains(result)&&!result.contains("logo")) {
                         resultImageList.add(item);
                     }
-                    //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
+                    PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
                 }
             }
             else {
@@ -5419,7 +5419,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     if (!resultImageList.contains(result)&&!result.contains("logo")) {
                         resultImageList.add(item);
                     }
-                    //PgLog.info("Piggy Check get image from website url: " + url + " img_link: " + result);
+                    PgLog.info("Piggy Check get image from website url: " + url + " img_link: " + result);
                 }
             }
 
