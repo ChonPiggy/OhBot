@@ -49,7 +49,9 @@ public class WorldCountryPeopleCountCrawl {
             strResult = strResult.substring(strResult.indexOf(">國家/地區")+6, strResult.length());
 
             String country = "世界";
-
+            
+            strResult = strResult.substring(strResult.indexOf("<td></td>")+9, strResult.length());
+            
             String people = strResult.substring(strResult.indexOf("<td>")+4, strResult.indexOf("</td>"));
 
             strResult = strResult.substring(strResult.indexOf("</td>")+5, strResult.length());
