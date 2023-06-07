@@ -2503,7 +2503,13 @@ public class OhBotController {
         }
 
         if (text.startsWith("隨機取圖:")||text.toLowerCase().contains("ptt")) {
-            processRandomeGetImage(replyToken, text);
+            String url = "";
+            Pattern pattern = Pattern.compile("http.*?html");
+            Matcher matcher = pattern.matcher(text);
+            if(matcher.matches()) {
+                url = matcher.group(1);
+            }
+            processRandomeGetImage(replyToken, url);
         }
 
         if (text.startsWith("年號:")) {
