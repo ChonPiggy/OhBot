@@ -5379,6 +5379,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 result_image_context = result_image_context.substring(result_image_context.indexOf("<body"), result_image_context.length());
             }
             List<ImageItem> resultImageList = new ArrayList<ImageItem> ();
+            List<String> resultImageUrlList = new ArrayList<String> ();
             if (result_image_context.indexOf("http://imgur.com/") > 0 ||
                     result_image_context.indexOf("https://imgur.com/") > 0) {
                 PgLog.info("Website contains imgur url.");
@@ -5392,7 +5393,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("imgur.com","i.imgur.com");
                     result = result + ".jpg";
                     ImageItem item = new ImageItem("隨機取圖", result, url);
-                    if (!resultImageList.contains(result)&&!result.contains("logo")) {
+                    if (!resultImageUrlList.contains(result)&&!result.contains("logo")) {
+                        resultImageUrlList.add(result);
                         resultImageList.add(item);
                     }
                     //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
@@ -5408,7 +5410,8 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                     result = result.replace("http:","https:");
                     result = result + ".jpg";
                     ImageItem item = new ImageItem("隨機取圖", result, url);
-                    if (!resultImageList.contains(result)&&!result.contains("logo")) {
+                    if (!resultImageUrlList.contains(result)&&!result.contains("logo")) {
+                        resultImageUrlList.add(result);
                         resultImageList.add(item);
                     }
                     //PgLog.info("Piggy Check get image from website imgur url: " + url + " img_link: " + result);
@@ -7910,7 +7913,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
             
             targetReport += strResult.substring(strResult.indexOf("<a href=\"")+9,strResult.indexOf("\" aria-label="));
 
-            mNewestEarthquakeReportText = "\n";
+            mNewestEarthquakeReportText = "";
 
 
             httpget = new HttpGet(targetReport);
