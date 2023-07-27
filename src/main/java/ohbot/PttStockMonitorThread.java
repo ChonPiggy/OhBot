@@ -28,6 +28,7 @@ public class PttStockMonitorThread extends Thread {
     private final String INGRESS_STOCK_NOTIFY_TOKEN = "McE8tNie8utDcRbpBrUq9QZ7Q6qWBE9BtmM5HZwxQbo";
     private final String SayGoAndGo_STOCK_NOTIFY_TOKEN = "gABHHem5nu1LlNWhaagxbhX5Y54LDoUgYbVgZfv3ins";
     private final String Pearl_STOCK_NOTIFY_TOKEN = "KsFvfy8f1untCDH7zHeD7s5VNxtZUcYHJexRxea71ky";
+    private final String Meggie_STOCK_NOTIFY_TOKEN = "jBI0QHnvD1RTm8uPoXCchHpkDVHqne98iiR3h2fxKfg";
     private String mLastMontioredContent = "";
     private boolean mIsNewDateNotified = false;
     private String mForceTargetPage = "null";
@@ -390,6 +391,7 @@ public class PttStockMonitorThread extends Thread {
         		LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
         		//LineNotify.callEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, data);
         		LineNotify.callEvent(Pearl_STOCK_NOTIFY_TOKEN, data);
+        		LineNotify.callEvent(Meggie_STOCK_NOTIFY_TOKEN, data);
         	}
         }
     }
