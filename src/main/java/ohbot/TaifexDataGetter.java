@@ -108,47 +108,34 @@ public class TaifexDataGetter {
         String monthResult = "";
 
         PgLog.info("month: " + month);
-        switch (month) {
-            case "01":
-                monthResult = "A";
-                break;
-            case "02":
-                monthResult = "B";
-                break;
-            case "03":
-                monthResult = "C";
-                break;
-            case "04":
-                monthResult = "D";
-                break;
-            case "05":
-                monthResult = "E";
-                break;
-            case "06":
-                monthResult = "F";
-                break;
-            case "07":
-                monthResult = "G";
-                break;
-            case "08":
-                monthResult = "H";
-                break;
-            case "09":
-                monthResult = "I";
-                break;
-            case "10":
-                monthResult = "J";
-                break;
-            case "11":
-                monthResult = "K";
-                break;
-            case "12":
-                monthResult = "L";
-                break;
+        
+        if (month.startsWith("0")) {
+            month = month.substring(month.length()-1, month.length());
         }
-        PgLog.info("monthResult: " + monthResult);
+        int monthInt = Integer.getInteger(month);
+        
+        PgLog.info("monthInt: " + monthInt);
+        
+        
+        // Third Wed of every month need switch to next TX
+        
+        if (isNeedSwitchToNextMonth()) {
+            monthInt++;
+            if (monthInt > 12) {
+                monthInt = 1;
+            }
+        }
+
+        PgLog.info("monthInt: after " + monthInt);
+        
+        monthResult = Character.toString((char)(64+monthInt));
+        
         // "TXFI3-F" means "臺指期093"
-        //return "TXF" + monthResult + yearResult + "-F";
-        return "TXFI3-F";
+        return "TXF" + monthResult + yearResult + "-F";
+        //return "TXFI3-F";
+    }
+    
+    private static boolean isNeedSwitchToNextMonth() {
+        return true;
     }
 }
