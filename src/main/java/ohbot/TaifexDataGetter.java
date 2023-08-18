@@ -23,7 +23,7 @@ public class TaifexDataGetter {
         
         HttpClient httpclient = new DefaultHttpClient();
         String postRequest = "{\"SymbolID\":[\"" + getTxPayloadString() + "\"]}"; 
-                        
+        PgLog.info("getTxPayloadString: " + getTxPayloadString());
         try {
             String url = "https://mis.taifex.com.tw/futures/api/getQuoteDetail";
             HttpPost request = new HttpPost(url);
