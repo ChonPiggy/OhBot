@@ -40,11 +40,12 @@ public class TaifexDataGetter {
             JSONObject json = new JSONObject(jsonString);
 
             PgLog.info("Piggy Check post json: " + json);
-            JSONObject rtData = new JSONObject("RtData");
+            JSONObject rtData = json.getJSONObject("RtData");
             PgLog.info("Piggy Check post rtData: " + rtData);
             JSONArray quoteList = rtData.getJSONArray("QuoteList");
             PgLog.info("Piggy Check post quoteList: " + quoteList);
             
+            String dispName = "";
             String openPrice = "";
             String highPrice = "";
             String lowPrice = "";
@@ -53,6 +54,7 @@ public class TaifexDataGetter {
             for (int i = 0; i < quoteList.length(); i++)
             {
                 try {
+                    dispName = quoteList.getJSONObject(i).getString("DispCName");
                     openPrice = quoteList.getJSONObject(i).getString("COpenPrice");
                     highPrice = quoteList.getJSONObject(i).getString("CHighPrice");
                     lowPrice = quoteList.getJSONObject(i).getString("CLowPrice");
