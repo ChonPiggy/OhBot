@@ -2037,6 +2037,10 @@ public class OhBotController {
         if (text.startsWith("AmazonJp:")) {
             amazonJpSearch(replyToken, text);
         }
+        
+        if (text.startsWith("GetTxData") && isAdminUserId(userId)) {
+            TaifexDataGetter.getCurrentTxData();
+        }
 
         // Japanese name translator
 
