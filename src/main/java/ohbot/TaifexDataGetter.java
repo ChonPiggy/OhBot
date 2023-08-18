@@ -38,7 +38,8 @@ public class TaifexDataGetter {
             String jsonString = EntityUtils.toString(entity);
             
             JSONObject json = new JSONObject(jsonString);
-            JSONArray quoteList = json.getJSONArray("QuoteList");
+            JSONObject rtData = new JSONObject("RtData");
+            JSONArray quoteList = rtData.getJSONArray("QuoteList");
             
             String openPrice = "";
             String highPrice = "";
