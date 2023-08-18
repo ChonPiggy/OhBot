@@ -130,7 +130,6 @@ public class TaifexDataGetter {
         
         // "TXFI3-F" means "臺指期093"
         return "TXF" + monthResult + yearResult + "-F";
-        //return "TXFI3-F";
     }
     
     private static boolean isNeedSwitchToNextMonth() {
@@ -138,9 +137,11 @@ public class TaifexDataGetter {
         Calendar current = Calendar.getInstance(TimeZone.getDefault());
         current.setTimeInMillis(System.currentTimeMillis());
         int wk = current.get(Calendar.WEEK_OF_MONTH);
-        PgLog.info("Week of Month: " + wk);
+        boolean isAfterThirdWeek = wk >= 3;
+        //PgLog.info("Week of Month: " + wk);
         int dw = current.get(Calendar.DAY_OF_WEEK);
-        PgLog.info("Day of week: " + dw);
-        return true;
+        boolean isAfterWed = dw >= 5;
+        //PgLog.info("Day of week: " + dw);
+        return isAfterThirdWeek && isAfterWed;
     }
 }
