@@ -76,7 +76,7 @@ public class TaifexDataGetter {
 
             String result = "";
             
-            result += ("" + dispName + "\n");
+            result += ("\n" + dispName + "\n");
             result += ("開盤: " + openPrice + "\n");
             result += ("最高: " + highPrice + "\n");
             result += ("最低: " + lowPrice + "\n");
@@ -96,13 +96,50 @@ public class TaifexDataGetter {
         current.setTimeInMillis(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         String year = sdf.format(current.getTime());
+        String yearResult = year.substring(year.length()-1, year.length());
         
-        sdf = new SimpleDateFormat("MM");
-        
+        sdf = new SimpleDateFormat("MM");        
         String month = sdf.format(current.getTime());
-        
-        
-        
-        return "TXFI3-F";
+        String monthResult = "";
+        switch (month) {
+            case "01":
+                monthResult = "A";
+                break;
+            case "02":
+                monthResult = "B";
+                break;
+            case "03":
+                monthResult = "C";
+                break;
+            case "04":
+                monthResult = "D";
+                break;
+            case "05":
+                monthResult = "E";
+                break;
+            case "06":
+                monthResult = "F";
+                break;
+            case "07":
+                monthResult = "G";
+                break;
+            case "08":
+                monthResult = "H";
+                break;
+            case "09":
+                monthResult = "I";
+                break;
+            case "10":
+                monthResult = "J";
+                break;
+            case "11":
+                monthResult = "K";
+                break;
+            case "12":
+                monthResult = "L";
+                break;
+        }
+        // "TXFI3-F" means "臺指期093"
+        return "TXF" + monthResult + yearResult + "-F";
     }
 }
