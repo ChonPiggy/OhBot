@@ -18,7 +18,7 @@ public class TaifexDataGetter {
     public static int getCurrentTxData() {
         
         HttpClient httpclient = new DefaultHttpClient();
-        String postRequest = "{\"SymbolID\":[\"TXF-S\"]}"; 
+        String postRequest = "{\"SymbolID\":[\"TXFI3-F\"]}"; 
                         
         try {
             String url = "https://mis.taifex.com.tw/futures/api/getQuoteDetail";
@@ -38,8 +38,12 @@ public class TaifexDataGetter {
             String jsonString = EntityUtils.toString(entity);
             
             JSONObject json = new JSONObject(jsonString);
+
+            PgLog.info("Piggy Check post json: " + json);
             JSONObject rtData = new JSONObject("RtData");
+            PgLog.info("Piggy Check post rtData: " + rtData);
             JSONArray quoteList = rtData.getJSONArray("QuoteList");
+            PgLog.info("Piggy Check post quoteList: " + quoteList);
             
             String openPrice = "";
             String highPrice = "";
