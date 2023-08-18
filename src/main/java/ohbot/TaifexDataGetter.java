@@ -7,6 +7,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import ohbot.utils.PgLog;
 
@@ -32,8 +35,31 @@ public class TaifexDataGetter {
             HttpResponse response = httpclient.execute(request);
             HttpEntity entity = response.getEntity();
 
-            String result = EntityUtils.toString(entity);
-            PgLog.info("Piggy Check post result: " + result);
+            String jsonString = EntityUtils.toString(entity);
+            
+            JSONObject json = new JSONObject(jsonString);
+            JSONArray quoteList = json.getJSONArray("QuoteList");
+            
+            String openPrice = "";
+            String highPrice = "";
+            String lowPrice = "";
+            String lastPrice = "";
+            
+            for (int i = 0; i < quoteList.length(); i++)
+            {
+                try {
+                    openPrice = quoteList.getJSONObject(i).getString("COpenPrice");
+                    highPrice = quoteList.getJSONObject(i).getString("CHighPrice");
+                    lowPrice = quoteList.getJSONObject(i).getString("CLowPrice");
+                    lastPrice = quoteList.getJSONObject(i).getString("CLastPrice");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            PgLog.info("Piggy Check post openPrice: " + openPrice);
+            PgLog.info("Piggy Check post highPrice: " + highPrice);
+            PgLog.info("Piggy Check post lowPrice: " + lowPrice);
+            PgLog.info("Piggy Check post lastPrice: " + lastPrice);
 
         } catch (Exception e) {
             PgLog.info("Exception e: " + e);
