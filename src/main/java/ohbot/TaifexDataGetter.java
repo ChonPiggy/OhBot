@@ -1,5 +1,9 @@
 package ohbot;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -15,10 +19,10 @@ import ohbot.utils.PgLog;
 
 public class TaifexDataGetter {
 
-    public static int getCurrentTxData() {
+    public static String getCurrentTxData() {
         
         HttpClient httpclient = new DefaultHttpClient();
-        String postRequest = "{\"SymbolID\":[\"TXFI3-F\"]}"; 
+        String postRequest = "{\"SymbolID\":[\"" + getTxPayloadString() + "\"]}"; 
                         
         try {
             String url = "https://mis.taifex.com.tw/futures/api/getQuoteDetail";
@@ -63,15 +67,42 @@ public class TaifexDataGetter {
                     e.printStackTrace();
                 }
             }
+            PgLog.info("Piggy Check post dispName: " + dispName);
             PgLog.info("Piggy Check post openPrice: " + openPrice);
             PgLog.info("Piggy Check post highPrice: " + highPrice);
             PgLog.info("Piggy Check post lowPrice: " + lowPrice);
             PgLog.info("Piggy Check post lastPrice: " + lastPrice);
+            
+
+            String result = "";
+            
+            result += ("" + dispName + "\n");
+            result += ("開盤: " + openPrice + "\n");
+            result += ("最高: " + highPrice + "\n");
+            result += ("最低: " + lowPrice + "\n");
+            result += ("現價: " + lastPrice + "");
+            
+            return result;
 
         } catch (Exception e) {
             PgLog.info("Exception e: " + e);
         }
+        return "N/A";
+    }
+    
+    private static String getTxPayloadString() {
         
-        return -1;
+        Calendar current = Calendar.getInstance(TimeZone.getDefault());
+        current.setTimeInMillis(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        String year = sdf.format(current.getTime());
+        
+        sdf = new SimpleDateFormat("MM");
+        
+        String month = sdf.format(current.getTime());
+        
+        
+        
+        return "TXFI3-F";
     }
 }

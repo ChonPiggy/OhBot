@@ -2039,7 +2039,9 @@ public class OhBotController {
         }
         
         if (text.startsWith("GetTxData") && isAdminUserId(userId)) {
-            TaifexDataGetter.getCurrentTxData();
+            String result = TaifexDataGetter.getCurrentTxData();
+            String INGRESS_STOCK_NOTIFY_TOKEN = "McE8tNie8utDcRbpBrUq9QZ7Q6qWBE9BtmM5HZwxQbo";
+            LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, result);
         }
 
         // Japanese name translator
