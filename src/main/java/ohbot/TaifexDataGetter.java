@@ -112,7 +112,7 @@ public class TaifexDataGetter {
         if (month.startsWith("0")) {
             month = month.substring(month.length()-1, month.length());
         }
-        int monthInt = Integer.getInteger(month);
+        int monthInt = Integer.parseInt(month);
         
         PgLog.info("monthInt: " + monthInt);
         
@@ -128,6 +128,7 @@ public class TaifexDataGetter {
 
         PgLog.info("monthInt: after " + monthInt);
         
+        // Char A is number 65.
         monthResult = Character.toString((char)(64+monthInt));
         
         // "TXFI3-F" means "臺指期093"
