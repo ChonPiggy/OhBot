@@ -82,6 +82,9 @@ public class TaifexDataGetter {
             result += ("最低: " + lowPrice + "\n");
             result += ("現價: " + lastPrice + "");
             
+            if (result.length() == 0) {
+                result = "Error";
+            }
             return result;
 
         } catch (Exception e) {
@@ -97,10 +100,14 @@ public class TaifexDataGetter {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         String year = sdf.format(current.getTime());
         String yearResult = year.substring(year.length()-1, year.length());
-        
+
+        PgLog.info("year: " + year);
+        PgLog.info("yearResult: " + yearResult);
         sdf = new SimpleDateFormat("MM");        
         String month = sdf.format(current.getTime());
         String monthResult = "";
+
+        PgLog.info("month: " + month);
         switch (month) {
             case "01":
                 monthResult = "A";
@@ -139,7 +146,9 @@ public class TaifexDataGetter {
                 monthResult = "L";
                 break;
         }
+        PgLog.info("monthResult: " + monthResult);
         // "TXFI3-F" means "臺指期093"
-        return "TXF" + monthResult + yearResult + "-F";
+        //return "TXF" + monthResult + yearResult + "-F";
+        return "TXFI3-F";
     }
 }
