@@ -43,11 +43,8 @@ public class TaifexDataGetter {
             
             JSONObject json = new JSONObject(jsonString);
 
-            PgLog.info("Piggy Check post json: " + json);
             JSONObject rtData = json.getJSONObject("RtData");
-            PgLog.info("Piggy Check post rtData: " + rtData);
             JSONArray quoteList = rtData.getJSONArray("QuoteList");
-            PgLog.info("Piggy Check post quoteList: " + quoteList);
             
             String dispName = "";
             String openPrice = "";
@@ -141,9 +138,9 @@ public class TaifexDataGetter {
         Calendar current = Calendar.getInstance(TimeZone.getDefault());
         current.setTimeInMillis(System.currentTimeMillis());
         int wk = current.get(Calendar.WEEK_OF_MONTH);
-        PgLog.info("Week of Month :" + wk);
-        int wed = current.get(Calendar.WEDNESDAY);
-        PgLog.info("wed :" + wed);
+        PgLog.info("Week of Month: " + wk);
+        int dw = current.get(Calendar.DAY_OF_WEEK);
+        PgLog.info("Day of week: " + dw);
         return true;
     }
 }
