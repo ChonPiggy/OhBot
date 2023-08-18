@@ -137,6 +137,13 @@ public class TaifexDataGetter {
     }
     
     private static boolean isNeedSwitchToNextMonth() {
+        // Check is third week
+        Calendar current = Calendar.getInstance(TimeZone.getDefault());
+        current.setTimeInMillis(System.currentTimeMillis());
+        int wk = current.get(Calendar.WEEK_OF_MONTH);
+        PgLog.info("Week of Month :" + wk);
+        int wed = current.get(Calendar.WEDNESDAY);
+        PgLog.info("wed :" + wed);
         return true;
     }
 }
