@@ -201,11 +201,11 @@ public class OhBotController {
                       "https://i.imgur.com/aTZErIM.jpg",
                       "https://i.imgur.com/eEq9MxU.jpg");
 
-    private String IMAGE_TAIWAN_WEATHER_CLOUD = "https://www.cwb.gov.tw/Data/satellite/LCC_IR1_CR_1000/LCC_IR1_CR_1000.jpg";
-    private String IMAGE_TAIWAN_WEATHER_RAIN = "https://www.cwb.gov.tw/Data/rainfall/QZJ.jpg";
-    private String IMAGE_TAIWAN_WEATHER_RADAR_ECHO = "https://www.cwb.gov.tw/Data/radar/CV1_TW_1000.png";
-    private String IMAGE_TAIWAN_WEATHER_TEMPERATURE = "https://www.cwb.gov.tw/Data/temperature/temp.jpg";
-    private String IMAGE_TAIWAN_WEATHER_ULTRAVIOLET_LIGHT = "hhttps://www.cwb.gov.tw/Data/UVI/UVI.png";
+    private String IMAGE_TAIWAN_WEATHER_CLOUD = "https://www.cwa.gov.tw/Data/satellite/LCC_IR1_CR_1000/LCC_IR1_CR_1000.jpg";
+    private String IMAGE_TAIWAN_WEATHER_RAIN = "https://www.cwa.gov.tw/Data/rainfall/QZJ.jpg";
+    private String IMAGE_TAIWAN_WEATHER_RADAR_ECHO = "https://www.cwa.gov.tw/Data/radar/CV1_TW_1000.png";
+    private String IMAGE_TAIWAN_WEATHER_TEMPERATURE = "https://www.cwa.gov.tw/Data/temperature/temp.jpg";
+    private String IMAGE_TAIWAN_WEATHER_ULTRAVIOLET_LIGHT = "hhttps://www.cwa.gov.tw/Data/UVI/UVI.png";
 
     private List<String> mQuestionMarkImageList = Arrays.asList("https://i.imgur.com/DaTZLOa.jpg",
                       "https://i.imgur.com/93xbOIq.jpg",
@@ -622,7 +622,7 @@ public class OhBotController {
         try {
             if (city != null) {
                 CloseableHttpClient httpClient = HttpClients.createDefault();
-                HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/" + city + ".htm");
+                HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/" + city + ".htm");
                 CloseableHttpResponse response = httpClient.execute(httpget);
                 HttpEntity httpEntity = response.getEntity();
                 strResult = EntityUtils.toString(httpEntity, "utf-8");
@@ -1395,7 +1395,7 @@ public class OhBotController {
         String announeMessage = AnnouncementManager.processAnnounceMessage(senderId);
         if (announeMessage != null) {
             boolean isNormalImage = announeMessage.endsWith(".jpg")||announeMessage.endsWith(".jpeg")||announeMessage.endsWith(".png");
-            boolean isEarthQuakeImage = announeMessage.contains(".png")&&announeMessage.contains("cwb")&&announeMessage.contains("earthquake");
+            boolean isEarthQuakeImage = announeMessage.contains(".png")&&announeMessage.contains("cwa")&&announeMessage.contains("earthquake");
             if (announeMessage.startsWith("http") && (isNormalImage || isEarthQuakeImage)) {
                 this.replyImage(replyToken, announeMessage, announeMessage);
                 return;
@@ -2688,140 +2688,140 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 String strResult;
                 switch (text) {
                     case "台北市": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_63.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_63.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "新北市": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_65.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_65.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "桃園市": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_68.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_68.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "台南市": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_67.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_67.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "台中市": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_66.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_66.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "高雄市": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_64.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_64.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "基隆市": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10017.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10017.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "新竹市": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10018.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10018.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "新竹縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10004.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10004.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "苗栗縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10005.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10005.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "彰化縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10007.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10007.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "南投縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10008.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10008.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "雲林縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10009.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10009.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "嘉義市": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10020.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10020.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "嘉義縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10010.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10010.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "屏東縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10013.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10013.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "宜蘭縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10002.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10002.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "花蓮縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10015.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10015.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "台東縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10014.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10014.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
                     case "澎湖縣": {
-                        HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10016.txt");
+                        HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/Data/W50_10016.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
@@ -2851,7 +2851,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
         text = text.replace("天氣", "").replace("?", "").replace("？", "").replace("臺", "台").trim();
         PgLog.info(text);
 
-        HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V7/forecast/world/world_aa.htm");
+        HttpGet httpget = new HttpGet("https://www.cwa.gov.tw/V7/forecast/world/world_aa.htm");
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = httpClient.execute(httpget);
         HttpEntity httpEntity = response.getEntity();
@@ -3004,7 +3004,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
 
                 }
                 CloseableHttpClient httpClient = HttpClients.createDefault();
-                HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/"+url);
+                HttpGet httpget = new HttpGet("http://www.cwa.gov.tw/V7/forecast/taiwan/"+url);
                 CloseableHttpResponse response = httpClient.execute(httpget);
                 HttpEntity httpEntity = response.getEntity();
                 strResult = EntityUtils.toString(httpEntity, "utf-8");
@@ -7903,10 +7903,10 @@ This code is public domain: you are free to use, link and/or modify it in any wa
     String mNewestEarthquakeReportImage = "";
 
     private void checkEarthquakeReport() {
-        String targetReport = "https://www.cwb.gov.tw";
+        String targetReport = "https://www.cwa.gov.tw";
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpget = new HttpGet("https://www.cwb.gov.tw/V8/C/E/MOD/EQ_ROW.html");
+            HttpGet httpget = new HttpGet("https://www.cwa.gov.tw/V8/C/E/MOD/EQ_ROW.html");
             CloseableHttpResponse response = httpClient.execute(httpget);
             HttpEntity httpEntity = response.getEntity();
             String strResult = EntityUtils.toString(httpEntity, "utf-8");
@@ -8024,7 +8024,7 @@ This code is public domain: you are free to use, link and/or modify it in any wa
                 tempContext = tempContext.substring(tempContext.indexOf("href=\"")+6, tempContext.indexOf("\">"));
             }
             
-            mNewestEarthquakeReportImage = "https://www.cwb.gov.tw";
+            mNewestEarthquakeReportImage = "https://www.cwa.gov.tw";
             mNewestEarthquakeReportImage += tempContext;
             
             if (!mNewestEarthquakeTime.equals("") && !mNewestEarthquakeTime.equals(newestEarthquakeTime)) {
