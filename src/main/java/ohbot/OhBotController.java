@@ -1325,10 +1325,10 @@ public class OhBotController {
             mNewestDgpaReportCheckThread.start();
         }
 
-        if (mCoronaVirusWikiRankCrawlThread == null) {
+        /*if (mCoronaVirusWikiRankCrawlThread == null) {
             mCoronaVirusWikiRankCrawlThread = new CoronaVirusWikiRankCrawlThread();
             mCoronaVirusWikiRankCrawlThread.start();
-        }
+        }*/
 
         /*if (mIngressCheckThread == null) {
             mIngressCheckThread = new NewestIngressCheckThread();
@@ -1845,7 +1845,7 @@ public class OhBotController {
             text = text.replace("時差", "").replace(" ", "");
             processJetLag(replyToken, text);
         }
-        if (text.equals("武漢肺炎") || text.equals("中國肺炎") || text.equals("中肺") || text.equals("武肺")) {
+        /*if (text.equals("武漢肺炎") || text.equals("中國肺炎") || text.equals("中肺") || text.equals("武肺")) {
             this.replyText(replyToken, mCoronaVirusWikiRankCrawlThread.dumpList(CoronaVirusInfo.TYPE_DEFAULT, -1));
         }
         else if (text.equals("武漢肺炎確診") || text.equals("中國肺炎確診") || text.equals("武肺確診") || text.equals("中肺確診")) {
@@ -1929,7 +1929,7 @@ public class OhBotController {
                     this.replyText(replyToken, country + " 並不存在或者名稱不完全正確");
                 }
             }
-        }
+        }*/
 
         if (text.endsWith("人口?") || text.endsWith("人口？")) {
             String country = text.replace("人口", "").replace("？", "").replace("?", "").replace(" ", "").replace(" ", "").trim();
