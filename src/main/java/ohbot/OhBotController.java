@@ -1186,10 +1186,15 @@ public class OhBotController {
     
     
     private void handleImageContent(String replyToken, Event event, ImageMessageContent content) {
-    	PgLog.info("handleImageContent()");
+        // Test PASS, but disable this function
+    	/*PgLog.info("handleImageContent()");
     	PgLog.info("source: " + event.getSource());
     	PgLog.info("content.getId(): " + content.getId());
     	PgLog.info("Type: " + content.getContentProvider().getType());
+
+        Source source = event.getSource();
+        String senderId = source.getSenderId();
+        String userId = source.getUserId();
     	if (content.getContentProvider().isExternal()) {
         	PgLog.info("OriginalContentUrl: " + content.getContentProvider().getOriginalContentUrl());
         	PgLog.info("PreviewImageUrl: " + content.getContentProvider().getPreviewImageUrl());
@@ -1199,9 +1204,9 @@ public class OhBotController {
     		PgLog.info("getAbsolutePath: " + f.getAbsolutePath());
     		//final String SayGoAndGo_STOCK_NOTIFY_TOKEN = "gABHHem5nu1LlNWhaagxbhX5Y54LDoUgYbVgZfv3ins";
     		//LineNotify.callLocalImageEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "PG Test", f);
-    		LineNotify.sendLineNotifyImage(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "PG Test Send Local Image", PgUtils.getMultipartFileFromFile(f));
+    		LineNotify.sendLineNotifyImage(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "Image Send By " + getUserDisplayName(userId), PgUtils.getMultipartFileFromFile(f));
     		//LineNotify.callLocalImageEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, "PG Test", f.getAbsolutePath());
-    	}
+    	}*/
     }
     
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
