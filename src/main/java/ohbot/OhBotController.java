@@ -1186,7 +1186,7 @@ public class OhBotController {
     
     
     private void handleImageContent(String replyToken, Event event, ImageMessageContent content) {
-    	/*PgLog.info("handleImageContent()");
+    	PgLog.info("handleImageContent()");
     	PgLog.info("source: " + event.getSource());
     	PgLog.info("content.getId(): " + content.getId());
     	PgLog.info("Type: " + content.getContentProvider().getType());
@@ -1201,7 +1201,7 @@ public class OhBotController {
     		//LineNotify.callLocalImageEvent(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "PG Test", f);
     		LineNotify.sendLineNotifyImage(LINE_NOTIFY_TOKEN_HELL_TEST_ROOM, "PG Test Send Local Image", PgUtils.getMultipartFileFromFile(f));
     		//LineNotify.callLocalImageEvent(SayGoAndGo_STOCK_NOTIFY_TOKEN, "PG Test", f.getAbsolutePath());
-    	}*/
+    	}
     }
     
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
