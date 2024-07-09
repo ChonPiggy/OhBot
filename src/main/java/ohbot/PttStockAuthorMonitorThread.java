@@ -213,10 +213,25 @@ public class PttStockAuthorMonitorThread extends Thread {
             while(strResult.contains("</span></div>")) {
                 strResult = strResult.substring(strResult.indexOf("</span></div>")+13, strResult.length());
             }
+            
+            // process link text
+            while(strResult.contains("<a href=\"http")) {
+                String firstLinkText = strResult.substring(strResult.indexOf("<a href=\""), strResult.indexOf("</a>")-4);
+                strResult.replace(firstLinkText, getUrlLinkString(firstLinkText));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } 
         return strResult;
+    }
+    
+    private String getUrlLinkString(String text) {
+        PgLog.info("getUrlLinkString: " + text);
+        // <a href="https://udn.com/news/amp/story/7252/7944912" target="_blank" rel="noreferrer noopener nofollow">https://udn.com/news/amp/story/7252/7944912</a>
+        text = text.substring(text.indexOf("<a href=\"")+9, text.length());
+        text = text.substring(0, text.indexOf("\" target="));
+        PgLog.info("getUrlLinkString() result: " + text);
+        return text;
     }
 
     private void processReplyToNotify(String data) {
