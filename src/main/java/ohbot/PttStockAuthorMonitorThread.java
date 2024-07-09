@@ -139,7 +139,6 @@ public class PttStockAuthorMonitorThread extends Thread {
             	author = author.substring(author.indexOf("<div class=\"author\">")+20, author.length());
             	author = author.substring(0, author.indexOf("</div>"));
 
-                PgLog.info("author: " + author + " title: " + title + " post: " + post);
                 if (oldPost.equals(post)) {
                     PgLog.info("Problem occur, break here.");
                     break;
@@ -147,7 +146,7 @@ public class PttStockAuthorMonitorThread extends Thread {
                 oldPost = post;
             	if (isMatchMonitorAuthor(author)) {
                 	String lastestPost = getLastestPost(author);
-            	    if (!lastestPost.equals(post)) {
+            	    if (!lastestPost.equals(post) && !lastestPost.equals("")) {
             	        PgLog.info("author: " + author + " title: " + title + " post: " + post);
             	        replyResult = author + "\n";
             	        replyResult += title + "\n";
