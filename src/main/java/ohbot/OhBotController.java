@@ -304,6 +304,7 @@ public class OhBotController {
     private HashMap<String, Boolean> mPttBeautySinglePicMap = new HashMap<>(); // userId, boolean flag, default is false
     
     private PttStockMonitorThread mPttStockMonitorThread;
+    private PttStockAuthorMonitorThread mPttStockAuthorMonitorThread;
     
     String IMGUR_AUTO_UPLOAD_CLIENT_ID = System.getenv("IMGUR_AUTO_UPLOAD_CLIENT_ID");
     String IMGUR_AUTO_UPLOAD_CLIENT_SECRET = System.getenv("3129427780387dccf6ca437499808029284e8135");
@@ -1319,6 +1320,20 @@ public class OhBotController {
         	mPttStockMonitorThread.addMonitorSpeaker("deacoke"); //測試
         	mPttStockMonitorThread.addMonitorSpeaker("UltraSeven"); //老蘇
         }
+        
+        if (mPttStockAuthorMonitorThread == null) {
+            mPttStockAuthorMonitorThread = new PttStockAuthorMonitorThread();
+            mPttStockAuthorMonitorThread.start();
+            mPttStockAuthorMonitorThread.addMonitorAuthor("boldt"); // 罕見疾病神準大神
+            mPttStockAuthorMonitorThread.addMonitorAuthor("gn01765288"); //金庸
+            mPttStockAuthorMonitorThread.addMonitorAuthor("robertshih"); //航海王
+            mPttStockAuthorMonitorThread.addMonitorAuthor("tenghui"); //T大
+            mPttStockAuthorMonitorThread.addMonitorAuthor("f204137"); //存股族
+            mPttStockAuthorMonitorThread.addMonitorAuthor("zesonpso"); //肉鬆哥
+            mPttStockAuthorMonitorThread.addMonitorAuthor("ChonPiggy"); //測試
+            mPttStockAuthorMonitorThread.addMonitorAuthor("deacoke"); //測試
+            mPttStockAuthorMonitorThread.addMonitorAuthor("UltraSeven"); //老蘇
+        }
 
         if (mEarthquakeCheckThread == null) {
             mEarthquakeCheckThread = new NewestEarthquakeTimeCheckThread();
@@ -2072,6 +2087,19 @@ public class OhBotController {
         	text = text.replace("PgCommand設定監聽:", "");
         	mPttStockMonitorThread.setForceTargetPage(text);
         	this.replyText(replyToken, "PttMonitor: " + text);
+        }
+        
+        if (text.startsWith("PgCommand設定監看:")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            text = text.replace("PgCommand設定監看:", "");
+            mPttStockAuthorMonitorThread.addMonitorAuthor(text);
+            this.replyText(replyToken, "PttMonitorAuthor: " + text);
+        }
+        
+        if (text.startsWith("PgCommand重設監看")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            mPttStockAuthorMonitorThread.resetMonitorAuthors();
+            this.replyText(replyToken, "PttMonitorAuthor reset");
         }
 
         if (text.startsWith("PgCommand設定MD地圖:")) {
