@@ -113,20 +113,20 @@ public class PttStockAuthorMonitorThread extends Thread {
             	
             	// Process post url
             	post = strResult;
-            	post = post.substring(strResult.indexOf("<a href=\"/bbs/Stock/M.")+9, strResult.length());
-            	post = post.substring(0, strResult.indexOf("\">"));
+            	post = post.substring(post.indexOf("<a href=\"/bbs/Stock/M.")+9, post.length());
+            	post = post.substring(0, post.indexOf("\">"));
             	post = "https://www.ptt.cc/" + post;
             	
             	// process title
             	title = strResult;
-            	title = title.substring(strResult.indexOf("<a href=\"/bbs/Stock/M.")+9, strResult.length());
-            	title = title.substring(strResult.indexOf("\">")+2, strResult.length());
-            	title = title.substring(0, strResult.indexOf("</a>"));
+            	title = title.substring(title.indexOf("<a href=\"/bbs/Stock/M.")+9, title.length());
+            	title = title.substring(title.indexOf("\">")+2, title.length());
+            	title = title.substring(0, title.indexOf("</a>"));
             	
             	// process author user id
             	author = strResult;
-            	author = author.substring(strResult.indexOf("<div class=\"author\">")+20, strResult.length());
-            	author = author.substring(0, strResult.indexOf("</div>"));
+            	author = author.substring(author.indexOf("<div class=\"author\">")+20, author.length());
+            	author = author.substring(0, author.indexOf("</div>"));
             	
             	PgLog.info("author: " + author + " title: " + title + " post: " + post);
             	
