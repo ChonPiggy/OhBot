@@ -17,7 +17,7 @@ public class PttStockAuthorMonitorThread extends Thread {
     private boolean isUpdating = false;
     private ArrayList<AuthorData> mMonitorAuthors = new ArrayList<AuthorData>();
     private int mUpdateFrequent = 30 * 1000; // 30s
-    private final String INGRESS_STOCK_NOTIFY_TOKEN = "McE8tNie8utDcRbpBrUq9QZ7Q6qWBE9BtmM5HZwxQbo";
+    private final String INGRESS_JJ_STOCK_NOTIFY_TOKEN = "4tzvLEOrmh8Z5Xm7u3ghkBhIJLTT17E4Ldqzikn78rB";
     
     private class AuthorData {
         String mUserid = "";
@@ -70,8 +70,9 @@ public class PttStockAuthorMonitorThread extends Thread {
     
     public void updateLastestPost(String author, String post) {
         for (AuthorData data : mMonitorAuthors) {
-            data.getUserId().equals(author);
-            data.setPost(post);
+            if (data.getUserId().equals(author)) {
+                data.setPost(post);
+            }
         }
     }
     
@@ -104,7 +105,7 @@ public class PttStockAuthorMonitorThread extends Thread {
     }
     
     private void checkPttStockWebsite() {
-        PgLog.info("checkPttStockWebsite() monitor author");
+        //PgLog.info("checkPttStockWebsite() monitor author");
         isUpdating = true;
         String replyResult = "";
         String strResult = "";
@@ -165,7 +166,7 @@ public class PttStockAuthorMonitorThread extends Thread {
         } catch (Exception e) {
         	e.printStackTrace();
         }
-        PgLog.info("checkPttStockWebsite monitor author update finished.");
+        //PgLog.info("checkPttStockWebsite monitor author update finished.");
         processReplyToNotify(replyResult);
         replyResult = null;
         isUpdating = false;
@@ -175,7 +176,7 @@ public class PttStockAuthorMonitorThread extends Thread {
         synchronized (lock) {
         	if (data != null && !data.equals("\n")) {
         		//PgLog.info("Piggy Check notify: " +  data);
-        		LineNotify.callEvent(INGRESS_STOCK_NOTIFY_TOKEN, data);
+        		LineNotify.callEvent(INGRESS_JJ_STOCK_NOTIFY_TOKEN, data);
         	}
         }
     }
