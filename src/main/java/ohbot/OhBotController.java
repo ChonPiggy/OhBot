@@ -2092,6 +2092,7 @@ public class OhBotController {
         if (text.startsWith("PgCommand設定監看:")) {
             if(!isAdminUserId(userId, replyToken)) {return;}
             text = text.replace("PgCommand設定監看:", "");
+            text = text.replace(" ", "");
             mPttStockAuthorMonitorThread.addMonitorAuthor(text);
             this.replyText(replyToken, "PttMonitorAuthor: " + text);
         }

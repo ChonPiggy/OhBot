@@ -116,8 +116,10 @@ public class PttStockAuthorMonitorThread extends Thread {
     }
     
     public void addMonitorAuthor(String author) {
+        PgLog.info("addMonitorAuthor() author: " + author);
         if (!isMatchMonitorAuthor(author)) {
             mMonitorAuthors.add(new AuthorData(author, ""));
+            PgLog.info("addMonitorAuthor() author: " + author + " ADDED.");
         }
     }
     
@@ -170,8 +172,8 @@ public class PttStockAuthorMonitorThread extends Thread {
             	if (isMatchMonitorAuthor(author)) {
                 	String lastestPost = getLastestPost(author);
                 	PgLog.info("lastestPost: " + lastestPost);
-            	    if (!lastestPost.equals(post) && !lastestPost.equals("")) {
-            	        PgLog.info("ADD author: " + author + " title: " + title + " post: " + post);
+            	    if (!lastestPost.equals(post)) {
+            	        PgLog.info("author: " + author + " title: " + title + " post: " + post + " ADDED.");
             	        replyResult = author + "\n";
             	        replyResult += title + "\n";
             	        replyResult += post;
