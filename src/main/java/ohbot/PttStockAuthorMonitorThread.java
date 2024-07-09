@@ -140,7 +140,11 @@ public class PttStockAuthorMonitorThread extends Thread {
             	author = author.substring(author.indexOf("<div class=\"author\">")+20, author.length());
             	author = author.substring(0, author.indexOf("</div>"));
 
+            	PgLog.info("author: " + author + " title: " + title + " post: " + post);
+            	
                 if (oldPost.equals(post)) {
+                    PgLog.info("oldPost: " + oldPost);
+                    PgLog.info("post: " + post);
                     PgLog.info("Problem occur, break here.");
                     break;
                 }
@@ -167,14 +171,13 @@ public class PttStockAuthorMonitorThread extends Thread {
         	e.printStackTrace();
         }
         //PgLog.info("checkPttStockWebsite monitor author update finished.");
-        processReplyToNotify(replyResult);
         replyResult = null;
         isUpdating = false;
     }
 
     private void processReplyToNotify(String data) {
         synchronized (lock) {
-        	if (data != null && !data.equals("\n")) {
+        	if (data != null && !data.equals("")) {
         		//PgLog.info("Piggy Check notify: " +  data);
         		LineNotify.callEvent(INGRESS_JJ_STOCK_NOTIFY_TOKEN, data);
         	}
