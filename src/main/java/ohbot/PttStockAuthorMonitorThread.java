@@ -54,16 +54,18 @@ public class PttStockAuthorMonitorThread extends Thread {
     
     public boolean isMatchMonitorAuthor(String userid) {
         for (AuthorData data : mMonitorAuthors) {
-            data.getUserId().equals(userid);
-            return true;
+            if (data.getUserId().equals(userid)) {
+                return true;
+            }
         }
     	return false;
     }
     
     public String getLastestPost(String author) {
         for (AuthorData data : mMonitorAuthors) {
-            data.getUserId().equals(author);
-            return data.getPost();
+            if (data.getUserId().equals(author)) {
+                return data.getPost();
+            }
         }
         return "";
     }
