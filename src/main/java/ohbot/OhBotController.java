@@ -2094,7 +2094,15 @@ public class OhBotController {
             text = text.replace("PgCommand設定監看:", "");
             text = text.replace(" ", "");
             mPttStockAuthorMonitorThread.addMonitorAuthor(text);
-            this.replyText(replyToken, "PttMonitorAuthor: " + text);
+            this.replyText(replyToken, "PttMonitorAuthor added: " + text);
+        }
+        
+        if (text.startsWith("PgCommand移除監看:")) {
+            if(!isAdminUserId(userId, replyToken)) {return;}
+            text = text.replace("PgCommand設定監看:", "");
+            text = text.replace(" ", "");
+            mPttStockAuthorMonitorThread.removeMonitorAuthor(text);
+            this.replyText(replyToken, "PttMonitorAuthor removed: " + text);
         }
         
         if (text.startsWith("PgCommand重設監看")) {

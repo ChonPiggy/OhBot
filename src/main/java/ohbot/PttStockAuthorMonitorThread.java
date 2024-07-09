@@ -56,27 +56,27 @@ public class PttStockAuthorMonitorThread extends Thread {
         PgLog.info("isMatchMonitorAuthor: " + userid);
         for (AuthorData data : mMonitorAuthors) {
             if (data.getUserId().equals(userid)) {
-                PgLog.info("isMatchMonitorAuthor: " + userid + " matched.");
+                //PgLog.info("isMatchMonitorAuthor: " + userid + " matched.");
                 return true;
             }
         }
-        PgLog.info("isMatchMonitorAuthor: " + userid + " not matched.");
+        //PgLog.info("isMatchMonitorAuthor: " + userid + " not matched.");
     	return false;
     }
     
     public String getLastestPost(String author) {
         for (AuthorData data : mMonitorAuthors) {
             if (data.getUserId().equals(author)) {
-                PgLog.info("getLastestPost: " + data.getPost());
+                //PgLog.info("getLastestPost: " + data.getPost());
                 return data.getPost();
             }
         }
-        PgLog.info("getLastestPost: null");
+        //PgLog.info("getLastestPost: null");
         return "";
     }
     
     public void updateLastestPost(String author, String post) {
-        PgLog.info("updateLastestPost() author: " + author + " post: " + post);
+        //PgLog.info("updateLastestPost() author: " + author + " post: " + post);
         for (AuthorData data : mMonitorAuthors) {
             if (data.getUserId().equals(author)) {
                 PgLog.info("updateLastestPost() author: " + author + " post: " + post + " UPDATED.");
@@ -86,7 +86,7 @@ public class PttStockAuthorMonitorThread extends Thread {
     }
     
     public void removeMonitorAuthor(String author) {
-        PgLog.info("removeMonitorAuthor() author: " + author);
+        //PgLog.info("removeMonitorAuthor() author: " + author);
         for (AuthorData data : mMonitorAuthors) {
             if (data.getUserId().equals(author)) {
                 mMonitorAuthors.remove(data);
@@ -116,7 +116,7 @@ public class PttStockAuthorMonitorThread extends Thread {
     }
     
     public void addMonitorAuthor(String author) {
-        PgLog.info("addMonitorAuthor() author: " + author);
+        //PgLog.info("addMonitorAuthor() author: " + author);
         if (!isMatchMonitorAuthor(author)) {
             mMonitorAuthors.add(new AuthorData(author, ""));
             PgLog.info("addMonitorAuthor() author: " + author + " ADDED.");
@@ -159,11 +159,11 @@ public class PttStockAuthorMonitorThread extends Thread {
             	author = author.substring(author.indexOf("<div class=\"author\">")+20, author.length());
             	author = author.substring(0, author.indexOf("</div>"));
 
-            	PgLog.info("author: " + author + " title: " + title + " post: " + post);
+            	//PgLog.info("author: " + author + " title: " + title + " post: " + post);
             	
                 if (oldPost.equals(post)) {
-                    PgLog.info("oldPost: " + oldPost);
-                    PgLog.info("post: " + post);
+                    //PgLog.info("oldPost: " + oldPost);
+                    //PgLog.info("post: " + post);
                     PgLog.info("Problem occur, break here.");
                     break;
                 }
@@ -171,7 +171,7 @@ public class PttStockAuthorMonitorThread extends Thread {
 
             	if (isMatchMonitorAuthor(author)) {
                 	String lastestPost = getLastestPost(author);
-                	PgLog.info("lastestPost: " + lastestPost);
+                	//PgLog.info("lastestPost: " + lastestPost);
             	    if (!lastestPost.equals(post)) {
             	        PgLog.info("author: " + author + " title: " + title + " post: " + post + " ADDED.");
             	        replyResult = "\n";
@@ -213,19 +213,24 @@ public class PttStockAuthorMonitorThread extends Thread {
             int tryCount = 50;
             while(strResult.contains("</span></div>")&&tryCount>0) {
                 strResult = strResult.substring(strResult.indexOf("</span></div>")+13, strResult.length());
-                PgLog.info("strResult temp1: " + strResult.substring(0, 100));
+                //PgLog.info("strResult temp1: " + strResult.substring(0, 100));
                 tryCount--;
             }
-            PgLog.info("tryCount1: " + tryCount);
+            if (tryCount<=0) {
+                PgLog.info("Process content string eror.");
+            }
             // process link text
             tryCount = 30;
             while(strResult.contains("<a href=\"http")&&tryCount>0) {
                 String firstLinkText = strResult.substring(strResult.indexOf("<a href=\""), strResult.indexOf("</a>")+4);
                 strResult = strResult.replace(firstLinkText, getUrlLinkString(firstLinkText));
-                PgLog.info("strResult temp2: " + strResult.substring(0, 300));
+                //PgLog.info("strResult temp2: " + strResult.substring(0, 300));
                 tryCount--;
             }
-            PgLog.info("tryCount2: " + tryCount);
+            if (tryCount<=0) {
+                PgLog.info("Replace url text string error.");
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         } 
@@ -233,11 +238,11 @@ public class PttStockAuthorMonitorThread extends Thread {
     }
     
     private String getUrlLinkString(String text) {
-        PgLog.info("getUrlLinkString: " + text);
+        //PgLog.info("getUrlLinkString: " + text);
         // <a href="https://udn.com/news/amp/story/7252/7944912" target="_blank" rel="noreferrer noopener nofollow">https://udn.com/news/amp/story/7252/7944912</a>
         text = text.substring(text.indexOf("<a href=\"")+9, text.length());
         text = text.substring(0, text.indexOf("\" target="));
-        PgLog.info("getUrlLinkString() result: " + text);
+        //PgLog.info("getUrlLinkString() result: " + text);
         return text;
     }
 
