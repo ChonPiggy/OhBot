@@ -112,7 +112,7 @@ public class PttStockAuthorMonitorThread extends Thread {
         String oldPost = "";
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Stock/search?q=標的");
+            HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Stock/search?q=[標的]");
             CloseableHttpResponse response = httpClient.execute(httpget);
             HttpEntity httpEntity = response.getEntity();
             strResult = EntityUtils.toString(httpEntity, "utf-8");
@@ -140,7 +140,7 @@ public class PttStockAuthorMonitorThread extends Thread {
             	author = author.substring(author.indexOf("<div class=\"author\">")+20, author.length());
             	author = author.substring(0, author.indexOf("</div>"));
 
-            	PgLog.info("author: " + author + " title: " + title + " post: " + post);
+            	//PgLog.info("author: " + author + " title: " + title + " post: " + post);
             	
                 if (oldPost.equals(post)) {
                     PgLog.info("oldPost: " + oldPost);
@@ -149,6 +149,7 @@ public class PttStockAuthorMonitorThread extends Thread {
                     break;
                 }
                 oldPost = post;
+
             	if (isMatchMonitorAuthor(author)) {
                 	String lastestPost = getLastestPost(author);
             	    if (!lastestPost.equals(post) && !lastestPost.equals("")) {
