@@ -108,6 +108,7 @@ public class PttStockAuthorMonitorThread extends Thread {
         isUpdating = true;
         String replyResult = "";
         String strResult = "";
+        String oldPost = "";
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Stock/search?q=標的");
@@ -139,7 +140,11 @@ public class PttStockAuthorMonitorThread extends Thread {
             	author = author.substring(0, author.indexOf("</div>"));
 
                 PgLog.info("author: " + author + " title: " + title + " post: " + post);
-            	
+                if (oldPost.equals(post)) {
+                    PgLog.info("Problem occur, break here.");
+                    break;
+                }
+                oldPost = post;
             	if (isMatchMonitorAuthor(author)) {
                 	String lastestPost = getLastestPost(author);
             	    if (!lastestPost.equals(post)) {
@@ -154,6 +159,7 @@ public class PttStockAuthorMonitorThread extends Thread {
             	
             	// clean the data already Analyzed
             	strResult = strResult.substring(strResult.indexOf("<div class=\"mark\">"), strResult.length());
+            	PgLog.info("strResult finished: " + strResult);
             }
             
 
