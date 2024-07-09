@@ -131,7 +131,7 @@ public class PttStockAuthorMonitorThread extends Thread {
         String oldPost = "";
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Stock/search?q=[標的]");
+            HttpGet httpget = new HttpGet("https://www.ptt.cc/bbs/Stock/search?q=標的");
             CloseableHttpResponse response = httpClient.execute(httpget);
             HttpEntity httpEntity = response.getEntity();
             strResult = EntityUtils.toString(httpEntity, "utf-8");
@@ -210,14 +210,18 @@ public class PttStockAuthorMonitorThread extends Thread {
             
             //PgLog.info("strResult: " + strResult);
             strResult = strResult.substring(strResult.indexOf("</span></div>"), strResult.indexOf("--\n<span"));
-            while(strResult.contains("</span></div>")) {
+            int tryCount = 20;
+            while(strResult.contains("</span></div>")&&tryCount>0) {
                 strResult = strResult.substring(strResult.indexOf("</span></div>")+13, strResult.length());
+                tryCount--;
             }
             
             // process link text
-            while(strResult.contains("<a href=\"http")) {
+            tryCount = 20;
+            while(strResult.contains("<a href=\"http")&&tryCount>0) {
                 String firstLinkText = strResult.substring(strResult.indexOf("<a href=\""), strResult.indexOf("</a>")+4);
                 strResult.replace(firstLinkText, getUrlLinkString(firstLinkText));
+                tryCount--;
             }
         } catch (Exception e) {
             e.printStackTrace();
