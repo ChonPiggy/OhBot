@@ -53,27 +53,45 @@ public class PttStockAuthorMonitorThread extends Thread {
     }
     
     public boolean isMatchMonitorAuthor(String userid) {
+        PgLog.info("isMatchMonitorAuthor: " + userid);
         for (AuthorData data : mMonitorAuthors) {
             if (data.getUserId().equals(userid)) {
+                PgLog.info("isMatchMonitorAuthor: " + userid + " matched.");
                 return true;
             }
         }
+        PgLog.info("isMatchMonitorAuthor: " + userid + " not matched.");
     	return false;
     }
     
     public String getLastestPost(String author) {
         for (AuthorData data : mMonitorAuthors) {
             if (data.getUserId().equals(author)) {
+                PgLog.info("getLastestPost: " + data.getPost());
                 return data.getPost();
             }
         }
+        PgLog.info("getLastestPost: null");
         return "";
     }
     
     public void updateLastestPost(String author, String post) {
+        PgLog.info("updateLastestPost() author: " + author + " post: " + post);
         for (AuthorData data : mMonitorAuthors) {
             if (data.getUserId().equals(author)) {
+                PgLog.info("updateLastestPost() author: " + author + " post: " + post + " UPDATED.");
                 data.setPost(post);
+            }
+        }
+    }
+    
+    public void removeMonitorAuthor(String author) {
+        PgLog.info("removeMonitorAuthor() author: " + author);
+        for (AuthorData data : mMonitorAuthors) {
+            if (data.getUserId().equals(author)) {
+                mMonitorAuthors.remove(data);
+                PgLog.info("removeMonitorAuthor() author: " + author + " REMOVED.");
+                return;
             }
         }
     }
