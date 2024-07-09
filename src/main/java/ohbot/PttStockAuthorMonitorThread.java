@@ -216,7 +216,7 @@ public class PttStockAuthorMonitorThread extends Thread {
             
             // process link text
             while(strResult.contains("<a href=\"http")) {
-                String firstLinkText = strResult.substring(strResult.indexOf("<a href=\""), strResult.indexOf("</a>")-4);
+                String firstLinkText = strResult.substring(strResult.indexOf("<a href=\""), strResult.indexOf("</a>")+4);
                 strResult.replace(firstLinkText, getUrlLinkString(firstLinkText));
             }
         } catch (Exception e) {
