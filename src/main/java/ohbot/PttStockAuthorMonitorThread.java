@@ -163,7 +163,7 @@ public class PttStockAuthorMonitorThread extends Thread {
             	
             	// clean the data already Analyzed
             	strResult = strResult.substring(strResult.indexOf("<div class=\"mark\">")+18, strResult.length());
-            	PgLog.info("strResult finished: " + strResult);
+            	//PgLog.info("strResult finished: " + strResult);
             }
             
 
