@@ -105,23 +105,26 @@ public class PttStockAuthorMonitorThread extends Thread {
             HttpEntity httpEntity = response.getEntity();
             strResult = EntityUtils.toString(httpEntity, "utf-8");
             
-            PgLog.info("strResult: " + strResult);
+            //PgLog.info("strResult: " + strResult);
             while(strResult.contains("<a href=\"/bbs/Stock/M.")) {
             	String author = "";
             	String post = "";
             	String title = "";
             	
             	// Process post url
+            	post = strResult;
             	post = post.substring(strResult.indexOf("<a href=\"/bbs/Stock/M.")+9, strResult.length());
             	post = post.substring(0, strResult.indexOf("\">"));
             	post = "https://www.ptt.cc/" + post;
             	
             	// process title
+            	title = strResult;
             	title = title.substring(strResult.indexOf("<a href=\"/bbs/Stock/M.")+9, strResult.length());
             	title = title.substring(strResult.indexOf("\">")+2, strResult.length());
             	title = title.substring(0, strResult.indexOf("</a>"));
             	
             	// process author user id
+            	author = strResult;
             	author = author.substring(strResult.indexOf("<div class=\"author\">")+20, strResult.length());
             	author = author.substring(0, strResult.indexOf("</div>"));
             	
