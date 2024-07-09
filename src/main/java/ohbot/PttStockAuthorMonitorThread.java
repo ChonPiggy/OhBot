@@ -89,11 +89,8 @@ public class PttStockAuthorMonitorThread extends Thread {
                 	if (!mMonitorAuthors.isEmpty()) {
                 		checkPttStockWebsite();
                 	}
-
                 }
-            	
-            	Thread.sleep(mUpdateFrequent);
-                           
+            	Thread.sleep(mUpdateFrequent);          
             } catch (Exception e) {
             	e.printStackTrace();
             }
@@ -142,7 +139,7 @@ public class PttStockAuthorMonitorThread extends Thread {
             	author = author.substring(author.indexOf("<div class=\"author\">")+20, author.length());
             	author = author.substring(0, author.indexOf("</div>"));
 
-            	//PgLog.info("author: " + author + " title: " + title + " post: " + post);
+            	PgLog.info("author: " + author + " title: " + title + " post: " + post);
             	
                 if (oldPost.equals(post)) {
                     PgLog.info("oldPost: " + oldPost);
@@ -154,8 +151,9 @@ public class PttStockAuthorMonitorThread extends Thread {
 
             	if (isMatchMonitorAuthor(author)) {
                 	String lastestPost = getLastestPost(author);
+                	PgLog.info("lastestPost: " + lastestPost);
             	    if (!lastestPost.equals(post) && !lastestPost.equals("")) {
-            	        PgLog.info("author: " + author + " title: " + title + " post: " + post);
+            	        PgLog.info("ADD author: " + author + " title: " + title + " post: " + post);
             	        replyResult = author + "\n";
             	        replyResult += title + "\n";
             	        replyResult += post;
