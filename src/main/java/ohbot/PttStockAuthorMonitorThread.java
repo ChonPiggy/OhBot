@@ -174,9 +174,11 @@ public class PttStockAuthorMonitorThread extends Thread {
                 	PgLog.info("lastestPost: " + lastestPost);
             	    if (!lastestPost.equals(post)) {
             	        PgLog.info("author: " + author + " title: " + title + " post: " + post + " ADDED.");
-            	        replyResult = author + "\n";
+            	        replyResult = "\n";
+            	        replyResult += author + "\n";
             	        replyResult += title + "\n";
-            	        replyResult += post;
+            	        replyResult += post + "\n";
+            	        replyResult += getPttStockPostContent(post);
             	        processReplyToNotify(replyResult);
             	        updateLastestPost(author, post);
             	    }
@@ -194,6 +196,27 @@ public class PttStockAuthorMonitorThread extends Thread {
         //PgLog.info("checkPttStockWebsite monitor author update finished.");
         replyResult = null;
         isUpdating = false;
+    }
+    
+    private String getPttStockPostContent(String url) {
+        //PgLog.info("getPttStockPostContent() url: " + url);
+        String strResult = "";
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            strResult = EntityUtils.toString(httpEntity, "utf-8");
+            
+            //PgLog.info("strResult: " + strResult);
+            strResult = strResult.substring(strResult.indexOf("</span></div>"), strResult.indexOf("--\n<span"));
+            while(strResult.contains("</span></div>")) {
+                strResult = strResult.substring(strResult.indexOf("</span></div>")+13, strResult.length());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+        return strResult;
     }
 
     private void processReplyToNotify(String data) {
