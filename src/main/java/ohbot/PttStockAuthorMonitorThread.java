@@ -210,19 +210,22 @@ public class PttStockAuthorMonitorThread extends Thread {
             
             //PgLog.info("strResult: " + strResult);
             strResult = strResult.substring(strResult.indexOf("</span></div>"), strResult.indexOf("--\n<span"));
-            int tryCount = 20;
+            int tryCount = 50;
             while(strResult.contains("</span></div>")&&tryCount>0) {
                 strResult = strResult.substring(strResult.indexOf("</span></div>")+13, strResult.length());
+                PgLog.info("strResult temp1: " + strResult.substring(0, 100));
                 tryCount--;
             }
-            
+            PgLog.info("tryCount1: " + tryCount);
             // process link text
-            tryCount = 20;
+            tryCount = 50;
             while(strResult.contains("<a href=\"http")&&tryCount>0) {
                 String firstLinkText = strResult.substring(strResult.indexOf("<a href=\""), strResult.indexOf("</a>")+4);
                 strResult.replace(firstLinkText, getUrlLinkString(firstLinkText));
+                PgLog.info("strResult temp2: " + strResult.substring(0, 100));
                 tryCount--;
             }
+            PgLog.info("tryCount2: " + tryCount);
         } catch (Exception e) {
             e.printStackTrace();
         } 
