@@ -32,6 +32,9 @@ public class PttStockAuthorMonitorThread extends Thread {
         public String getPost() {
             return mPost;
         }
+        public void setPost(String post) {
+            mPost = post;
+        }
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof AuthorData) {
@@ -63,6 +66,13 @@ public class PttStockAuthorMonitorThread extends Thread {
             return data.getPost();
         }
         return "";
+    }
+    
+    public void updateLastestPost(String author, String post) {
+        for (AuthorData data : mMonitorAuthors) {
+            data.getUserId().equals(author);
+            data.setPost(post);
+        }
     }
     
     public void resetMonitorAuthors() {
@@ -127,21 +137,23 @@ public class PttStockAuthorMonitorThread extends Thread {
             	author = strResult;
             	author = author.substring(author.indexOf("<div class=\"author\">")+20, author.length());
             	author = author.substring(0, author.indexOf("</div>"));
-            	
-            	PgLog.info("author: " + author + " title: " + title + " post: " + post);
+
+                PgLog.info("author: " + author + " title: " + title + " post: " + post);
             	
             	if (isMatchMonitorAuthor(author)) {
                 	String lastestPost = getLastestPost(author);
             	    if (!lastestPost.equals(post)) {
+            	        PgLog.info("author: " + author + " title: " + title + " post: " + post);
             	        replyResult = author + "\n";
             	        replyResult += title + "\n";
             	        replyResult += post;
             	        processReplyToNotify(replyResult);
+            	        updateLastestPost(author, post);
             	    }
             	}
             	
             	// clean the data already Analyzed
-            	strResult = strResult.substring(strResult.indexOf("<div class=\"mark\"></div>"), strResult.length());
+            	strResult = strResult.substring(strResult.indexOf("<div class=\"mark\">"), strResult.length());
             }
             
 
